@@ -14,12 +14,12 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 public class ProcessorEvaluator {
 
 	
-	public static Processor identifyPreProcessor(CdaDocumentModel cdaDocumentModel) {		
-		return identifyProsseor(cdaDocumentModel.getDocumentType());
+	public static Processor identifyPreProcessor(CdaDocumentModel cdaDocumentModel) {	
+		return identifyProsseor(cdaDocumentModel.getDocumentType(), null);
 		
 	}
 	
-	private static Processor identifyProsseor(String documentType) {
+	private static Processor identifyProsseor(String documentType, String namespace) {
 		
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(true);
 		provider.addIncludeFilter(new AssignableTypeFilter(Processor.class));
@@ -31,7 +31,6 @@ public class ProcessorEvaluator {
 		for (BeanDefinition component : components) {
 			try {
 				Class cls = Class.forName(component.getBeanClassName());
-				System.out.println("Class name " + cls.getName());
 				Processor p = (Processor) cls.newInstance();
 				processors.add(p);
 			}
@@ -46,7 +45,6 @@ public class ProcessorEvaluator {
 			}
 		}
 		
-		System.out.println(processors.size());
 		for (Object object : processors) {
 			Processor processor = (Processor) object;
 			
