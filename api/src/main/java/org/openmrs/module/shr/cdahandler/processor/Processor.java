@@ -3,6 +3,7 @@ package org.openmrs.module.shr.cdahandler.processor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,9 @@ import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
+import org.openhealthtools.mdht.uml.cda.Author;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
+import org.openmrs.Encounter;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
@@ -27,9 +30,9 @@ public abstract class Processor {
 	
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
-	public abstract String getDocumentType();
-	public abstract String getNamespace();
-	public abstract CdaDocumentModel process(CdaDocumentModel cdaDocumentModel);
+	public abstract String getCode();
+	public abstract String getCodeSystem();
+	public abstract Encounter process(CdaDocumentModel cdaDocumentModel);
 	
 	public Patient parsePatient(ClinicalDocument cd) throws DocumentParseException {
 		Patient res = null;
@@ -38,7 +41,6 @@ public abstract class Processor {
 		
 		String idRoot = cd.getPatientRoles().get(0).getIds().get(0).getRoot();
 		String idExtension = cd.getPatientRoles().get(0).getIds().get(0).getExtension();
-				
 		PatientIdentifierType pit = getIdentifierType(idRoot);
 		List<Patient> matches = Context.getPatientService().getPatients(null, idExtension, Collections.singletonList(pit), true);
 		
@@ -69,7 +71,7 @@ public abstract class Processor {
 		PatientIdentifier pi = new PatientIdentifier();
 		pi.setIdentifierType(idType);
 		pi.setIdentifier(id);
-		//TODO should use location from CDA document
+
 		pi.setLocation(Context.getLocationService().getDefaultLocation());
 		pi.setPreferred(true);
 		res.addIdentifier(pi);
@@ -99,31 +101,40 @@ public abstract class Processor {
 		return res;
 	}
 	
-	public Provider parseProvider(ClinicalDocument cd) throws DocumentParseException {
+	public List<Provider> parseProvider(ClinicalDocument cd) throws DocumentParseException {
+		List<Provider> providers = new ArrayList<Provider>();
 		Provider res = null;
+		
 		if (cd.getAuthors().isEmpty())
 			throw new DocumentParseException("No authors found");
 		
-		AssignedAuthor aa = cd.getAuthors().get(0).getAssignedAuthor();
-		String idRoot = aa.getIds().get(0).getRoot();
-		String idExtension = aa.getIds().get(0).getExtension();
+		List<Author> aa = cd.getAuthors();
 		
-		if (idExtension==null || idExtension.isEmpty()) {
-			log.warn("No extension specified for author id");
-		} else {
-			res = Context.getProviderService().getProviderByIdentifier(idExtension);
+		for(Author a: aa){
+			AssignedAuthor author = a.getAssignedAuthor();
+			
+			String idRoot = author.getIds().get(0).getRoot();
+			String idExtension = author.getIds().get(0).getExtension();
+			
+			if (idExtension==null || idExtension.isEmpty()) {
+				log.warn("No extension specified for author id");
+			} else {				
+				res = Context.getProviderService().getProviderByIdentifier(idRoot +":"+ idExtension);
+			}
+			
+			if (res==null){
+				res = createProvider(author, idRoot, idExtension);
+			}
+			providers.add(res);
 		}
 		
-		if (res==null)
-			res = createProvider(aa, idRoot, idExtension);
-		
-		return res;
+		return providers;
 	}
 	
 	public Provider createProvider(AssignedAuthor aa, String idRoot, String idExtension) {
 		Provider res = new Provider();
 		
-		res.setIdentifier(idRoot + "-" + (idExtension!=null && !idExtension.isEmpty() ? idExtension : UUID.randomUUID()));
+		res.setIdentifier(idRoot + ":" + idExtension);
 		res.setName(
 			aa.getAssignedPerson().getNames().get(0).getGivens().get(0).getText() + " " +
 			aa.getAssignedPerson().getNames().get(0).getFamilies().get(0).getText()

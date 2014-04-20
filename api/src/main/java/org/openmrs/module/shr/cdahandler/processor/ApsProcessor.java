@@ -49,12 +49,12 @@ public class ApsProcessor extends Processor {
 
 	protected final Log log = LogFactory.getLog(this.getClass());
 
-	public static final String TYPE = "iheAps";
+	public static final String CODE = "iheAps";
 	
-	public static final String NAMESPACE = "2.16.840.1.113883.19.5";
+	public static final String CODESYSTEM = "2.16.840.1.113883.19.5";
 	
 	@Override
-    public CdaDocumentModel process(CdaDocumentModel cdaDocumentModel) {
+    public Encounter process(CdaDocumentModel cdaDocumentModel) {
 
 		ClinicalDocument cd = cdaDocumentModel.getClinicalDocument();
 		
@@ -69,7 +69,10 @@ public class ApsProcessor extends Processor {
 			e.setEncounterType(getEncounterType(cd));
 			e.setEncounterDatetime(parseDocumentDateTime(cd));
 			e.setPatient(p);
-			e.setProvider(getDefaultEncounterRole(), parseProvider(cd));
+			List<Provider> providers = parseProvider(cd);
+			
+			for(Provider provider : providers)
+			e.addProvider(getDefaultEncounterRole(),provider);
 	             
         }
         catch (DocumentParseException e1) {
@@ -89,13 +92,13 @@ public class ApsProcessor extends Processor {
     }
 
 	@Override
-    public String getDocumentType() {
-	    return TYPE;
+    public String getCode() {
+	    return CODE;
     }
 	
 	@Override
-    public String getNamespace() {
-	    return NAMESPACE;
+    public String getCodeSystem() {
+	    return CODESYSTEM;
     }
 	
 	private EncounterType getEncounterType(ClinicalDocument cd) {
