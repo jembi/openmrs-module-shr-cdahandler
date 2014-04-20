@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
+import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -14,13 +16,12 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 public class ProcessorEvaluator {
 
 	
-	public static Processor identifyPreProcessor(CdaDocumentModel cdaDocumentModel) {	
-		return identifyProsseor(cdaDocumentModel.getDocumentType(), null);
+	public static Processor identifyPreProcessor(ClinicalDocument cd) {	
+		return identifyProsseor(cd.getCode().getCode(), cd.getCode().getCodeSystem());
 		
 	}
 	
-	private static Processor identifyProsseor(String documentType, String namespace) {
-		
+	private static Processor identifyProsseor(String code, String codeSystem) {
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(true);
 		provider.addIncludeFilter(new AssignableTypeFilter(Processor.class));
 		
@@ -49,16 +50,16 @@ public class ProcessorEvaluator {
 			Processor processor = (Processor) object;
 			
 			//this needs to be fixed so that appopriate app/fac's will be identified
-			if (processor.getDocumentType().equals(documentType)) {
+			if (processor.getCode().equals(code) && (processor.getCodeSystem().equals(codeSystem))) {
 				return processor;
 			}
 		}
 		return null;
 	}
 		
-	public static CdaDocumentModel process(CdaDocumentModel cdaDocumentModel, Processor processor) {
-		cdaDocumentModel = processor.process(cdaDocumentModel);
-		return cdaDocumentModel;
+	public static Encounter process(CdaDocumentModel cdaDocumentModel, Processor processor) {
+		Encounter encounter = processor.process(cdaDocumentModel);
+		return encounter;
 	}
 	
 
