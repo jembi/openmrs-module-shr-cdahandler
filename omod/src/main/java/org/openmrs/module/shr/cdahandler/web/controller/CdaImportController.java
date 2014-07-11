@@ -27,13 +27,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
-import org.openhealthtools.mdht.uml.cda.util.CDAUtil;
 import org.openmrs.Encounter;
+import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaDocumentModel;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
-import org.openmrs.module.shr.cdahandler.api.cdaAntepartumService;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -69,9 +67,9 @@ public class CdaImportController {
 		log.info("User uploaded document " + file.getOriginalFilename());
 		
 		try {
-			Encounter e = Context.getService(cdaAntepartumService.class).importAntepartumHistoryAndPhysical(
+			Visit e = Context.getService(CdaImportService.class).importDocument(
 			    file.getInputStream());
-			log.info("Successfully imported document. Generated encounter with id ");
+			log.info("Successfully imported document. Generated visit with id ");
 			
 			document.transformCDAtoHTML(file.getInputStream());
 			
