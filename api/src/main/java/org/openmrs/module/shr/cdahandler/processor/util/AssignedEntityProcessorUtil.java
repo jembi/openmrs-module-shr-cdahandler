@@ -2,11 +2,14 @@ package org.openmrs.module.shr.cdahandler.processor.util;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.marc.everest.datatypes.AD;
+import org.marc.everest.datatypes.TEL;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedAuthor;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedEntity;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Person;
 import org.openmrs.Provider;
+import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
@@ -38,11 +41,11 @@ public final class AssignedEntityProcessorUtil {
 	 */
 	private void initializeInstance()
 	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_ENTITIES);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PROVIDERS);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_autoCreateProviders = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_ENTITIES, this.m_autoCreateProviders.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PROVIDERS, this.m_autoCreateProviders.toString()));
 	}
 	
 	/**
@@ -84,7 +87,7 @@ public final class AssignedEntityProcessorUtil {
 		
 		Provider res = null;
 		
-		if (id.equals("^^^&&ISO")) 
+		if (id.equals(datatypeProcessorUtil.emptyIdString())) 
 			throw new DocumentParseException("No data specified for author id");
 		else 				
 			res = Context.getProviderService().getProviderByIdentifier(id);
@@ -110,6 +113,7 @@ public final class AssignedEntityProcessorUtil {
 		
 		// Get the processor util
 		PersonProcessorUtil personProcessorUtil = PersonProcessorUtil.getInstance();
+		OpenmrsMetadataUtil metadataUtil = OpenmrsMetadataUtil.getInstance();
 		
 		Provider res = new Provider();
 		
@@ -118,6 +122,39 @@ public final class AssignedEntityProcessorUtil {
 			throw new NotImplementedException("OpenSHR doesn't support storing of AuthoringDevices .. yet");
 		else
 			res.setPerson(personProcessorUtil.createPerson(aa.getAssignedAuthorChoiceIfAssignedPerson()));
+		
+		
+		// Address
+		if(aa.getAddr() != null && !aa.getAddr().isNull())
+		{
+			if(res.getPerson() == null)
+				res.setPerson(new Person());
+			for(AD ad : aa.getAddr())
+				if(!ad.isNull())
+					res.getPerson().addAddress(DatatypeProcessorUtil.getInstance().parseAD(ad));
+		}
+				
+		// Telecom?
+		if(aa.getTelecom() != null)
+			for(TEL tel : aa.getTelecom())
+			{
+				if(tel == null || tel.isNull()) continue;
+				
+				ProviderAttribute telecomAttribute = new ProviderAttribute();
+				telecomAttribute.setAttributeType(metadataUtil.getProviderTelecomAttribute());
+				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				res.addAttribute(telecomAttribute);
+			}
+		
+		// Organization
+		// TODO: This could be assigned to person attribute type of location
+		if(aa.getRepresentedOrganization() != null && aa.getRepresentedOrganization().getNullFlavor() == null)
+		{
+			ProviderAttribute organizationAttribute = new ProviderAttribute();
+			organizationAttribute.setAttributeType(metadataUtil.getProviderOrganizationAttribute());
+			organizationAttribute.setValueReferenceInternal(aa.getRepresentedOrganization().getName().toString());
+			res.addAttribute(organizationAttribute);
+		}
 		
 		res = Context.getProviderService().saveProvider(res);
 		return res;
@@ -145,7 +182,7 @@ public final class AssignedEntityProcessorUtil {
 		
 		Provider res = null;
 		
-		if (id.equals("^^^&&ISO")) 
+		if (id.equals(datatypeProcessorUtil.emptyIdString())) 
 			throw new DocumentParseException("No data specified for author id");
 		else 				
 			res = Context.getProviderService().getProviderByIdentifier(id);
@@ -172,20 +209,44 @@ public final class AssignedEntityProcessorUtil {
 		
 		// Get person processor
 		PersonProcessorUtil personProcessorUtil = PersonProcessorUtil.getInstance();
+		OpenmrsMetadataUtil metadataUtil = OpenmrsMetadataUtil.getInstance();
 		
 		Provider res = new Provider();
 		
 		res.setIdentifier(id);
 		if(assignedEntity.getAssignedPerson() != null )
 			res.setPerson(personProcessorUtil.createPerson(assignedEntity.getAssignedPerson()));
+
 		// Address
-		if(assignedEntity.getAddr() != null)
+		if(assignedEntity.getAddr() != null && !assignedEntity.getAddr().isNull())
 		{
 			if(res.getPerson() == null)
 				res.setPerson(new Person());
 			for(AD ad : assignedEntity.getAddr())
 				if(!ad.isNull())
 					res.getPerson().addAddress(DatatypeProcessorUtil.getInstance().parseAD(ad));
+		}
+				
+		// Telecom?
+		if(assignedEntity.getTelecom() != null)
+			for(TEL tel : assignedEntity.getTelecom())
+			{
+				if(tel == null || tel.isNull()) continue;
+				
+				ProviderAttribute telecomAttribute = new ProviderAttribute();
+				telecomAttribute.setAttributeType(metadataUtil.getProviderTelecomAttribute());
+				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				res.addAttribute(telecomAttribute);
+			}
+		
+		// Organization
+		// TODO: This could be assigned to person attribute type of location
+		if(assignedEntity.getRepresentedOrganization() != null && assignedEntity.getRepresentedOrganization().getNullFlavor() == null)
+		{
+			ProviderAttribute organizationAttribute = new ProviderAttribute();
+			organizationAttribute.setAttributeType(metadataUtil.getProviderOrganizationAttribute());
+			organizationAttribute.setValueReferenceInternal(assignedEntity.getRepresentedOrganization().getName().get(0).toString());
+			res.addAttribute(organizationAttribute);
 		}
 		
 		res = Context.getProviderService().saveProvider(res);

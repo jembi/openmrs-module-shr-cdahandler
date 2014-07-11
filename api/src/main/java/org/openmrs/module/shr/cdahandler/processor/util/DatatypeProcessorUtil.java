@@ -86,7 +86,7 @@ public final class DatatypeProcessorUtil {
 	 */
 	public String formatSimpleCode(CS<? extends IEnumeratedVocabulary> code)
 	{
-		if(code == null) return "";
+		if(code == null || code.getCode() == null) return "";
 		return String.format(this.m_idFormat, code.getCode().getCodeSystem(), code.getCode().getCode());
 	}
 	
@@ -111,33 +111,41 @@ public final class DatatypeProcessorUtil {
 		PersonName name = new PersonName();
 		// Iterate through parts
 		for(ENXP part : en.getParts())
-			switch(part.getType().getCode())
+			if(part.getType() != null)
+				switch(part.getType().getCode())
+				{
+					case Family:
+						if(name.getFamilyName() == null)
+							name.setFamilyName(part.getValue());
+						else if(name.getFamilyName2() == null)
+							name.setFamilyName2(part.getValue());
+						else
+							name.setFamilyName2(name.getFamilyName2() + " " + part.getValue());
+						break;
+					case Given:
+						if(name.getGivenName() == null)
+							name.setGivenName(part.getValue());
+						else if (name.getMiddleName() == null)
+							name.setMiddleName(part.getValue());
+						else
+							name.setMiddleName(name.getMiddleName() + " " + part.getValue());
+						break;
+					case Prefix:
+						if(name.getPrefix() == null)
+							name.setPrefix(part.getValue());
+						else
+							name.setPrefix(part.getValue() + " " + part.getValue());
+						break;
+						// TODO: Suffix?
+				}
+			else // This represents a simple name
 			{
-				case Family:
-					if(name.getFamilyName() == null)
-						name.setFamilyName(part.getValue());
-					else if(name.getFamilyName2() == null)
-						name.setFamilyName2(part.getValue());
-					else
-						name.setFamilyName2(name.getFamilyName2() + " " + part.getValue());
-					break;
-				case Given:
-					if(name.getGivenName() == null)
-						name.setGivenName(part.getValue());
-					else if (name.getMiddleName() == null)
-						name.setMiddleName(part.getValue());
-					else
-						name.setMiddleName(name.getMiddleName() + " " + part.getValue());
-					break;
-				case Prefix:
-					if(name.getPrefix() == null)
-						name.setPrefix(part.getValue());
-					else
-						name.setPrefix(part.getValue() + " " + part.getValue());
-					break;
-					// TODO: Suffix?
+				// TODO: How to handle null family names?
+				name.setFamilyName("?");
+				name.setGivenName(part.getValue());
+				break;
 			}
-
+	
 		return name;
 	}
 
@@ -173,6 +181,9 @@ public final class DatatypeProcessorUtil {
 				case Country:
 					address.setCountry(part.getValue());
 					break;
+				case City:
+					address.setCityVillage(part.getValue());
+					break;
 				case State:
 					address.setStateProvince(part.getValue());
 					break;
@@ -186,7 +197,7 @@ public final class DatatypeProcessorUtil {
 			}
 
 		// Is there a simple useable period on here?
-		if(ad.getUseablePeriod().getHull() instanceof IVL)
+		if(ad.getUseablePeriod() != null && ad.getUseablePeriod().getHull() instanceof IVL)
 		{
 			IVL<TS> useablePeriod = (IVL<TS>)ad.getUseablePeriod().getHull();
 			if(useablePeriod.getLow() != null)
@@ -194,10 +205,18 @@ public final class DatatypeProcessorUtil {
 			if(useablePeriod.getHigh() != null)
 				address.setEndDate(useablePeriod.getHigh().getDateValue().getTime());
 		}
-		else
+		else if(ad.getUseablePeriod() != null)
 			throw new DocumentParseException("Complex GTS instances are not supported for usablePeriod. Please use GTS with IVL");
 		return address;
 	}
+
+	
+	/**
+	 * Gets the empty identifier string
+	 */
+	public String emptyIdString() {
+		return this.formatIdentifier(new II());
+    }
 
 	
 	

@@ -62,9 +62,8 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Override
 	public Visit importDocument(InputStream doc) throws DocumentParseException 
 	{
-
 		// TODO: Store incoming to a temporary table for CDAs (like the HL7 queue)
-		
+
 		// Formatter
 		XmlIts1Formatter formatter = new XmlIts1Formatter();
 		formatter.addCachedClass(ClinicalDocument.class);
@@ -76,10 +75,10 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		// Output validation messages
 		for(IResultDetail dtl : parseResult.getDetails())
 		{
-			if(dtl.getType() == ResultDetailType.ERROR)
+			if(dtl.getType() == ResultDetailType.ERROR && dtl.getException() != null)
 				log.error(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
-			else 
-				log.warn(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
+			else if(dtl.getException() != null) 
+				log.debug(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
 		}
 		
 		// Get the clinical document
@@ -89,13 +88,13 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		DocumentProcessorFactory factory = DocumentProcessorFactory.getInstance();
 		DocumentProcessor processor = factory.createProcessor(clinicalDocument);
 		Visit visitInformation = processor.process(clinicalDocument);
-		
 		// Copy the original
 		// TODO: Find out if we need this?
 		// Format to the byte array output stream 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try
 		{
+
 			formatter.graph(baos, clinicalDocument);
 			VisitAttribute original = new VisitAttribute();
 			original.setAttributeType(OpenmrsMetadataUtil.getInstance().getVisitOriginalCopyAttributeType());
@@ -110,10 +109,11 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
             }
             catch (IOException e) {
 	            log.error("Error generated", e);
+				return null;
             }
 		}
-
-		return null;
+		Context.flushSession();
+		return visitInformation;
 	}
 	
 }

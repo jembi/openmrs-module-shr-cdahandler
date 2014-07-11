@@ -14,7 +14,7 @@ import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
  * @author Justin Fyfe
  *
  */
-public class DocumentProcessorFactory implements ProcessorFactory {
+public final class DocumentProcessorFactory implements ProcessorFactory {
 
 	
 	// Singleton instance

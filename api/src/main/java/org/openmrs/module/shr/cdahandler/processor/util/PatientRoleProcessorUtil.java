@@ -179,8 +179,10 @@ public final class PatientRoleProcessorUtil {
 			res.setGender(importPatient.getPatient().getAdministrativeGenderCode().getCode().getCode());
 			
 			//set patient birthdate
-			res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
-	
+			if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
+				res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
+			else
+				throw new DocumentParseException("Patient missing birthdate");
 		}
 		else
 			throw new DocumentParseException("Missing patient demographics information"); 

@@ -1,5 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.notification.Note;
+import org.openmrs.obs.ComplexData;
 
 /**
  * Represents a generic level 2 section processor implementation
@@ -77,9 +79,11 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		encounterInfo.setPatient(rootContext.getParsedVisit().getPatient());
 		// Add visit
 		encounterInfo.setVisit(rootContext.getParsedVisit());
+		encounterInfo.setLocation(rootContext.getParsedVisit().getLocation());
 		
 		// Created on...
 		encounterInfo.setDateCreated(rootContext.getParsedVisit().getDateCreated());
+		encounterInfo.setDateChanged(rootContext.getParsedVisit().getDateCreated());
 		
 		// If we have a visit start time this would represent the encounter time as well
 		if (rootContext.getParsedVisit().getStartDatetime() != null)
@@ -90,14 +94,31 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		// TODO: Add a note for text .. This is currently an obs because   
 		// This could be an obs attached to the encounter (would make more sense)
 		if (section.getText() != null && section.getText().getContent().size() > 0) {
+			
 			Obs noteObs = new Obs();
-			noteObs.setConcept(openmrsConceptUtil.getRMIMConcept(openmrsMetadataUtil
-			        .getInternationalizedString("obs.section.text")));
+			
+			noteObs.setConcept(openmrsConceptUtil.getRMIMConcept(String.format("%s %s",
+				encounterInfo.getEncounterType().getName(),
+				openmrsMetadataUtil.getInternationalizedString("obs.section.text"))));
 			noteObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(section.getId()));
-			noteObs.setValueComplex(section.getText().toString());
+			noteObs.setDateCreated(encounterInfo.getDateCreated());
+			noteObs.setObsDatetime(rootContext.getParsedVisit().getStartDatetime());
+			noteObs.setLocation(rootContext.getParsedVisit().getLocation());
+			noteObs.setVoided(false);
+			noteObs.setPerson(rootContext.getParsedVisit().getPatient());
 			noteObs.setEncounter(encounterInfo);
 			noteObs.setObsDatetime(encounterInfo.getDateCreated());
+			
+			String sectionText = section.getText().toString();
+			ByteArrayInputStream textStream = new ByteArrayInputStream(sectionText.getBytes());
+			ComplexData complexData = new ComplexData("summary.htm", textStream);
+			log.debug(String.format("Setting text to %s", sectionText));
+			noteObs.setComplexData(complexData);
+
+//			Context.getObsService().saveObs(noteObs, null);
+		
 			encounterInfo.addObs(noteObs);
+
 		}
 		
 		return currentContext;
@@ -121,7 +142,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 			isValid = false;
 		}
 		// CONF-HP-70
-		if ((section.getText() == null || section.getText().isNull()) && (section.getComponent().size() == 0)) {
+		/*if ((section.getText() == null || section.getText().isNull()) && (section.getComponent().size() == 0)) {
 			log.warn(String
 			        .format(
 			            "CONF-HP-70 : Section element SHALL contain at least one text element or one or more component sections @ %s",
@@ -131,7 +152,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		        && section.getText().getContent().size() == 0) {
 			log.warn(String.format("CONF-HP-71 : All text or component elements SHALL contain content"));
 			isValid = false;
-		}
+		}*/
 		
 		return isValid;
 	}

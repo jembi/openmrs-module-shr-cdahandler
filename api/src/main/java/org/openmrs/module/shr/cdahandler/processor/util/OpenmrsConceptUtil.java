@@ -57,8 +57,8 @@ public final class OpenmrsConceptUtil {
 		// TODO: Check to see if there is a better way of seeding concepts and maps 
 		// Sources for LOINC, DEEDS, and SNOMED (commonly used in CDA) 
 		try {
-			this.getOrCreateConceptSource("2.16.840.1.113883.6.1", "LN", "LOINC");
-			this.getOrCreateConceptSource("2.16.840.1.113883.6.96", "SNOMED", "SNOMED-CT");
+			this.getOrCreateConceptSource("LOINC", "2.16.840.1.113883.6.1", "LOINC");
+			this.getOrCreateConceptSource("SNOMED CT", "2.16.840.1.113883.6.96", "SNOMED-CT");
 		} catch (DocumentParseException e) {
 			Log.error(e.getMessage(), e);
 		}
@@ -144,7 +144,7 @@ public final class OpenmrsConceptUtil {
 	 * Create a concept representing an RMIM (not really a code) value
 	 * @throws DocumentParseException 
 	 */
-	public Concept getRMIMConcept(String rmimName) throws DocumentParseException
+	public ConceptComplex getRMIMConcept(String rmimName) throws DocumentParseException
 	{
 		
 		Concept concept = Context.getConceptService().getConceptByName(rmimName);
@@ -153,16 +153,18 @@ public final class OpenmrsConceptUtil {
 		{
 			Log.warn(String.format("Creating CDA RMIM concept %s", rmimName));
 			ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Misc");
-			concept = new Concept();
+			concept = new ConceptComplex();
 			concept.setFullySpecifiedName(new ConceptName(rmimName, Locale.getDefault()));
 			concept.setVersion("CDAr2");
 			concept.setConceptClass(conceptClass);
-			concept.setDatatype(Context.getConceptService().getConceptDatatypeByName("Document"));
+			concept.setDatatype(Context.getConceptService().getConceptDatatypeByName("Complex"));
+			((ConceptComplex)concept).setHandler("BinaryStreamHandler");
 			concept = Context.getConceptService().saveConcept(concept);
 		}
 		else if(concept == null && !this.m_autoCreateConcepts)
 			throw new DocumentParseException(String.format("Cannot find conept %s in database", rmimName));
-		return concept;
+		
+		return Context.getConceptService().getConceptComplex(concept.getConceptId());
 	}
 
 	/**

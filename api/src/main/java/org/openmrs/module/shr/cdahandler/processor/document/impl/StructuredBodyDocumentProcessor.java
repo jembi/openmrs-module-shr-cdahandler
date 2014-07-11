@@ -35,6 +35,8 @@ public class StructuredBodyDocumentProcessor extends DocumentProcessorImpl {
 	public Visit process(ClinicalDocument doc) throws DocumentParseException {
 		DocumentProcessorContext parserContext = super.parseHeader(doc);
 		Visit visitInformation = parserContext.getParsedVisit();
+
+		visitInformation = Context.getVisitService().saveVisit(visitInformation);
 		
 		// Encounters
 		Set<Encounter> encounters = new HashSet<Encounter>();
@@ -60,9 +62,6 @@ public class StructuredBodyDocumentProcessor extends DocumentProcessorImpl {
 				encounters.add(sectionData);
 		}
 		
-		visitInformation.setEncounters(encounters);
-		// Save the visit
-		visitInformation = Context.getVisitService().saveVisit(visitInformation);
 		return visitInformation;
 	}
 

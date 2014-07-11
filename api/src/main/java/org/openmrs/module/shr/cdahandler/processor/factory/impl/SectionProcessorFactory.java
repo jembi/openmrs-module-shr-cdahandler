@@ -15,7 +15,7 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
  * @author Justin Fyfe
  *
  */
-public class SectionProcessorFactory implements ProcessorFactory {
+public final class SectionProcessorFactory implements ProcessorFactory {
 
 	// Singleton instance
 	private static SectionProcessorFactory s_instance;

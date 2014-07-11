@@ -21,7 +21,7 @@ package org.openmrs.module.shr.cdahandler;
 public class CdaHandlerGlobalPropertyNames {
 
 	// Property name controlling auto-creation of entities
-	public static final String AUTOCREATE_ENTITIES = "shr.cdahandler.autocreate.providers";
+	public static final String AUTOCREATE_PROVIDERS = "shr.cdahandler.autocreate.providers";
 	// Property name controlling auto-creation of encounter roles
 	public static final String AUTOCREATE_METADATA = "shr.cdahandler.autocreate.metaData";
 	// Property name controlling the auto-creation of patients
@@ -32,7 +32,8 @@ public class CdaHandlerGlobalPropertyNames {
 	public static final String AUTOCREATE_PERSONS = "shr.cdahandler.autocreate.persons";
 	// Automatically create concepts
 	public static final String AUTOCREATE_CONCEPTS = "shr.cdahandler.autocreate.concepts";
-	
+	// Automatically create locations
+	public static final String AUTOCREATE_LOCATIONS = "shr.cdahandler.autocreate.locations";
 	// Property controlling the format of complex identifiers
 	public static final String ID_FORMAT = "shr.cdahandler.idformat";
 }

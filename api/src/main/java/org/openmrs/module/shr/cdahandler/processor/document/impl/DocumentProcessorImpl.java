@@ -1,9 +1,12 @@
 package org.openmrs.module.shr.cdahandler.processor.document.impl;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
+import org.marc.everest.datatypes.PQ;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
@@ -20,6 +23,7 @@ import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.LocationOrganizationProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil;
 
@@ -89,6 +93,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		PatientRoleProcessorUtil patientRoleProcessorUtil = PatientRoleProcessorUtil.getInstance();
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		OpenmrsMetadataUtil openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
+		LocationOrganizationProcessorUtil locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
 		
 		// Create a context for this parse operation
 		DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
@@ -121,10 +126,16 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			confidentiality.setAttributeType(openmrsMetadataUtil.getVisitConfidentialityCodeAttributeType());
 			confidentiality.setValueReferenceInternal(datatypeProcessorUtil.formatSimpleCode(doc.getConfidentialityCode()));
 			visitInformation.addAttribute(confidentiality);
-			
 		}
 		
-		// TODO: Custodian (discussion about provenance data)
+	
+		// Custodian - Approximately the location where the event or original data is store
+		// TODO: Provenance data, do we need to store this?
+		if(doc.getCustodian() != null && doc.getCustodian().getNullFlavor() == null &&
+				doc.getCustodian().getAssignedCustodian() != null && doc.getCustodian().getAssignedCustodian().getNullFlavor() == null)
+		{
+			visitInformation.setLocation(locationOrganizationProcessorUtil.parseOrganization(doc.getCustodian().getAssignedCustodian().getRepresentedCustodianOrganization()));
+		}
 		
 		// TODO: DocumentationOf (perhaps as an encounter related to the Visit with an EncounterType of CDA Service Information)
 		// DocumentationOf identifies the visit or service event that occurred 
@@ -158,7 +169,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(visitInformation.getStartDatetime() == null)
 			visitInformation.setStartDatetime(doc.getEffectiveTime().getDateValue().getTime());
 		if(visitInformation.getStopDatetime() == null)
-			visitInformation.setStopDatetime(doc.getEffectiveTime().getDateValue().getTime());
+			visitInformation.setStopDatetime(doc.getEffectiveTime().add(new PQ(BigDecimal.ONE, "s")).getDateValue().getTime());
 		
 		// Effective time
 		visitInformation.setDateCreated(doc.getEffectiveTime().getDateValue().getTime());
@@ -200,10 +211,11 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getId() != null && !doc.getId().isNull())
 		{
 			VisitAttribute provenance = new VisitAttribute();
-			provenance.setAttributeType(openmrsMetadataUtil.getVisitProvenanceStatementAttributeType());
+			provenance.setAttributeType(openmrsMetadataUtil.getVisitExternalIdAttributeType());
 			provenance.setValueReferenceInternal(datatypeProcessorUtil.formatIdentifier(doc.getId()));
 			visitInformation.addAttribute(provenance);
 		}
+		
 		// Type of visit
 		String visitTypeName = this.getTemplateName();
 		if(visitTypeName == null)
