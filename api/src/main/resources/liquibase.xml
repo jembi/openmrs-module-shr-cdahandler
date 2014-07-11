@@ -9,4 +9,14 @@
         for a list of supported elements and attributes
     -->
     
+    <changeSet id="0" author="justin">
+    	<preConditions onError="MARK_RAN" onFail="MARK_RAN">
+    		<sqlCheck expectedResult="LOINC">
+    			<![CDATA[
+    			SELECT 
+    			]]>
+    		</sqlCheck>
+    	</preConditions>
+    </changeSet>
+    
 </databaseChangeLog>

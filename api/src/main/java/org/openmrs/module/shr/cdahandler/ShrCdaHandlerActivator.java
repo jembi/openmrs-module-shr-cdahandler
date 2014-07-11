@@ -16,7 +16,6 @@ package org.openmrs.module.shr.cdahandler;
 
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory;
-import org.openhealthtools.mdht.uml.cda.ihe.IHEPackage;
 import org.openmrs.module.ModuleActivator;
 
 /**
@@ -52,7 +51,6 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		IHEPackage.eINSTANCE.eClass();
 		log.info("SHR CDA Handler Module started");
 	}
 	

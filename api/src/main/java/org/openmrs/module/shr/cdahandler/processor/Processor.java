@@ -1,147 +1,36 @@
 package org.openmrs.module.shr.cdahandler.processor;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import org.marc.everest.interfaces.IGraphable;
+import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openhealthtools.mdht.uml.cda.AssignedAuthor;
-import org.openhealthtools.mdht.uml.cda.Author;
-import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
-import org.openmrs.Encounter;
-import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.PersonName;
-import org.openmrs.Provider;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaDocumentModel;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+/**
+ * An interface describing the functionality of a processor implementation
+ * be it for Document, Section or Entries.
+ * @author Justin Fyfe
+ *
+ */
+public interface Processor {
 
-
-
-public abstract class Processor {
+	/**
+	 * Get the current context of the processor
+	 */
+	ProcessorContext getContext();
 	
-	protected final Log log = LogFactory.getLog(this.getClass());
+	/**
+	 * Sets the context of the processor
+	 */
+	void setContext(ProcessorContext context);
 	
-	public abstract String getCode();
-	public abstract String getCodeSystem();
-	public abstract Encounter process(CdaDocumentModel cdaDocumentModel);
+	/**
+	 * Gets the name of the template the processor handles
+	 * @return
+	 */
+	String getTemplateName();
 	
-	public Patient parsePatient(ClinicalDocument cd) throws DocumentParseException {
-		Patient res = null;
-		if (cd.getPatients().isEmpty() || cd.getPatientRoles().isEmpty())
-			throw new DocumentParseException("No patient identifiers found in document");
-		
-		String idRoot = cd.getPatientRoles().get(0).getIds().get(0).getRoot();
-		String idExtension = cd.getPatientRoles().get(0).getIds().get(0).getExtension();
-		PatientIdentifierType pit = getIdentifierType(idRoot);
-		List<Patient> matches = Context.getPatientService().getPatients(null, idExtension, Collections.singletonList(pit), true);
-		
-		if (matches.isEmpty()) {
-			res = createPatient(cd.getPatients().get(0), pit, idExtension);
-		} else {
-			res = matches.get(0);
-		}
-		
-		return res;
-	}
-	
-	public PatientIdentifierType getIdentifierType(String idType) {
-		PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(idType);
-		if (pit==null) {
-			//create new id type
-			pit = new PatientIdentifierType();
-			pit.setName(idType);
-			pit.setDescription("OpenHIE SHR generated patient identifier type for '" + idType + "' authority");
-			Context.getPatientService().savePatientIdentifierType(pit);
-		}
-		return pit;
-	}
-	
-	public Patient createPatient(org.openhealthtools.mdht.uml.cda.Patient importPatient, PatientIdentifierType idType, String id) {
-		Patient res = new Patient();
-		
-		PatientIdentifier pi = new PatientIdentifier();
-		pi.setIdentifierType(idType);
-		pi.setIdentifier(id);
-
-		pi.setLocation(Context.getLocationService().getDefaultLocation());
-		pi.setPreferred(true);
-		res.addIdentifier(pi);
-		
-		PersonName pn = new PersonName();
-		pn.setFamilyName(importPatient.getNames().get(0).getFamilies().get(0).getText());
-		pn.setGivenName(importPatient.getNames().get(0).getGivens().get(0).getText());
-		res.addName(pn);
-		
-		res.setGender(importPatient.getAdministrativeGenderCode().getCode());
-		
-		//set patient birthdate
-		String dateString = importPatient.getBirthTime().getValue();
-		Date date = null;
-		
-		DateFormat df = new SimpleDateFormat("yyyyMMdd");
-		try {
-	        date =  df.parse(dateString);
-        }
-        catch (ParseException e) {
-	        e.printStackTrace();
-        }  
-		
-		res.setBirthdate(date);
-		
-		Context.getPatientService().savePatient(res);
-		return res;
-	}
-	
-	public List<Provider> parseProvider(ClinicalDocument cd) throws DocumentParseException {
-		List<Provider> providers = new ArrayList<Provider>();
-		Provider res = null;
-		
-		if (cd.getAuthors().isEmpty())
-			throw new DocumentParseException("No authors found");
-		
-		List<Author> aa = cd.getAuthors();
-		
-		for(Author a: aa){
-			AssignedAuthor author = a.getAssignedAuthor();
-			
-			String idRoot = author.getIds().get(0).getRoot();
-			String idExtension = author.getIds().get(0).getExtension();
-			
-			if (idExtension==null || idExtension.isEmpty()) {
-				log.warn("No extension specified for author id");
-			} else {				
-				res = Context.getProviderService().getProviderByIdentifier(idRoot +":"+ idExtension);
-			}
-			
-			if (res==null){
-				res = createProvider(author, idRoot, idExtension);
-			}
-			providers.add(res);
-		}
-		
-		return providers;
-	}
-	
-	public Provider createProvider(AssignedAuthor aa, String idRoot, String idExtension) {
-		Provider res = new Provider();
-		
-		res.setIdentifier(idRoot + ":" + idExtension);
-		res.setName(
-			aa.getAssignedPerson().getNames().get(0).getGivens().get(0).getText() + " " +
-			aa.getAssignedPerson().getNames().get(0).getFamilies().get(0).getText()
-			);
-		
-		Context.getProviderService().saveProvider(res);
-		return res;
-	}
-	
+	/**
+	 * Validate an object can be processed
+	 * @param object The object to be processed
+	 * @return The validation result
+	 */
+	Boolean validate(IGraphable object);
 }

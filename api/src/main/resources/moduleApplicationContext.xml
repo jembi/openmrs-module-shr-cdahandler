@@ -24,21 +24,21 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>${project.parent.groupId}.shr.cdahandler.api.cdaAntepartumService</value>
+				<value>${project.parent.groupId}.shr.cdahandler.api.CdaImportService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="${project.parent.groupId}.shr.cdahandler.api.impl.cdaAntepartumServiceImpl">
-							<property name="dao">
+						<bean class="${project.parent.groupId}.shr.cdahandler.api.impl.CdaImportServiceImpl">
+							<!-- <property name="dao">
 								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernatecdaAntepartumDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>
 								</bean>
-							</property>
+							</property>-->
 						</bean>
 					</property>
 					<property name="preInterceptors">

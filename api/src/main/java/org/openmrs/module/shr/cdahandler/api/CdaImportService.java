@@ -16,8 +16,8 @@ package org.openmrs.module.shr.cdahandler.api;
 import java.io.InputStream;
 
 import org.openmrs.Encounter;
+import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
-import org.openmrs.module.shr.cdahandler.CdaDocumentModel;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -31,8 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @see org.openmrs.api.context.Context
  */
 @Transactional
-public interface cdaAntepartumService extends OpenmrsService {
+public interface CdaImportService extends OpenmrsService {
      
-	Encounter importAntepartumHistoryAndPhysical(InputStream inputStream) throws DocumentParseException;
+	Visit importDocument(InputStream inputStream) throws DocumentParseException;
 	
 }
