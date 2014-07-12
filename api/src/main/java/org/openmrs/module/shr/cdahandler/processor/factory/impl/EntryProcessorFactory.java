@@ -6,20 +6,17 @@ import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.StructuredBodyDocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
-import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
-import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor;
 
 /**
- * Represents a factory that creates processors capable of 
- * interpreting sections
- * @author Justin Fyfe
- *
+ * Represents a processor factory for entries
  */
-public final class SectionProcessorFactory implements ProcessorFactory {
-
+public class EntryProcessorFactory implements ProcessorFactory {
+	
 	// Singleton instance
-	private static SectionProcessorFactory s_instance;
+	private static EntryProcessorFactory s_instance;
 	private static Object s_lockObject = new Object();
 	
 	// Log
@@ -28,7 +25,7 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 	/**
 	 * Constructs a document parser factory
 	 */
-	private SectionProcessorFactory() 
+	private EntryProcessorFactory() 
 	{
 	}
 	
@@ -36,12 +33,12 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 	 * Gets or creates the singleton instance 
 	 * @return
 	 */
-	public final static SectionProcessorFactory getInstance()
+	public final static EntryProcessorFactory getInstance()
 	{
 		if(s_instance == null)
 			synchronized (s_lockObject) {
 				if(s_instance == null)
-					s_instance = new SectionProcessorFactory();
+					s_instance = new EntryProcessorFactory();
 			}
 		return s_instance;
 	}
@@ -50,18 +47,19 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 	 * Create a parser that can handle the specified "object"
 	 */
 	@Override
-	public SectionProcessor createProcessor(InfrastructureRoot object) {
+	public EntryProcessor createProcessor(InfrastructureRoot object) {
 		ClasspathScannerUtil scanner = ClasspathScannerUtil.getInstance();
 		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
 		// Return document processor
 		if(candidateProcessor instanceof DocumentProcessor && candidateProcessor.validate(object))
-			return (SectionProcessor)candidateProcessor;
-		else
+			return (EntryProcessor)candidateProcessor;
+		else 
 		{
-			log.warn(String.format("Could not find a processor for section template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
-			return new GenericLevel2SectionProcessor(); // fallback to the default implementation
+			log.warn(String.format("Could not find a processor for entry template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
+			return null;
 		}
 	}
 
+	
 }

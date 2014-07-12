@@ -87,7 +87,7 @@ public final class ClasspathScannerUtil {
 	 * @param templateIds The template identifiers
 	 * @return A processor which can handle the template identifiers in the specified class
 	 */
-	public Processor createProcessor(LIST<II> templateIds)
+	public final Processor createProcessor(LIST<II> templateIds)
 	{
 
 		LIST<II> processList = new LIST<II>(templateIds);
@@ -111,7 +111,7 @@ public final class ClasspathScannerUtil {
 	/**
 	 * Gets the current singleton instance
 	 */
-	public static ClasspathScannerUtil getInstance()
+	public final static ClasspathScannerUtil getInstance()
 	{
 		if(s_instance == null)
 		{

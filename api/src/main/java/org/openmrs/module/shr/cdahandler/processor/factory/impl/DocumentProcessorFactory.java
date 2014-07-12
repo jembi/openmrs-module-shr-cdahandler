@@ -2,6 +2,7 @@ package org.openmrs.module.shr.cdahandler.processor.factory.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
@@ -35,7 +36,7 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 	 * Gets or creates the singleton instance 
 	 * @return
 	 */
-	public synchronized static DocumentProcessorFactory getInstance()
+	public final static DocumentProcessorFactory getInstance()
 	{
 		if(s_instance == null)
 			synchronized (s_lockObject) {
@@ -58,7 +59,7 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 			return (DocumentProcessor)candidateProcessor;
 		else 
 		{
-			log.warn("Unknown document type or document failed validation, using fallback processor: StructuredBodyDocumentProcessor");
+			log.warn(String.format("Could not find a processor for document template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
 			return new StructuredBodyDocumentProcessor(); // fallback to the default implementation
 		}
 	}
