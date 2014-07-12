@@ -15,10 +15,9 @@ import java.lang.annotation.Target;
 public @interface ProcessTemplates {
 
 	/**
-	 * Identifies templates that must be present to trigger
-	 * use of the processor (AND) 
+	 * Identifies templates that this processor handles (OR) 
 	 * @return
 	 */
-	TemplateId[] value();
+	TemplateId[] understands();
 	
 }

@@ -55,8 +55,11 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
 		// Return document processor
-		if(candidateProcessor instanceof DocumentProcessor && candidateProcessor.validate(object))
+		if(candidateProcessor instanceof DocumentProcessor)
+		{
+			log.info(("Using template processor: '%s'"));
 			return (DocumentProcessor)candidateProcessor;
+		}
 		else 
 		{
 			log.warn(String.format("Could not find a processor for document template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));

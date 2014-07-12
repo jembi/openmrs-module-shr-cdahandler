@@ -1,31 +1,50 @@
 package org.openmrs.module.shr.cdahandler.processor.document.impl;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PQ;
+import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.datatypes.interfaces.IPredicate;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component3;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Informant12;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.NonXMLBody;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Performer1;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ServiceEvent;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.StructuredBody;
+import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
+import org.openmrs.Obs;
 import org.openmrs.Provider;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.module.shr.cdahandler.processor.context.DocumentProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.factory.impl.SectionProcessorFactory;
+import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.LocationOrganizationProcessorUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil;
+import org.openmrs.obs.ComplexData;
 
 /**
  * Represents a basic implementation of a document processor
@@ -65,10 +84,102 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	 * Processes ClinicalDocument into an openMRS visit saving it into the 
 	 * database.
 	 * This implementation will parse the header elements into a visit
-	 * This operation should be threadsafe
 	 */
 	@Override
-	public abstract Visit process(ClinicalDocument doc) throws DocumentParseException;
+	public Visit process(ClinicalDocument doc) throws DocumentParseException
+	{
+		DocumentProcessorContext parserContext = this.parseHeader(doc);
+		Visit visitInformation = parserContext.getParsedVisit();
+
+		visitInformation = Context.getVisitService().saveVisit(visitInformation);
+		
+		// Encounters - This may be a level 1 document so we better check
+		if(doc.getComponent().getBodyChoiceIfNonXMLBody() != null)
+			visitInformation = this.processContent(doc.getComponent().getBodyChoiceIfNonXMLBody(), parserContext);
+		else // level 2 , just hand-off to a StructuredBodyDocumentProcessor
+			visitInformation = this.processContent(doc.getComponent().getBodyChoiceIfStructuredBody(), parserContext);
+		return visitInformation;
+	}
+
+	/**
+	 * Parse structured body content
+	 * @throws DocumentParseException 
+	 */
+	private Visit processContent(StructuredBody structuredBody, DocumentProcessorContext parserContext) throws DocumentParseException {
+
+		Visit visitInformation = parserContext.getParsedVisit();
+		
+		// Iterate through sections saving them
+		for(Component3 comp : structuredBody.getComponent())
+		{
+			// empty section?
+			if(comp == null || comp.getNullFlavor() != null ||
+					comp.getSection() == null || comp.getSection().getNullFlavor() != null) 
+				continue;
+			
+			Section section = comp.getSection();
+			
+			// TODO: Now process section
+			SectionProcessorFactory factory = SectionProcessorFactory.getInstance();
+			SectionProcessor processor = factory.createProcessor(section);
+			processor.setContext(parserContext);
+			
+			processor.process(section);
+			
+		}
+		
+		return visitInformation;
+    }
+
+	/**
+	 * Process content when the body choice is non-xml content
+	 * Auto generated method comment
+	 * 
+	 * @param bodyChoiceIfNonXMLBody
+	 * @throws DocumentParseException 
+	 */
+	private Visit processContent(NonXMLBody bodyChoiceIfNonXMLBody, DocumentProcessorContext currentContext) throws DocumentParseException {
+		
+		Visit visitInformation = currentContext.getParsedVisit();
+		
+		OpenmrsMetadataUtil openmrsMetaData = OpenmrsMetadataUtil.getInstance();
+		OpenmrsConceptUtil openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
+		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
+		
+		// Create an encounter for the of the document
+		Encounter binaryContentEncounter = new Encounter();
+		binaryContentEncounter.setPatient(visitInformation.getPatient());
+		binaryContentEncounter.setVisit(visitInformation);
+		binaryContentEncounter.setDateCreated(visitInformation.getDateCreated());
+		binaryContentEncounter.setEncounterType(openmrsMetaData.getEncounterType(new CE<String>("XX-BINARY-CDA-CONTENT")));
+		binaryContentEncounter.setLocation(visitInformation.getLocation());
+		
+		// Providers
+		for (Entry<EncounterRole, Set<Provider>> entry : currentContext.getProviders().entrySet())
+			for (Provider pvdr : entry.getValue())
+				binaryContentEncounter.addProvider(entry.getKey(), pvdr);
+		
+		// Process contents
+		Obs binaryContentObs = new Obs();
+		
+		binaryContentObs.setConcept(openmrsConceptUtil.getRMIMConcept(openmrsMetaData.getInternationalizedString("obs.document.text")));
+		binaryContentObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(((ClinicalDocument)currentContext.getRawObject()).getId()));
+		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
+		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());
+		binaryContentObs.setLocation(visitInformation.getLocation());
+		binaryContentObs.setVoided(false);
+		binaryContentObs.setPerson(visitInformation.getPatient());
+		binaryContentObs.setEncounter(binaryContentEncounter);
+		binaryContentObs.setObsDatetime(binaryContentEncounter.getDateCreated());
+
+		// Set the binary content
+		ByteArrayInputStream textStream = new ByteArrayInputStream(bodyChoiceIfNonXMLBody.getText().getData());
+		ComplexData complexData = new ComplexData("level1payload", textStream);
+		binaryContentObs.setComplexData(complexData);
+		binaryContentEncounter.addObs(binaryContentObs);
+		
+		return visitInformation;
+    }
 
 	/**
 	 * Parse the header of the CDA document
@@ -242,6 +353,30 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	public Boolean validate(IGraphable object)
 	{
 		return object instanceof ClinicalDocument;
+	}
+
+	/**
+	 * Returns the list of missing sections given the list to find
+	 */
+	protected List<String> findMissingSections(ClinicalDocument doc, List<String> sectionIds)
+	{
+		List<String> retVal = new ArrayList<String>(sectionIds);
+		
+    	// Must have a problem concern entry
+    	for(Component3 comp : doc.getComponent().getBodyChoiceIfStructuredBody().getComponent())
+    	{
+    		if(comp == null || comp.getNullFlavor() != null || 
+    				comp.getSection() == null || comp.getSection().getNullFlavor() != null)
+    		{
+    			log.error("Each component must have a section");
+    			break;
+    		}
+    		else
+    			for(II templateId : comp.getSection().getTemplateId())
+    				retVal.remove(templateId.getRoot());
+    	}
+
+    	return retVal;
 	}
 	
 }

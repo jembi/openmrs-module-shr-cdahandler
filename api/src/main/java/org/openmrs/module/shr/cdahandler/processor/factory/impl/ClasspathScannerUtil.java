@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.generic.LIST;
+import org.marc.everest.datatypes.interfaces.IPredicate;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
@@ -24,6 +25,33 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
  */
 public final class ClasspathScannerUtil {
 
+	
+	/**
+	 * Predicate used to find best match
+	 */
+	private class TemplateMatcher implements IPredicate<II>
+	{
+
+		private LIST<II> m_sourceTemplateIdList;
+		
+		/**
+		 * Constructs the template matcher
+		 */
+		public TemplateMatcher(LIST<II> sourceTemplateIds)
+		{
+			this.m_sourceTemplateIdList = sourceTemplateIds;
+		}
+		
+		/**
+		 * Perform match
+		 */
+		@Override
+        public boolean match(II arg0) {
+			return this.m_sourceTemplateIdList.contains(arg0);
+        }
+		
+	}
+	
 	// Log
 	private final Log log = LogFactory.getLog(this.getClass());
 
@@ -69,7 +97,7 @@ public final class ClasspathScannerUtil {
 				
 				// Get the templates and add them to the  
 				LIST<II> templateIds = new LIST<II>();
-				for(TemplateId id : processAnnotation.value())
+				for(TemplateId id : processAnnotation.understands())
 					templateIds.add(new II(id.root()));
 				
 				// Add to the processor list
@@ -90,20 +118,33 @@ public final class ClasspathScannerUtil {
 	public final Processor createProcessor(LIST<II> templateIds)
 	{
 
-		LIST<II> processList = new LIST<II>(templateIds);
+		TemplateMatcher matcher = new TemplateMatcher(templateIds);
 
+		// Find the best match that is the candidate with the most matching template ids
+		Class<Processor> bestMatch = null;
+				
 		// Try to exactly match the list of template identifiers
 		for(Entry<Class<Processor>, LIST<II>> entry : this.m_processors.entrySet())
-			if(processList.size() == entry.getValue().size() &&
-					processList.containsAll(entry.getValue()))
-				try {
-					return entry.getKey().newInstance();
-				} catch (InstantiationException e) {
-					log.error(e.getMessage(), e);
-				} catch (IllegalAccessException e) {
-					log.error(e.getMessage(), e);
-				}
-		
+		{
+			int noTemplatesHandled = entry.getValue().findAll(matcher).size();
+			
+			if(noTemplatesHandled == entry.getValue().size() && noTemplatesHandled > 0) 
+			{
+				// Is the current proposed processor better (a subclass) of the current?
+				if(bestMatch == null || bestMatch.isAssignableFrom(entry.getKey()))
+					bestMatch = entry.getKey();
+			}
+		}
+			
+		// Construct a processor	
+		if(bestMatch != null)
+			try {
+				return bestMatch.newInstance();
+			} catch (InstantiationException e) {
+				log.error(e.getMessage(), e);
+			} catch (IllegalAccessException e) {
+				log.error(e.getMessage(), e);
+			}
 		return null; // couldn't create a processor
 
 	}

@@ -53,7 +53,10 @@ public class EntryProcessorFactory implements ProcessorFactory {
 		
 		// Return document processor
 		if(candidateProcessor instanceof DocumentProcessor && candidateProcessor.validate(object))
+		{
+			log.info(("Using template processor: '%s'"));
 			return (EntryProcessor)candidateProcessor;
+		}
 		else 
 		{
 			log.warn(String.format("Could not find a processor for entry template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));

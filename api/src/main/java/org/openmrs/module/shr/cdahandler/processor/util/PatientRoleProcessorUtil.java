@@ -176,7 +176,10 @@ public final class PatientRoleProcessorUtil {
 						res.addName(datatypeProcessorUtil.parseEN(pn));
 			
 			// Set gender
-			res.setGender(importPatient.getPatient().getAdministrativeGenderCode().getCode().getCode());
+			if(importPatient.getPatient().getAdministrativeGenderCode().isNull())
+				res.setGender("U");
+			else
+				res.setGender(importPatient.getPatient().getAdministrativeGenderCode().getCode().getCode());
 			
 			//set patient birthdate
 			if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
