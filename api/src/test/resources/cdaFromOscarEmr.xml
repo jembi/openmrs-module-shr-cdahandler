@@ -74,27 +74,6 @@
       </hl7:representedCustodianOrganization>
     </hl7:assignedCustodian>
   </hl7:custodian>
-  <hl7:legalAuthenticator typeCode="LA" contextControlCode="OP">
-    <hl7:time value="20140219112151.892-0500"/>
-    <hl7:signatureCode code="S"/>
-    <hl7:assignedEntity classCode="ASSIGNED">
-      <hl7:id root="1.3.6.1.4.1.33349.3.1.3.201203.2.0.0" extension="3"/>
-      <hl7:addr use="H">
-        <hl7:streetAddressLine>123 Main St West</hl7:streetAddressLine>
-        <hl7:city>Hamilton</hl7:city>
-        <hl7:state>ON</hl7:state>
-        <hl7:country>CA</hl7:country>
-        <hl7:postalCode>L8P 1X1</hl7:postalCode>
-      </hl7:addr>
-      <hl7:telecom value="tel:905-555-5555"/>
-      <hl7:assignedPerson classCode="PSN" determinerCode="INSTANCE">
-        <hl7:name use="L">
-          <hl7:given>NITYAN</hl7:given>
-          <hl7:family>KHANNA</hl7:family>
-        </hl7:name>
-      </hl7:assignedPerson>
-    </hl7:assignedEntity>
-  </hl7:legalAuthenticator>
   <hl7:documentationOf typeCode="DOC">
     <hl7:serviceEvent classCode="PCPR" moodCode="EVN">
       <hl7:id root="ba06d51c-d8a5-4f75-b6b1-9fd33f4bc9b7"/>
@@ -330,6 +309,7 @@
       <hl7:component typeCode="COMP" contextConductionInd="true">
         <hl7:section classCode="DOCSECT" moodCode="EVN">
           <hl7:templateId root="2.16.840.1.113883.10.20.1.16"/>
+          <hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.25"/>
           <hl7:code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Vital signs"/>
           <hl7:title language="en-CA">Vital Signs</hl7:title>
           <hl7:text  language="en-CA">

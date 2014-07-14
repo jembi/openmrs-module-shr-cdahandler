@@ -30,13 +30,12 @@ import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
+import org.openmrs.module.shr.cdahandler.CdaProcessor;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
-import org.openmrs.module.shr.cdahandler.processor.factory.impl.ClasspathScannerUtil;
-import org.openmrs.module.shr.cdahandler.processor.factory.impl.DocumentProcessorFactory;
-import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
-import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
+import org.openmrs.module.shr.cdahandler.processor.factory.impl.*;
+import org.openmrs.module.shr.cdahandler.processor.util.*;
 
 /**
  * It is a default implementation of {@link CdaImportService}.
@@ -45,75 +44,24 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
+	// The processor for this service 
+	private CdaProcessor m_processor;
+
+
 	
-	
-	/**
-	 * Startup .. Might as well instantiate the ClassPathScannerUtil here
+
+	/** 
+	 * TODO: This needs to be more thread/process safe.. 
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#importDocument(java.io.InputStream)
 	 */
-	@Override
-    public void onStartup() {
-	    super.onStartup();
-	    log.info("Getting ClasspathScanner singleton");
-	    ClasspathScannerUtil.getInstance();
-    }
-
-
-
 	@Override
 	public Visit importDocument(InputStream doc) throws DocumentParseException 
 	{
+		if(this.m_processor == null)
+			this.m_processor = CdaProcessor.getInstance();
 		// TODO: Store incoming to a temporary table for CDAs (like the HL7 queue)
-
-		// Formatter
-		XmlIts1Formatter formatter = new XmlIts1Formatter();
-		formatter.addCachedClass(ClinicalDocument.class);
-		formatter.getGraphAides().add(new DatatypeFormatter(R1FormatterCompatibilityMode.Canadian));
-		formatter.setValidateConformance(false); // Don't validate to RMIM conformance
+		return this.m_processor.processCdaDocument(doc);
 		
-		// Parse the document
-		IFormatterParseResult parseResult = formatter.parse(doc);
-		// Output validation messages
-		for(IResultDetail dtl : parseResult.getDetails())
-		{
-			if(dtl.getType() == ResultDetailType.ERROR && dtl.getException() != null)
-				log.error(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
-			else if(dtl.getException() != null) 
-				log.debug(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
-		}
-		
-		// Get the clinical document
-		ClinicalDocument clinicalDocument = (ClinicalDocument)parseResult.getStructure();
-		
-		// Get the document parser
-		DocumentProcessorFactory factory = DocumentProcessorFactory.getInstance();
-		DocumentProcessor processor = factory.createProcessor(clinicalDocument);
-		Visit visitInformation = processor.process(clinicalDocument);
-		// Copy the original
-		// TODO: Find out if we need this?
-		// Format to the byte array output stream 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try
-		{
-
-			formatter.graph(baos, clinicalDocument);
-			VisitAttribute original = new VisitAttribute();
-			original.setAttributeType(OpenmrsMetadataUtil.getInstance().getVisitOriginalCopyAttributeType());
-			original.setValue(baos.toString());
-			visitInformation.addAttribute(original);
-			visitInformation = Context.getVisitService().saveVisit(visitInformation);
-		}
-		finally
-		{
-			try {
-	            baos.close();
-            }
-            catch (IOException e) {
-	            log.error("Error generated", e);
-				return null;
-            }
-		}
-		Context.flushSession();
-		return visitInformation;
 	}
 	
 }

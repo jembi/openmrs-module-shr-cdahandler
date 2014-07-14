@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.section;
 
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
@@ -17,6 +18,6 @@ public interface SectionProcessor extends Processor {
 	 * @param section The CDA section to be parsed
 	 * @return An interpreted section represented as an encounter
 	 */
-	Encounter process(Section section) throws DocumentParseException;
+	BaseOpenmrsData process(Section section) throws DocumentParseException;
 	
 }

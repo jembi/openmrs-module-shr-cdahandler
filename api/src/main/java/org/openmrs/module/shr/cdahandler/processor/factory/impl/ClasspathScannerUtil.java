@@ -128,11 +128,10 @@ public final class ClasspathScannerUtil {
 		{
 			int noTemplatesHandled = entry.getValue().findAll(matcher).size();
 			
-			if(noTemplatesHandled == entry.getValue().size() && noTemplatesHandled > 0) 
+			if(noTemplatesHandled > 0 && (bestMatch == null || bestMatch.isAssignableFrom(entry.getKey()))) 
 			{
 				// Is the current proposed processor better (a subclass) of the current?
-				if(bestMatch == null || bestMatch.isAssignableFrom(entry.getKey()))
-					bestMatch = entry.getKey();
+				bestMatch = entry.getKey();
 			}
 		}
 			

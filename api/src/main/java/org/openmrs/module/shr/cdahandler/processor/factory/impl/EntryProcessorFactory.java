@@ -6,7 +6,7 @@ import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
-import org.openmrs.module.shr.cdahandler.processor.document.impl.StructuredBodyDocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.GenericDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
 
@@ -52,9 +52,9 @@ public class EntryProcessorFactory implements ProcessorFactory {
 		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
 		// Return document processor
-		if(candidateProcessor instanceof DocumentProcessor && candidateProcessor.validate(object))
+		if(candidateProcessor instanceof EntryProcessor)
 		{
-			log.info(("Using template processor: '%s'"));
+			log.info(String.format("Using template processor: '%s'", candidateProcessor.getTemplateName()));
 			return (EntryProcessor)candidateProcessor;
 		}
 		else 

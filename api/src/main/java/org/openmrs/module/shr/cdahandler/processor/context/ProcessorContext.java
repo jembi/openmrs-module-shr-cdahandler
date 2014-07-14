@@ -1,7 +1,9 @@
 package org.openmrs.module.shr.cdahandler.processor.context;
 
 import org.marc.everest.interfaces.IGraphable;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.StructuredBody;
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 
 /**
@@ -34,6 +36,15 @@ public class ProcessorContext {
 		this.m_parsedObject = parsedObject;
 	}
 	
+	/**
+	 * Create a new parser context
+	 */
+	public ProcessorContext(IGraphable rawObject, BaseOpenmrsData parsedObject,
+        Processor processor, ProcessorContext parent) {
+		this(rawObject, parsedObject, processor);
+		this.m_parent = parent;
+    }
+
 	/**
 	 * Gets the parent context of this context object
 	 */

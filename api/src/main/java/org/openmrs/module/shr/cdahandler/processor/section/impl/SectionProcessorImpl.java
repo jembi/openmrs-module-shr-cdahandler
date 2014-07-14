@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -55,6 +56,7 @@ public abstract class SectionProcessorImpl implements SectionProcessor {
 	 * Process the section
 	 */
 	@Override
-	public abstract Encounter process(Section section) throws DocumentParseException;
-
+	public abstract BaseOpenmrsData process(Section section) throws DocumentParseException;
+	
+	
 }

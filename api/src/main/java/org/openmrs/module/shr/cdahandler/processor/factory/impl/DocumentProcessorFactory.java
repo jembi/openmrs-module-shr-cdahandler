@@ -6,7 +6,7 @@ import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
-import org.openmrs.module.shr.cdahandler.processor.document.impl.StructuredBodyDocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.GenericDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
 
 /**
@@ -57,13 +57,13 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 		// Return document processor
 		if(candidateProcessor instanceof DocumentProcessor)
 		{
-			log.info(("Using template processor: '%s'"));
+			log.info(String.format("Using template processor: '%s'", candidateProcessor.getTemplateName()));
 			return (DocumentProcessor)candidateProcessor;
 		}
 		else 
 		{
 			log.warn(String.format("Could not find a processor for document template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
-			return new StructuredBodyDocumentProcessor(); // fallback to the default implementation
+			return new GenericDocumentProcessor(); // fallback to the default implementation
 		}
 	}
 

@@ -20,4 +20,7 @@ public class DocumentParseException extends Exception {
 	public DocumentParseException() {}
 	public DocumentParseException(String msg) { super(msg); }
 	public DocumentParseException(Throwable ex) { super(ex); }
+	public DocumentParseException(String msg, Throwable ex) {
+		super(msg, ex);
+	}
 }

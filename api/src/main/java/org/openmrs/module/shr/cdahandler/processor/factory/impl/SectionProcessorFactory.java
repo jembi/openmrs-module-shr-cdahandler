@@ -55,9 +55,9 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
 		// Return document processor
-		if(candidateProcessor instanceof DocumentProcessor)
+		if(candidateProcessor instanceof SectionProcessor)
 		{
-			log.info(("Using template processor: '%s'"));
+			log.info(String.format("Using template processor: '%s'", candidateProcessor.getTemplateName()));
 			return (SectionProcessor)candidateProcessor;
 		}
 		else

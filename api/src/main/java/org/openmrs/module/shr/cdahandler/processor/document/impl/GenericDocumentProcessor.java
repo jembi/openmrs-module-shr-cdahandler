@@ -9,7 +9,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
  * @author Justin Fyfe
  *
  */
-public class StructuredBodyDocumentProcessor extends DocumentProcessorImpl {
+public class GenericDocumentProcessor extends DocumentProcessorImpl {
 
 
 	/**
@@ -32,21 +32,12 @@ public class StructuredBodyDocumentProcessor extends DocumentProcessorImpl {
 			isValid = false;
 		}
 		// Must have BodyChoice of StructuredBody
-		else if(doc.getComponent().getBodyChoice() == null || 
-				doc.getComponent().getBodyChoice().isPOCD_MT000040UVNonXMLBody() || 
-				doc.getComponent().getBodyChoice().getNullFlavor() != null)
+		else if(doc.getComponent().getBodyChoice() == null)
 		{
-			log.error(String.format("Document %s is missing body of structuredBody", doc.getId().toString()));
+			log.error(String.format("Document %s is missing body", doc.getId().toString()));
 			isValid = false;
 		}
 
-		// Must have at least one section
-		if(doc.getComponent().getBodyChoiceIfStructuredBody().getComponent().size() == 0 ||
-				doc.getComponent().getBodyChoiceIfStructuredBody().getComponent().get(0).getNullFlavor() != null)
-		{
-			log.error(String.format("Document %s must have at least one entry", doc.getId().toString()));
-			isValid = false;
-		}
 		return isValid;
 		
 	}

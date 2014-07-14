@@ -15,11 +15,13 @@ import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
+import org.openmrs.GlobalProperty;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+import org.openmrs.util.OpenmrsConstants;
 
 
 /**
@@ -34,7 +36,10 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	public void beforeEachTest() {
 
 		this.m_service = Context.getService(CdaImportService.class);
+		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
+		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		BasicConfigurator.configure();
+		
 		// TODO: Set properties
 	}
 	

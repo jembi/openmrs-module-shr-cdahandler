@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.marc.everest.datatypes.SD;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.EncounterRole;
 import org.openmrs.Provider;
@@ -62,5 +63,13 @@ public class DocumentProcessorContext extends ProcessorContext {
 	public Visit getParsedVisit() {
 		return (Visit)this.getParsedObject();
 	}
+
+	/**
+	 * Get the clinical document
+	 * @return
+	 */
+	public ClinicalDocument getDocument() {
+		return (ClinicalDocument)this.getRawObject();
+    }
 
 }

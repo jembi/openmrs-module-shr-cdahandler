@@ -1,4 +1,4 @@
-package org.openmrs.module.shr.cdahandler.processor.document.impl;
+package org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc;
 
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.TS;
@@ -7,15 +7,18 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Patient;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.RecordTarget;
+import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcessorImpl;
+import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor;
 
 /**
  * Represents a processor that can import PCC Medical Documents 
  */
 @ProcessTemplates
 ( understands = {
-		@TemplateId(root = "1.3.6.1.4.1.19376.1.5.3.1.1.1")
+		@TemplateId(root = CdaHandlerOids.DOC_TEMPLATE_MEDICAL_DOCUMENTS)
 })
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 
@@ -131,7 +134,7 @@ public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 	 */
 	@Override
     public String getTemplateName() {
-	    return "IHE Medical Document";
+	    return "Medical Document";
     }
 
 	

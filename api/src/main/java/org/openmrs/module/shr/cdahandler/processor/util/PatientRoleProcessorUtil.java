@@ -87,7 +87,7 @@ public final class PatientRoleProcessorUtil {
 	 * @throws DocumentParseException
 	 * @throws DocumentException 
 	 */
-	public Patient parsePatient(PatientRole patient) throws DocumentParseException {
+	public Patient processPatient(PatientRole patient) throws DocumentParseException {
 
 		// Ensure patient is not null and has identifiers
 		Patient res = null;

@@ -81,7 +81,7 @@ public final class LocationOrganizationProcessorUtil {
 	 * @return The parsed location
 	 * @throws DocumentParseException 
 	 */
-	public Location parseOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentParseException {
+	public Location processOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentParseException {
 		
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		OpenmrsMetadataUtil metaDataUtil = OpenmrsMetadataUtil.getInstance();
@@ -104,7 +104,7 @@ public final class LocationOrganizationProcessorUtil {
 			// HACK: The function that does this natively in OpenMRS is missing from 1.9 and is available in 1.10
 			for(Location loc : Context.getLocationService().getAllLocations())
 			{
-				List<LocationAttribute> locAttributes = loc.getActiveAttributes(metaDataUtil.getLocationExternalIdAttributeType());
+				List<LocationAttribute> locAttributes = loc.getActiveAttributes(metaDataUtil.getOrCreateLocationExternalIdAttributeType());
 				if(locAttributes.size() == 1 && locAttributes.get(0).getValueReference().equals(id)) 
 				{
 					res = loc;
@@ -147,7 +147,7 @@ public final class LocationOrganizationProcessorUtil {
 			res.setName(organization.getName().toString());
 		else
 			res.setName("unnamed location");
-		res.setDescription(metadataUtil.getInternationalizedString("autocreated"));
+		res.setDescription(metadataUtil.getLocalizedString("autocreated"));
 		
 		// Assign the telecom
 		if(organization.getAddr() != null && !organization.getAddr().isNull())
@@ -157,7 +157,7 @@ public final class LocationOrganizationProcessorUtil {
 		if(organization.getTelecom() != null && !organization.getTelecom().isNull() && organization.getTelecom().getValue() != null)
 		{
 			LocationAttribute telecomAttribute = new LocationAttribute();
-			telecomAttribute.setAttributeType(metadataUtil.getLocationTelecomAttribute());
+			telecomAttribute.setAttributeType(metadataUtil.getOrCreateLocationTelecomAttribute());
 			telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(organization.getTelecom().getUse()), organization.getTelecom().getValue()));
 			res.addAttribute(telecomAttribute);
 		}
@@ -166,7 +166,7 @@ public final class LocationOrganizationProcessorUtil {
 		if(!id.equals(datatypeUtil.emptyIdString()))
 		{
 			LocationAttribute externalId = new LocationAttribute();
-			externalId.setAttributeType(metadataUtil.getLocationExternalIdAttributeType());
+			externalId.setAttributeType(metadataUtil.getOrCreateLocationExternalIdAttributeType());
 			externalId.setValueReferenceInternal(id);
 			res.addAttribute(externalId);
 		}

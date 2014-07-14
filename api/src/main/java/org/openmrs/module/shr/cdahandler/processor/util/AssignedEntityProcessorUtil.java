@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.jfree.util.Log;
 import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.formatters.FormatterUtil;
@@ -71,7 +72,7 @@ public final class AssignedEntityProcessorUtil {
 	 * @param aut The AssignedAuthor to parse
 	 * @return The parsed assigned author
 	 */
-	public Provider parseProvider(AssignedAuthor aut) throws DocumentParseException {
+	public Provider processProvider(AssignedAuthor aut) throws DocumentParseException {
 
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		
@@ -141,7 +142,7 @@ public final class AssignedEntityProcessorUtil {
 				if(tel == null || tel.isNull()) continue;
 				
 				ProviderAttribute telecomAttribute = new ProviderAttribute();
-				telecomAttribute.setAttributeType(metadataUtil.getProviderTelecomAttribute());
+				telecomAttribute.setAttributeType(metadataUtil.getOrCreateProviderTelecomAttribute());
 				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
 				res.addAttribute(telecomAttribute);
 			}
@@ -151,7 +152,7 @@ public final class AssignedEntityProcessorUtil {
 		if(aa.getRepresentedOrganization() != null && aa.getRepresentedOrganization().getNullFlavor() == null)
 		{
 			ProviderAttribute organizationAttribute = new ProviderAttribute();
-			organizationAttribute.setAttributeType(metadataUtil.getProviderOrganizationAttribute());
+			organizationAttribute.setAttributeType(metadataUtil.getOrCreateProviderOrganizationAttribute());
 			organizationAttribute.setValueReferenceInternal(aa.getRepresentedOrganization().getName().toString());
 			res.addAttribute(organizationAttribute);
 		}
@@ -166,7 +167,7 @@ public final class AssignedEntityProcessorUtil {
 	 * @return The OpenMRS provider
 	 * @throws DocumentParseException 
 	 */
-	public Provider parseProvider(AssignedEntity assignedEntity) throws DocumentParseException {
+	public Provider processProvider(AssignedEntity assignedEntity) throws DocumentParseException {
 
 		if (assignedEntity == null || assignedEntity.getNullFlavor() != null)
 			throw new DocumentParseException("AssignedEntity role is null");
@@ -234,7 +235,7 @@ public final class AssignedEntityProcessorUtil {
 				if(tel == null || tel.isNull()) continue;
 				
 				ProviderAttribute telecomAttribute = new ProviderAttribute();
-				telecomAttribute.setAttributeType(metadataUtil.getProviderTelecomAttribute());
+				telecomAttribute.setAttributeType(metadataUtil.getOrCreateProviderTelecomAttribute());
 				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
 				res.addAttribute(telecomAttribute);
 			}
@@ -244,7 +245,7 @@ public final class AssignedEntityProcessorUtil {
 		if(assignedEntity.getRepresentedOrganization() != null && assignedEntity.getRepresentedOrganization().getNullFlavor() == null)
 		{
 			ProviderAttribute organizationAttribute = new ProviderAttribute();
-			organizationAttribute.setAttributeType(metadataUtil.getProviderOrganizationAttribute());
+			organizationAttribute.setAttributeType(metadataUtil.getOrCreateProviderOrganizationAttribute());
 			organizationAttribute.setValueReferenceInternal(assignedEntity.getRepresentedOrganization().getName().get(0).toString());
 			res.addAttribute(organizationAttribute);
 		}
