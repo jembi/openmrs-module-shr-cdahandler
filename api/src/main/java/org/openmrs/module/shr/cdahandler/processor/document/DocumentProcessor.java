@@ -2,7 +2,7 @@ package org.openmrs.module.shr.cdahandler.processor.document;
 
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 
 /**
@@ -18,6 +18,6 @@ public interface DocumentProcessor extends Processor {
 	 * @return A collection of data containing all the interpreted information from the CDA
 	 */
 	// TODO: Can the Visit object do everything we need for this? I feel that for Allergies and Problems a Visit may not work as a diagnosis cannot be assigned to a visit, is this true?
-	Visit process(ClinicalDocument doc) throws DocumentParseException;
+	Visit process(ClinicalDocument doc) throws DocumentImportException;
 	
 }

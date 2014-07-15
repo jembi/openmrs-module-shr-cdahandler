@@ -32,7 +32,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.shr.cdahandler.CdaProcessor;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.*;
 import org.openmrs.module.shr.cdahandler.processor.util.*;
@@ -55,7 +55,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#importDocument(java.io.InputStream)
 	 */
 	@Override
-	public Visit importDocument(InputStream doc) throws DocumentParseException 
+	public Visit importDocument(InputStream doc) throws DocumentImportException 
 	{
 		if(this.m_processor == null)
 			this.m_processor = CdaProcessor.getInstance();

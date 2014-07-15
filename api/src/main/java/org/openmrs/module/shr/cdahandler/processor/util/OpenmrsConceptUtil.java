@@ -41,7 +41,8 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.util.OpenmrsConstants;
 
 /**
  * A class for interacting (creating/looking up) OpenMRS concepts
@@ -56,6 +57,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 	// True if concepts can be auto-created
 	private Boolean m_autoCreateConcepts = true;
+	private ConceptMapType m_narrowerThan = null;
+	private ConceptMapType m_sameAs = null;
 	
 	/**
 	 * Private ctor
@@ -81,18 +84,22 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		try {
 			this.getOrCreateConceptSource("LOINC", CdaHandlerOids.CODE_SYSTEM_LOINC, "LOINC", null);
 			this.getOrCreateConceptSource("SNOMED CT", CdaHandlerOids.CODE_SYSTEM_SNOMED, "SNOMED-CT", null);
-		} catch (DocumentParseException e) {
+			this.m_narrowerThan = Context.getConceptService().getConceptMapTypeByName("NARROWER-THAN");
+			this.m_sameAs = Context.getConceptService().getConceptMapTypeByName("SAME-AS");
+					
+		} catch (DocumentImportException e) {
 			Log.error(e.getMessage(), e);
 		}
 	}
 	
 	/**
 	 * Create concept source if it doesn't already exist
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
 	private ConceptSource getOrCreateConceptSource(String name, String hl7,
-			String description, Class<?> enumeratedVocabularySource) throws DocumentParseException {
+			String description, Class<?> enumeratedVocabularySource) throws DocumentImportException {
 	
+		log.debug("Enter: getOrCreateConceptSource");
 		if(name == null)
 		{
 			if(hl7.equals(CdaHandlerOids.CODE_SYSTEM_LOINC))
@@ -147,7 +154,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			
 		}
 		else if(conceptSource == null && !this.m_autoCreateConcepts)
-			throw new DocumentParseException("Cannot create concept source");
+			throw new DocumentImportException("Cannot create concept source");
+		
+		log.debug("Exit : getOrCreateConceptSource");
+		
 		return conceptSource;
 	}
 
@@ -172,12 +182,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	/**
 	 * Get all concepts mapped to the source term
 	 */
-	public List<Concept> getConcepts(CV<?> code) throws DocumentParseException
+	public List<Concept> getConcepts(CV<?> code) throws DocumentImportException
 	{
+		log.debug("Enter: getConcepts");
+		
 		// First, attempt to get the ConceptSource from the CodeSystem
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
 		// Now attempt to get the concept by its mapping to the OpenMRS term
 		List<Concept> concept = Context.getConceptService().getConceptsByMapping(code.getCode().toString(), conceptSource.getName());
+		
+		log.debug("Exit : getConcepts");
+		
 		return concept;
 
 	}
@@ -185,14 +200,18 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Get a concept from a coded simple value and creates a reference term in the destination system if one doesn't already exist
 	 * @param getConcept
 	 * @return
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Concept getConcept(CV<?> code) throws DocumentParseException
+	public Concept getConcept(CV<?> code) throws DocumentImportException
 	{
 
+		log.debug("Enter: getConcept");
+		
 		List<Concept> concepts = this.getConcepts(code);
 		if(concepts.size() > 1)
-			throw new DocumentParseException("More than one potential concept exists. Unsure which one to select");
+			throw new DocumentImportException("More than one potential concept exists. Unsure which one to select");
+		
+		log.debug("Exit: getConcept");
 		
 		if(concepts.size() > 0)
 			return concepts.get(0);
@@ -204,12 +223,16 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Gets or creates a concept matching the code 
 	 * 
 	 */
-	public Concept getOrCreateConcept(CV<?> code) throws DocumentParseException
+	public Concept getOrCreateConcept(CV<?> code) throws DocumentImportException
 	{
+		log.debug("Enter: getOrCreateConcept");
+		
 		Concept concept = this.getConcept(code);
 		// Was the concept found?
 		if(concept == null && this.m_autoCreateConcepts)
 			concept = this.createConcept(code);
+		
+		log.debug("Exit: getOrCreateConcept");
 		
 		return concept;
 	}
@@ -219,6 +242,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public ConceptDatatype getConceptDatatype(ANY value)
 	{
+		
 		if(value instanceof PQ)
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
 		else if(value instanceof RTO ||
@@ -243,9 +267,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	/**
 	 * Create a concept in the database
 	 * @param code
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Concept createConcept(CV<?> code) throws DocumentParseException {
+	public Concept createConcept(CV<?> code) throws DocumentImportException {
 		return this.createConcept(code, new ANY());
     }
 
@@ -254,15 +278,18 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @param code The code representing the concept
 	 * @param type The type of data
 	 * @return The created concept
-	 * @throws DocumentParseException
+	 * @throws DocumentImportException
 	 */
-	public Concept createConcept(CV<?> code, ANY value) throws DocumentParseException {
+	public Concept createConcept(CV<?> code, ANY value) throws DocumentImportException {
 		if(!this.m_autoCreateConcepts)
 			throw new IllegalStateException("Cannot create concepts according to configuration policy");
 
+		log.debug("Enter: createConcept");
+		
 		ConceptReferenceTerm referenceTerm = this.getOrCreateReferenceTerm(code);
 		
 		// Concept class for auto-created concepts
+		log.debug("Get Concept Class");
 		ConceptClass conceptClass = Context.getConceptService().getConceptClassByName(value == null ? "ConvSet" : "Auto");
 		if(conceptClass == null)
 		{
@@ -276,24 +303,29 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(fullName == null)
 			fullName = code.getCode().toString();
 
+		
 		// Create the concept and set properties
 		Concept concept = new Concept();
-		ConceptMapType mapType = Context.getConceptService().getConceptMapTypeByName("SAME-AS");
+		log.debug("Get concept mapping type to reference term");
+		ConceptMapType mapType = this.m_sameAs;
 		ConceptDatatype dataType = this.getConceptDatatype(value);
 		// Is this a numeric type that has a value? If so, we need to ensure we create it
 		if(value instanceof PQ)
 		{
+			log.debug("Creating PQ based concept, set map to NARROWER-THAN");
 			fullName += " (" + ((PQ)value).getUnit() + ")";
 			concept = new ConceptNumeric();
 			((ConceptNumeric)concept).setUnits(((PQ)value).getUnit());
-			mapType = Context.getConceptService().getConceptMapTypeByName("NARROWER-THAN");
+			mapType = this.m_narrowerThan;
 		}
 		else if(dataType.getUuid().equals(ConceptDatatype.COMPLEX_UUID))
 		{
+			log.debug("Setting handler on complex Concept");
 			concept = new ConceptComplex();
 			((ConceptComplex)concept).setHandler("BinaryDataHandler");
 		}
 
+		log.debug("Set core attributes of concept");
 		Locale locale = Context.getLocale();// new Locale("en");
 		concept.setFullySpecifiedName(new ConceptName(fullName, locale));
 		concept.addName(concept.getFullySpecifiedName(locale));
@@ -307,14 +339,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		concept.setDatatype(dataType);
 
 		// Does a concept exist with the exact same name?
-		Concept existingConcept = Context.getConceptService().getConceptByName(fullName);
-		if(existingConcept != null)
+		
+		List<Concept> existingConcept = Context.getConceptService().getConceptsByName(fullName, locale, true);
+		if(existingConcept.size() > 0)
 		{
+			log.debug("Duplicate concept name found, renaming");
 			ConceptName name = concept.getFullySpecifiedName(locale);
 			name.setName(String.format("%s (%s)", name.getName(), code.getCode()));
 		}
 
 		// Now create a mapping to the term reference and the newly create code
+		log.debug("Creating map between reference term and concept");
 		ConceptMap conceptMap = new ConceptMap(referenceTerm, mapType);
 		conceptMap.setConcept(concept);
 		concept.addConceptMapping(conceptMap);
@@ -322,15 +357,19 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		// Add a handler
 		
 		Context.getConceptService().saveConcept(concept);
-		
+
+		log.debug("Exit: createConcept");
+
 		return concept;
 	}
 	
 	/**
 	 * Get or creste a reference term
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	private ConceptReferenceTerm getOrCreateReferenceTerm(CV<?> code) throws DocumentParseException {
+	private ConceptReferenceTerm getOrCreateReferenceTerm(CV<?> code) throws DocumentImportException {
+
+		log.debug("Enter: getOrCreateReferenceTerm");
 
 		// First, attempt to get the ConceptSource from the CodeSystem
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
@@ -347,15 +386,18 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			referenceTerm = Context.getConceptService().saveConceptReferenceTerm(referenceTerm);
 		}
 		else if (referenceTerm == null && !this.m_autoCreateConcepts)
-			throw new DocumentParseException(String.format("Cannot find specified code %s in concept source %s", code.getCode(), code.getCodeSystem()));
+			throw new DocumentImportException(String.format("Cannot find specified code %s in concept source %s", code.getCode(), code.getCodeSystem()));
+
+		log.debug("Exit: getOrCreateReferenceTerm");
+
 		return referenceTerm;
     }
 
 	/**
 	 * Create a concept representing an RMIM (not really a code) value
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Concept getOrCreateRMIMConcept(String rmimName, ANY valueToStore) throws DocumentParseException
+	public Concept getOrCreateRMIMConcept(String rmimName, ANY valueToStore) throws DocumentImportException
 	{
 		
 		Concept concept = Context.getConceptService().getConceptByName(rmimName);
@@ -382,7 +424,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			concept = Context.getConceptService().saveConcept(concept);
 		}
 		else if(concept == null && !this.m_autoCreateConcepts)
-			throw new DocumentParseException(String.format("Cannot find conept %s in database", rmimName));
+			throw new DocumentImportException(String.format("Cannot find conept %s in database", rmimName));
 		
 		return Context.getConceptService().getConcept(concept.getConceptId());
 	}
@@ -391,9 +433,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Get the root code or any one of its equivalents
 	 * @param code The code or equivalent to retrieve
 	 * @return The mapped concept
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Concept getConceptOrEquivalent(CE<?> code) throws DocumentParseException
+	public Concept getConceptOrEquivalent(CE<?> code) throws DocumentImportException
 	{
 		Concept concept = this.getConcept(code);
 		if(concept == null && code.getTranslation() != null)
@@ -409,17 +451,19 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * 
 	 * Gets or creates the specified concept and its translations. Also creates translations
 	 * which do not exist and maps terms to the root
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 * 
 	 */
-	public Concept getOrCreateConceptAndEquivalents(CE<?> code) throws DocumentParseException 
+	public Concept getOrCreateConceptAndEquivalents(CE<?> code) throws DocumentImportException 
 	{
+		log.debug("Enter: getOrCreateConceptAndEquivalents");
+
 		Concept foundConcept = this.getConcept(code);
 		
 		if(foundConcept == null && this.m_autoCreateConcepts)
 			foundConcept = this.createConcept(code);
 		else if(foundConcept == null && !this.m_autoCreateConcepts)
-			throw new DocumentParseException(String.format("Cannot find concept %s in source %s", code.getCode(), code.getCodeSystem()));
+			throw new DocumentImportException(String.format("Cannot find concept %s in source %s", code.getCode(), code.getCodeSystem()));
 		
 		// Now create / map equivalents
 		if(code.getTranslation() != null && this.m_autoCreateConcepts)
@@ -432,27 +476,34 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				ConceptMap conceptMap = null; 
 				for(ConceptMap map : foundConcept.getConceptMappings())
 					if(map.getConceptReferenceTerm().equals(term))
+					{
 						conceptMap = map;
+						break;
+					}
 
 				if(conceptMap == null)
 				{
 					conceptMap = new ConceptMap(term, Context.getConceptService().getConceptMapTypeByName("SAME-AS"));
 					conceptMap.setConcept(foundConcept);
 					foundConcept.addConceptMapping(conceptMap);
-					Context.getConceptService().saveConcept(foundConcept);
+					foundConcept = Context.getConceptService().saveConcept(foundConcept);
 				}
 			}
 		}
+
+		log.debug("Exit: getOrCreateConceptAndEquivalents");
 
 		return foundConcept;
 	}
 
 	/**
 	 * Gets a type specific concept
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Concept getTypeSpecificConcept(CE<String> code, ANY value) throws DocumentParseException {
+	public Concept getTypeSpecificConcept(CE<String> code, ANY value) throws DocumentImportException {
 		
+		log.debug("Enter: getTypeSpecificConcept");
+
 		List<Concept> candidateConcepts = this.getConcepts(code);
 		
 		if(value instanceof PQ) // unit specific concept map
@@ -466,13 +517,19 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				if(numericConcept != null && numericConcept.getUnits().equals(unit))
 						return concept;
 			}
+			log.debug("Exit: getTypeSpecificConcept");
 			return null;
 		}
 		else if(candidateConcepts.size() > 0)
+		{
+			log.debug("Exit: getTypeSpecificConcept");
 			return candidateConcepts.get(0);
-		else 
+		}
+		else
+		{
+			log.debug("Exit: getTypeSpecificConcept");
 			return null;
-
+		}
     }
 	
 }

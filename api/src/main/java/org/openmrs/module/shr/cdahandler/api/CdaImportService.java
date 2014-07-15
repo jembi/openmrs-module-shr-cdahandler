@@ -18,6 +18,7 @@ import java.io.InputStream;
 import org.openmrs.Encounter;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,6 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CdaImportService extends OpenmrsService {
      
-	Visit importDocument(InputStream inputStream) throws DocumentParseException;
+	Visit importDocument(InputStream inputStream) throws DocumentImportException;
 	
 }

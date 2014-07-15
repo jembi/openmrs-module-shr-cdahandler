@@ -14,7 +14,9 @@ import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl;
@@ -45,32 +47,35 @@ public class SimpleObservationEntryProcessor extends EntryProcessorImpl {
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
 	 */
 	@Override
-	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentParseException {
+	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
 		
-		if(!this.validate(entry))
-			throw new DocumentParseException("Cannot process an invalid entry");
+		ValidationIssueCollection validationIssues = this.validate(entry);
+		if(validationIssues.hasErrors())
+			throw new DocumentValidationException("Cannot process an invalid entry", validationIssues);
 		// Create the observation for this template
 		Obs observation = this.parseObservation((Observation)entry);
-		observation = Context.getObsService().saveObs(observation, this.getTemplateName());
+		observation = Context.getObsService().saveObs(observation, null);
 		return observation;
 	}
 
 	/**
 	 * Parse the observation
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 * @throws ParseException 
 	 */
-	protected Obs parseObservation(Observation entry) throws DocumentParseException {
+	protected Obs parseObservation(Observation entry) throws DocumentImportException {
 
 		// Create concept and datatype services
 		OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
 		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
 		OpenmrsDataUtil dataUtil = OpenmrsDataUtil.getInstance();
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
+		Obs parentObs = (Obs)this.getContext().getParsedObject();
 		
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
 		Obs res = new Obs();
 		
+		res.setObsGroup(parentObs);
 		// Now ... Get the encounter and copy cascade what can be cascaded
 		res.setPerson(encounterInfo.getPatient());
 		res.setLocation(encounterInfo.getLocation());
@@ -87,9 +92,9 @@ public class SimpleObservationEntryProcessor extends EntryProcessorImpl {
 			concept = conceptUtil.createConcept(entry.getCode(), entry.getValue());
 		}
 		else if(concept == null)
-			throw new DocumentParseException("Cannot reliably establish the type of observation concept to create");
+			throw new DocumentImportException("Cannot reliably establish the type of observation concept to create");
 		else if(!concept.getDatatype().equals(conceptUtil.getConceptDatatype(entry.getValue())))
-			throw new DocumentParseException("Cannot store the specified type of data in the concept field");
+			throw new DocumentImportException("Cannot store the specified type of data in the concept field");
 		res.setConcept(concept);
 		
 		// Effective time is value
@@ -137,7 +142,7 @@ public class SimpleObservationEntryProcessor extends EntryProcessorImpl {
 		}
 		catch(ParseException e)
 		{
-			throw new DocumentParseException("Could not set obs value", e);
+			throw new DocumentImportException("Could not set obs value", e);
 		}
 		
 		return res;
@@ -148,47 +153,29 @@ public class SimpleObservationEntryProcessor extends EntryProcessorImpl {
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#validate(org.marc.everest.interfaces.IGraphable)
 	 */
 	@Override
-    public Boolean validate(IGraphable object) {
-		Boolean isValid = super.validate(object);
-		if(!isValid) return false;
+    public ValidationIssueCollection validate(IGraphable object) {
+		ValidationIssueCollection validationIssues = super.validate(object);
+		if(validationIssues.hasErrors()) return validationIssues;
 		
 		// Validate now
 		ClinicalStatement statement = (ClinicalStatement)object;
 		
 		// Must be an observation
 		if(!statement.isPOCD_MT000040UVObservation())
-		{
-			log.error(super.getInvalidClinicalStatementErrorText(Observation.class, statement.getClass()));
-			isValid = false;
-		}
+			validationIssues.error(super.getInvalidClinicalStatementErrorText(Observation.class, statement.getClass()));
 		// Must have a code
 		Observation obs = (Observation)statement;
 		if(obs.getId() == null || obs.getId().isEmpty())
-		{
-			log.error("IHE PCC TF-2: Each observation shall have an identifier");
-			isValid = false;
-		}
+			validationIssues.error("IHE PCC TF-2: Each observation shall have an identifier");
 		if(obs.getCode() == null || obs.getCode().isNull())
-		{
-			log.error("IHE PCC TF-2: Observations shall have a code describing what is measured");
-			isValid = false;
-		}
+			validationIssues.error("IHE PCC TF-2: Observations shall have a code describing what is measured");
 		if(obs.getStatusCode() == null)
-		{
-			log.warn("IHE PCC TF-2: Observations shall have a status of completed");
-			obs.setStatusCode(ActStatus.Completed);
-		}
+			validationIssues.warn("IHE PCC TF-2: Observations shall have a status of completed");
 		if(obs.getValue() == null)
-		{
-			log.error("IHE PCC TF-2: Observation shall have a value appropriate with the observation type");
-			isValid = false;
-		}
+			validationIssues.error("IHE PCC TF-2: Observation shall have a value appropriate with the observation type");
 		if(obs.getEffectiveTime() == null || obs.getEffectiveTime().getValue() == null)
-		{
-			log.error("IHE PCC TF-2: Observations shall have an effective time");
-			isValid = false;
-		}
-		return isValid;
+			validationIssues.error("IHE PCC TF-2: Observations shall have an effective time");
+		return validationIssues;
     }
 	
 	

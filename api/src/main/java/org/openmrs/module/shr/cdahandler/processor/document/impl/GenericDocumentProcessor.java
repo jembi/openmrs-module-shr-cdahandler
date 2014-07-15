@@ -1,7 +1,10 @@
 package org.openmrs.module.shr.cdahandler.processor.document.impl;
 
+import java.util.List;
+
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 
 /**
  * This is a generic document processor which can interpret any CDA
@@ -16,29 +19,23 @@ public class GenericDocumentProcessor extends DocumentProcessorImpl {
 	 * Implementation of validate for Processor
 	 */
 	@Override
-	public Boolean validate(IGraphable object) {
+	public ValidationIssueCollection validate(IGraphable object) {
 
 		
 		// Ensure that the document body is in fact structured
-		Boolean isValid = super.validate(object);
-		if(!isValid) return isValid;
+		ValidationIssueCollection validationErrors = super.validate(object);
+		if(validationErrors.hasErrors()) return validationErrors;
 		
 		ClinicalDocument doc = (ClinicalDocument)object;
 		
 		// Must have component to be valid CDA
 		if(doc.getComponent() == null || doc.getComponent().getNullFlavor() != null)
-		{
-			log.error(String.format("Document %s is missing component", doc.getId().toString()));
-			isValid = false;
-		}
+			validationErrors.error(String.format("Document %s is missing component", doc.getId().toString()));
 		// Must have BodyChoice of StructuredBody
 		else if(doc.getComponent().getBodyChoice() == null)
-		{
-			log.error(String.format("Document %s is missing body", doc.getId().toString()));
-			isValid = false;
-		}
+			validationErrors.error(String.format("Document %s is missing body", doc.getId().toString()));
 
-		return isValid;
+		return validationErrors;
 		
 	}
 

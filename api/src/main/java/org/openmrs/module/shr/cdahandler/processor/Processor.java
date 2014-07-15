@@ -1,6 +1,9 @@
 package org.openmrs.module.shr.cdahandler.processor;
 
+import java.util.List;
+
 import org.marc.everest.interfaces.IGraphable;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 
 /**
@@ -32,5 +35,5 @@ public interface Processor {
 	 * @param object The object to be processed
 	 * @return The validation result
 	 */
-	Boolean validate(IGraphable object);
+	ValidationIssueCollection validate(IGraphable object);
 }

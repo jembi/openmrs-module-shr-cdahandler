@@ -17,7 +17,8 @@ import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
@@ -44,9 +45,10 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
 	 */
 	@Override
-    public BaseOpenmrsData process(Section section) throws DocumentParseException {
+    public Obs process(Section section) throws DocumentImportException {
 	    
-		BaseOpenmrsData level2Data = super.process(section); // Process the level 2 portions
+		// Validate the section done by super
+		Obs level2Data = super.process(section); // Process the level 2 portions
 		ProcessorContext parseContext = new ProcessorContext(section, level2Data, this);
 		
 		ProcessorFactory factory = EntryProcessorFactory.getInstance();
@@ -76,14 +78,7 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	    		processor.setContext(parseContext);
 	    		try
 	    		{
-		    		BaseOpenmrsData processedData = processor.process(statement);
-		    		if(processedData instanceof Obs)
-		    		{
-				    	if(level2Data instanceof Encounter)
-			    			((Encounter)level2Data).addObs((Obs)processedData);
-			    		else
-			    			((Obs)level2Data).addGroupMember((Obs)processedData);
-		    		}
+		    		processor.process(statement);
 	    		}
 	    		catch(Exception e) // Compensate for a problem by voiding anything we created as we don't want partial data in the DB
 	    		{
@@ -112,25 +107,15 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 			// Now process section
 			SectionProcessor processor = (SectionProcessor)factory.createProcessor(subSection);
 			processor.setContext(parseContext);
-			BaseOpenmrsData processedSection = processor.process(subSection);
+			processor.process(subSection);
 			
-			// This is not right!? We'll lose hierarchy / context of the section so we can't persist
-			if(processedSection instanceof Encounter)
-				log.warn(String.format("The section processor %s appears to be incapable of handling sub-sections. Expected Obs got Encounter, data context may have be lost", processor.getTemplateName()));
-			else if(processedSection instanceof Obs)
-			{
-	    		if(level2Data instanceof Encounter)
-	    			((Encounter)level2Data).addObs((Obs)processedSection);
-	    		else
-	    			((Obs)level2Data).addGroupMember((Obs)processedSection);
-			}
 	    }
 	    
 	    // Save now
 	    //if(level2Data instanceof Encounter)
 	    //	level2Data = Context.getEncounterService().saveEncounter((Encounter)level2Data);
 	    //else
-	    //	level2Data = Context.getObsService().saveObs((Obs)level2Data, "Processed entries");
+	    //level2Data = Context.getObsService().saveObs(level2Data, "Processed entries");
 
 	    return level2Data;
     }
@@ -140,10 +125,10 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#validate(org.marc.everest.interfaces.IGraphable)
 	 */
 	@Override
-    public Boolean validate(IGraphable object) {
+    public ValidationIssueCollection validate(IGraphable object) {
 		
-	    Boolean isValid = super.validate(object);
-	    if(!isValid) return false;
+	    ValidationIssueCollection validationIssues = super.validate(object);
+	    if(validationIssues.hasErrors()) return validationIssues;
 	    Section section = (Section)object;
 	    
 	    // Validate the section has components / entries 
@@ -155,13 +140,10 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 			// Must have vital sign organizer
 			for(String entry : expectedEntries)
 				if(section.getEntry().size() == 0 && !this.hasEntry(section, entry))
-				{
-					log.error(String.format("Section %s expects entry of %s", this.getTemplateName(), entry));
-					isValid = false;
-				}
+					validationIssues.error(String.format("Section %s expects entry of %s", this.getTemplateName(), entry));
 
 		
-	    return isValid;
+	    return validationIssues;
     }
 
 	/**

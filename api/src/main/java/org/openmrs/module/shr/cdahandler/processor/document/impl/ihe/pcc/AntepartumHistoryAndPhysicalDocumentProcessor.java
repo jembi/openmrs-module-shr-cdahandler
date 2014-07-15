@@ -8,6 +8,7 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 
@@ -52,14 +53,14 @@ public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhy
 	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor#validate(org.marc.everest.interfaces.IGraphable)
 	 */
 	@Override
-    public Boolean validate(IGraphable object) {
+    public ValidationIssueCollection validate(IGraphable object) {
 		
 		// Validate there is a spouse in the participant section
-	    Boolean isValid = super.validate(object);
-	    if(!isValid) return false;
+		ValidationIssueCollection validationIssues = super.validate(object);
+	    if(validationIssues.hasErrors()) return validationIssues;
 	    
 	    ClinicalDocument doc = (ClinicalDocument)object;
-	    return true;
+	    return validationIssues;
     }
 	
 	

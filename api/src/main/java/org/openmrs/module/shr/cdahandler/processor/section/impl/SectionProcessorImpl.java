@@ -9,7 +9,9 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.Obs;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 
@@ -47,16 +49,19 @@ public abstract class SectionProcessorImpl implements SectionProcessor {
 	 * Validate that the section can be processed
 	 */
 	@Override
-	public Boolean validate(IGraphable object)
+	public ValidationIssueCollection validate(IGraphable object)
 	{
-		return object instanceof Section;
+		ValidationIssueCollection validationIssues = new ValidationIssueCollection(); 
+		if(!(object instanceof Section))
+			validationIssues.error(String.format("Expected Section got %s", object.getClass()));
+		return validationIssues;
 	}
 
 	/**
 	 * Process the section
 	 */
 	@Override
-	public abstract BaseOpenmrsData process(Section section) throws DocumentParseException;
+	public abstract Obs process(Section section) throws DocumentImportException;
 	
 	
 }

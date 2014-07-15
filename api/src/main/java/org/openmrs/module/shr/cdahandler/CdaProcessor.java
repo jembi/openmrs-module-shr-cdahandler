@@ -13,7 +13,7 @@ import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.ClasspathScannerUtil;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.DocumentProcessorFactory;
@@ -93,9 +93,9 @@ public class CdaProcessor {
 	 * TODO: Is there a mechanism to ensure duplicate concepts/providers/etc. aren't created in the oMRS database, currently
 	 * it is possible to have multiple processes accessing the service at once... Is there any other way to do this in oMRS natively
 	 * (such as doing transactions, etc.)
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Visit processCdaDocument(InputStream doc) throws DocumentParseException {
+	public Visit processCdaDocument(InputStream doc) throws DocumentImportException {
 		
 		// Formatter
 		XmlIts1Formatter formatter = new XmlIts1Formatter();

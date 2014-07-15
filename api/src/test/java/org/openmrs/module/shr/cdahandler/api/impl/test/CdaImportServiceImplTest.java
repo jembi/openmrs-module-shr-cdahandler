@@ -19,7 +19,10 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumHistoryAndPhysicalDocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.openmrs.util.OpenmrsConstants;
 
@@ -46,7 +49,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	/**
 	 * Do the parsing of a CDA
 	 */
-	private void doParseCda(String resourceName)
+	private String doParseCda(String resourceName)
 	{
 		URL validAphpSample = this.getClass().getResource(resourceName);
 		File fileUnderTest = new File(validAphpSample.getFile());
@@ -55,38 +58,47 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		{
 			fs = new FileInputStream(fileUnderTest);
 			Visit parsedVisit = this.m_service.importDocument(fs);
-			
+			assertEquals(parsedVisit, Context.getVisitService().getVisitByUuid(parsedVisit.getUuid()));
+			return parsedVisit.getUuid();
 		}
-		catch(DocumentParseException e)
+		catch(DocumentImportException e)
 		{
 			log.error("Error generated", e);
 			Assert.fail();
+			return null;
 		}
         catch (FileNotFoundException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
 	        Assert.fail();
+	        return null;
         }
 
 	}
 	
 	@Test
 	public void shouldParseValidAphpTest() {
-		this.doParseCda("/validAphpSample.xml");
+		String id = this.doParseCda("/validAphpSample.xml");
+		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+
 	}
 
 	@Test
 	public void shouldParseValidLevel3Test() {
-		this.doParseCda("/validCdaLevel3Sample.xml");
+		String id = this.doParseCda("/validCdaLevel3Sample.xml");
+		assertEquals(new MedicalDocumentsDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+
 	}
 
 	@Test
 	public void shouldParseValidCdaFromOscarTest() {
-		this.doParseCda("/cdaFromOscarEmr.xml");
+		String id = this.doParseCda("/cdaFromOscarEmr.xml");
+		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}
 
 	@Test
 	public void shouldParseValidLevel3Test2() {
-		this.doParseCda("/validCdaLevel3Sample2.xml");
+		String id = this.doParseCda("/validCdaLevel3Sample2.xml");
+		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}
 }

@@ -6,6 +6,7 @@ import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 
@@ -46,9 +47,9 @@ public class VitalSignsObservationEntryProcessor extends SimpleObservationEntryP
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.SimpleObservationEntryProcessor#validate(org.marc.everest.interfaces.IGraphable)
 	 */
 	@Override
-    public Boolean validate(IGraphable object) {
-		Boolean isValid = super.validate(object);
-		if(!isValid) return false;
+    public ValidationIssueCollection validate(IGraphable object) {
+		ValidationIssueCollection validationIssues = super.validate(object);
+		if(validationIssues.hasErrors()) return validationIssues;
 		
 		Observation observation = (Observation)object;
 
@@ -68,10 +69,7 @@ public class VitalSignsObservationEntryProcessor extends SimpleObservationEntryP
 		
 		// Not valid?
 		if(validCode == null)
-		{
-			Log.error("IHE PCC TF-2: Vital Signs code shall be drawn from PCC TF-2:6.3.4.22.3");
-			isValid = false;
-		}
+			validationIssues.error("IHE PCC TF-2: Vital Signs code shall be drawn from PCC TF-2:6.3.4.22.3");
 		// Is a PQ?
 		if(observation.getValue() instanceof PQ)
 		{
@@ -80,18 +78,12 @@ public class VitalSignsObservationEntryProcessor extends SimpleObservationEntryP
 			for(String unit : validCode.getOriginalText().toSt().toString().split("|"))
 				validUnit |= unit.equals(value.getUnit());
 			if(!validUnit)
-			{
-				Log.error(String.format("Allowed units for %s are %s. Supplied unit %s is incompatible", validCode.getDisplayName(), validCode.getOriginalText().toSt(), value.getUnit()));
-				isValid = false;
-			}
+				validationIssues.error(String.format("Allowed units for %s are %s. Supplied unit %s is incompatible", validCode.getDisplayName(), validCode.getOriginalText().toSt(), value.getUnit()));
 		}
 		else
-		{
-			Log.error("IHE PCC TF-2: Vital Signs observation value shall be an instance of PQ");
-			isValid = false;
-		}
+			validationIssues.error("IHE PCC TF-2: Vital Signs observation value shall be an instance of PQ");
 		
-		return isValid;
+		return validationIssues;
     }
 	
 }

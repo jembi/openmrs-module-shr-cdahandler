@@ -13,7 +13,7 @@ import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * Parser utilities for Assigned* classes (like AssignedEntity, AssignedAuthor, etc.)
@@ -72,14 +72,14 @@ public final class AssignedEntityProcessorUtil {
 	 * @param aut The AssignedAuthor to parse
 	 * @return The parsed assigned author
 	 */
-	public Provider processProvider(AssignedAuthor aut) throws DocumentParseException {
+	public Provider processProvider(AssignedAuthor aut) throws DocumentImportException {
 
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		
 		if (aut == null || aut.getNullFlavor() != null)
-			throw new DocumentParseException("AssignedAuthor role is null");
+			throw new DocumentImportException("AssignedAuthor role is null");
 		else if(aut.getId() == null || aut.getId().isNull() || aut.getId().isEmpty())
-			throw new DocumentParseException("No identifiers found for author");
+			throw new DocumentImportException("No identifiers found for author");
 		
 		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
 		// ie. root becomes an attribute and the extension becomes the value
@@ -89,14 +89,14 @@ public final class AssignedEntityProcessorUtil {
 		Provider res = null;
 		
 		if (id.equals(datatypeProcessorUtil.emptyIdString())) 
-			throw new DocumentParseException("No data specified for author id");
+			throw new DocumentImportException("No data specified for author id");
 		else 				
 			res = Context.getProviderService().getProviderByIdentifier(id);
 			
 		if (res==null && this.m_autoCreateProviders)
 			res = this.createProvider(aut, id);
 		else if(res == null && !this.m_autoCreateProviders)
-			throw new DocumentParseException(String.format("Unknown provider %s", id));
+			throw new DocumentImportException(String.format("Unknown provider %s", id));
 		return res;
 	}
 	
@@ -107,7 +107,7 @@ public final class AssignedEntityProcessorUtil {
 	 * @param idExtension The processed extension
 	 * @return
 	 */
-	public Provider createProvider(AssignedAuthor aa, String id) throws DocumentParseException {
+	public Provider createProvider(AssignedAuthor aa, String id) throws DocumentImportException {
 
 		if(!this.m_autoCreateProviders)
 			throw new IllegalStateException("Cannot auto-create providers according to current global properties");
@@ -165,14 +165,14 @@ public final class AssignedEntityProcessorUtil {
 	 * Create a provider from an assigned entity if applicable
 	 * @param assignedEntity The assigned entity class to parse
 	 * @return The OpenMRS provider
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Provider processProvider(AssignedEntity assignedEntity) throws DocumentParseException {
+	public Provider processProvider(AssignedEntity assignedEntity) throws DocumentImportException {
 
 		if (assignedEntity == null || assignedEntity.getNullFlavor() != null)
-			throw new DocumentParseException("AssignedEntity role is null");
+			throw new DocumentImportException("AssignedEntity role is null");
 		else if(assignedEntity.getId() == null || assignedEntity.getId().isNull() || assignedEntity.getId().isEmpty())
-			throw new DocumentParseException("No identifiers found for author");
+			throw new DocumentImportException("No identifiers found for author");
 
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		
@@ -184,7 +184,7 @@ public final class AssignedEntityProcessorUtil {
 		Provider res = null;
 		
 		if (id.equals(datatypeProcessorUtil.emptyIdString())) 
-			throw new DocumentParseException("No data specified for author id");
+			throw new DocumentImportException("No data specified for author id");
 		else 				
 			res = Context.getProviderService().getProviderByIdentifier(id);
 			
@@ -200,10 +200,10 @@ public final class AssignedEntityProcessorUtil {
 	 * @param assignedEntity The assigned entity to be created
 	 * @param id The id to assign to the entity
 	 * @return The OpenMRS provider created
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
 	private Provider createProvider(AssignedEntity assignedEntity,
-			String id) throws DocumentParseException {
+			String id) throws DocumentImportException {
 		
 		if(!this.m_autoCreateProviders) // not supposed to be here
 			throw new IllegalStateException("Cannot auto-create providers according to current global properties");

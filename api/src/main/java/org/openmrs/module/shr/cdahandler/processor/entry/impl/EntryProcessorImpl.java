@@ -7,7 +7,8 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 
@@ -42,16 +43,19 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	 * Validate that the section can be processed
 	 */
 	@Override
-	public Boolean validate(IGraphable object)
+	public ValidationIssueCollection validate(IGraphable object)
 	{
-		return object instanceof ClinicalStatement;
+		ValidationIssueCollection validationIssues = new ValidationIssueCollection();
+		if(!(object instanceof ClinicalStatement))
+			validationIssues.error(String.format("Expected ClinicalStatement got %s", object.getClass()));
+		return validationIssues;
 	}
 
 	/**
 	 * Process the section
 	 */
 	@Override
-	public abstract BaseOpenmrsData process(ClinicalStatement entry) throws DocumentParseException;
+	public abstract BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException;
 
 
 	/**

@@ -15,7 +15,7 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * Represents a series of utility functions interacting with Patientrole
@@ -84,17 +84,17 @@ public final class PatientRoleProcessorUtil {
 	 * Parse OpenMRS patient data from a CDA PatientRole
 	 * @param cd
 	 * @return
-	 * @throws DocumentParseException
+	 * @throws DocumentImportException
 	 * @throws DocumentException 
 	 */
-	public Patient processPatient(PatientRole patient) throws DocumentParseException {
+	public Patient processPatient(PatientRole patient) throws DocumentImportException {
 
 		// Ensure patient is not null and has identifiers
 		Patient res = null;
 		if (patient == null || patient.getNullFlavor() != null)
-			throw new DocumentParseException("Patient role is null");
+			throw new DocumentImportException("Patient role is null");
 		else if(patient.getId() == null || patient.getId().isNull() || patient.getId().isEmpty())
-			throw new DocumentParseException("No patient identifiers found in document");
+			throw new DocumentImportException("No patient identifiers found in document");
 		
 		// Create identifier type or get identifier type
 		PatientIdentifier pid = this.getApplicablePatientIdentifier(patient.getId());
@@ -106,7 +106,7 @@ public final class PatientRoleProcessorUtil {
 			res = matches.get(0);
 		}
 		else 
-			throw new DocumentParseException(String.format("Patient %s not found", pid.getIdentifier()));
+			throw new DocumentImportException(String.format("Patient %s not found", pid.getIdentifier()));
 		
 		return res;
 	}
@@ -116,9 +116,9 @@ public final class PatientRoleProcessorUtil {
 	 * Based heavily on code from SurangaK
 	 * @param patientIds Identifiers to scan for a useful ID type
 	 * @return The PatientIdentifierType of the first found match in ids or a new PatientIdentifierType based on the first entry
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	private PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentParseException {
+	private PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentImportException {
 		
 		// There may be multiple identifiers here, need to figure out a way to weed out the ones we're not interested in
 		PatientIdentifierType pit = null;
@@ -141,7 +141,7 @@ public final class PatientRoleProcessorUtil {
 			Context.getPatientService().savePatientIdentifierType(pit);
 		}
 		else if(pit == null && !this.m_autoCreatePatientIdType)
-			throw new DocumentParseException(String.format("Could not find a known patient identifier type"));
+			throw new DocumentImportException(String.format("Could not find a known patient identifier type"));
 		return new PatientIdentifier(
 				candidateId.getExtension(), 
 				pit, 
@@ -154,7 +154,7 @@ public final class PatientRoleProcessorUtil {
 	 * @param id The identifier to use for the patient
 	 * @return
 	 */
-	public Patient createPatient(PatientRole importPatient, PatientIdentifier id) throws DocumentParseException {
+	public Patient createPatient(PatientRole importPatient, PatientIdentifier id) throws DocumentImportException {
 		
 		if(!this.m_autoCreatePatients) // not supposed to be here
 			throw new IllegalStateException("Cannot auto-create patients according to current global properties");
@@ -185,10 +185,10 @@ public final class PatientRoleProcessorUtil {
 			if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
 				res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
 			else
-				throw new DocumentParseException("Patient missing birthdate");
+				throw new DocumentImportException("Patient missing birthdate");
 		}
 		else
-			throw new DocumentParseException("Missing patient demographics information"); 
+			throw new DocumentImportException("Missing patient demographics information"); 
 		
 		// Address
 		if(importPatient.getAddr() != null)

@@ -29,7 +29,7 @@ import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.obs.ComplexData;
 
 import ca.uhn.hl7v2.model.DataTypeUtil;
@@ -90,10 +90,10 @@ public class OpenmrsDataUtil {
 	
 	/**
 	 * Creates a simple observation representing an RMIM type with type and value 
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 * @throws ParseException 
 	 */
-	public Obs getRmimValueObservation(String code, TS date, ANY value) throws DocumentParseException {
+	public Obs getRmimValueObservation(String code, TS date, ANY value) throws DocumentImportException {
 
 		OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
 		Obs res = new Obs();
@@ -101,7 +101,7 @@ public class OpenmrsDataUtil {
 		// Set concept
 		Concept concept = conceptUtil.getOrCreateRMIMConcept(code, value);
 		if(!concept.getDatatype().equals(conceptUtil.getConceptDatatype(value)))
-			throw new DocumentParseException("Cannot store the specified type of data in the concept field");
+			throw new DocumentImportException("Cannot store the specified type of data in the concept field");
 		
 		// Set date
 		res.setObsDatetime(date.getDateValue().getTime());
@@ -113,7 +113,7 @@ public class OpenmrsDataUtil {
 		}
 		catch(ParseException e)
 		{
-			throw new DocumentParseException("Could not set value", e);
+			throw new DocumentImportException("Could not set value", e);
 		}
 		
 		// return back to the caller for further modification
@@ -123,9 +123,9 @@ public class OpenmrsDataUtil {
 	/**
 	 * Set the observation value using an appropriate call
 	 * @throws ParseException 
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Obs setObsValue(Obs observation, ANY value) throws ParseException, DocumentParseException
+	public Obs setObsValue(Obs observation, ANY value) throws ParseException, DocumentImportException
 	{
 		// TODO: PQ should technically be a numeric with unit ... hmm...
 		if(value instanceof PQ)
@@ -173,7 +173,7 @@ public class OpenmrsDataUtil {
 				Context.getConceptService().saveConcept(observation.getConcept());
 			}
 			else if(answer == null)
-				throw new DocumentParseException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", datatypeUtil.formatCodeValue((CV<?>)value), observation.getConcept().getName()));
+				throw new DocumentImportException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", datatypeUtil.formatCodeValue((CV<?>)value), observation.getConcept().getName()));
 			// Set the value
 			observation.setValueCoded(concept);
 				

@@ -20,7 +20,7 @@ import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * Utilities for OpenMRS MetaData creation/lookup
@@ -96,10 +96,10 @@ public class OpenmrsMetadataUtil {
 	 * Get an EncounterRole from the RoleCode
 	 * @param cs The ActParticipation value on the role
 	 * @return The OpenMRS EncounterRole
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
 	@SuppressWarnings("deprecation")
-	public EncounterRole getOrCreateEncounterRole(CS<? extends IEnumeratedVocabulary> cs) throws DocumentParseException {
+	public EncounterRole getOrCreateEncounterRole(CS<? extends IEnumeratedVocabulary> cs) throws DocumentImportException {
 		
 		//Delicious encounter rolls just like Suranga used to make
 		//https://github.com/jembi/rhea-shr-adapter/blob/3e25fa0cd276327ca83127283213b6658af9e9ef/api/src/main/java/org/openmrs/module/rheashradapter/util/RHEA_ORU_R01Handler.java#L422
@@ -119,7 +119,7 @@ public class OpenmrsMetadataUtil {
 			encounterRole = Context.getEncounterService().saveEncounterRole(encounterRole);
 		} 
 		else if(encounterRole == null && !this.m_autoCreateMetadata)
-			throw new DocumentParseException(String.format("Encounter role %s is unknown", cs.getCode()));
+			throw new DocumentImportException(String.format("Encounter role %s is unknown", cs.getCode()));
 		
 		return encounterRole;
 	}
@@ -128,9 +128,9 @@ public class OpenmrsMetadataUtil {
 	 * Get the encounter type
 	 * @param code The code representing the type (class) of section
 	 * @return The encounter type
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public EncounterType getOrCreateEncounterType(CE<String> code) throws DocumentParseException {
+	public EncounterType getOrCreateEncounterType(CE<String> code) throws DocumentImportException {
 
 		// Get the codekey and code display
 		String codeKey = DatatypeProcessorUtil.getInstance().formatCodeValue(code);
@@ -150,7 +150,7 @@ public class OpenmrsMetadataUtil {
 			encounterType = Context.getEncounterService().saveEncounterType(encounterType);
 		} 
 		else if(encounterType == null && !this.m_autoCreateMetadata)
-			throw new DocumentParseException(String.format("Encounter type %s is unknown", code.getCode()));
+			throw new DocumentImportException(String.format("Encounter type %s is unknown", code.getCode()));
 		
 		return encounterType;
 	}
@@ -158,9 +158,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the location's external id attribute type
 	 * @return The attribute type representing location external id
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public LocationAttributeType getOrCreateLocationExternalIdAttributeType() throws DocumentParseException
+	public LocationAttributeType getOrCreateLocationExternalIdAttributeType() throws DocumentImportException
 	{
 		LocationAttributeType res = this.getAttributeType(this.getLocalizedString("externalId"), LocationAttributeType.class);
 		if(res == null)
@@ -176,9 +176,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the telecommunications address location attribute type
 	 * @return The attribute type representing location's telecommunications address
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public LocationAttributeType getOrCreateLocationTelecomAttribute() throws DocumentParseException
+	public LocationAttributeType getOrCreateLocationTelecomAttribute() throws DocumentImportException
 	{
 		LocationAttributeType res = this.getAttributeType(this.getLocalizedString("telecom"), LocationAttributeType.class);
 		if(res == null)
@@ -194,9 +194,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the telecommunications address provider type
 	 * @return The attribute type representing provider's telecommunications address
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public ProviderAttributeType getOrCreateProviderTelecomAttribute() throws DocumentParseException
+	public ProviderAttributeType getOrCreateProviderTelecomAttribute() throws DocumentImportException
 	{
 		ProviderAttributeType res = this.getAttributeType(this.getLocalizedString("telecom"), ProviderAttributeType.class);
 		if(res == null)
@@ -212,9 +212,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the telecommunications address provider type
 	 * @return The attribute type representing provider's telecommunications address
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public ProviderAttributeType getOrCreateProviderOrganizationAttribute() throws DocumentParseException
+	public ProviderAttributeType getOrCreateProviderOrganizationAttribute() throws DocumentImportException
 	{
 		ProviderAttributeType res = this.getAttributeType(this.getLocalizedString("organization"), ProviderAttributeType.class);
 		if(res == null)
@@ -230,9 +230,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the external id (provenance, origin information) of visit information attribute type
 	 * @return The attribute type representing visit external id
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public VisitAttributeType getOrCreateVisitExternalIdAttributeType() throws DocumentParseException
+	public VisitAttributeType getOrCreateVisitExternalIdAttributeType() throws DocumentImportException
 	{
 		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("externalId"), VisitAttributeType.class);
 		if(res == null)
@@ -248,9 +248,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the original document
 	 * @return The attribute type representing visit original copy
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public VisitAttributeType getOrCreateVisitOriginalCopyAttributeType() throws DocumentParseException
+	public VisitAttributeType getOrCreateVisitOriginalCopyAttributeType() throws DocumentImportException
 	{
 		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("original"), VisitAttributeType.class);
 		if(res == null)
@@ -266,9 +266,9 @@ public class OpenmrsMetadataUtil {
 	/**
 	 * Get the confidentiality code
 	 * @return The attribute type representing the confidentiality code
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public VisitAttributeType getOrCreateVisitConfidentialityCodeAttributeType() throws DocumentParseException
+	public VisitAttributeType getOrCreateVisitConfidentialityCodeAttributeType() throws DocumentImportException
 	{
 		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("confidentiality"), VisitAttributeType.class);
 		if(res == null)
@@ -358,9 +358,9 @@ public class OpenmrsMetadataUtil {
 	 * Gets the visit type specified, if none exists, creates it
 	 * @param visitTypeName The name of the visit type to get or create
 	 * @return The visit type
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public VisitType getVisitType(String visitTypeName) throws DocumentParseException {
+	public VisitType getVisitType(String visitTypeName) throws DocumentImportException {
 		VisitType visitType = null;
 		for(VisitType type : Context.getVisitService().getAllVisitTypes())
 			if(type.getName().equals(visitTypeName))
@@ -374,7 +374,7 @@ public class OpenmrsMetadataUtil {
 			visitType = Context.getVisitService().saveVisitType(visitType);
 		}
 		else if(visitType == null && !this.m_autoCreateMetadata)
-			throw new DocumentParseException(String.format("Cannot find specified visit type %s", visitTypeName));
+			throw new DocumentImportException(String.format("Cannot find specified visit type %s", visitTypeName));
 		return visitType;
 	}
 

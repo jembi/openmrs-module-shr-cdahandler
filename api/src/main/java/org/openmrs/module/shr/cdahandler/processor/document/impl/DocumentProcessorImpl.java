@@ -35,7 +35,9 @@ import org.openmrs.Provider;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.DocumentProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
@@ -89,36 +91,38 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	 * This implementation will parse the header elements into a visit
 	 */
 	@Override
-	public Visit process(ClinicalDocument doc) throws DocumentParseException
+	public Visit process(ClinicalDocument doc) throws DocumentImportException
 	{
 		// Perform any additional validation over and above the regular validation
-		if(!this.validate(doc))
-			throw new DocumentParseException("This document is not valid according to its template");
+		ValidationIssueCollection validationIssues = this.validate(doc);
+		if(validationIssues.hasErrors())
+			throw new DocumentValidationException("This document is not valid according to its template", validationIssues);
 				
-		DocumentProcessorContext parserContext = this.processHeader(doc);
-		Visit visitInformation = parserContext.getParsedVisit();
-
+		Visit visitInformation = this.processHeader(doc);
+		
 		// Encounters - This may be a level 1 document so we better check
 		if(doc.getComponent().getBodyChoiceIfNonXMLBody() != null)
-			visitInformation = this.processContent(doc.getComponent().getBodyChoiceIfNonXMLBody(), parserContext);
+			visitInformation = this.processLevel1Content(doc, visitInformation);
 		else // level 2 , just hand-off to a StructuredBodyDocumentProcessor
-			visitInformation = this.processContent(doc.getComponent().getBodyChoiceIfStructuredBody(), parserContext);
+			visitInformation = this.processLevel2Content(doc, visitInformation);
 
-		Context.getVisitService().saveVisit(visitInformation);
 		return visitInformation;
 	}
 
 	/**
 	 * Parse structured body content
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	private Visit processContent(StructuredBody structuredBody, DocumentProcessorContext parserContext) throws DocumentParseException {
+	private Visit processLevel2Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
 
-		Visit visitInformation = parserContext.getParsedVisit();
+		StructuredBody structuredBody = doc.getComponent().getBodyChoiceIfStructuredBody();
 		SectionProcessorFactory factory = SectionProcessorFactory.getInstance();
-
 		Encounter visitEncounter = visitInformation.getEncounters().iterator().next();
-		ProcessorContext childContext = new ProcessorContext(structuredBody, visitEncounter, this, parserContext);
+
+		// Add visit to context
+		DocumentProcessorContext rootContext = new DocumentProcessorContext(doc, visitInformation, this);
+		// Add encounter to context
+		ProcessorContext childContext = new ProcessorContext(structuredBody, visitEncounter, this, rootContext);
 		
 		// Iterate through sections saving them
 		for(Component3 comp : structuredBody.getComponent())
@@ -136,15 +140,10 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			// TODO: Now process section
 			SectionProcessor processor = factory.createProcessor(section);
 			processor.setContext(childContext);
-			
-			BaseOpenmrsData data = processor.process(section);
-			if(data instanceof Obs)
-				visitEncounter.addObs((Obs)data);
+			processor.process(section);
 			
 		}
 		
-		// Update encounter
-		Context.getEncounterService().saveEncounter(visitEncounter);
 		return visitInformation;
     }
 
@@ -153,11 +152,13 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	 * Auto generated method comment
 	 * 
 	 * @param bodyChoiceIfNonXMLBody
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	private Visit processContent(NonXMLBody bodyChoiceIfNonXMLBody, DocumentProcessorContext currentContext) throws DocumentParseException {
+	private Visit processLevel1Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
 		
-		Visit visitInformation = currentContext.getParsedVisit();
+
+		// Get the body
+		NonXMLBody bodyChoiceIfNonXMLBody = doc.getComponent().getBodyChoiceIfNonXMLBody();
 		
 		OpenmrsMetadataUtil openmrsMetaData = OpenmrsMetadataUtil.getInstance();
 		OpenmrsConceptUtil openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
@@ -168,7 +169,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		// Process contents
 		Obs binaryContentObs = new Obs();
 		binaryContentObs.setConcept(openmrsConceptUtil.getOrCreateRMIMConcept(openmrsMetaData.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
-		binaryContentObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(((ClinicalDocument)currentContext.getRawObject()).getId()));
+		binaryContentObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(doc.getId()));
 		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
 		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());
 		binaryContentObs.setLocation(visitInformation.getLocation());
@@ -179,7 +180,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 
 		// Set the binary content
 		ByteArrayInputStream textStream = new ByteArrayInputStream(bodyChoiceIfNonXMLBody.getText().getData());
-		ComplexData complexData = new ComplexData("level1payload", textStream);
+		ComplexData complexData = new ComplexData(doc.getTitle().toString(), textStream);
 		binaryContentObs.setComplexData(complexData);
 		binaryContentEncounter.addObs(binaryContentObs);
 		
@@ -195,7 +196,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	 * @return The parser context which resulted in the document being parsed.
 	 * @throws DocumentException 
 	 */
-	protected DocumentProcessorContext processHeader(ClinicalDocument doc) throws DocumentParseException
+	protected Visit processHeader(ClinicalDocument doc) throws DocumentImportException
 	{
 		// Don't parse null elements
 		if(doc == null || doc.getNullFlavor() != null)
@@ -212,7 +213,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		LocationOrganizationProcessorUtil locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
 		
 		// Create a context for this parse operation
-		DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
+		//DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
 
 		// Create an encounter for the of the document
 		Encounter visitEncounter = new Encounter();
@@ -221,7 +222,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		// Parse the header
 		if(doc.getRecordTarget().size() != 1)
-			throw new DocumentParseException("Can only handle documents with exactly one patient");
+			throw new DocumentImportException("Can only handle documents with exactly one patient");
 		visitInformation.setPatient(patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole()));
 
 		// TODO: Document code
@@ -339,14 +340,6 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			visitInformation.addAttribute(provenance);
 		}
 
-		// Add attributes to the visit encounter
-		visitEncounter.setPatient(visitInformation.getPatient());
-		visitEncounter.setVisit(visitInformation);
-		visitEncounter.setDateCreated(visitInformation.getDateCreated());
-		visitEncounter.setLocation(visitInformation.getLocation());
-		visitEncounter.setEncounterDatetime(visitInformation.getStartDatetime());
-		visitEncounter.setDateCreated(visitInformation.getDateCreated());
-		
 		// Type of visit
 		String visitTypeName = this.getTemplateName();
 		if(visitTypeName == null)
@@ -360,19 +353,25 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			else
 				visitTypeName = "UNKNOWN";
 		}
-		
-		visitEncounter.setEncounterType(openmrsMetadataUtil.getOrCreateEncounterType(doc.getCode()));
 		visitInformation.setVisitType(openmrsMetadataUtil.getVisitType(visitTypeName));
+
+		// Add attributes to the visit encounter
+		visitEncounter.setPatient(visitInformation.getPatient());
+		visitEncounter.setVisit(visitInformation);
+		visitEncounter.setDateCreated(visitInformation.getDateCreated());
+		visitEncounter.setLocation(visitInformation.getLocation());
+		visitEncounter.setEncounterDatetime(visitInformation.getStartDatetime());
+		visitEncounter.setDateCreated(visitInformation.getDateCreated());
+		visitEncounter.setEncounterType(openmrsMetadataUtil.getOrCreateEncounterType(doc.getCode()));
+		visitEncounter = Context.getEncounterService().saveEncounter(visitEncounter);
 		
-		// Set encounter
+		// Add encounters
 		Set<Encounter> encounters = new HashSet<Encounter>();
 		encounters.add(visitEncounter);
 		visitInformation.setEncounters(encounters);
-
-		// Save encounter
-		visitEncounter = Context.getEncounterService().saveEncounter(visitEncounter);
+		visitInformation = Context.getVisitService().saveVisit(visitInformation);
 		
-		return parseContext;
+		return visitInformation;
 	}
 	
 	/**
@@ -380,9 +379,12 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	 * @param doc The clinical document to be validated
 	 * @return True if the parsing of the clinical document should continue
 	 */
-	public Boolean validate(IGraphable object)
+	public ValidationIssueCollection validate(IGraphable object)
 	{
-		return object instanceof ClinicalDocument;
+		ValidationIssueCollection validationMessages = new ValidationIssueCollection();
+		
+		if(!(object instanceof ClinicalDocument))
+			validationMessages.error(String.format("Expected ClinicalDocument, got %s", object.getClass()));
+		return validationMessages;
 	}
-
 }

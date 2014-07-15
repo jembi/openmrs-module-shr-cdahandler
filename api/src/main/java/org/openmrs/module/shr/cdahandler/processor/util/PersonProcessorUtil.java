@@ -5,7 +5,7 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * Parsing utilities for Person objects
@@ -64,10 +64,10 @@ public final class PersonProcessorUtil {
 	 * @return The parsed OpenMRS person
 	 */
 	public Person createPerson(
-			org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Person person) throws DocumentParseException {
+			org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Person person) throws DocumentImportException {
 		
 		if(person == null || person.getNullFlavor() != null)
-			throw new DocumentParseException("Cannot parse a null person relationship");
+			throw new DocumentImportException("Cannot parse a null person relationship");
 		else if(!this.m_autoCreatePersons)
 			throw new IllegalStateException("Cannot auto-create persons according to current global properties");
 		

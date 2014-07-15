@@ -16,7 +16,9 @@ import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
 import org.openmrs.Provider;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.DocumentProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
@@ -35,25 +37,16 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	 * Process the section
 	 */
 	@Override
-	public BaseOpenmrsData process(Section section) throws DocumentParseException {
+	public Obs process(Section section) throws DocumentImportException {
 
 		// Validate the section
-		if (!this.validate(section))
-			throw new DocumentParseException("Cannot process an invalid section!");
+		ValidationIssueCollection validationIssues = this.validate(section);
+		if (validationIssues.hasErrors())
+			throw new DocumentValidationException("Cannot process an invalid section!", validationIssues);
 
-		BaseOpenmrsData res = null;
-		
-		// This is a root section? If yes we save as an encounter
-		if(this.getContext().getRawObject() instanceof ClinicalDocument)
-		{
-			Encounter encounterInfo = this.parseSectionElementsAsEncounter(section);
-			res = Context.getEncounterService().saveEncounter(encounterInfo);
-		}
-		else // This is a subsection .. Hmm... We need to save this as a 
-		{
-			Obs sectionObs = this.parseSectionElementsAsObs(section);
-			res = Context.getObsService().saveObs(sectionObs, null);
-		}
+		Obs res = this.parseSectionElements(section);
+		res = Context.getObsService().saveObs(res, null);
+
 		return res;
 	}
 	
@@ -64,9 +57,13 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	 * @param section The section whose elements should be parsed
 	 * @return The parsed obs
 	 */
-	protected Obs parseSectionElementsAsObs(Section section) throws DocumentParseException {
+	protected Obs parseSectionElements(Section section) throws DocumentImportException {
 
 		Obs obsGrouper = new Obs();
+		
+		// Is a sub-section? If so assign the obs to the group above
+		if(this.getContext().getParsedObject() instanceof Obs)
+			obsGrouper.setObsGroup((Obs)this.getContext().getParsedObject());
 		
 		// Get the processor utils
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
@@ -123,120 +120,20 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	}
 
 	/**
-	 * Parses the section elements into an encounter (this is done when we're at the root (visit) stage)
-	 * 
-	 * @param section The section from which section elements should be parsed
-	 * @return The constructed processor context
-	 */
-	protected Encounter parseSectionElementsAsEncounter(Section section) throws DocumentParseException {
-		
-		Encounter encounterInfo = new Encounter();
-		
-	
-		// Get the processor utils
-		OpenmrsMetadataUtil openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
-		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
-
-		// Process encounter type
-		if (section.getCode() != null && !section.getCode().isNull())
-			encounterInfo.setEncounterType(openmrsMetadataUtil.getOrCreateEncounterType(section.getCode()));
-		
-		// TODO: Context conduction rules, do we care for CDA?
-		// Current implementation does not really care
-		DocumentProcessorContext rootContext = (DocumentProcessorContext)this.getContext().getRootContext();
-		
-		// If there are no observations we must do this as level2 authors are indistinguishable from one another
-		// however level3 is based on the author relationship in their entry
-		this.addAuthors(section, encounterInfo);
-		
-		// Patient from visit
-		encounterInfo.setPatient(rootContext.getParsedVisit().getPatient());
-		// Add visit
-		encounterInfo.setVisit(rootContext.getParsedVisit());
-		encounterInfo.setLocation(rootContext.getParsedVisit().getLocation());
-		
-		// Created on...
-		encounterInfo.setDateCreated(rootContext.getParsedVisit().getDateCreated());
-		encounterInfo.setDateChanged(rootContext.getParsedVisit().getDateCreated());
-		
-		// If we have a visit start time this would represent the encounter time as well
-		if (rootContext.getParsedVisit().getStartDatetime() != null)
-			encounterInfo.setEncounterDatetime(rootContext.getParsedVisit().getStartDatetime());
-		
-		// TODO: ID of section
-		
-		// TODO: Add a note for text .. This is currently an obs because notes are to the patient not the encounter   
-		// This could be an obs attached to the encounter (would make more sense)
-		if (section.getText() != null && section.getText().getContent().size() > 0) {
-			
-			Obs noteObs = this.parseSectionText(section.getText(), encounterInfo);
-			noteObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(section.getId()));
-			encounterInfo.addObs(noteObs);
-			
-		}
-		
-		return encounterInfo;
-	}
-	
-	/**
-	 * Add applicable authors to this document
-	 * @throws DocumentParseException 
-	 */
-	protected void addAuthors(Section section, Encounter encounterInfo) throws DocumentParseException {
-
-		DocumentProcessorContext rootContext = (DocumentProcessorContext) this.getContext().getRootContext();
-		for (Entry<EncounterRole, Set<Provider>> entry : rootContext.getProviders().entrySet())
-			for (Provider pvdr : entry.getValue())
-				encounterInfo.addProvider(entry.getKey(), pvdr);
-	    
-    }
-
-	/**
-	 * Parse section text into an observation
-	 * @throws DocumentParseException 
-	 */
-	protected Obs parseSectionText(SD text, Encounter encounterInfo) throws DocumentParseException {
-
-		OpenmrsMetadataUtil openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
-		OpenmrsConceptUtil openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
-
-		Obs noteObs = new Obs();
-		
-		noteObs.setConcept(openmrsConceptUtil.getOrCreateRMIMConcept(
-			openmrsMetadataUtil.getLocalizedString("obs.section.text"), text));
-		noteObs.setDateCreated(encounterInfo.getDateCreated());
-		noteObs.setLocation(encounterInfo.getLocation());
-		noteObs.setVoided(false);
-		noteObs.setPerson(encounterInfo.getPatient());
-		noteObs.setEncounter(encounterInfo);
-		noteObs.setObsDatetime(encounterInfo.getEncounterDatetime());
-		
-		// HACK: Remove xmlns as the StructDoc.Text nodes are really just HTML
-		String sectionText = text.toString().replaceAll("xmlns\\=\".*\"", "");
-		ByteArrayInputStream textStream = new ByteArrayInputStream(sectionText.getBytes());
-		ComplexData complexData = new ComplexData("summary.htm", textStream);
-		noteObs.setComplexData(complexData);
-
-		return noteObs;
-    }
-
-	/**
 	 * Validate this section processor can perform the necessary function
 	 */
 	@Override
-	public Boolean validate(IGraphable object) {
+	public ValidationIssueCollection validate(IGraphable object) {
 		// TODO Auto-generated method stub
-		Boolean isValid = super.validate(object);
-		if (!isValid)
-			return isValid;
+		ValidationIssueCollection validationIssues = super.validate(object);
+		if (validationIssues.hasErrors())
+			return validationIssues;
 		
 		Section section = (Section) object;
 		// CONF-HP-69 A section element shall have a code
-		if (section.getCode() == null || section.getCode().isNull()) {
-			log.warn(String
+		if (section.getCode() == null || section.getCode().isNull()) 
+			validationIssues.warn(String
 			        .format("CONF-HP-69 : Section element SHALL have a code element @ %s", section.getId().toString()));
-			isValid = false;
-		}
 		else
 		{
 		
@@ -247,10 +144,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		    		(section.getCode() == null || 
 		    		section.getCode().isNull() ||
 		    		!section.getCode().semanticEquals(expectedCode).toBoolean()))
-			{
-				log.error(String.format("Template %s must carry code of %s in code system %s", this.getTemplateName(), expectedCode.getCode(), expectedCode.getCodeSystem()));
-				isValid = false;
-			}
+		    	validationIssues.error(String.format("Template %s must carry code of %s in code system %s", this.getTemplateName(), expectedCode.getCode(), expectedCode.getCodeSystem()));
 			else if(expectedCode != null && section.getCode().getDisplayName() == null)
 				section.getCode().setDisplayName(expectedCode.getDisplayName());
 	    	
@@ -269,7 +163,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 			isValid = false;
 		}*/
 		
-		return isValid;
+		return validationIssues;
 	}
 
 	/**

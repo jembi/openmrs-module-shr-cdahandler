@@ -15,7 +15,7 @@ import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * A class containing utilities for parsing v3 datatypes
@@ -153,10 +153,10 @@ public final class DatatypeProcessorUtil {
 	 * Parse an HL7v3 AD into an OpenMRS PersonAddress
 	 * @param ad The HL7v3 AD to parse
 	 * @return The parsed Address
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
 	@SuppressWarnings("incomplete-switch")
-	public PersonAddress parseAD(AD ad) throws DocumentParseException {
+	public PersonAddress parseAD(AD ad) throws DocumentImportException {
 		PersonAddress address = new PersonAddress();
 		// Iterate through parts
 		for(ADXP part : ad.getPart())
@@ -206,7 +206,7 @@ public final class DatatypeProcessorUtil {
 				address.setEndDate(useablePeriod.getHigh().getDateValue().getTime());
 		}
 		else if(ad.getUseablePeriod() != null)
-			throw new DocumentParseException("Complex GTS instances are not supported for usablePeriod. Please use GTS with IVL");
+			throw new DocumentImportException("Complex GTS instances are not supported for usablePeriod. Please use GTS with IVL");
 		return address;
 	}
 

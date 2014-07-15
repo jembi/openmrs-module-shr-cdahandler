@@ -15,7 +15,7 @@ import org.marc.everest.datatypes.generic.CE;
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
@@ -79,7 +79,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 			assertEquals(1, matches.size());
 	        assertEquals(this.m_weightConcept, matches.get(0) );
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
 	        fail();
@@ -95,7 +95,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 		try {
 	        assertEquals(this.m_weightConcept, this.m_conceptUtil.getConcept(m_loincWeightTerm));
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        log.error(e);
         }
 	}
@@ -128,7 +128,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	        assertEquals(this.m_loincSource, createdConcept.getConceptMappings().iterator().next().getConceptReferenceTerm().getConceptSource());
 	        assertEquals("VITAL SIGNS", createdConcept.getPreferredName(Context.getLocale()).getName());
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
         }
@@ -149,7 +149,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	        assertEquals("BODY HEIGHT (MEASURED) (cm)", createdConcept.getPreferredName(Context.getLocale()).getName());
 	        assertEquals("cm", ((ConceptNumeric)createdConcept).getUnits());
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
         }
@@ -164,7 +164,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	        Concept concept = this.m_conceptUtil.getTypeSpecificConcept(this.m_loincWeightTerm, new PQ(BigDecimal.ONE, "kg"));
 	        assertEquals(concept, this.m_weightConcept);
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
         }
@@ -180,7 +180,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	        assertNull(concept);
 
         }
-        catch (DocumentParseException e) {
+        catch (DocumentImportException e) {
 	        // TODO Auto-generated catch block
 	        log.error("Error generated", e);
         }

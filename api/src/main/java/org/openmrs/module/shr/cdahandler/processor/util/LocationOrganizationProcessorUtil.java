@@ -16,7 +16,7 @@ import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
  * A class which processes organization/location information 
@@ -79,24 +79,24 @@ public final class LocationOrganizationProcessorUtil {
 	 * 
 	 * @param representedCustodianOrganization The HL7v3 organization RMIM instance
 	 * @return The parsed location
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	public Location processOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentParseException {
+	public Location processOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentImportException {
 		
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		OpenmrsMetadataUtil metaDataUtil = OpenmrsMetadataUtil.getInstance();
 		
 		if (representedCustodianOrganization == null || representedCustodianOrganization.getNullFlavor() != null)
-			throw new DocumentParseException("CustodianOrganization role is null");
+			throw new DocumentImportException("CustodianOrganization role is null");
 		else if(representedCustodianOrganization.getId() == null || representedCustodianOrganization.getId().isNull() || representedCustodianOrganization.getId().isEmpty())
-			throw new DocumentParseException("No identifiers found for organization");
+			throw new DocumentImportException("No identifiers found for organization");
 		
 		String id = datatypeProcessorUtil.formatIdentifier(representedCustodianOrganization.getId().get(0));
 		
 		Location res = null;
 		
 		if (id.equals(datatypeProcessorUtil.emptyIdString())) 
-			throw new DocumentParseException("No data specified for location id");
+			throw new DocumentImportException("No data specified for location id");
 		else
 		{
 			// TODO: This is an organization not a location so we need to get all locations belonging to the organization
@@ -116,7 +116,7 @@ public final class LocationOrganizationProcessorUtil {
 		if (res==null && this.m_autoCreateLocations)
 			res = this.createLocation(representedCustodianOrganization, id);
 		else if(res == null && !this.m_autoCreateLocations)
-			throw new DocumentParseException(String.format("Unknown location %s", id));
+			throw new DocumentImportException(String.format("Unknown location %s", id));
 		return res;
     }
 
@@ -126,12 +126,12 @@ public final class LocationOrganizationProcessorUtil {
 	 * @param representedCustodianOrganization The HL7v3 RMIM representing the location / organization
 	 * @param id The assigned identifier for the location
 	 * @return The constructed location
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
 	// HACK: This should probably be it's own entity in the OpenMRS datastore as in the documentation it states
 	// 		 that organizations could be tags on a location, however this is slightly different than the purpose
 	//		 of the organization.
-	private Location createLocation(CustodianOrganization organization, String id) throws DocumentParseException {
+	private Location createLocation(CustodianOrganization organization, String id) throws DocumentImportException {
 		
 		if(!this.m_autoCreateLocations)
 			throw new IllegalStateException("Cannot create locations according to global properties");
@@ -177,9 +177,9 @@ public final class LocationOrganizationProcessorUtil {
 
 	/**
 	 * Copy address parts from an AD into the specified location
-	 * @throws DocumentParseException 
+	 * @throws DocumentImportException 
 	 */
-	private void parserAddressParts(AD addr, Location target) throws DocumentParseException {
+	private void parserAddressParts(AD addr, Location target) throws DocumentImportException {
 		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
 
 		// Create a person address and then copy
