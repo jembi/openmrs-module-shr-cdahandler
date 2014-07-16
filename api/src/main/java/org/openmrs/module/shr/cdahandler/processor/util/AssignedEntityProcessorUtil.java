@@ -1,18 +1,19 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.jfree.util.Log;
 import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedAuthor;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedEntity;
 import org.openmrs.GlobalProperty;
+import org.openmrs.Location;
 import org.openmrs.Person;
+import org.openmrs.PersonAttribute;
 import org.openmrs.Provider;
 import org.openmrs.ProviderAttribute;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -42,11 +43,11 @@ public final class AssignedEntityProcessorUtil {
 	 */
 	private void initializeInstance()
 	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PROVIDERS);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PROVIDERS);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_autoCreateProviders = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PROVIDERS, this.m_autoCreateProviders.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PROVIDERS, this.m_autoCreateProviders.toString()));
 	}
 	
 	/**
@@ -111,54 +112,17 @@ public final class AssignedEntityProcessorUtil {
 
 		if(!this.m_autoCreateProviders)
 			throw new IllegalStateException("Cannot auto-create providers according to current global properties");
+
+		// Create provider
+		return this.createProvider(new AssignedEntity(
+			aa.getId(),
+			aa.getCode(),
+			aa.getAddr(),
+			aa.getTelecom(),
+			aa.getAssignedAuthorChoiceIfAssignedPerson(),
+			aa.getRepresentedOrganization()
+			), id);
 		
-		// Get the processor util
-		PersonProcessorUtil personProcessorUtil = PersonProcessorUtil.getInstance();
-		OpenmrsMetadataUtil metadataUtil = OpenmrsMetadataUtil.getInstance();
-		
-		Provider res = new Provider();
-		
-		res.setIdentifier(id);
-		if(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice() != null)
-			throw new NotImplementedException("OpenSHR doesn't support storing of AuthoringDevices .. yet");
-		else
-			res.setPerson(personProcessorUtil.createPerson(aa.getAssignedAuthorChoiceIfAssignedPerson()));
-		
-		
-		// Address
-		if(aa.getAddr() != null && !aa.getAddr().isNull())
-		{
-			if(res.getPerson() == null)
-				res.setPerson(new Person());
-			for(AD ad : aa.getAddr())
-				if(!ad.isNull())
-					res.getPerson().addAddress(DatatypeProcessorUtil.getInstance().parseAD(ad));
-		}
-				
-		// Telecom?
-		if(aa.getTelecom() != null)
-			for(TEL tel : aa.getTelecom())
-			{
-				if(tel == null || tel.isNull()) continue;
-				
-				ProviderAttribute telecomAttribute = new ProviderAttribute();
-				telecomAttribute.setAttributeType(metadataUtil.getOrCreateProviderTelecomAttribute());
-				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
-				res.addAttribute(telecomAttribute);
-			}
-		
-		// Organization
-		// TODO: This could be assigned to person attribute type of location
-		if(aa.getRepresentedOrganization() != null && aa.getRepresentedOrganization().getNullFlavor() == null)
-		{
-			ProviderAttribute organizationAttribute = new ProviderAttribute();
-			organizationAttribute.setAttributeType(metadataUtil.getOrCreateProviderOrganizationAttribute());
-			organizationAttribute.setValueReferenceInternal(aa.getRepresentedOrganization().getName().toString());
-			res.addAttribute(organizationAttribute);
-		}
-		
-		res = Context.getProviderService().saveProvider(res);
-		return res;
 	}
 
 	/**
@@ -228,26 +192,32 @@ public final class AssignedEntityProcessorUtil {
 					res.getPerson().addAddress(DatatypeProcessorUtil.getInstance().parseAD(ad));
 		}
 				
+
 		// Telecom?
 		if(assignedEntity.getTelecom() != null)
 			for(TEL tel : assignedEntity.getTelecom())
 			{
 				if(tel == null || tel.isNull()) continue;
 				
-				ProviderAttribute telecomAttribute = new ProviderAttribute();
-				telecomAttribute.setAttributeType(metadataUtil.getOrCreateProviderTelecomAttribute());
-				telecomAttribute.setValueReferenceInternal(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
-				res.addAttribute(telecomAttribute);
+				PersonAttribute telecomAttribute = new PersonAttribute();
+				telecomAttribute.setAttributeType(metadataUtil.getOrCreatePersonTelecomAttribute());
+				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				telecomAttribute.setPerson(res.getPerson());
+				res.getPerson().addAttribute(telecomAttribute);
 			}
 		
 		// Organization
 		// TODO: This could be assigned to person attribute type of location
 		if(assignedEntity.getRepresentedOrganization() != null && assignedEntity.getRepresentedOrganization().getNullFlavor() == null)
 		{
-			ProviderAttribute organizationAttribute = new ProviderAttribute();
-			organizationAttribute.setAttributeType(metadataUtil.getOrCreateProviderOrganizationAttribute());
-			organizationAttribute.setValueReferenceInternal(assignedEntity.getRepresentedOrganization().getName().get(0).toString());
-			res.addAttribute(organizationAttribute);
+			LocationOrganizationProcessorUtil locationProcessor = LocationOrganizationProcessorUtil.getInstance();
+			Location location = locationProcessor.processOrganization(assignedEntity.getRepresentedOrganization());
+
+			// Organization attribute
+			PersonAttribute organizationAttribute = new PersonAttribute();
+			organizationAttribute.setAttributeType(metadataUtil.getOrCreatePersonOrganizationAttribute());
+			organizationAttribute.setValue(location.getId().toString());
+			res.getPerson().addAttribute(organizationAttribute);
 		}
 		
 		res = Context.getProviderService().saveProvider(res);

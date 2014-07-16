@@ -3,6 +3,7 @@ package org.openmrs.module.shr.cdahandler.processor.section.impl;
 import java.io.ByteArrayInputStream;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.generic.CE;
@@ -105,7 +106,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		// TODO: Add a note for text .. This is currently an obs because notes are to the patient not the encounter   
 		// This could be an obs attached to the encounter (would make more sense)
 		if (section.getText() != null && section.getText().getContent().size() > 0) {
-			String title = section.getTitle() + ".xml";
+			String title = UUID.randomUUID().toString() + ".xml";
 			log.debug(String.format("Saving as %s", title));
 			String sectionText = section.getText().toString();
 			ByteArrayInputStream textStream = new ByteArrayInputStream(sectionText.getBytes());

@@ -5,22 +5,27 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
+import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
+import org.openmrs.Concept;
+import org.openmrs.ConceptName;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.GlobalProperty;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.ProviderAttributeType;
-import org.openmrs.VisitAttribute;
+import org.openmrs.RelationshipType;
 import org.openmrs.VisitAttributeType;
 import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.util.OpenmrsConstants;
 
 /**
  * Utilities for OpenMRS MetaData creation/lookup
@@ -54,11 +59,11 @@ public class OpenmrsMetadataUtil {
 	private void initializeInstance()
 	{
 		// Auto create encounter roles
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_METADATA);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_METADATA);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_autoCreateMetadata = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_METADATA, this.m_autoCreateMetadata.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_METADATA, this.m_autoCreateMetadata.toString()));
 		
 	}
 	
@@ -196,16 +201,14 @@ public class OpenmrsMetadataUtil {
 	 * @return The attribute type representing provider's telecommunications address
 	 * @throws DocumentImportException 
 	 */
-	public ProviderAttributeType getOrCreateProviderTelecomAttribute() throws DocumentImportException
+	public PersonAttributeType getOrCreatePersonTelecomAttribute() throws DocumentImportException
 	{
-		ProviderAttributeType res = this.getAttributeType(this.getLocalizedString("telecom"), ProviderAttributeType.class);
+		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("telecom"));
 		if(res == null)
-			res = this.createAttributeType(
+			res = this.createPersonAttributeType(
 				this.getLocalizedString("telecom"), 
-				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("telecom.description"),
-				0, 5,
-				ProviderAttributeType.class);
+				"java.lang.String",
+				this.getLocalizedString("telecom.description"));
 		return res;
 	}
 	
@@ -214,19 +217,63 @@ public class OpenmrsMetadataUtil {
 	 * @return The attribute type representing provider's telecommunications address
 	 * @throws DocumentImportException 
 	 */
-	public ProviderAttributeType getOrCreateProviderOrganizationAttribute() throws DocumentImportException
+	public PersonAttributeType getOrCreatePersonOrganizationAttribute() throws DocumentImportException
 	{
-		ProviderAttributeType res = this.getAttributeType(this.getLocalizedString("organization"), ProviderAttributeType.class);
+		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("organization"));
 		if(res == null)
-			res = this.createAttributeType(
+			res = this.createPersonAttributeType(
 				this.getLocalizedString("organization"), 
-				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("organization.description"),
-				0, 1,
-				ProviderAttributeType.class);
+				"org.openmrs.Location",
+				this.getLocalizedString("organization.description"));
 		return res;
 	}
 	
+	/**
+	 * Get the person marital status attribute type
+	 * @throws DocumentImportException 
+	 */
+	public PersonAttributeType getOrCreatePersonMaritalStatusAttribute() throws DocumentImportException
+	{
+		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("maritalStatus"));
+		if(res == null)
+		{
+			res = this.createPersonAttributeType(
+				this.getLocalizedString("maritalStatus"), 
+				"org.openmrs.Location",
+				this.getLocalizedString("maritalStatus.description"));
+			Concept civilStatusConcept = Context.getConceptService().getConcept(OpenmrsConstants.CIVIL_STATUS_CONCEPT_ID);
+			if(civilStatusConcept == null)
+				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(this.getLocalizedString("maritalStatus"), new CD<String>());
+			res.setForeignKey(civilStatusConcept.getId());
+			res = Context.getPersonService().savePersonAttributeType(res);
+		}
+		return res;
+		
+	}
+
+	
+	/**
+	 * Creates a person attribute 
+	 */
+	private PersonAttributeType createPersonAttributeType(String attributeName, String dataType, String description) {
+		if(!this.m_autoCreateMetadata)
+			throw new IllegalStateException("Cannot create attribute type");
+		PersonAttributeType res = new PersonAttributeType();
+		res.setName(attributeName);
+		res.setFormat(dataType);
+		res.setDescription(description);
+		res.setForeignKey(0);
+		res = Context.getPersonService().savePersonAttributeType(res);
+		return res;
+    }
+
+	/**
+	 * Get the person attribute type
+	 */
+	private PersonAttributeType getPersonAttributeType(String name) {
+	    return Context.getPersonService().getPersonAttributeTypeByName(name);
+    }
+
 	/**
 	 * Get the external id (provenance, origin information) of visit information attribute type
 	 * @return The attribute type representing visit external id
@@ -377,6 +424,33 @@ public class OpenmrsMetadataUtil {
 			throw new DocumentImportException(String.format("Cannot find specified visit type %s", visitTypeName));
 		return visitType;
 	}
+
+	/**
+	 * Get or create relationship type
+	 * @throws DocumentImportException 
+	 */
+	public RelationshipType getOrCreateRelationshipType(CE<String> relationship) throws DocumentImportException {
+		
+		// TODO: Find a better way of mapping this code as there are a few code ssytems that have similar codes
+		String relationshipTypeName = DatatypeProcessorUtil.getInstance().formatCodeValue(relationship);
+		RelationshipType visitType = null;
+		for(RelationshipType type : Context.getPersonService().getAllRelationshipTypes())
+			if(type.getDescription() != null && type.getDescription().equals(relationshipTypeName))
+				visitType = type;
+		
+		if(visitType == null && this.m_autoCreateMetadata)
+		{
+			visitType = new RelationshipType();
+			visitType.setName(relationshipTypeName);
+			visitType.setDescription(relationshipTypeName);
+			visitType.setaIsToB(relationship.getCode());
+			visitType.setbIsToA(relationship.getCode());
+			visitType = Context.getPersonService().saveRelationshipType(visitType);
+		}
+		else if(visitType == null && !this.m_autoCreateMetadata)
+			throw new DocumentImportException(String.format("Cannot find specified relationship type %s", relationship));
+		return visitType;
+    }
 
 	
 }

@@ -1,5 +1,12 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
+import org.marc.everest.annotations.Properties;
+import org.marc.everest.annotations.Property;
 import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.ADXP;
 import org.marc.everest.datatypes.EN;
@@ -9,12 +16,14 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.IVL;
+import org.marc.everest.formatters.FormatterElementContext;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
+import org.marc.everest.interfaces.IGraphable;
 import org.openmrs.GlobalProperty;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -44,11 +53,11 @@ public final class DatatypeProcessorUtil {
 	 */
 	private void initializeInstance()
 	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.ID_FORMAT);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_ID_FORMAT);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_idFormat = propertyValue;
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.ID_FORMAT, this.m_idFormat));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_ID_FORMAT, this.m_idFormat));
 	}
 	
 	/**
@@ -140,9 +149,16 @@ public final class DatatypeProcessorUtil {
 				}
 			else // This represents a simple name
 			{
-				// TODO: How to handle null family names?
-				name.setFamilyName("?");
-				name.setGivenName(part.getValue());
+				if(name.getGivenName() == null)
+					name.setGivenName(part.getValue());
+				else if(name.getMiddleName() == null)
+					name.setMiddleName(part.getValue());
+				else {
+					name.setMiddleName(name.getMiddleName() + " " + part.getValue());
+				}
+				
+				if(name.getFamilyName() == null)
+					name.setFamilyName("?");
 				break;
 			}
 	
@@ -218,6 +234,65 @@ public final class DatatypeProcessorUtil {
 		return this.formatIdentifier(new II());
     }
 
+	/**
+	 * Cascades values from source to destination
+	 * @throws DocumentImportException 
+	 */
+	public void cascade(IGraphable source, IGraphable destination, String... propertyNames) throws DocumentImportException
+	{
+
+		List<String> traversalsToCopy  = Arrays.asList(propertyNames);
+		
+		// Find methods
+		for(Method m : source.getClass().getMethods())
+		{
+			
+			// Get property annotations
+			Property property = m.getAnnotation(Property.class);
+			Properties properties = m.getAnnotation(Properties.class);
+			if(property == null && properties == null) continue;
+			
+			// everest annotations are on getters
+			if(!m.getName().startsWith("get")) 
+				continue;
+				
+			// Is there another property in destination?
+			try {
+				Method destinationMethod = destination.getClass().getMethod(m.getName(), null);
+            
+				if(destinationMethod == null || destinationMethod.invoke(destination, null) != null) // no point can't cascade anyways
+					continue;
+				
+				// Set a context
+				FormatterElementContext sourceContext = new FormatterElementContext(source.getClass(), m),
+						destinationContext = new FormatterElementContext(destination.getClass(), destinationMethod);
+				
+				Boolean shouldCopy = false;
+				// See if this is an interesting property
+				shouldCopy = (sourceContext.getPropertyAnnotation() != null &&
+						traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
+						sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
+				if(sourceContext.getPropertiesAnnotation() != null)
+					for(Property prop : sourceContext.getPropertiesAnnotation().value())
+						shouldCopy |= (sourceContext.getPropertyAnnotation() != null &&
+							traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
+							sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
+				
+				// If properties found the cascade 
+				if(shouldCopy)
+		                destinationContext.getSetterMethod().invoke(destination, m.invoke(source, null));
+            }
+			catch(NoSuchMethodException e)
+			{
+				
+			}
+            catch (Exception e) {
+                throw new DocumentImportException("Could not cascade property values", e);
+            }
+		}
+			
+		
+	}
 	
 	
 }

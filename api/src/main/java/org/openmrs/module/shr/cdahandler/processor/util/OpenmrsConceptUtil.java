@@ -2,10 +2,9 @@ package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.jfree.util.Log;
 import org.marc.everest.annotations.Structure;
@@ -17,16 +16,13 @@ import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.TS;
-import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
-import org.marc.everest.datatypes.interfaces.ICodedSimple;
-import org.marc.everest.datatypes.interfaces.ICodedValue;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.openmrs.Concept;
+import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptClass;
 import org.openmrs.ConceptComplex;
 import org.openmrs.ConceptDatatype;
@@ -35,14 +31,12 @@ import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptReferenceTerm;
-import org.openmrs.ConceptReferenceTermMap;
+import org.openmrs.ConceptSet;
 import org.openmrs.ConceptSource;
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
-import org.openmrs.util.OpenmrsConstants;
 
 /**
  * A class for interacting (creating/looking up) OpenMRS concepts
@@ -73,17 +67,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	private void initializeInstance()
 	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_CONCEPTS);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_CONCEPTS);
 		if(propertyValue != null  && !propertyValue.isEmpty())
 			this.m_autoCreateConcepts = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_CONCEPTS, this.m_autoCreateConcepts.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_CONCEPTS, this.m_autoCreateConcepts.toString()));
 		
 		// TODO: Check to see if there is a better way of seeding concepts and maps 
 		// Sources for LOINC, DEEDS, and SNOMED (commonly used in CDA) 
 		try {
-			this.getOrCreateConceptSource("LOINC", CdaHandlerOids.CODE_SYSTEM_LOINC, "LOINC", null);
-			this.getOrCreateConceptSource("SNOMED CT", CdaHandlerOids.CODE_SYSTEM_SNOMED, "SNOMED-CT", null);
+			this.getOrCreateConceptSource("LOINC", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null);
+			this.getOrCreateConceptSource("SNOMED CT", CdaHandlerConstants.CODE_SYSTEM_SNOMED, "SNOMED-CT", null);
 			this.m_narrowerThan = Context.getConceptService().getConceptMapTypeByName("NARROWER-THAN");
 			this.m_sameAs = Context.getConceptService().getConceptMapTypeByName("SAME-AS");
 					
@@ -96,18 +90,16 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Create concept source if it doesn't already exist
 	 * @throws DocumentImportException 
 	 */
-	private ConceptSource getOrCreateConceptSource(String name, String hl7,
+	@SuppressWarnings("unchecked")
+    private ConceptSource getOrCreateConceptSource(String name, String hl7,
 			String description, Class<?> enumeratedVocabularySource) throws DocumentImportException {
 	
 		log.debug("Enter: getOrCreateConceptSource");
-		if(name == null)
-		{
-			if(hl7.equals(CdaHandlerOids.CODE_SYSTEM_LOINC))
-				name = "LOINC";
-			else if(hl7.equals(CdaHandlerOids.CODE_SYSTEM_SNOMED))
-				name = "SNOMED CT";
-					
-		}
+		if(hl7.equals(CdaHandlerConstants.CODE_SYSTEM_LOINC))
+			name = "LOINC";
+		else if(hl7.equals(CdaHandlerConstants.CODE_SYSTEM_SNOMED))
+			name = "SNOMED CT";
+
 		ConceptSource conceptSource = null;
 		for(ConceptSource source : Context.getConceptService().getAllConceptSources())
 			if(source.getHl7Code() != null && source.getHl7Code().equals(hl7) ||
@@ -119,38 +111,13 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		{
 			conceptSource = new ConceptSource();
 			conceptSource.setName(name);
+			if(name.equals("HL7 Marital status"))
+				conceptSource.setName(name);
 			conceptSource.setHl7Code(hl7);
 			conceptSource.setDescription(description);
 			conceptSource = Context.getConceptService().saveConceptSource(conceptSource);
-			
-			// Enumerated vocabulary source set? If so seed reference terms into it if applicable
-			if(enumeratedVocabularySource != null &&
-					IEnumeratedVocabulary.class.isAssignableFrom(enumeratedVocabularySource))
-			{
-				Structure struct = (Structure)enumeratedVocabularySource.getAnnotation(Structure.class);
-				String structureOid = struct.codeSystem();
-				if(structureOid.equals(hl7)) // it is the value set we're definig
-				{
-					for(Field f : enumeratedVocabularySource.getFields())
-						if(Modifier.isPublic(f.getModifiers()) && Modifier.isStatic(f.getModifiers()))
-						{
-							try {
-		                        IEnumeratedVocabulary value = (IEnumeratedVocabulary)f.get(null);
-		                        if(value.getCodeSystem().equals(structureOid))
-		                        {
-		                        	ConceptReferenceTerm term = new ConceptReferenceTerm();
-		                        	term.setCode(value.getCode());
-		                        	term.setDescription(f.getName());
-		                        	term.setConceptSource(conceptSource);
-		                        	Context.getConceptService().saveConceptReferenceTerm(term);
-		                        }
-	                        }
-	                        catch (Exception e) {
-	                        }
-							
-						}
-				}
-			}
+			if(enumeratedVocabularySource != null && IEnumeratedVocabulary.class.isAssignableFrom(enumeratedVocabularySource))
+				this.createEnumeratedVocabularyConcepts((Class<? extends IEnumeratedVocabulary>)enumeratedVocabularySource, hl7, null);
 			
 		}
 		else if(conceptSource == null && !this.m_autoCreateConcepts)
@@ -160,6 +127,37 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		return conceptSource;
 	}
+
+	/**
+	 * Create all the concepts in an enumerated vocabulary
+	 */
+	private List<Concept> createEnumeratedVocabularyConcepts(Class<? extends IEnumeratedVocabulary> enumeratedVocabularySource, String codeSystemOid, ANY valueToCarry) {
+
+		if(!this.m_autoCreateConcepts)
+			throw new IllegalStateException("Cannot create concepts according to configuration");
+		
+		List<Concept> retVal = new ArrayList<Concept>();
+		
+		// Enumerated vocabulary source set? If so seed reference terms into it if applicable
+		Structure struct = (Structure)enumeratedVocabularySource.getAnnotation(Structure.class);
+		String structureOid = struct.codeSystem();
+		if(codeSystemOid == null || structureOid.equals(codeSystemOid)) // it is the value set we're definig
+		{
+			for(Field f : enumeratedVocabularySource.getFields())
+				if(Modifier.isPublic(f.getModifiers()) && Modifier.isStatic(f.getModifiers()))
+				{
+					try {
+						
+                        IEnumeratedVocabulary value = (IEnumeratedVocabulary)f.get(null);
+                        retVal.add(this.createConcept(new CV<String>(value.getCode(), value.getCodeSystem(), null, null, f.getName(), null), valueToCarry));
+                    }
+                    catch (Exception e) {
+                    }
+				}
+		}
+		
+		return retVal;
+    }
 
 	/**
 	 * Get the singleton instance
@@ -354,10 +352,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		conceptMap.setConcept(concept);
 		concept.addConceptMapping(conceptMap);
 
-		// Add a handler
+		// Save concept
+		concept = Context.getConceptService().saveConcept(concept);
 		
-		Context.getConceptService().saveConcept(concept);
-
 		log.debug("Exit: createConcept");
 
 		return concept;
@@ -514,7 +511,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				log.debug(String.format("Concept %s", concept.getName()));
 				// Try to get as a numeric
 				ConceptNumeric numericConcept = Context.getConceptService().getConceptNumericByUuid(concept.getUuid());
-				if(numericConcept != null && numericConcept.getUnits().equals(unit))
+				if(numericConcept != null && numericConcept.getUnits().equalsIgnoreCase(unit))
 						return concept;
 			}
 			log.debug("Exit: getTypeSpecificConcept");
@@ -530,6 +527,64 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			log.debug("Exit: getTypeSpecificConcept");
 			return null;
 		}
+    }
+
+	/**
+	 * Add an answer to a concept
+	 * @throws DocumentImportException 
+	 */
+	public void addAnswerToConcept(Concept questionConcept, Concept answerConcept) throws DocumentImportException {
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		
+		// Is the concept in the list of answers?
+		ConceptAnswer answer = null;
+		for(ConceptAnswer ans : questionConcept.getAnswers())
+			if(ans.equals(answerConcept))
+				answer = ans;
+		if(answer == null && this.m_autoCreateConcepts)
+		{
+			answer = new ConceptAnswer();
+			answer.setAnswerConcept(answerConcept);
+			answer.setConcept(questionConcept);
+			questionConcept.addAnswer(answer);
+			Context.getConceptService().saveConcept(questionConcept);
+		}
+		else if(answer == null)
+			throw new DocumentImportException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", answerConcept, questionConcept));
+		// Set the value    
+	}
+
+	/**
+	 * Add the concept to the set concept
+	 */
+	public void addConceptToSet(Concept setConcept, Concept concept) {
+
+		Boolean needsSave = false; 
+		// First is the setConcept already a set?
+		if(!setConcept.isSet() && this.m_autoCreateConcepts)
+		{
+			setConcept.setSet(true);
+			setConcept.setConceptClass(Context.getConceptService().getConceptClassByName("ConvSet"));
+			needsSave = true;
+		}
+		else if(!setConcept.isSet())
+			log.warn("Cannot convert Concept to a set!");
+		
+		// Now does the concept already exist in the set members?
+		List<Concept> conceptSetMembers = Context.getConceptService().getConceptsByConceptSet(setConcept);
+		if(!conceptSetMembers.contains(concept) && this.m_autoCreateConcepts) // Add to the set
+		{
+			setConcept.addSetMember(concept);
+			needsSave = true;
+		}
+		else if(!this.m_autoCreateConcepts)
+			log.warn("Cannot add concept to the specified concept set according to configuration rules");
+
+		if(needsSave)
+			setConcept = Context.getConceptService().saveConcept(setConcept);
+		
+			
+		
     }
 	
 }

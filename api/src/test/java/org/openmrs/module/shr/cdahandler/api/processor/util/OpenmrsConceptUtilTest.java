@@ -14,7 +14,7 @@ import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.generic.CE;
 import org.openmrs.*;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -29,9 +29,9 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	private ConceptReferenceTerm m_weightTerm = null;
 	private ConceptSource m_loincSource = null;
 	private OpenmrsConceptUtil m_conceptUtil = null;
-	private CE<String> m_loincWeightTerm = new CE<String>("3141-9", CdaHandlerOids.CODE_SYSTEM_LOINC, "LOINC", null, "BODY WEIGHT (MEASURED)", null);
-	private CE<String> m_loincHeightTerm = new CE<String>("8302-2", CdaHandlerOids.CODE_SYSTEM_LOINC, "LOINC", null, "BODY HEIGHT (MEASURED)", null);
-	private CE<String> m_vitalSignsTerm = new CE<String>("8716-3", CdaHandlerOids.CODE_SYSTEM_LOINC, "LOINC", null, "VITAL SIGNS", null);
+	private CE<String> m_loincWeightTerm = new CE<String>("3141-9", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "BODY WEIGHT (MEASURED)", null);
+	private CE<String> m_loincHeightTerm = new CE<String>("8302-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "BODY HEIGHT (MEASURED)", null);
+	private CE<String> m_vitalSignsTerm = new CE<String>("8716-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "VITAL SIGNS", null);
 	
 	@Before
 	public void setupConcepts()

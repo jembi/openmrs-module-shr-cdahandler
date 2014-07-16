@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -14,8 +16,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
+import org.marc.everest.datatypes.TS;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.openmrs.GlobalProperty;
+import org.openmrs.Relationship;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
@@ -84,6 +88,26 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	}
 
 	@Test
+	public void shouldParseValidAphpPovichTest() {
+		String id = this.doParseCda("/validAphpSamplePovich.xml");
+		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+
+	}
+
+
+	@Test
+	public void shouldParseValidAphpPovichTest2() {
+		String id = this.doParseCda("/validAphpSamplePovich.xml");
+		Visit visit1 = Context.getVisitService().getVisitByUuid(id);
+		id = this.doParseCda("/validAphpSamplePovich2.xml");
+		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+		List<Relationship> relPerson = Context.getPersonService().getRelationships(visit1.getPatient(), Context.getPersonService().findPeople("Thomas Caster", false).iterator().next(), Context.getPersonService().getRelationshipTypeByName("xx-fatherofbaby^^^&2.16.840.1.113883.6.96&ISO"));
+		Calendar endTime = Calendar.getInstance();
+		endTime.setTime(relPerson.get(0).getEndDate());
+		assertTrue(TS.valueOf("20140609").toIvl().contains(new TS(endTime)));
+	}
+	
+	@Test
 	public void shouldParseValidLevel3Test() {
 		String id = this.doParseCda("/validCdaLevel3Sample.xml");
 		assertEquals(new MedicalDocumentsDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
@@ -96,6 +120,12 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}
 
+	@Test
+	public void shouldParseValidCdaFromOscar2Test() {
+		String id = this.doParseCda("/cdaFromOscarEmr2.xml");
+		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+	}
+	
 	@Test
 	public void shouldParseValidLevel3Test2() {
 		String id = this.doParseCda("/validCdaLevel3Sample2.xml");

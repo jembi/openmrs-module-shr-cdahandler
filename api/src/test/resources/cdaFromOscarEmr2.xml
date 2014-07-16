@@ -1,0 +1,933 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hl7:ClinicalDocument xmlns="urn:hl7-org:v3"
+	xmlns:hl7="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	classCode="DOCCLIN" moodCode="EVN">
+	<hl7:realmCode code="CA" />
+	<hl7:typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<hl7:templateId root="2.16.840.1.113883.10.20.3" />
+	<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.1" />
+	<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.2" />
+	<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.5" />
+	<hl7:templateId root="2.16.840.1.113883.10.20.22.1.1" />
+	<hl7:id root="15a9dae2-b564-4c45-9849-f52ab3cda8f6" />
+	<hl7:code code="34133-9" codeSystem="2.16.840.1.113883.6.1"
+		codeSystemName="LOINC" displayName="Summarization of episode note" />
+	<hl7:title language="en-CA">CDA Document</hl7:title>
+	<hl7:effectiveTime value="20140318093516.687-0400" />
+	<hl7:confidentialityCode code="N"
+		codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality"
+		displayName="Normal" />
+	<hl7:languageCode code="en-US" />
+	<hl7:recordTarget typeCode="RCT" contextControlCode="OP">
+		<hl7:patientRole classCode="PAT">
+			<hl7:id root="1.0.2.1.1" extension="3" />
+			<hl7:addr use="HP">
+				<hl7:streetAddressLine>123 Main St West</hl7:streetAddressLine>
+				<hl7:city>Hamilton</hl7:city>
+				<hl7:state>ON</hl7:state>
+				<hl7:postalCode>L8P 1X1</hl7:postalCode>
+				<hl7:country>CA</hl7:country>
+			</hl7:addr>
+			<hl7:telecom value="tel:905-555-5555" />
+			<hl7:telecom value="tel:905-666-6666" />
+			<hl7:patient classCode="PSN" determinerCode="INSTANCE">
+				<hl7:name use="L">
+					<hl7:given>NITYAN</hl7:given>
+					<hl7:family>KHANNA</hl7:family>
+				</hl7:name>
+				<hl7:administrativeGenderCode code="M"
+					codeSystem="2.16.840.1.113883.5.1" />
+				<hl7:birthTime value="19900615190000.000-0400" />
+			</hl7:patient>
+		</hl7:patientRole>
+	</hl7:recordTarget>
+	<hl7:author typeCode="AUT" contextControlCode="OP">
+		<hl7:templateId root="1.3.6.1.4.1.19376.1.2.20.1" />
+		<hl7:assignedAuthor classCode="ASSIGNED">
+			<hl7:id root="1.0.2.1.2" extension="999998" />
+			<hl7:assignedPerson classCode="PSN"
+				determinerCode="INSTANCE">
+				<hl7:name use="L">
+					<hl7:given>doctor</hl7:given>
+					<hl7:family>oscardoc</hl7:family>
+				</hl7:name>
+			</hl7:assignedPerson>
+		</hl7:assignedAuthor>
+	</hl7:author>
+	<hl7:custodian typeCode="CST">
+		<hl7:assignedCustodian classCode="ASSIGNED">
+			<hl7:representedCustodianOrganization
+				classCode="ORG" determinerCode="INSTANCE">
+				<hl7:id root="1.0.2.1.8" extension="444" />
+				<hl7:name use="L">McMaster Hospital</hl7:name>
+				<hl7:telecom value="tel:555-555-5555" />
+				<hl7:addr use="WP">
+					<hl7:streetAddressLine>Hamilton</hl7:streetAddressLine>
+					<hl7:city>Hamilton</hl7:city>
+					<hl7:state>Ontario</hl7:state>
+					<hl7:postalCode>L0R 4K3</hl7:postalCode>
+					<hl7:country>CA</hl7:country>
+				</hl7:addr>
+			</hl7:representedCustodianOrganization>
+		</hl7:assignedCustodian>
+	</hl7:custodian>
+	<hl7:legalAuthenticator typeCode="LA">
+		<hl7:time value="20140318093516.877-0400" />
+		<hl7:signatureCode code="S" />
+		<hl7:assignedEntity classCode="ASSIGNED">
+			<hl7:id root="1.0.2.1.1" extension="3" />
+			<hl7:addr use="HP">
+				<hl7:streetAddressLine>123 Main St West</hl7:streetAddressLine>
+				<hl7:city>Hamilton</hl7:city>
+				<hl7:state>ON</hl7:state>
+				<hl7:postalCode>L8P 1X1</hl7:postalCode>
+				<hl7:country>CA</hl7:country>
+			</hl7:addr>
+			<hl7:telecom value="tel:905-555-5555" />
+			<hl7:telecom value="tel:905-666-6666" />
+			<hl7:assignedPerson classCode="PSN"
+				determinerCode="INSTANCE">
+				<hl7:name>
+					<hl7:given>NITYAN</hl7:given>
+					<hl7:family>KHANNA</hl7:family>
+					DR
+				</hl7:name>
+			</hl7:assignedPerson>
+		</hl7:assignedEntity>
+	</hl7:legalAuthenticator>
+	<hl7:documentationOf typeCode="DOC">
+		<hl7:serviceEvent moodCode="EVN">
+			<hl7:performer typeCode="PRF">
+				<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3" />
+				<hl7:functionCode code="PCP" codeSystem="2.16.840.1.113883.5.88" />
+				<hl7:assignedEntity classCode="ASSIGNED">
+					<hl7:id root="1.0.2.1.2" extension="999998" />
+					<hl7:assignedPerson classCode="PSN"
+						determinerCode="INSTANCE">
+						<hl7:name use="L">
+							<hl7:given>doctor</hl7:given>
+							<hl7:family>oscardoc</hl7:family>
+						</hl7:name>
+					</hl7:assignedPerson>
+				</hl7:assignedEntity>
+			</hl7:performer>
+			<hl7:performer typeCode="PRF">
+				<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3" />
+				<hl7:functionCode code="PCP" codeSystem="2.16.840.1.113883.5.88" />
+				<hl7:assignedEntity classCode="ASSIGNED">
+					<hl7:id root="1.0.2.1.2" extension="999998" />
+					<hl7:assignedPerson classCode="PSN"
+						determinerCode="INSTANCE">
+						<hl7:name use="L">
+							<hl7:given>doctor</hl7:given>
+							<hl7:family>oscardoc</hl7:family>
+						</hl7:name>
+					</hl7:assignedPerson>
+				</hl7:assignedEntity>
+			</hl7:performer>
+			<hl7:performer typeCode="PRF">
+				<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3" />
+				<hl7:functionCode code="PCP" codeSystem="2.16.840.1.113883.5.88" />
+				<hl7:assignedEntity classCode="ASSIGNED">
+					<hl7:id root="1.0.2.1.2" extension="999998" />
+					<hl7:assignedPerson classCode="PSN"
+						determinerCode="INSTANCE">
+						<hl7:name use="L">
+							<hl7:given>doctor</hl7:given>
+							<hl7:family>oscardoc</hl7:family>
+						</hl7:name>
+					</hl7:assignedPerson>
+				</hl7:assignedEntity>
+			</hl7:performer>
+			<hl7:performer typeCode="PRF">
+				<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.3" />
+				<hl7:functionCode code="PCP" codeSystem="2.16.840.1.113883.5.88" />
+				<hl7:assignedEntity classCode="ASSIGNED">
+					<hl7:id root="1.0.2.1.2" extension="999998" />
+					<hl7:assignedPerson classCode="PSN"
+						determinerCode="INSTANCE">
+						<hl7:name use="L">
+							<hl7:given>doctor</hl7:given>
+							<hl7:family>oscardoc</hl7:family>
+						</hl7:name>
+					</hl7:assignedPerson>
+				</hl7:assignedEntity>
+			</hl7:performer>
+		</hl7:serviceEvent>
+	</hl7:documentationOf>
+	<hl7:component typeCode="COMP" contextConductionInd="true">
+		<hl7:structuredBody classCode="DOCBODY" moodCode="EVN">
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.13" />
+					<hl7:code code="48764-5" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Summary Purpose" />
+					<hl7:title language="en-CA">Purpose</hl7:title>
+					<hl7:text language="en-CA">The purpose of this document is to
+						represent an export of patient data.</hl7:text>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.2" />
+					<hl7:code code="48765-2" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Allergies, adverse reactions, alerts" />
+					<hl7:title language="en-CA">Allergies, adverse reactions, alerts
+					</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Age of onset</th>
+									<th>Description</th>
+									<th>Reaction</th>
+									<th>Severity</th>
+									<th>Start Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>15</td>
+									<td>HOUSE DUST TREATMENT SET (0.1%, 1%, 10%)</td>
+									<td>irritating eyes due to house dust
+
+										blockage of sinus
+									</td>
+									<td>1</td>
+									<td>01/01/2005</td>
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+					<hl7:entry>
+						<hl7:observation classCode="OBS" moodCode="EVN"
+							negationInd="true">
+							<hl7:code code="106190000" codeSystem="2.16.840.1.113883.6.1"
+								displayName="Allergy" />
+							<hl7:value xsi:type="CD" nullFlavor="NA" />
+							<hl7:participant typeCode="CSM">
+								<hl7:participantRole classCode="MANU">
+									<hl7:playingEntity classCode="MMAT"
+										determinerCode="INSTANCE">
+										<hl7:code code="413477004" codeSystem="2.16.840.1.113883.6.96"
+											codeSystemName="SNOMED_CT" displayName="Allergen or Pseudoallergen" />
+									</hl7:playingEntity>
+								</hl7:participantRole>
+							</hl7:participant>
+						</hl7:observation>
+					</hl7:entry>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.4" />
+					<hl7:code code="10157-6" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Family History" />
+					<hl7:title language="en-CA">Family Medical History</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:list xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<item>There are no items in this section.</item>
+						</hl7:list>
+					</hl7:text>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.15" />
+					<hl7:code code="29762-2" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Social History" />
+					<hl7:title language="en-CA">Social History</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Problem Description</th>
+									<th>Start Date</th>
+									<th>Resolution Date</th>
+									<th>Problem Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>drink socially</td>
+									<td>06/15/1990</td>
+									<td>03/18/2014</td>
+									<td>completed</td>
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.8" />
+					<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.19" />
+					<hl7:code code="10160-0" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="History of Medication Use" />
+					<hl7:title language="en-CA">Medications Section</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Prescribed Date</th>
+									<th>Name</th>
+									<th>Dosage</th>
+									<th>Quantity</th>
+									<th>Repeat</th>
+									<th>Route of Administration</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="MedicationSection0">
+									<td>03/03/2014</td>
+									<td>MORPHINE HP 25 - 25MG/ML </td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr ID="MedicationSection1">
+									<td>03/03/2014</td>
+									<td>COCAINE HYDROCHLORIDE 100MG SOLUTION </td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr ID="MedicationSection2">
+									<td>03/03/2014</td>
+									<td>METHADONE HYDROCHLORIDE 25MG TABLET </td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr ID="MedicationSection3">
+									<td>03/03/2014</td>
+									<td>TRICHLOROFLUOROMETHANE 50%/DICHLORODIFLUOROMETHANE 50%
+										AEROSOL </td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+					<hl7:entry>
+						<hl7:substanceAdministration
+							classCode="SBADM" moodCode="INT">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.24" />
+							<hl7:id root="1d3a4fe1-0b14-46cd-9907-8cdfe42eb017" />
+							<hl7:text>
+								<hl7:reference value="#MedicationSection0" />
+							</hl7:text>
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime xsi:type="IVL_TS">
+								<hl7:low inclusive="false" value="20140303000000.000-0500" />
+								<hl7:high inclusive="false" value="20140303000000.000-0500" />
+							</hl7:effectiveTime>
+							<hl7:routeCode nullFlavor="OTH" codeSystem="RouteOfAdministration"
+								codeSystemName="RouteOfAdministration" />
+							<hl7:consumable typeCode="CSM">
+								<hl7:manufacturedProduct classCode="MANU">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.53" />
+									<hl7:id root="1.0.2.1.7" extension="4" />
+									<hl7:manufacturedMaterial classCode="MMAT"
+										determinerCode="KIND">
+										<hl7:code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.96"
+											codeSystemName="RxNorm">
+											<hl7:originalText language="en-CA">N02AA01
+											</hl7:originalText>
+											<hl7:translation code="N02AA01"
+												codeSystem="2.16.840.1.113883.6.77" codeSystemName="ATC"
+												displayName="MORPHINE HP 25 - 25MG/ML" />
+										</hl7:code>
+										<hl7:name>
+											<hl7:given>MORPHINE HP 25 - 25MG/ML </hl7:given>
+										</hl7:name>
+									</hl7:manufacturedMaterial>
+								</hl7:manufacturedProduct>
+							</hl7:consumable>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:supply classCode="SPLY" moodCode="INT">
+									<hl7:id root="45b2dd9c-cccb-4a21-8e48-6967033259db"
+										extension="999998" />
+									<hl7:author typeCode="AUT" contextControlCode="OP">
+										<hl7:templateId root="1.3.6.1.4.1.19376.1.2.20.1" />
+										<hl7:time value="20140303161502.000-0500" />
+										<hl7:assignedAuthor classCode="ASSIGNED">
+											<hl7:id root="1.0.2.1.2" extension="999998" />
+											<hl7:assignedPerson classCode="PSN"
+												determinerCode="INSTANCE">
+												<hl7:name use="L">
+													<hl7:given>doctor</hl7:given>
+													<hl7:given>oscardoc</hl7:given>
+												</hl7:name>
+											</hl7:assignedPerson>
+										</hl7:assignedAuthor>
+									</hl7:author>
+								</hl7:supply>
+							</hl7:entryRelationship>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.28" />
+									<hl7:code />
+									<hl7:statusCode code="completed" />
+								</hl7:observation>
+							</hl7:entryRelationship>
+						</hl7:substanceAdministration>
+					</hl7:entry>
+					<hl7:entry>
+						<hl7:substanceAdministration
+							classCode="SBADM" moodCode="INT">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.24" />
+							<hl7:id root="fe69422e-217b-403f-94f0-1296f5ceb0e8" />
+							<hl7:text>
+								<hl7:reference value="#MedicationSection1" />
+							</hl7:text>
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime xsi:type="IVL_TS">
+								<hl7:low inclusive="false" value="20140303000000.000-0500" />
+								<hl7:high inclusive="false" value="20140303000000.000-0500" />
+							</hl7:effectiveTime>
+							<hl7:routeCode nullFlavor="OTH" codeSystem="RouteOfAdministration"
+								codeSystemName="RouteOfAdministration" />
+							<hl7:consumable typeCode="CSM">
+								<hl7:manufacturedProduct classCode="MANU">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.53" />
+									<hl7:id root="1.0.2.1.7" extension="5" />
+									<hl7:manufacturedMaterial classCode="MMAT"
+										determinerCode="KIND">
+										<hl7:code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.96"
+											codeSystemName="RxNorm">
+											<hl7:originalText language="en-CA">R02AD03
+											</hl7:originalText>
+											<hl7:translation code="R02AD03"
+												codeSystem="2.16.840.1.113883.6.77" codeSystemName="ATC"
+												displayName="COCAINE HYDROCHLORIDE 100MG SOLUTION" />
+										</hl7:code>
+										<hl7:name>
+											<hl7:given>COCAINE HYDROCHLORIDE 100MG SOLUTION </hl7:given>
+										</hl7:name>
+									</hl7:manufacturedMaterial>
+								</hl7:manufacturedProduct>
+							</hl7:consumable>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:supply classCode="SPLY" moodCode="INT">
+									<hl7:id root="50c1cf70-56bb-4e42-8120-f7d18235fba5"
+										extension="999998" />
+									<hl7:author typeCode="AUT" contextControlCode="OP">
+										<hl7:templateId root="1.3.6.1.4.1.19376.1.2.20.1" />
+										<hl7:time value="20140303161502.000-0500" />
+										<hl7:assignedAuthor classCode="ASSIGNED">
+											<hl7:id root="1.0.2.1.2" extension="999998" />
+											<hl7:assignedPerson classCode="PSN"
+												determinerCode="INSTANCE">
+												<hl7:name use="L">
+													<hl7:given>doctor</hl7:given>
+													<hl7:given>oscardoc</hl7:given>
+												</hl7:name>
+											</hl7:assignedPerson>
+										</hl7:assignedAuthor>
+									</hl7:author>
+								</hl7:supply>
+							</hl7:entryRelationship>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.28" />
+									<hl7:code />
+									<hl7:statusCode code="completed" />
+								</hl7:observation>
+							</hl7:entryRelationship>
+						</hl7:substanceAdministration>
+					</hl7:entry>
+					<hl7:entry>
+						<hl7:substanceAdministration
+							classCode="SBADM" moodCode="INT">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.24" />
+							<hl7:id root="34f481a3-cb8c-4ef1-bd4b-135c6295d2d5" />
+							<hl7:text>
+								<hl7:reference value="#MedicationSection2" />
+							</hl7:text>
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime xsi:type="IVL_TS">
+								<hl7:low inclusive="false" value="20140303000000.000-0500" />
+								<hl7:high inclusive="false" value="20140303000000.000-0500" />
+							</hl7:effectiveTime>
+							<hl7:routeCode nullFlavor="OTH" codeSystem="RouteOfAdministration"
+								codeSystemName="RouteOfAdministration" />
+							<hl7:consumable typeCode="CSM">
+								<hl7:manufacturedProduct classCode="MANU">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.53" />
+									<hl7:id root="1.0.2.1.7" extension="6" />
+									<hl7:manufacturedMaterial classCode="MMAT"
+										determinerCode="KIND">
+										<hl7:code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.96"
+											codeSystemName="RxNorm">
+											<hl7:originalText language="en-CA">N07BC02
+											</hl7:originalText>
+											<hl7:translation code="N07BC02"
+												codeSystem="2.16.840.1.113883.6.77" codeSystemName="ATC"
+												displayName="METHADONE HYDROCHLORIDE 25MG TABLET" />
+										</hl7:code>
+										<hl7:name>
+											<hl7:given>METHADONE HYDROCHLORIDE 25MG TABLET </hl7:given>
+										</hl7:name>
+									</hl7:manufacturedMaterial>
+								</hl7:manufacturedProduct>
+							</hl7:consumable>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:supply classCode="SPLY" moodCode="INT">
+									<hl7:id root="f7a5ec9e-53da-4485-a1cd-a6e63bda363a"
+										extension="999998" />
+									<hl7:author typeCode="AUT" contextControlCode="OP">
+										<hl7:templateId root="1.3.6.1.4.1.19376.1.2.20.1" />
+										<hl7:time value="20140303161614.000-0500" />
+										<hl7:assignedAuthor classCode="ASSIGNED">
+											<hl7:id root="1.0.2.1.2" extension="999998" />
+											<hl7:assignedPerson classCode="PSN"
+												determinerCode="INSTANCE">
+												<hl7:name use="L">
+													<hl7:given>doctor</hl7:given>
+													<hl7:given>oscardoc</hl7:given>
+												</hl7:name>
+											</hl7:assignedPerson>
+										</hl7:assignedAuthor>
+									</hl7:author>
+								</hl7:supply>
+							</hl7:entryRelationship>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.28" />
+									<hl7:code />
+									<hl7:statusCode code="completed" />
+								</hl7:observation>
+							</hl7:entryRelationship>
+						</hl7:substanceAdministration>
+					</hl7:entry>
+					<hl7:entry>
+						<hl7:substanceAdministration
+							classCode="SBADM" moodCode="INT">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.24" />
+							<hl7:id root="90afd396-1393-478f-ab7b-8108328a1640" />
+							<hl7:text>
+								<hl7:reference value="#MedicationSection3" />
+							</hl7:text>
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime xsi:type="IVL_TS">
+								<hl7:low inclusive="false" value="20140303000000.000-0500" />
+								<hl7:high inclusive="false" value="20140303000000.000-0500" />
+							</hl7:effectiveTime>
+							<hl7:routeCode nullFlavor="OTH" codeSystem="RouteOfAdministration"
+								codeSystemName="RouteOfAdministration" />
+							<hl7:consumable typeCode="CSM">
+								<hl7:manufacturedProduct classCode="MANU">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.53" />
+									<hl7:id root="1.0.2.1.7" extension="7" />
+									<hl7:manufacturedMaterial classCode="MMAT"
+										determinerCode="KIND">
+										<hl7:code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.96"
+											codeSystemName="RxNorm" />
+										<hl7:name>
+											<hl7:given>TRICHLOROFLUOROMETHANE 50%/DICHLORODIFLUOROMETHANE
+												50% AEROSOL </hl7:given>
+										</hl7:name>
+									</hl7:manufacturedMaterial>
+								</hl7:manufacturedProduct>
+							</hl7:consumable>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:supply classCode="SPLY" moodCode="INT">
+									<hl7:id root="7242af92-e073-4553-a8c2-4fd5c3c775dd"
+										extension="999998" />
+									<hl7:author typeCode="AUT" contextControlCode="OP">
+										<hl7:templateId root="1.3.6.1.4.1.19376.1.2.20.1" />
+										<hl7:time value="20140303161717.000-0500" />
+										<hl7:assignedAuthor classCode="ASSIGNED">
+											<hl7:id root="1.0.2.1.2" extension="999998" />
+											<hl7:assignedPerson classCode="PSN"
+												determinerCode="INSTANCE">
+												<hl7:name use="L">
+													<hl7:given>doctor</hl7:given>
+													<hl7:given>oscardoc</hl7:given>
+												</hl7:name>
+											</hl7:assignedPerson>
+										</hl7:assignedAuthor>
+									</hl7:author>
+								</hl7:supply>
+							</hl7:entryRelationship>
+							<hl7:entryRelationship typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root="2.16.840.1.113883.10.20.1.28" />
+									<hl7:code />
+									<hl7:statusCode code="completed" />
+								</hl7:observation>
+							</hl7:entryRelationship>
+						</hl7:substanceAdministration>
+					</hl7:entry>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.6" />
+					<hl7:code code="11369-6" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="History of Immunizations" />
+					<hl7:title language="en-CA">Immunizations</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Prevention Date</th>
+									<th>Completed</th>
+									<th>Provider</th>
+									<th>Name</th>
+									<th>Dose</th>
+									<th>Location</th>
+									<th>Route</th>
+									<th>Lot</th>
+									<th>Manufacturer</th>
+									<th>Comments</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td>500g</td>
+									<td>Stoney Creek Clinic</td>
+									<td>IV</td>
+									<td>lot1</td>
+									<td>Pfizer</td>
+									<td>prevented swine flu with this</td>
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td>continues to smoke cocaine</td>
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td>03/03/2014</td>
+									<td>false</td>
+									<td>oscardoc, doctor</td>
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+									<td />
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.16" />
+					<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.25" />
+					<hl7:templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.5.3.2" />
+					<hl7:code code="8716-3" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Vital Signs" />
+					<hl7:title language="en-CA">Vital Signs</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Measurement</th>
+									<th>Value</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="VitalSignsSection0">
+									<td>BODY WEIGHT (MEASURED)</td>
+									<td>BODY WEIGHT (MEASURED): 110 kg</td>
+								</tr>
+								<tr ID="VitalSignsSection1">
+									<td>BODY HEIGHT (MEASURED)</td>
+									<td>BODY HEIGHT (MEASURED): 95 cm</td>
+								</tr>
+								<tr ID="VitalSignsSection2">
+									<td>INTRAVASCULAR SYSTOLIC</td>
+									<td>INTRAVASCULAR SYSTOLIC: 110 mmHg</td>
+								</tr>
+								<tr ID="VitalSignsSection3">
+									<td>INTRAVASCULAR DIASTOLIC</td>
+									<td>INTRAVASCULAR DIASTOLIC: 60 mmHg</td>
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+					<hl7:entry typeCode="DRIV" contextConductionInd="true">
+						<hl7:organizer classCode="BATTERY" moodCode="EVN">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.32" />
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.35" />
+							<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.1' />
+							<hl7:id root="da19e063-d74b-4924-9a50-ab5207e290a2" />
+							<hl7:code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+								codeSystemName="SNOMED_CT" displayName="Vital Signs" />
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime value="20140303000000.000-0500" />
+							<hl7:component typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
+									<hl7:templateId root='2.16.840.1.113883.10.20.1.31' />
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.2' />
+									<hl7:id root="7e28d9b1-3732-4dad-ad1c-aed5c9806c1c" />
+									<hl7:code code="3141-9" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="BODY WEIGHT (MEASURED)" />
+									<hl7:text>
+										<hl7:reference value="#VitalSignsSection0" />
+									</hl7:text>
+									<hl7:statusCode code="completed" />
+									<hl7:value xsi:type="hl7:PQ" unit="kg" value="110" />
+								</hl7:observation>
+							</hl7:component>
+						</hl7:organizer>
+					</hl7:entry>
+					<hl7:entry typeCode="DRIV" contextConductionInd="true">
+						<hl7:organizer classCode="BATTERY" moodCode="EVN">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.32" />
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.35" />
+							<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.1' />
+							<hl7:id root="b9bd5f19-9042-40eb-b36e-306e528a6b0c" />
+							<hl7:code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+								codeSystemName="SNOMED_CT" displayName="Vital Signs" />
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime value="20140303000000.000-0500" />
+							<hl7:component typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
+									<hl7:templateId root='2.16.840.1.113883.10.20.1.31' />
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.2' />
+									<hl7:id root="22bee931-f51f-4033-bf81-f5f3185b0196" />
+									<hl7:code code="8302-2" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="BODY HEIGHT (MEASURED)" />
+									<hl7:text>
+										<hl7:reference value="#VitalSignsSection1" />
+									</hl7:text>
+									<hl7:statusCode code="completed" />
+									<hl7:value xsi:type="hl7:PQ" unit="cm" value="95" />
+								</hl7:observation>
+							</hl7:component>
+						</hl7:organizer>
+					</hl7:entry>
+					<hl7:entry typeCode="DRIV" contextConductionInd="true">
+						<hl7:organizer classCode="BATTERY" moodCode="EVN">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.32" />
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.35" />
+							<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.1' />
+							<hl7:id root="6f7e00e1-d60f-4efd-81fc-8c8db7f19a48" />
+							<hl7:code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+								codeSystemName="SNOMED_CT" displayName="Vital Signs" />
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime value="20140303000000.000-0500" />
+							<hl7:component typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
+									<hl7:templateId root='2.16.840.1.113883.10.20.1.31' />
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.2' />
+									<hl7:id root="1bdc29aa-9b62-4d29-8036-fbf205a13129" />
+									<hl7:code code="8480-6" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="INTRAVASCULAR SYSTOLIC" />
+									<hl7:text>
+										<hl7:reference value="#VitalSignsSection2" />
+									</hl7:text>
+									<hl7:statusCode code="completed" />
+									<hl7:value xsi:type="hl7:PQ" unit="mmHg" value="110" />
+								</hl7:observation>
+							</hl7:component>
+						</hl7:organizer>
+					</hl7:entry>
+					<hl7:entry typeCode="DRIV" contextConductionInd="true">
+						<hl7:organizer classCode="BATTERY" moodCode="EVN">
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.32" />
+							<hl7:templateId root="2.16.840.1.113883.10.20.1.35" />
+							<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.1' />
+
+							<hl7:id root="12b8f398-bb9d-4d28-b9b5-780d1d633007" />
+							<hl7:code code="46680005" codeSystem="2.16.840.1.113883.6.96"
+								codeSystemName="SNOMED_CT" displayName="Vital Signs" />
+							<hl7:statusCode code="completed" />
+							<hl7:effectiveTime value="20140303000000.000-0500" />
+							<hl7:component typeCode="COMP"
+								contextConductionInd="true">
+								<hl7:observation classCode="OBS" moodCode="EVN">
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
+									<hl7:templateId root='2.16.840.1.113883.10.20.1.31' />
+									<hl7:templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.2' />
+									<hl7:id root="f437b712-298a-4706-8d69-8e9f17688e57" />
+									<hl7:code code="8462-4" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="INTRAVASCULAR DIASTOLIC" />
+									<hl7:text>
+										<hl7:reference value="#VitalSignsSection3" />
+									</hl7:text>
+									<hl7:statusCode code="completed" />
+									<hl7:value xsi:type="hl7:PQ" unit="mmHg" value="60" />
+								</hl7:observation>
+							</hl7:component>
+						</hl7:organizer>
+					</hl7:entry>
+				</hl7:section>
+			</hl7:component>
+			<hl7:component typeCode="COMP" contextConductionInd="true">
+				<hl7:section classCode="DOCSECT" moodCode="EVN">
+					<hl7:templateId root="2.16.840.1.113883.10.20.1.11" />
+					<hl7:code code="11450-4" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Problems list" />
+					<hl7:title language="en-CA">Active Problems</hl7:title>
+					<hl7:text language="en-CA">
+						<hl7:table xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+							xmlns="urn:hl7-org:v3" xmlns:ns4="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+							xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+							xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+							<thead>
+								<tr>
+									<th>Problem Description</th>
+									<th>Start Date</th>
+									<th>Resolution Date</th>
+									<th>Problem Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td />
+									<td>06/15/1990</td>
+									<td>03/18/2014</td>
+									<td>completed</td>
+								</tr>
+							</tbody>
+						</hl7:table>
+					</hl7:text>
+				</hl7:section>
+			</hl7:component>
+		</hl7:structuredBody>
+	</hl7:component>
+</hl7:ClinicalDocument>

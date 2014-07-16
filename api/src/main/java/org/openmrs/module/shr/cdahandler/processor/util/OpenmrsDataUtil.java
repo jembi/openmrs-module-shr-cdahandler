@@ -2,14 +2,11 @@ package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.ED;
-import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
 import org.marc.everest.datatypes.PQ;
@@ -19,20 +16,14 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
-import org.marc.everest.datatypes.generic.SET;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Obs;
-import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.obs.ComplexData;
-
-import ca.uhn.hl7v2.model.DataTypeUtil;
 
 /**
  * Data utilities for OpenMRS
@@ -61,11 +52,11 @@ public class OpenmrsDataUtil {
 	 */
 	private void initializeInstance()
 	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_CONCEPTS);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_CONCEPTS);
 		if(propertyValue != null  && !propertyValue.isEmpty())
 			this.m_autoCreateConcepts = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_CONCEPTS, this.m_autoCreateConcepts.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_CONCEPTS, this.m_autoCreateConcepts.toString()));
 		
 	}
 	
@@ -153,28 +144,9 @@ public class OpenmrsDataUtil {
 		else if(value instanceof CD)
 		{
 			OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
-			DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
-			
-			// Now comes a tricky bit
 			// Is the value an OpenMRS concept
 			Concept concept = conceptUtil.getOrCreateConceptAndEquivalents((CD<?>)value);
-			
-			// Is the concept in the list of answers?
-			ConceptAnswer answer = null;
-			for(ConceptAnswer ans : observation.getConcept().getAnswers())
-				if(ans.equals(concept))
-					answer = ans;
-			if(answer == null && this.m_autoCreateConcepts)
-			{
-				answer = new ConceptAnswer();
-				answer.setAnswerConcept(concept);
-				answer.setConcept(observation.getConcept());
-				observation.getConcept().addAnswer(answer);
-				Context.getConceptService().saveConcept(observation.getConcept());
-			}
-			else if(answer == null)
-				throw new DocumentImportException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", datatypeUtil.formatCodeValue((CV<?>)value), observation.getConcept().getName()));
-			// Set the value
+			conceptUtil.addAnswerToConcept(observation.getConcept(), concept);
 			observation.setValueCoded(concept);
 				
 		}

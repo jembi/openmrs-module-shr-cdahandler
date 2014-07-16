@@ -8,31 +8,28 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor;
 
 /**
- * Template handler for Chief Complaint Section
+ * A processor that can handle a Review of Systems section
  */
 @ProcessTemplates(
 	understands = {
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CHIEF_COMPLAINT)
+			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_REVIEW_OF_SYSTEMS)
 	})
-public class ChiefComplaintSectionProcessor extends GenericLevel2SectionProcessor {
+public class ReviewOfSystemsSectionProcessor extends GenericLevel2SectionProcessor {
 
-	
 	/**
-	 * Cheif complaint
+	 * Get template name
 	 */
 	@Override
     public String getTemplateName() {
-	    // TODO Auto-generated method stub
-	    return "Cheif Complaint";
+		return "Review of Systems";
     }
 
 	/**
-	 * Get expected section code of 10154-3
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
+	 * Get the expected section code
 	 */
 	@Override
     protected CE<String> getExpectedSectionCode(Section section) {
-		return new CE<String>("10154-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "CHIEF COMPLAINT", null);
+		return new CE<String>("10187-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "REVIEW OF SYSTEMS", null);
     }
 	
 	

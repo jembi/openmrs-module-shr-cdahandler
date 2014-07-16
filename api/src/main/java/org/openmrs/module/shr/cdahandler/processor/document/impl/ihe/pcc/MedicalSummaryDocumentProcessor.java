@@ -9,7 +9,7 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component3;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
@@ -19,7 +19,7 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  */
 @ProcessTemplates
 ( understands = {
-		@TemplateId(root = CdaHandlerOids.DOC_TEMPLATE_MEDICAL_SUMMARY)
+		@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_SUMMARY)
 })
 public class MedicalSummaryDocumentProcessor extends MedicalDocumentsDocumentProcessor {
 	
@@ -86,7 +86,7 @@ public class MedicalSummaryDocumentProcessor extends MedicalDocumentsDocumentPro
 	protected List<String> getExpectedSections()
 	{
 		return Arrays.asList(new String[] {
-	    		CdaHandlerOids.SCT_TEMPLATE_MEDICATIONS 
+	    		CdaHandlerConstants.SCT_TEMPLATE_MEDICATIONS 
 	    }) ;
 	}
 

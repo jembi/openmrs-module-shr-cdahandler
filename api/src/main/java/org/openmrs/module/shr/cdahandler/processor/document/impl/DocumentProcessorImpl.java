@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
 import org.openmrs.Provider;
+import org.openmrs.Relationship;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
@@ -49,6 +51,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.LocationOrganizationProc
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.PersonProcessorUtil;
 import org.openmrs.obs.ComplexData;
 
 /**
@@ -180,7 +183,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 
 		// Set the binary content
 		ByteArrayInputStream textStream = new ByteArrayInputStream(bodyChoiceIfNonXMLBody.getText().getData());
-		ComplexData complexData = new ComplexData(doc.getTitle().toString(), textStream);
+		ComplexData complexData = new ComplexData(UUID.randomUUID().toString() + ".bin", textStream);
 		binaryContentObs.setComplexData(complexData);
 		binaryContentEncounter.addObs(binaryContentObs);
 		
@@ -208,6 +211,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		// Processor instances (makes the code look cleaner)
 		AssignedEntityProcessorUtil assignedEntityProcessorUtil = AssignedEntityProcessorUtil.getInstance();
 		PatientRoleProcessorUtil patientRoleProcessorUtil = PatientRoleProcessorUtil.getInstance();
+		PersonProcessorUtil personProcessorUtil = PersonProcessorUtil.getInstance();
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 		OpenmrsMetadataUtil openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
 		LocationOrganizationProcessorUtil locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
@@ -250,8 +254,6 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			confidentiality.setValueReferenceInternal(datatypeProcessorUtil.formatSimpleCode(doc.getConfidentialityCode()));
 			visitInformation.addAttribute(confidentiality);
 		}
-		
-		// TODO: Participants and their relationship
 		
 		// Custodian - Approximately the location where the event or original data is store
 		// TODO: Provenance data, do we need to store this?
@@ -297,6 +299,28 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		// Effective time
 		visitInformation.setDateCreated(doc.getEffectiveTime().getDateValue().getTime());
+
+		// Participants and their relationship
+		for(Participant1 ptcpt : doc.getParticipant())
+		{
+			if(ptcpt == null || ptcpt.getNullFlavor() != null ||
+					ptcpt.getAssociatedEntity() == null ||
+					ptcpt.getAssociatedEntity().getNullFlavor() != null ||
+					ptcpt.getAssociatedEntity().getAssociatedPerson() == null ||
+					ptcpt.getAssociatedEntity().getAssociatedPerson().getNullFlavor() != null)
+				continue;
+			
+			// Process the relationship
+			Relationship rel = personProcessorUtil.processAssociatedEntity(ptcpt.getAssociatedEntity(), visitInformation.getPatient());
+			
+			// Update the known time the relationship existed based on event time
+			if(rel.getStartDate() == null || visitInformation.getStartDatetime().compareTo(rel.getStartDate()) < 0)
+				rel.setStartDate(visitInformation.getStartDatetime());
+			if(rel.getEndDate() == null || visitInformation.getStopDatetime().compareTo(rel.getEndDate()) > 0)
+				rel.setEndDate(visitInformation.getStopDatetime());
+			
+			Context.getPersonService().saveRelationship(rel);
+		}
 
 		// Parse informants
 		for(Informant12 inf : doc.getInformant())

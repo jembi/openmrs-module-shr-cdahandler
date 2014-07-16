@@ -7,7 +7,7 @@ import java.util.List;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
@@ -17,7 +17,7 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  */
 @ProcessTemplates(
 	understands = {
-			@TemplateId(root = CdaHandlerOids.DOC_TEMPLATE_ANTEPARTUM_HISTORY_AND_PHYSICAL)
+			@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_ANTEPARTUM_HISTORY_AND_PHYSICAL)
 	})
 public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhysicalDocumentProcessor {
 
@@ -37,12 +37,12 @@ public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhy
     protected List<String> getExpectedSections() {
 			List<String> retVal = new ArrayList<String>(super.getExpectedSections());
 			retVal.addAll(Arrays.asList(
-				CdaHandlerOids.SCT_TEMPLATE_CODED_HISTORY_OF_INFECTION,
-				CdaHandlerOids.SCT_TEMPLATE_PREGNANCY_HISTORY,
-				CdaHandlerOids.SCT_TEMPLATE_CODED_SOCIAL_HISTORY,
-				CdaHandlerOids.SCT_TEMPLATE_CODED_FAMILY_MEDICAL_HISTORY,
-				CdaHandlerOids.SCT_TEMPLATE_CODED_PHYISCAL_EXAM,
-				CdaHandlerOids.SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES
+				CdaHandlerConstants.SCT_TEMPLATE_CODED_HISTORY_OF_INFECTION,
+				CdaHandlerConstants.SCT_TEMPLATE_PREGNANCY_HISTORY,
+				CdaHandlerConstants.SCT_TEMPLATE_CODED_SOCIAL_HISTORY,
+				CdaHandlerConstants.SCT_TEMPLATE_CODED_FAMILY_MEDICAL_HISTORY,
+				CdaHandlerConstants.SCT_TEMPLATE_CODED_PHYISCAL_EXAM,
+				CdaHandlerConstants.SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES
 					));   
 			return retVal;
 	}

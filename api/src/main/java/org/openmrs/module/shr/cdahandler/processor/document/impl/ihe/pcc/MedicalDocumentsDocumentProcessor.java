@@ -9,7 +9,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Patient;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.RecordTarget;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
@@ -21,7 +21,7 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  */
 @ProcessTemplates
 ( understands = {
-		@TemplateId(root = CdaHandlerOids.DOC_TEMPLATE_MEDICAL_DOCUMENTS)
+		@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS)
 })
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 

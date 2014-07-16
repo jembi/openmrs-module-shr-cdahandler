@@ -7,15 +7,21 @@ import org.dom4j.DocumentException;
 import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PN;
+import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.generic.COLL;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.PatientRole;
+import org.openmrs.Concept;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerGlobalPropertyNames;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.util.OpenmrsConstants;
 
 /**
  * Represents a series of utility functions interacting with Patientrole
@@ -47,18 +53,18 @@ public final class PatientRoleProcessorUtil {
 	private void initializeInstance()
 	{
 		// Auto create patients
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PATIENTS);
+		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PATIENTS);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_autoCreatePatients = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PATIENTS, this.m_autoCreatePatients.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PATIENTS, this.m_autoCreatePatients.toString()));
 		
 		// Auto create id types
-		propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PATIENTIDTYPE);
+		propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PATIENTIDTYPE);
 		if(propertyValue != null && !propertyValue.isEmpty())
 			this.m_autoCreatePatientIdType = Boolean.parseBoolean(propertyValue);
 		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerGlobalPropertyNames.AUTOCREATE_PATIENTIDTYPE, this.m_autoCreatePatientIdType.toString()));
+			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PATIENTIDTYPE, this.m_autoCreatePatientIdType.toString()));
 		
 	}
 	
@@ -108,6 +114,7 @@ public final class PatientRoleProcessorUtil {
 		else 
 			throw new DocumentImportException(String.format("Patient %s not found", pid.getIdentifier()));
 		
+		
 		return res;
 	}
 	
@@ -118,7 +125,7 @@ public final class PatientRoleProcessorUtil {
 	 * @return The PatientIdentifierType of the first found match in ids or a new PatientIdentifierType based on the first entry
 	 * @throws DocumentImportException 
 	 */
-	private PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentImportException {
+	public PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentImportException {
 		
 		// There may be multiple identifiers here, need to figure out a way to weed out the ones we're not interested in
 		PatientIdentifierType pit = null;
@@ -160,6 +167,8 @@ public final class PatientRoleProcessorUtil {
 			throw new IllegalStateException("Cannot auto-create patients according to current global properties");
 		
 		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
+		OpenmrsMetadataUtil metadataUtil = OpenmrsMetadataUtil.getInstance();
+		OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
 		
 		Patient res = new Patient();
 		
@@ -186,15 +195,55 @@ public final class PatientRoleProcessorUtil {
 				res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
 			else
 				throw new DocumentImportException("Patient missing birthdate");
+			
+			// Marital status code
+			if(importPatient.getPatient().getMaritalStatusCode() != null &&
+					!importPatient.getPatient().getMaritalStatusCode().isNull())
+			{
+				PersonAttribute maritalStatus = new PersonAttribute();
+				PersonAttributeType maritalStatusType = metadataUtil.getOrCreatePersonMaritalStatusAttribute();
+				maritalStatus.setAttributeType(maritalStatusType);
+				// This is a coded value, so we need to find the code
+				Concept maritalStatusConcept = null;
+				if(maritalStatusType.getForeignKey() != null)
+					maritalStatusConcept = Context.getConceptService().getConcept(maritalStatusType.getForeignKey());
+
+				Concept	valueConcept = conceptUtil.getConcept(importPatient.getPatient().getMaritalStatusCode());
+				if(valueConcept == null)
+					valueConcept = conceptUtil.createConcept(importPatient.getPatient().getMaritalStatusCode());
+				
+				// Now we want to set the concept
+				if(maritalStatusConcept != null)
+					conceptUtil.addAnswerToConcept(maritalStatusConcept, valueConcept);
+				// Now set the values
+				maritalStatus.setPerson(res);
+				maritalStatus.setValue(valueConcept.getId().toString());
+				res.addAttribute(maritalStatus);
+			}
 		}
 		else
 			throw new DocumentImportException("Missing patient demographics information"); 
+
+		// Telecoms
+		if(importPatient.getTelecom() != null)
+			for(TEL tel : importPatient.getTelecom())
+			{
+				if(tel == null || tel.isNull()) continue;
+				
+				PersonAttribute telecomAttribute = new PersonAttribute();
+				telecomAttribute.setAttributeType(metadataUtil.getOrCreatePersonTelecomAttribute());
+				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				telecomAttribute.setPerson(res);
+				res.addAttribute(telecomAttribute);
+			}
 		
 		// Address
 		if(importPatient.getAddr() != null)
 			for(AD ad : importPatient.getAddr())
 				if(!ad.isNull())
 					res.addAddress(datatypeProcessorUtil.parseAD(ad));
+		
+
 		
 		res = Context.getPatientService().savePatient(res);
 		

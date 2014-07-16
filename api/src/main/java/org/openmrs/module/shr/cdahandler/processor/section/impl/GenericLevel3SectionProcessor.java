@@ -16,7 +16,7 @@ import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerOids;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -76,14 +76,7 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	    	else
     		{
 	    		processor.setContext(parseContext);
-	    		try
-	    		{
-		    		processor.process(statement);
-	    		}
-	    		catch(Exception e) // Compensate for a problem by voiding anything we created as we don't want partial data in the DB
-	    		{
-	    			log.error(String.format("Could not import entry in #%s", section.getTitle()), e);
-	    		}
+	    		processor.process(statement);
     		}
 	    	
 	    }
