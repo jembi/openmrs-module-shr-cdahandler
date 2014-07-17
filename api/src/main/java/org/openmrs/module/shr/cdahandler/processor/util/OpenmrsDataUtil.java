@@ -6,6 +6,7 @@ import java.text.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.ANY;
+import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
@@ -135,10 +136,10 @@ public class OpenmrsDataUtil {
 		{
 			PQ pqValue = (PQ)value;
 			ConceptNumeric conceptNumeric = Context.getConceptService().getConceptNumeric(observation.getConcept().getId());
-			pqValue = pqValue.convert(conceptNumeric.getUnits());
 			log.debug(String.format("Convert '%s' to '%s' to match concept type", value, pqValue));
 			pqValue = pqValue.convert(conceptNumeric.getUnits());
 			observation.setValueNumeric(pqValue.toDouble());
+			
 		}
 		else if(value instanceof RTO || value instanceof MO)
 			observation.setValueAsString(value.toString());
@@ -148,6 +149,8 @@ public class OpenmrsDataUtil {
 			observation.setValueDatetime(((TS) value).getDateValue().getTime());
 		else if(value instanceof ST)
 			observation.setValueText(value.toString());
+		else if(value instanceof BL)
+			observation.setValueBoolean(((BL)value).toBoolean());
 		else if(value instanceof ED)
 		{
 			ByteArrayInputStream textStream = new ByteArrayInputStream(((ED) value).getData());

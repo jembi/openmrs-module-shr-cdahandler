@@ -49,6 +49,16 @@ public class VitalSignsSectionProcessor extends GenericLevel3SectionProcessor  {
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("8716-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "VITAL SIGNS", null);
     }
+
+	/**
+	 * Get the template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Vital Signs";
+    }
+	
 	
 	
 	

@@ -4,10 +4,12 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.marc.everest.datatypes.ANY;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
 import org.openmrs.BaseOpenmrsData;
@@ -21,9 +23,13 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
+import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
+import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
+import org.openmrs.validator.ObsValidator;
 
 
 /**
@@ -41,7 +47,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		ValidationIssueCollection validationIssues = this.validate(entry);
 		if(validationIssues.hasErrors())
-			throw new DocumentValidationException("Cannot process an invalid entry", validationIssues);
+			throw new DocumentValidationException("Cannot process an invalid entry", entry, validationIssues);
 
 		// Observation from entry
 		Observation observation = (Observation)entry;
@@ -54,8 +60,22 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
 		
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
-		Obs res = new Obs();
+		// Void any existing obs that have the same id
+		Obs previousObs = null;
+		for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
+		{
+			for(II id : observation.getId())
+				if(previousObs == null && currentObs.getAccessionNumber() != null
+				&& currentObs.getAccessionNumber().equals(datatypeUtil.formatIdentifier(id)))
+				{
+					previousObs = currentObs;
+					Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
+				}
+		}
 		
+		
+		Obs res = new Obs();
+		res.setPreviousVersion(previousObs);
 		res.setObsGroup(parentObs);
 		// Now ... Get the encounter and copy cascade what can be cascaded
 		res.setPerson(encounterInfo.getPatient());
@@ -101,7 +121,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			if(observation.getEffectiveTime().getValue() != null && !observation.getEffectiveTime().getValue().isNull())
 				res.setObsDatetime(observation.getEffectiveTime().getValue().getDateValue().getTime());
 			else 
+			{
+				// TODO: Complex dates on obs?
 				res.setObsDatetime(null); // the time isn't known or can't be represented in oMRS
+			}
 			
 		}
 		else
@@ -110,14 +133,15 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Get entry value
 		try
 		{
+			
 			res = dataUtil.setObsValue(res, value);
 			res = Context.getObsService().saveObs(res, null);
 		}
 		catch(Exception e)
-		{
+		{ 
 			throw new DocumentPersistenceException("Could not set obs value", e);
 		}
-		
+		    
 		
 		// Repeat number ... as an obs.. 
 		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
@@ -154,6 +178,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				Context.getObsService().saveObs(interpretationObs, null);
 			}
 
+		
+		// Process any components
+		ProcessorContext childContext = new ProcessorContext(observation, res, this);
+		super.processEntryRelationships(entry, childContext);
+		
 		return res;
 	}
 

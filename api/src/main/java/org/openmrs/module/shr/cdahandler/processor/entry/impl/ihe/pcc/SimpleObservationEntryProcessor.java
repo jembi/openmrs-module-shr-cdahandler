@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
@@ -35,7 +36,8 @@ import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
  */
 @ProcessTemplates (
 	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_SIMPLE_OBSERVATION)
+			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_SIMPLE_OBSERVATION),
+			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION)
 	})
 public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 	
@@ -89,10 +91,10 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 			validationIssues.warn("IHE PCC TF-2: Observations shall have a status of completed");
 		if(observation.getValue() == null)
 			validationIssues.error("IHE PCC TF-2: Observation shall have a value appropriate with the observation type");
-		if(observation.getEffectiveTime() == null || observation.getEffectiveTime().getValue() == null)
+		if(observation.getEffectiveTime() == null || observation.getEffectiveTime().isNull())
 			validationIssues.error("IHE PCC TF-2: Observations shall have an effective time");
 
-		// Validate .. First we get the pregnancy history code from the organizer
+		// Validate .. First we get the code from the organizer/container and figure out if this is an allowed value within its container
 		CE<String> conceptGroupCode = this.getConceptSetCode();
 		if(conceptGroupCode != null)
 		{
@@ -158,5 +160,15 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 		else
 			return null;
 	}
+
+	/**
+	 * Get expected entry relationships
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+	 */
+	@Override
+    protected List<String> getExpectedEntryRelationships() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
 	
 }

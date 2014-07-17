@@ -12,6 +12,8 @@ import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 
 /**
  * Pregnancy observation entry processor
+ * 
+ * See: PCC TF-2:6.3.4.25
  */
 public class PregnancyObservationEntryProcessor extends SimpleObservationEntryProcessor {
 	

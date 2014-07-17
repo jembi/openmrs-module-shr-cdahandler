@@ -5,6 +5,7 @@ import java.util.List;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
@@ -43,7 +44,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
 		ValidationIssueCollection validationIssues = this.validate(entry);
 		if(validationIssues.hasErrors())
-			throw new DocumentValidationException("Cannot process an invalid entry", validationIssues);
+			throw new DocumentValidationException("Cannot process an invalid entry", entry, validationIssues);
 
 		// We want to process the organizer as an Obs
 		Organizer organizer = (Organizer)entry;
@@ -64,14 +65,24 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 			ClinicalStatement statement = comp.getClinicalStatement();
 			
 			// Cascade data elements through the participation
-			datatypeUtil.cascade(organizer, statement, "id","effectiveTime","author");
+			datatypeUtil.cascade(organizer, statement, "effectiveTime","author");
 			
 			// Create processor and then process
 			EntryProcessor processor = factory.createProcessor(statement);
+			if(processor == null)
+	    	{
+	    		log.warn(String.format("No processor found for entry type %s", FormatterUtil.toWireFormat(comp.getClinicalStatement().getTemplateId())));
+	    		continue;
+	    	}
+			
 			processor.setContext(organizerContext);
 			processor.process(statement);
 			
 		}
+		
+		// Process entry relationships
+		super.processEntryRelationships(entry, organizerContext);
+		
 		return organizerObs;
 	}
 
@@ -179,12 +190,10 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 	 */
 	public boolean hasComponent(Organizer organizer, String string) {
 		II templateId = new II(string);
+		DatatypeProcessorUtil processorUtil = DatatypeProcessorUtil.getInstance();
 		for(Component4 ent : organizer.getComponent())
-			if(ent.getClinicalStatement() == null || ent.getClinicalStatement().getNullFlavor() != null ||
-			ent.getClinicalStatement().getTemplateId() == null)
-				continue;
-			else if(ent.getClinicalStatement().getTemplateId().contains(templateId))
-				return true;
+			if(processorUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+					return true;
 		return false;
 				
     }

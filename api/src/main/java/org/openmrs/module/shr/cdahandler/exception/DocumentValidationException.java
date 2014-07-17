@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.marc.everest.interfaces.IGraphable;
+
 /**
  * Represents a document import exception caused by an issue with validation
  */
@@ -15,12 +17,14 @@ public class DocumentValidationException extends DocumentImportException {
     
     // List of issues
     private final ValidationIssueCollection m_issues;
+    private final IGraphable m_target;
     
     /**
      * Constructs a new instance of the DocumentValidationException class
      */
-    public DocumentValidationException(ValidationIssueCollection issues) {
+    public DocumentValidationException(IGraphable target, ValidationIssueCollection issues) {
     	this.m_issues = issues;
+    	this.m_target = target;
     }
     /**
      * Constructs a new instance of the DocumentValidationException class with
@@ -28,10 +32,10 @@ public class DocumentValidationException extends DocumentImportException {
      * 
      * @param msg The exception message
      */
-	public DocumentValidationException(String msg, ValidationIssueCollection issues) { 
+	public DocumentValidationException(String msg, IGraphable target, ValidationIssueCollection issues) { 
 		super(msg); 
     	this.m_issues = issues;
-
+    	this.m_target = target;
 	}
     /**
      * Constructs a new instance of the DocumentValidationException class with
@@ -39,9 +43,10 @@ public class DocumentValidationException extends DocumentImportException {
      * 
      * @param ex The cause of this exception
      */
-	public DocumentValidationException(Throwable ex, ValidationIssueCollection issues) { 
+	public DocumentValidationException(Throwable ex, IGraphable target, ValidationIssueCollection issues) { 
 		super(ex); 
     	this.m_issues = issues;
+    	this.m_target = target;
 	}
     /**
      * Constructs a new instance of the DocumentValidationException class with 
@@ -50,9 +55,10 @@ public class DocumentValidationException extends DocumentImportException {
      * @param msg The exception message
      * @param ex The cause of the exception
      */
-	public DocumentValidationException(String msg, Throwable ex, ValidationIssueCollection issues) {
+	public DocumentValidationException(String msg, Throwable ex, IGraphable target, ValidationIssueCollection issues) {
 		super(msg, ex);
     	this.m_issues = issues;
+    	this.m_target = target;
 	}
 
 	/**
@@ -62,4 +68,13 @@ public class DocumentValidationException extends DocumentImportException {
 	{
 		return this.m_issues;
 	}
+	
+	/**
+	 * Gets the target object that failed validation
+	 */
+	public IGraphable getTarget()
+	{
+		return this.m_target;
+	}
+
 }

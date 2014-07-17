@@ -19,6 +19,8 @@ import org.marc.everest.datatypes.generic.IVL;
 import org.marc.everest.formatters.FormatterElementContext;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.interfaces.IGraphable;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.GlobalProperty;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
@@ -293,6 +295,19 @@ public final class DatatypeProcessorUtil {
 			
 		
 	}
+
+	/**
+	 * Returns true if the template identifiers in clinicalStatement contains 
+	 * the specified templateId
+	 */
+	public boolean hasTemplateId(InfrastructureRoot cdaObject, II templateId) {
+		if(cdaObject == null || cdaObject.getTemplateId() == null)
+			return false;
+		for(II templId : cdaObject.getTemplateId())
+			if(templateId.semanticEquals(templId).toBoolean())
+				return true;
+		return false;
+    }
 	
 	
 }

@@ -15,12 +15,14 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProc
 
 /**
  * Processor for the Pregnancy History organizer
+ * 
+ * See: PCC TF-2: 6.3.4.26
  */
 @ProcessTemplates(
 	process = {
 			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_PREGNANCY_HISTORY_ORGANIZER)
 	})
-public class PregnancyHistoryOrganizer extends OrganizerEntryProcessor {
+public class PregnancyHistoryOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	
 	/**
 	 * Gets the template name
@@ -76,6 +78,17 @@ public class PregnancyHistoryOrganizer extends OrganizerEntryProcessor {
 					validationIssues.error("A pregnancy history organizer shall only contain either a Pregnancy Observation or a Birth Event Organizer entry");
 			}
 		return validationIssues;
+    }
+
+
+	/**
+	 * Get expected entry relationships
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+	 */
+	@Override
+    protected List<String> getExpectedEntryRelationships() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
 	

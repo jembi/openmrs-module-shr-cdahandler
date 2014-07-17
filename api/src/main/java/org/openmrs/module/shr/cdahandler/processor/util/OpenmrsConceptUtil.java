@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.jfree.util.Log;
 import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.ANY;
+import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
@@ -260,6 +261,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.DATE_UUID);
 		else if(value instanceof CS)
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+		else if(value instanceof BL)
+			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.BOOLEAN_UUID);
 		else
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID);
 	}
@@ -319,6 +322,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			{
 				fullName += " (" + ((PQ)value).getUnit() + ")";
 				((ConceptNumeric)concept).setUnits(((PQ)value).getUnit());
+				((ConceptNumeric)concept).setPrecise(true);
+				
 			}
 			mapType = this.m_narrowerThan;
 		}

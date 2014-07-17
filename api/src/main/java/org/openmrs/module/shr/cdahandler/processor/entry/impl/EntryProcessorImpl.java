@@ -1,16 +1,25 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.annotations.Structure;
+import org.marc.everest.datatypes.II;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
+import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
+import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 
 /**
  * Represents an implementation of an EntryProcessor
@@ -48,6 +57,16 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		ValidationIssueCollection validationIssues = new ValidationIssueCollection();
 		if(!(object instanceof ClinicalStatement))
 			validationIssues.error(String.format("Expected ClinicalStatement got %s", object.getClass()));
+		
+		// Cast to clinical statement
+		ClinicalStatement statement = (ClinicalStatement)object;
+		// Get expected entries
+		List<String> expectedEntries = this.getExpectedEntryRelationships();
+		if(expectedEntries != null)
+			for(String comp : expectedEntries)
+				if(!this.hasEntryRelationship(statement, comp))
+					validationIssues.error(String.format("ClinicalStatement of type %s must have component matching template %s", FormatterUtil.toWireFormat(statement.getTemplateId()), comp));
+
 		return validationIssues;
 	}
 
@@ -78,4 +97,58 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				actualName = ((Structure)actual.getAnnotation(Structure.class)).name();
 		return String.format("Invalid ClinicalStatement for this entry. Expected %s found %s", expectedName, actualName);
 	}
+	
+	/**
+	 * Get the components expected in this act
+	 */
+	protected abstract List<String> getExpectedEntryRelationships();
+	
+	/**
+	 * Returns true if the section contains the specified template
+	 */
+	public final boolean hasEntryRelationship(ClinicalStatement statement, String string) {
+		return this.findEntryRelationship(statement, string).size() > 0;
+    }
+
+	/**
+	 * Find an entry relationship
+	 */
+	protected final List<EntryRelationship> findEntryRelationship(ClinicalStatement statement, String templateIdRoot) {
+		II templateId = new II(templateIdRoot);
+		List<EntryRelationship> retVal = new ArrayList<EntryRelationship>();
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		
+		// See if the template can be found
+		for(EntryRelationship ent : statement.getEntryRelationship())
+			if(ent != null && datatypeUtil.hasTemplateId(ent, templateId))
+				retVal.add(ent);
+			else if(ent.getClinicalStatement() != null &&
+					datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+				retVal.add(ent);
+		return retVal;
+	}
+
+	/**
+	 * Process entry relationships
+	 * @throws DocumentImportException 
+	 */
+	protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext) throws DocumentImportException {
+
+		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
+		for(EntryRelationship relationship : entry.getEntryRelationship())
+		{
+			if(relationship == null || relationship.getClinicalStatement() == null ||
+					relationship.getClinicalStatement().getNullFlavor() != null)
+				continue;
+			
+			EntryProcessor processor = factory.createProcessor(relationship.getClinicalStatement());
+			if(processor != null)
+			{
+				processor.setContext(childContext);
+				processor.process(relationship.getClinicalStatement());
+			}
+		}
+    }
+	
 }
+

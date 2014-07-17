@@ -9,6 +9,7 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component5;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Entry;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
@@ -25,6 +26,7 @@ import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.SectionProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
+import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 
 /**
  * Represents a section processor that iterates through entries in the 
@@ -127,13 +129,21 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	    // Validate the section has components / entries 
 	    // and/or sub-sections
 	    List<String> expectedEntries = this.getExpectedEntries(section);
+	    List<String> expectedSubSections = this.getExpectedSubSections(section);
 
 	    // Assert entry
 		if(expectedEntries != null)
 			// Must have vital sign organizer
 			for(String entry : expectedEntries)
-				if(section.getEntry().size() == 0 && !this.hasEntry(section, entry))
+				if(section.getEntry().size() == 0 || !this.hasEntry(section, entry))
 					validationIssues.error(String.format("Section %s expects entry of %s", this.getTemplateName(), entry));
+
+	    // Assert subsections
+		if(expectedSubSections != null)
+			// Must have vital sign organizer
+			for(String entry : expectedSubSections)
+				if(section.getComponent().size() == 0 || !this.hasSubSection(section, entry))
+					validationIssues.error(String.format("Section %s expects sub-section component of %s", this.getTemplateName(), entry));
 
 		
 	    return validationIssues;
@@ -145,15 +155,34 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	protected abstract List<String> getExpectedEntries(Section section);
 
 	/**
+	 * Get a list of expected sub-sections for the section
+	 * Implemented because most entries don't require sub-sections
+	 */
+	protected List<String> getExpectedSubSections(Section section){
+		return null;
+	}
+	
+	/**
 	 * Returns true if the section contains the specified template
 	 */
 	public boolean hasEntry(Section section, String string) {
 		II templateId = new II(string);
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
 		for(Entry ent : section.getEntry())
-			if(ent.getClinicalStatement() == null || ent.getClinicalStatement().getNullFlavor() != null ||
-			ent.getClinicalStatement().getTemplateId() == null)
-				continue;
-			else if(ent.getClinicalStatement().getTemplateId().contains(templateId))
+			if(datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+				return true;
+		return false;
+				
+    }
+
+	/**
+	 * Returns true if the section contains the specified section entry
+	 */
+	public boolean hasSubSection(Section section, String string) {
+		II templateId = new II(string);
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		for(Component5 ent : section.getComponent())
+			if(datatypeUtil.hasTemplateId(ent.getSection(), templateId))
 				return true;
 		return false;
 				

@@ -43,7 +43,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		// Validate the section
 		ValidationIssueCollection validationIssues = this.validate(section);
 		if (validationIssues.hasErrors())
-			throw new DocumentValidationException("Cannot process an invalid section!", validationIssues);
+			throw new DocumentValidationException("Cannot process an invalid section!", section, validationIssues);
 
 		Obs res = this.parseSectionElements(section);
 		res = Context.getObsService().saveObs(res, null);

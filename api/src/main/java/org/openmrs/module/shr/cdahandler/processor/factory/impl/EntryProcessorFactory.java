@@ -59,7 +59,7 @@ public class EntryProcessorFactory implements ProcessorFactory {
 		}
 		else 
 		{
-			log.warn(String.format("Could not find a processor for entry template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
+			log.warn(String.format("Could not find a processor for entry template %s ...", FormatterUtil.toWireFormat(object.getTemplateId())));
 			return null;
 		}
 	}

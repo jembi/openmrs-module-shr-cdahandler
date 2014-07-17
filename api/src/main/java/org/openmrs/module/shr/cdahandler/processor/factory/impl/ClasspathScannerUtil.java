@@ -47,7 +47,10 @@ public final class ClasspathScannerUtil {
 		 */
 		@Override
         public boolean match(II arg0) {
-			return this.m_sourceTemplateIdList.contains(arg0);
+			for(II id : this.m_sourceTemplateIdList)
+				if(id.semanticEquals(arg0).toBoolean())
+					return true; 
+			return false;
         }
 		
 	}

@@ -99,7 +99,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		// Perform any additional validation over and above the regular validation
 		ValidationIssueCollection validationIssues = this.validate(doc);
 		if(validationIssues.hasErrors())
-			throw new DocumentValidationException("This document is not valid according to its template", validationIssues);
+			throw new DocumentValidationException("This document is not valid according to its template", doc, validationIssues);
 				
 		Visit visitInformation = this.processHeader(doc);
 		

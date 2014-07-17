@@ -45,5 +45,14 @@ public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
     protected List<String> getExpectedComponents() {
 		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION);
     }
+
+	/**
+	 * Get expected entry relationships
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+	 */
+	@Override
+    protected List<String> getExpectedEntryRelationships() {
+	    return null;
+    }
 	
 }

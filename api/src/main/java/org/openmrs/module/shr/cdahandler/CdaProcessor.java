@@ -15,6 +15,7 @@ import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.ClasspathScannerUtil;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.DocumentProcessorFactory;
@@ -110,14 +111,19 @@ public class CdaProcessor {
 			log.debug("Starting processing of document");
 			IFormatterParseResult parseResult = formatter.parse(doc);
 			log.debug("Process document complete.");
+			
+			
 			// Output validation messages
+			ValidationIssueCollection parsingIssues = new ValidationIssueCollection();
 			for(IResultDetail dtl : parseResult.getDetails())
 			{
-				if(dtl.getType() == ResultDetailType.ERROR && dtl.getException() != null)
-					log.error(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
-				else if(dtl.getException() != null) 
-					log.debug(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()), dtl.getException());
+				if(dtl.getType() == ResultDetailType.ERROR)
+					parsingIssues.error(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()));
+				else  
+					parsingIssues.warn(String.format("%s at %s", dtl.getMessage(), dtl.getLocation()));
 			}
+			if(parsingIssues.hasErrors())
+				throw new DocumentValidationException(parseResult.getStructure(), parsingIssues);
 			
 			// Get the clinical document
 			ClinicalDocument clinicalDocument = (ClinicalDocument)parseResult.getStructure();
