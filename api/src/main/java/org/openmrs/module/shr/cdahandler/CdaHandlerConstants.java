@@ -1,5 +1,7 @@
 package org.openmrs.module.shr.cdahandler;
 
+import java.util.UUID;
+
 /**
  * A constant list of OIDs
  */
@@ -49,6 +51,10 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_FAMILY_HISTORY_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.15";
 	public static final String ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION = "1.3.6.1.4.19376.1.5.3.1.4.13.3";
 	public static final String ENT_TEMPLATE_SOCIAL_HISTORY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.4";
+	public static final String ENT_TEMPLATE_PREGNANCY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.5";
+	public static final String ENT_TEMPLATE_PREGNANCY_HISTORY_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1";
+	public static final String ENT_TEMPLATE_BIRTH_EVENT_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.5.2";
+	public static final String ENT_TEMPLATE_PROBLEM_CONCERN = "1.3.6.1.4.1.19376.1.5.3.1.4.5.2";
 	
 	// Automatically create concepts
     public static final String PROP_AUTOCREATE_CONCEPTS = "shr.cdahandler.autocreate.concepts";
@@ -66,6 +72,8 @@ public final class CdaHandlerConstants {
     public static final String PROP_AUTOCREATE_PROVIDERS = "shr.cdahandler.autocreate.providers";
 	// Property controlling the format of complex identifiers
     public static final String PROP_ID_FORMAT = "shr.cdahandler.id.format";
-
+    // Testing mode
+    public static final String PROP_TEST_MODE = "shr.cdahandler.testmode";
+    
 	
 }

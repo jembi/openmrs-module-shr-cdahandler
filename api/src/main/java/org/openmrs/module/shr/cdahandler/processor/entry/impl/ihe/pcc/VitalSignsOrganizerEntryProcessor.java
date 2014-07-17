@@ -17,7 +17,7 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProc
  * A class that processes a vital signs organizer
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER)
 	})
 public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
@@ -34,7 +34,7 @@ public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	 * Get the expected code
 	 */
 	@Override
-    protected CE<String> getExpectedCode() {
+    public CE<String> getExpectedCode() {
 		return new CE<String>("46680005", CdaHandlerConstants.CODE_SYSTEM_SNOMED, "SNOMED CT", null, "Vital Signs", null);
     }
 

@@ -95,11 +95,15 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			String description, Class<?> enumeratedVocabularySource) throws DocumentImportException {
 	
 		log.debug("Enter: getOrCreateConceptSource");
-		if(hl7.equals(CdaHandlerConstants.CODE_SYSTEM_LOINC))
+		if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_LOINC))
 			name = "LOINC";
-		else if(hl7.equals(CdaHandlerConstants.CODE_SYSTEM_SNOMED))
+		else if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_SNOMED))
 			name = "SNOMED CT";
 
+		// HL7 name
+		if(name == null)
+			name = hl7;
+		
 		ConceptSource conceptSource = null;
 		for(ConceptSource source : Context.getConceptService().getAllConceptSources())
 			if(source.getHl7Code() != null && source.getHl7Code().equals(hl7) ||
@@ -111,8 +115,6 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		{
 			conceptSource = new ConceptSource();
 			conceptSource.setName(name);
-			if(name.equals("HL7 Marital status"))
-				conceptSource.setName(name);
 			conceptSource.setHl7Code(hl7);
 			conceptSource.setDescription(description);
 			conceptSource = Context.getConceptService().saveConceptSource(conceptSource);
@@ -131,7 +133,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	/**
 	 * Create all the concepts in an enumerated vocabulary
 	 */
-	private List<Concept> createEnumeratedVocabularyConcepts(Class<? extends IEnumeratedVocabulary> enumeratedVocabularySource, String codeSystemOid, ANY valueToCarry) {
+	public List<Concept> createEnumeratedVocabularyConcepts(Class<? extends IEnumeratedVocabulary> enumeratedVocabularySource, String codeSystemOid, ANY valueToCarry) {
 
 		if(!this.m_autoCreateConcepts)
 			throw new IllegalStateException("Cannot create concepts according to configuration");
@@ -149,7 +151,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 					try {
 						
                         IEnumeratedVocabulary value = (IEnumeratedVocabulary)f.get(null);
-                        retVal.add(this.createConcept(new CV<String>(value.getCode(), value.getCodeSystem(), null, null, f.getName(), null), valueToCarry));
+                        retVal.add(this.getOrCreateConcept(new CV<String>(value.getCode(), value.getCodeSystem(), null, null, f.getName(), null)));
                     }
                     catch (Exception e) {
                     }
@@ -308,12 +310,16 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		ConceptMapType mapType = this.m_sameAs;
 		ConceptDatatype dataType = this.getConceptDatatype(value);
 		// Is this a numeric type that has a value? If so, we need to ensure we create it
-		if(value instanceof PQ)
+		if(dataType.getUuid().equals(ConceptDatatype.NUMERIC_UUID))
 		{
-			log.debug("Creating PQ based concept, set map to NARROWER-THAN");
-			fullName += " (" + ((PQ)value).getUnit() + ")";
+			log.debug("Creating numeric based concept, set map to NARROWER-THAN");
 			concept = new ConceptNumeric();
-			((ConceptNumeric)concept).setUnits(((PQ)value).getUnit());
+			
+			if(value instanceof PQ)
+			{
+				fullName += " (" + ((PQ)value).getUnit() + ")";
+				((ConceptNumeric)concept).setUnits(((PQ)value).getUnit());
+			}
 			mapType = this.m_narrowerThan;
 		}
 		else if(dataType.getUuid().equals(ConceptDatatype.COMPLEX_UUID))
@@ -364,7 +370,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Get or creste a reference term
 	 * @throws DocumentImportException 
 	 */
-	private ConceptReferenceTerm getOrCreateReferenceTerm(CV<?> code) throws DocumentImportException {
+	public ConceptReferenceTerm getOrCreateReferenceTerm(CV<?> code) throws DocumentImportException {
 
 		log.debug("Enter: getOrCreateReferenceTerm");
 
@@ -503,28 +509,27 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		List<Concept> candidateConcepts = this.getConcepts(code);
 		
+		
 		if(value instanceof PQ) // unit specific concept map
 		{
-			String unit = ((PQ)value).getUnit();
 			for(Concept concept : candidateConcepts)
 			{
-				log.debug(String.format("Concept %s", concept.getName()));
+				
 				// Try to get as a numeric
 				ConceptNumeric numericConcept = Context.getConceptService().getConceptNumericByUuid(concept.getUuid());
-				if(numericConcept != null && numericConcept.getUnits().equalsIgnoreCase(unit))
-						return concept;
+				if(numericConcept != null && ((PQ)value).isUnitComparable(numericConcept.getUnits()))
+				{
+					return concept;
+				}
 			}
 			log.debug("Exit: getTypeSpecificConcept");
 			return null;
 		}
-		else if(candidateConcepts.size() > 0)
-		{
-			log.debug("Exit: getTypeSpecificConcept");
-			return candidateConcepts.get(0);
-		}
-		else
-		{
-			log.debug("Exit: getTypeSpecificConcept");
+		else{
+			ConceptDatatype conceptDatatype = this.getConceptDatatype(value);
+			for(Concept c : candidateConcepts)
+				if(c.getDatatype().equals(conceptDatatype))
+					return c;
 			return null;
 		}
     }

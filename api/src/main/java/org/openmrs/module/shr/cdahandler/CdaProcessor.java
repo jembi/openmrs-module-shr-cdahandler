@@ -155,6 +155,8 @@ public class CdaProcessor {
 		}
 		catch(DocumentValidationException e)
 		{
+			// TODO: How to rollback?
+			
 			for(IResultDetail dtl : e.getValidationIssues())
 				log.error(dtl.getMessage());
 			throw e;

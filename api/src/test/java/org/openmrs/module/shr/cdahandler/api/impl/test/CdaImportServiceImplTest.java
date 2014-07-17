@@ -22,6 +22,7 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.Relationship;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumHistoryAndPhysicalDocumentProcessor;
@@ -44,6 +45,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 
 		this.m_service = Context.getService(CdaImportService.class);
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
+		Context.getAdministrationService().setGlobalProperty(CdaHandlerConstants.PROP_TEST_MODE, "true");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		BasicConfigurator.configure();
 		
@@ -94,6 +96,14 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 
 	}
 
+	@Test
+	public void shouldParseValidAphpFullTest() {
+		String id = this.doParseCda("/validAphpSampleFullSections.xml");
+		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+
+	}
+
+
 
 	@Test
 	public void shouldParseValidAphpPovichTest2() {
@@ -131,4 +141,11 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		String id = this.doParseCda("/validCdaLevel3Sample2.xml");
 		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}
+
+	@Test
+	public void shouldParseCdaFromHl7() {
+		String id = this.doParseCda("/cdaFromHl7.xml");
+		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+	}
+
 }

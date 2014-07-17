@@ -14,9 +14,15 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
 
 /**
  * A processor that parses the family medical history templates (Level 2 and Level 3)
+ * 
+ * From PCC:
+ * The family history section shall include entries for family history as described in the Entry Content Modules. 
+ * 
+ * See: PCC TF-2:6.3.3.2.12
+ * See: PCC TF-2:6.3.3.2.13
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 		@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_FAMILY_HISTORY),
 		@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CODED_FAMILY_MEDICAL_HISTORY)
 	})
@@ -44,7 +50,7 @@ public class FamilyMedicalHistorySectionProcessor extends GenericLevel3SectionPr
 	 * Get the expected code
 	 */
 	@Override
-    protected CE<String> getExpectedSectionCode(Section section) {
+    public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10157-6", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF FAMILY MEMBER DISEASES", null);
     }
 	

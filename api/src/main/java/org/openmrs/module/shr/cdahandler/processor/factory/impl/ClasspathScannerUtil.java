@@ -97,7 +97,7 @@ public final class ClasspathScannerUtil {
 				
 				// Get the templates and add them to the  
 				LIST<II> templateIds = new LIST<II>();
-				for(TemplateId id : processAnnotation.understands())
+				for(TemplateId id : processAnnotation.process())
 					templateIds.add(new II(id.root()));
 				
 				// Add to the processor list

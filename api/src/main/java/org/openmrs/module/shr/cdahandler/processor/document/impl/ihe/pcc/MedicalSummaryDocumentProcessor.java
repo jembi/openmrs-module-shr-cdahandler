@@ -18,7 +18,7 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  * Represents a processor that can import PCC Medical Summaries 
  */
 @ProcessTemplates
-( understands = {
+( process = {
 		@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_SUMMARY)
 })
 public class MedicalSummaryDocumentProcessor extends MedicalDocumentsDocumentProcessor {

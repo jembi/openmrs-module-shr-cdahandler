@@ -15,9 +15,15 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
 
 /**
  * Represents a vital signs section processor for coded or non coded vital signs
+ * 
+ * From PCC:
+ * The vital signs section contains coded measurement results of a patient’s vital signs
+ * 
+ * See: PCC TF-2:6.3.3.4.5
+ * See: PCC TF-2:6.3.3.4.4
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CCD_3_12),
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CODED_VITAL_SIGNS),
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_VITAL_SIGNS)
@@ -40,7 +46,7 @@ public class VitalSignsSectionProcessor extends GenericLevel3SectionProcessor  {
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor#getExpectedSectionCode(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
 	 */
 	@Override
-    protected CE<String> getExpectedSectionCode(Section section) {
+    public CE<String> getExpectedSectionCode() {
 		return new CE<String>("8716-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "VITAL SIGNS", null);
     }
 	

@@ -86,7 +86,7 @@ public final class PersonProcessorUtil {
 			throw new DocumentImportException("Cannot parse a null person relationship");
 		else if(!this.m_autoCreatePersons)
 			throw new IllegalStateException("Cannot auto-create persons according to current global properties");
-		
+
 		Person res = new Person();
 		
 		// Parse names
@@ -116,6 +116,8 @@ public final class PersonProcessorUtil {
 			throw new DocumentImportException("Entity role is null");
 		else if(entity.getAssociatedPerson() == null || entity.getAssociatedPerson().getNullFlavor() != null)
 			throw new DocumentImportException("Entity role is null");
+		else if (entity.getCode() == null && entity.getCode().isNull())
+			throw new DocumentImportException("Entity role must have a valid relationship code");
 		
 		DatatypeProcessorUtil datatypeProcessor = DatatypeProcessorUtil.getInstance();
 		OpenmrsMetadataUtil metadataProcessor = OpenmrsMetadataUtil.getInstance();

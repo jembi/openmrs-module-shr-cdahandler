@@ -12,7 +12,7 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  * A history and physical document processor
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_HISTORY_PHYSICAL)
 	})
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.RecordTarget;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 
 /**

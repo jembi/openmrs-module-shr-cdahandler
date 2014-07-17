@@ -1,18 +1,24 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
 import java.text.ParseException;
+import java.util.List;
 
+import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
+import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
@@ -36,19 +42,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		ValidationIssueCollection validationIssues = this.validate(entry);
 		if(validationIssues.hasErrors())
 			throw new DocumentValidationException("Cannot process an invalid entry", validationIssues);
-		// Create the observation for this template
-		Obs observation = this.parseObservation((Observation)entry);
-		observation = Context.getObsService().saveObs(observation, null);
-		return observation;
-	}
 
-	/**
-	 * Parse the observation
-	 * @throws DocumentImportException 
-	 * @throws ParseException 
-	 */
-	protected Obs parseObservation(Observation entry) throws DocumentImportException {
-
+		// Observation from entry
+		Observation observation = (Observation)entry;
+		
 		// Create concept and datatype services
 		OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
 		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
@@ -66,79 +63,101 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		res.setDateCreated(encounterInfo.getDateCreated());
 		res.setEncounter(encounterInfo);
 		
-		if(entry.getId() != null && !entry.getId().isNull())
-			res.setAccessionNumber(datatypeUtil.formatIdentifier(entry.getId().get(0)));
+		if(observation.getId() != null && !observation.getId().isNull())
+			res.setAccessionNumber(datatypeUtil.formatIdentifier(observation.getId().get(0)));
 		
+		// Value may be changed
+		ANY value = observation.getValue();
 		// Code 
-		Concept concept = conceptUtil.getTypeSpecificConcept(entry.getCode(), entry.getValue());
-		if(concept == null && entry.getValue() != null)
+		Concept concept = conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
+		if(concept == null && observation.getValue() != null)
 		{
-			concept = conceptUtil.createConcept(entry.getCode(), entry.getValue());
+			concept = conceptUtil.createConcept(observation.getCode(), observation.getValue());
 			// Try to add this concept as a valid set member of the context
 			conceptUtil.addConceptToSet(parentObs.getConcept(), concept);
 		}
 		else if(concept == null)
-			throw new DocumentImportException("Cannot reliably establish the type of observation concept to create");
-		else if(!concept.getDatatype().equals(conceptUtil.getConceptDatatype(entry.getValue())))
-			throw new DocumentImportException("Cannot store the specified type of data in the concept field");
+			throw new DocumentImportException(String.format("Cannot reliably establish the type of observation concept to create based on code %s", observation.getCode()));
+		else if(concept.getDatatype().getUuid().equals(ConceptDatatype.N_A_UUID) && (observation.getValue() == null || observation.getValue() instanceof CV)) // NA is an indicator .. We need to figure out what the question was?
+		{
+			List<Concept> questions = Context.getConceptService().getConceptsByAnswer(concept);
+			if(questions.size() == 1)// There is only one question so we set the value
+			{
+				concept = questions.get(0);
+				value = observation.getCode();
+			}
+			else
+				throw new DocumentImportException(String.format("Cannot store data of type %s in a concept field assigned %s", conceptUtil.getConceptDatatype(observation.getValue()).getName(), concept.getDatatype().getName()));
+			
+		}
+		else if(!concept.getDatatype().equals(conceptUtil.getConceptDatatype(observation.getValue())))
+			throw new DocumentImportException(String.format("Cannot store data of type %s in a concept field assigned %s", conceptUtil.getConceptDatatype(observation.getValue()).getName(), concept.getDatatype().getName()));
+		
 		res.setConcept(concept);
 		
 		// Effective time is value
-		if(entry.getEffectiveTime() != null)
+		if(observation.getEffectiveTime() != null)
 		{
-			if(entry.getEffectiveTime().getValue() != null && !entry.getEffectiveTime().getValue().isNull())
-				res.setObsDatetime(entry.getEffectiveTime().getValue().getDateValue().getTime());
+			if(observation.getEffectiveTime().getValue() != null && !observation.getEffectiveTime().getValue().isNull())
+				res.setObsDatetime(observation.getEffectiveTime().getValue().getDateValue().getTime());
 			else 
 				res.setObsDatetime(null); // the time isn't known or can't be represented in oMRS
 			
 		}
 		else
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
-		
-		// Repeat number ... as an obs.. 
-		if(entry.getRepeatNumber() != null && entry.getRepeatNumber().getValue() != null)
-		{
-			Obs repeatObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.repeatNumber"), entry.getEffectiveTime().getValue(), entry.getRepeatNumber().getValue());
-			repeatObs.setPerson(res.getPerson());
-			repeatObs.setLocation(res.getLocation());
-			repeatObs.setEncounter(res.getEncounter());
-			res.addGroupMember(repeatObs);
-		}
-		
-		// Method
-		if(entry.getMethodCode() != null)
-			for(CE<String> methodCode : entry.getMethodCode())
-			{
-				Obs methodObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.methodCode"), entry.getEffectiveTime().getValue(), methodCode);
-				methodObs.setPerson(res.getPerson());
-				methodObs.setLocation(res.getLocation());
-				methodObs.setEncounter(res.getEncounter());
-				res.addGroupMember(methodObs);
-			}
-
-		// Interpretation
-		if(entry.getInterpretationCode() != null)
-			for(CE<ObservationInterpretation> methodCode : entry.getInterpretationCode())
-			{
-				Obs interprationObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.interpretationCode"), entry.getEffectiveTime().getValue(), methodCode);
-				interprationObs.setPerson(res.getPerson());
-				interprationObs.setLocation(res.getLocation());
-				interprationObs.setEncounter(res.getEncounter());
-				res.addGroupMember(interprationObs);
-			}
 
 		// Get entry value
 		try
 		{
-			dataUtil.setObsValue(res, entry.getValue());
+			res = dataUtil.setObsValue(res, value);
+			res = Context.getObsService().saveObs(res, null);
 		}
-		catch(ParseException e)
+		catch(Exception e)
 		{
-			throw new DocumentImportException("Could not set obs value", e);
+			throw new DocumentPersistenceException("Could not set obs value", e);
 		}
 		
+		
+		// Repeat number ... as an obs.. 
+		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
+		{
+			Obs repeatObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.repeatNumber"), observation.getEffectiveTime().getValue(), observation.getRepeatNumber().getValue());
+			repeatObs.setPerson(res.getPerson());
+			repeatObs.setLocation(res.getLocation());
+			repeatObs.setEncounter(res.getEncounter());
+			repeatObs.setObsGroup(res);
+			Context.getObsService().saveObs(repeatObs, null);
+		}
+		
+		// Method
+		if(observation.getMethodCode() != null)
+			for(CE<String> methodCode : observation.getMethodCode())
+			{
+				Obs methodObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.methodCode"), observation.getEffectiveTime().getValue(), methodCode);
+				methodObs.setPerson(res.getPerson());
+				methodObs.setLocation(res.getLocation());
+				methodObs.setEncounter(res.getEncounter());
+				methodObs.setObsGroup(res);
+				Context.getObsService().saveObs(methodObs, null);
+			}
+
+		// Interpretation
+		if(observation.getInterpretationCode() != null)
+			for(CE<ObservationInterpretation> interpretationCode : observation.getInterpretationCode())
+			{
+				Obs interpretationObs = dataUtil.getRmimValueObservation(conceptUtil.getLocalizedString("obs.interpretationCode"), observation.getEffectiveTime().getValue(), interpretationCode);
+				interpretationObs.setPerson(res.getPerson());
+				interpretationObs.setLocation(res.getLocation());
+				interpretationObs.setEncounter(res.getEncounter());
+				interpretationObs.setObsGroup(res);
+				Context.getObsService().saveObs(interpretationObs, null);
+			}
+
 		return res;
-    }
+	}
+
+
 
 
 	/**
@@ -168,9 +187,18 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			validationIssues.warn(String.format("Observation carries code %s but expected %s", obs.getCode(), expectedCode.getCode()));
 		else if(expectedCode != null && obs.getCode().getDisplayName() == null)
 			obs.getCode().setDisplayName(expectedCode.getDisplayName());
-
 		if(obs.getCode() == null)
 			validationIssues.error("All observations must have a code to be imported");
+
+		if(obs.getInterpretationCode() != null)
+			for(CE<ObservationInterpretation> code : obs.getInterpretationCode())
+				if(code.getCode() != null && code.getCode().getCodeSystem() == null)
+					validationIssues.error("Interpretation code must be drawn from ObservationInterpretation");
+		if(obs.getMethodCode() != null)
+			for(CE<String> code : obs.getMethodCode())
+				if(code.getCode() != null && code.getCodeSystem() == null)
+					validationIssues.error("MethodCode must specify the valuset from which it was drawn via CodeSystem attribute");
+		
 		
 		return validationIssues;
 	}

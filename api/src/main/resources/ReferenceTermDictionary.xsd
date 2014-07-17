@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://ohie.org/openshr/data" xmlns="http://ohie.org/openshr/data" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="codeSystem">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LOINC"/>
+      <xs:enumeration value="SNOMED CT"/>
+      <xs:enumeration value="HL7_MARITAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="classification">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Test"/>
+      <xs:enumeration value="Procedure"/>
+      <xs:enumeration value="Drug"/>
+      <xs:enumeration value="Diagnosis"/>
+      <xs:enumeration value="Finding"/>
+      <xs:enumeration value="Question"/>
+      <xs:enumeration value="ConvSet"/>
+      <xs:enumeration value="Symptom"/>
+      <xs:enumeration value="Specimen"/>
+      <xs:enumeration value="Misc"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="conceptType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Numeric"/>
+      <xs:enumeration value="Coded"/>
+      <xs:enumeration value="Date"/>
+      <xs:enumeration value="Boolean"/>
+      <xs:enumeration value="Text"/>
+      <xs:enumeration value="N/A"/>
+      <xs:enumeration value="Complex"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="setList">
+    <xs:list itemType="xs:string"/>
+  </xs:simpleType>
+  <xs:simpleType name="mapType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value=""/>
+      <xs:enumeration value="SAME-AS"/>
+      <xs:enumeration value="NARROWER-THAN"/>
+      <xs:enumeration value="BROADER-THAN"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="referenceTermDictionary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="referenceTerm" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" type="xs:string" />
+              <xs:element name="code" type="xs:string" />
+              <xs:element name="description" type="xs:string" />
+              <xs:element name="conceptType" type="conceptType" />
+              <xs:element name="classification" type="classification" default="Misc" />
+              <xs:element name="codeSystemName" type="codeSystem" />
+              <xs:element name="units" type="xs:string" />
+              <xs:element name="setOf" type="setList" />
+              <xs:element name="mapping">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="concept">
+                      <xs:complexType>
+                        <xs:sequence>
+                       	  <xs:element name="cielId" type="xs:string" />
+                          <xs:element name="name" type="xs:string" />
+                          <xs:element name="mapType" type="mapType" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

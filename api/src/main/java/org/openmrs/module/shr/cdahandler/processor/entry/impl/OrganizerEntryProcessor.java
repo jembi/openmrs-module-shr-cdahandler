@@ -135,7 +135,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 	/**
 	 * Get the expected codes
 	 */
-	protected abstract CE<String> getExpectedCode();
+	public abstract CE<String> getExpectedCode();
 	
 	/**
 	 * Get the components expected in this organizer

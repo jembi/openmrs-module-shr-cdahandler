@@ -9,9 +9,14 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 
 /**
  * A template processor that supports the Assessment & Plan section 
+ * 
+ * From PCC:
+ * The assessment and plan section shall contain a narrative description of the assessment of the patient condition and expectations for care including proposals, goals, and order requests for monitoring, tracking, or improving the condition of the patient. 
+ * 
+ * See: PCC TF-2:6.3.3.6.2
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_ASSESSMENT_AND_PLAN)
 	})
 public class AssessmentAndPlanSectionProcessor extends GenericLevel2SectionProcessor {
@@ -29,7 +34,7 @@ public class AssessmentAndPlanSectionProcessor extends GenericLevel2SectionProce
 	 * Get the expected section code
 	 */
 	@Override
-    protected CE<String> getExpectedSectionCode(Section section) {
+    public CE<String> getExpectedSectionCode() {
 	    // TODO Auto-generated method stub
 	    return new CE<String>("51847-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "ASSESSMENT AND PLAN", null);
     }

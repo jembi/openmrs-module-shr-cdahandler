@@ -138,7 +138,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		else
 		{
 		
-		    CE<String> expectedCode = this.getExpectedSectionCode(section);
+		    CE<String> expectedCode = this.getExpectedSectionCode();
 	
 			// Assert code
 		    if(expectedCode != null &&
@@ -179,7 +179,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	/**
 	 * Gets a list of Expected code (anything for generic)
 	 */
-	protected CE<String> getExpectedSectionCode(Section section) 
+	public CE<String> getExpectedSectionCode() 
 	{
 		return null;
 	}

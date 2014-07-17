@@ -16,7 +16,7 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  * Represents a processor for APHP
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_ANTEPARTUM_HISTORY_AND_PHYSICAL)
 	})
 public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhysicalDocumentProcessor {

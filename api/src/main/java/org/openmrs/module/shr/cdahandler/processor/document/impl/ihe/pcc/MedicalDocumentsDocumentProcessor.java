@@ -20,7 +20,7 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  * Represents a processor that can import PCC Medical Documents 
  */
 @ProcessTemplates
-( understands = {
+( process = {
 		@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS)
 })
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {

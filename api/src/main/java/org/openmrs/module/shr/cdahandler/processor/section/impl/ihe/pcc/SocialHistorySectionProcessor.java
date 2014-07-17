@@ -13,9 +13,15 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
 
 /**
  * Template processor that handles Social History sections (Level 2 or 3)
+ * 
+ * From PCC:
+ * The social history section shall contain a narrative description of the person’s beliefs, home life, community life, work life, hobbies, and risky habits. 
+ * 
+ * See:PCC TF-2:6.3.3.2.14
+ * See: PCC TF-2 CDA Suppl:6.3.3.2.36
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_SOCIAL_HISTORY),
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CODED_SOCIAL_HISTORY)
 	})
@@ -43,7 +49,7 @@ public class SocialHistorySectionProcessor extends GenericLevel3SectionProcessor
 	 * Get the expected section code
 	 */
 	@Override
-    protected CE<String> getExpectedSectionCode(Section section) {
+    public CE<String> getExpectedSectionCode() {
 		return new CE<String>("29762-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "SOCIAL HISTORY", null);
     }
 	

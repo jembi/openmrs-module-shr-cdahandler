@@ -9,9 +9,14 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 
 /**
  * A History of Surgical Procedures Section processor
+ * 
+ * From PCC:
+ * The History of Surgical Procedures Section shall contain a narrative description of the surgical procedures performed on the patient.
+ * 
+ * See: PCC TF-2 CDA Suppl:6.3.3.2.44
  */
 @ProcessTemplates(
-	understands = {
+	process = {
 			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES)
 	})
 public class HistoryOfSurgicalProceduresSectionProcessor extends GenericLevel2SectionProcessor {
@@ -28,7 +33,7 @@ public class HistoryOfSurgicalProceduresSectionProcessor extends GenericLevel2Se
 	 * Gets the expected code for the section 
 	 */
 	@Override
-    protected CE<String> getExpectedSectionCode(Section section) {
+    public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10167-5", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF SURGICAL PROCEDURES", null);
     }
 	

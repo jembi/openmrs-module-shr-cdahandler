@@ -56,7 +56,7 @@ public class ProcessorContext {
 	/**
 	 * Gets the parser that is being used in this context
 	 */
-	public Processor getParser() { return this.m_parser; }
+	public Processor getProcessor() { return this.m_parser; }
 	/**
 	 * Gets the OpenMRS object that this context is currently building 
 	 */
