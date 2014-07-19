@@ -1,10 +1,8 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.marc.everest.annotations.Properties;
 import org.marc.everest.annotations.Property;

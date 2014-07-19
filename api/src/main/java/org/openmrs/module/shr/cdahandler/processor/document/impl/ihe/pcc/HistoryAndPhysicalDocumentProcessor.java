@@ -6,14 +6,13 @@ import java.util.List;
 import org.marc.everest.datatypes.generic.CE;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 
 /**
  * A history and physical document processor
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_HISTORY_PHYSICAL)
+	templateIds = {
+			CdaHandlerConstants.DOC_TEMPLATE_HISTORY_PHYSICAL
 	})
 
 public class HistoryAndPhysicalDocumentProcessor extends MedicalSummaryDocumentProcessor {

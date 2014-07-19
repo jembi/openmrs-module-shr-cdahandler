@@ -9,14 +9,11 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Obs;
 import org.openmrs.activelist.ActiveListItem;
-import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.activelist.ProblemModifier;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 
@@ -26,8 +23,8 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
  * See: PCC TF-2: 6.3.4.12
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_CONCERN)
+	templateIds = {
+			CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_CONCERN
 	})
 public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 

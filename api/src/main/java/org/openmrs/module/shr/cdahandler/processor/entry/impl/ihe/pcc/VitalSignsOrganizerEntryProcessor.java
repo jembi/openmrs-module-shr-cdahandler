@@ -6,15 +6,14 @@ import java.util.List;
 import org.marc.everest.datatypes.generic.CE;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
 
 /**
  * A class that processes a vital signs organizer
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER)
+	templateIds = {
+			CdaHandlerConstants.ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER
 	})
 public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	

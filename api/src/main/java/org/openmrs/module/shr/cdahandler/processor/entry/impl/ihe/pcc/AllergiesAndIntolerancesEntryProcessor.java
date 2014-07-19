@@ -11,17 +11,16 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;;
 /**
  * Represents an observation processor for Allergies and Intolerances section
  */
 @ProcessTemplates(
-	process={
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_ALLERGY_AND_INTOLERANCE_OBSERVATION)
+	templateIds={
+			CdaHandlerConstants.ENT_TEMPLATE_ALLERGY_AND_INTOLERANCE_OBSERVATION
 	})
 public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEntryProcessor {
 

@@ -8,7 +8,6 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor;
 
 /**
@@ -21,10 +20,10 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  * See: PCC TF-2:6.3.3.4.4
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CCD_3_12),
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CODED_VITAL_SIGNS),
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_VITAL_SIGNS)
+	templateIds = {
+			CdaHandlerConstants.SCT_TEMPLATE_CCD_3_12,
+			CdaHandlerConstants.SCT_TEMPLATE_CODED_VITAL_SIGNS,
+			CdaHandlerConstants.SCT_TEMPLATE_VITAL_SIGNS
 	})
 public class VitalSignsSectionProcessor extends GenericLevel3SectionProcessor  {
 

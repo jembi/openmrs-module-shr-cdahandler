@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.jfree.util.Log;
 import org.marc.everest.annotations.Structure;
@@ -108,6 +107,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			name = "LOINC";
 		else if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_SNOMED))
 			name = "SNOMED CT";
+		else if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_CIEL))
+			name = "CIEL";
 
 		// HL7 name
 		if(name == null)
@@ -357,8 +358,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		// Does a concept exist with the exact same name?
 		
-		List<Concept> existingConcept = Context.getConceptService().getConceptsByName(fullName, locale, true);
-		if(existingConcept.size() > 0)
+		Concept existingConcept = Context.getConceptService().getConcept(fullName);
+		if(existingConcept != null)
 		{
 			log.debug("Duplicate concept name found, renaming");
 			ConceptName name = concept.getFullySpecifiedName(locale);

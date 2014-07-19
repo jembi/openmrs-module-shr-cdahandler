@@ -57,7 +57,7 @@
   <!-- Match reference term -->
   <xsl:template match="rd:referenceTerm">
     <!-- Create reference term if not exists -->
-    <xsl:variable name="taskId" select="rd:id * 20"/>
+    <xsl:variable name="taskId" select="rd:id * 100"/>
 
     <xsl:if test="rd:codeSystem/text()">
       <changeSet  dbms="mysql" id="{$taskId}" author="justin" runInTransaction="true">
@@ -273,7 +273,7 @@
     <!-- There is a distinct possibility the term we're mapping to doesn't exist. This means that our freshly
     created reference term isn't able to be used -->
     <xsl:variable name="referenceTerm" select="parent::rd:referenceTerm" />
-    <xsl:variable name="taskId" select="$referenceTerm/rd:id * 20" />
+    <xsl:variable name="taskId" select="$referenceTerm/rd:id * 100" />
     <xsl:variable name="id" select="$referenceTerm/rd:id"/>
     <xsl:variable name="isSet" select="//rd:setOf[contains(text(),$id)]"/>
     <xsl:variable name="cielUuid">
@@ -305,7 +305,7 @@
         <column name="concept_id" autoIncrement="true"/>
         <column name="short_name" value="{$referenceTerm/rd:code}"/>
         <column name="description" value="{rd:concept/rd:name}"/>
-        <column name="uuid" valueComputed="{$cielUuid}"/>
+        <column name="uuid" value="{$cielUuid}"/>
         <column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where name='{$referenceTerm/rd:conceptType}')"/>
         <xsl:choose>
           <!-- SET -->
@@ -393,7 +393,7 @@
     <xsl:param name="mapType"/>
     <xsl:param name="referenceTerm"/>
 
-    <changeSet  dbms="mysql" author="justin" id="{$referenceTerm/rd:id * 20 + 19}" runInTransaction="true">
+    <changeSet  dbms="mysql" author="justin" id="{$referenceTerm/rd:id * 100 + 99}" runInTransaction="true">
       <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>

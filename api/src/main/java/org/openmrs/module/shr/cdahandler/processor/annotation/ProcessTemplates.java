@@ -18,6 +18,6 @@ public @interface ProcessTemplates {
 	 * Identifies templates that this processor handles (OR) 
 	 * @return
 	 */
-	TemplateId[] process();
+	String[] templateIds();
 	
 }

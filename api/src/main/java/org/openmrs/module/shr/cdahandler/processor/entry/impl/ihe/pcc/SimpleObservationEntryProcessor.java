@@ -5,24 +5,22 @@ import java.util.List;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.Concept;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
-import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor;
-import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
-import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor;
 
 /**
  * Simple observation processor
  */
 @ProcessTemplates (
-	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_SIMPLE_OBSERVATION),
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION)
+	templateIds = {
+			CdaHandlerConstants.ENT_TEMPLATE_SIMPLE_OBSERVATION,
+			CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION
 	})
 public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 	
@@ -120,11 +118,11 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 	 */
 	protected CE<String> getConceptSetCode()
 	{
-		Processor context = this.getContext().getProcessor();
-		if(context instanceof GenericLevel2SectionProcessor)
-			return ((GenericLevel2SectionProcessor)this.getContext().getProcessor()).getExpectedSectionCode();
-		else if(context instanceof OrganizerEntryProcessor)
-			return ((OrganizerEntryProcessor)this.getContext().getProcessor()).getExpectedCode();
+		IGraphable context = this.getContext().getRawObject();
+		if(context instanceof Section)
+			return ((Section)context).getCode();
+		else if(context instanceof Organizer)
+			return ((Organizer)context).getCode();
 		else
 			return null;
 	}

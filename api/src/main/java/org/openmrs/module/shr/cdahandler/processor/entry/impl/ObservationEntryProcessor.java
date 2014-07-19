@@ -5,11 +5,13 @@ import java.util.List;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
@@ -17,11 +19,12 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
-import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
+import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 
@@ -144,6 +147,25 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		if(res.getObsDatetime() == null)
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
 
+		// Comments?
+		if(observation.getText() != null)
+		{
+			if(observation.getText().getReference() != null) // Reference
+			{
+				ProcessorContext sectionContext = this.getContext();
+				while(!(sectionContext.getRawObject() instanceof Section))
+					sectionContext = sectionContext.getParent();
+				
+				// Now find the text
+				StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
+				if(referencedNode != null)
+				{
+					res.setComment(referencedNode.toString());
+				}
+			}
+		}
+
+		
 		// Get entry value
 		res = this.m_dataUtil.setObsValue(res, value);
 		res = Context.getObsService().saveObs(res, null);
@@ -157,6 +179,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			repeatObs.setLocation(res.getLocation());
 			repeatObs.setEncounter(res.getEncounter());
 			repeatObs.setObsGroup(res);
+			repeatObs.setDateCreated(res.getDateCreated());
 			Context.getObsService().saveObs(repeatObs, null);
 		}
 		
@@ -168,6 +191,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				methodObs.setPerson(res.getPerson());
 				methodObs.setLocation(res.getLocation());
 				methodObs.setEncounter(res.getEncounter());
+				methodObs.setDateCreated(res.getDateCreated());
 				methodObs.setObsGroup(res);
 				Context.getObsService().saveObs(methodObs, null);
 			}
@@ -181,10 +205,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				interpretationObs.setLocation(res.getLocation());
 				interpretationObs.setEncounter(res.getEncounter());
 				interpretationObs.setObsGroup(res);
+				interpretationObs.setDateCreated(res.getDateCreated());
 				Context.getObsService().saveObs(interpretationObs, null);
 			}
 
-		
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(observation, res, this);
 		super.processEntryRelationships(entry, childContext);

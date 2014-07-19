@@ -1,7 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.factory;
 
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
-import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 
 /**

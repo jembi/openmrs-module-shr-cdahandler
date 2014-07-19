@@ -4,22 +4,26 @@ import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 
 /**
- * A template processor which can handle vital signs
+ * Processor for the family history observation
+ * 
+ * See: PCC TF-2: 6.3.4.57
  */
 @ProcessTemplates(
 	templateIds = {
-			CdaHandlerConstants.ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION
+			CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION
 	})
-public class VitalSignsObservationEntryProcessor extends SimpleObservationEntryProcessor {
-
+public class FamilyHistoryObservationEntryProcessor extends SimpleObservationEntryProcessor {
 
 	/**
-	 * Get the template name
+	 * Get the name of the family history observation
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.SimpleObservationEntryProcessor#getTemplateName()
 	 */
 	@Override
     public String getTemplateName() {
-		return "Vital Signs Observation";
+	    // TODO Auto-generated method stub
+	    return "Family History Observation";
     }
+	
+	
 	
 }

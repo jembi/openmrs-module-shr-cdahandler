@@ -10,7 +10,6 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
 
 /**
@@ -19,8 +18,8 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProc
  * See: PCC TF-2: 6.3.4.26
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_PREGNANCY_HISTORY_ORGANIZER)
+	templateIds = {
+			CdaHandlerConstants.ENT_TEMPLATE_PREGNANCY_HISTORY_ORGANIZER
 	})
 public class PregnancyHistoryOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	

@@ -1,8 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.NullFlavor;
@@ -23,7 +21,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor;
 
 /**
@@ -32,8 +29,8 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor;
  * See: PCC TF-2: 6.3.4.11
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_CONCERN_ENTRY)
+	templateIds = {
+			CdaHandlerConstants.ENT_TEMPLATE_CONCERN_ENTRY
 	})
 public class ConcernEntryProcessor extends ActEntryProcessor {
 

@@ -10,7 +10,6 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 
 /**
  * A class that processes severity observations
@@ -18,8 +17,8 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
  *  See: PCC TF-2:6.3.4.3
  */
 @ProcessTemplates(
-	process={
-			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_SEVERITY_OBSERVATION)
+	templateIds={
+			CdaHandlerConstants.ENT_TEMPLATE_SEVERITY_OBSERVATION
 	})
 public class SeverityObservationEntryProcessor extends SimpleObservationEntryProcessor {
 

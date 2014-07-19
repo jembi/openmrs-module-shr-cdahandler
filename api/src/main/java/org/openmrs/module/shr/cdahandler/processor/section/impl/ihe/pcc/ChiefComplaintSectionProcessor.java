@@ -3,7 +3,6 @@ package org.openmrs.module.shr.cdahandler.processor.section.impl.ihe.pcc;
 import org.marc.everest.datatypes.generic.CE;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor;
 
 /**
@@ -16,8 +15,8 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
  * 
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_CHIEF_COMPLAINT)
+	templateIds = {
+			CdaHandlerConstants.SCT_TEMPLATE_CHIEF_COMPLAINT
 	})
 public class ChiefComplaintSectionProcessor extends GenericLevel2SectionProcessor {
 

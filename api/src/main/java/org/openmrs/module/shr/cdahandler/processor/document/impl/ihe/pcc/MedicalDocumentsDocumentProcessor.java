@@ -10,15 +10,14 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.RecordTarget;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcessorImpl;
 
 /**
  * Represents a processor that can import PCC Medical Documents 
  */
 @ProcessTemplates
-( process = {
-		@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS)
+( templateIds = {
+		CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS
 })
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 

@@ -14,15 +14,12 @@ import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.activelist.ActiveListItem;
-import org.openmrs.activelist.ActiveListType;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.AllergySeverity;
 import org.openmrs.activelist.AllergyType;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 
@@ -31,7 +28,7 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
  * 
  * See: PCC TF-2: 6.3.4.13
  */
-@ProcessTemplates(process = { @TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN)})
+@ProcessTemplates(templateIds = { CdaHandlerConstants.ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN })
 public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryProcessor {
 			
 	/**

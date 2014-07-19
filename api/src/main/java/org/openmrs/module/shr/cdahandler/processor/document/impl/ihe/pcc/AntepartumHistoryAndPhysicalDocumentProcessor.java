@@ -9,14 +9,13 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 
 /**
  * Represents a processor for APHP
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.DOC_TEMPLATE_ANTEPARTUM_HISTORY_AND_PHYSICAL)
+	templateIds = {
+			CdaHandlerConstants.DOC_TEMPLATE_ANTEPARTUM_HISTORY_AND_PHYSICAL
 	})
 public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhysicalDocumentProcessor {
 

@@ -7,7 +7,6 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor;
 
 /**
@@ -19,8 +18,8 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  * See: PCC TF-2: 6.3.3.2.3
  */
 @ProcessTemplates(
-	process = {
-			@TemplateId(root = CdaHandlerConstants.SCT_TEMPLATE_ACTIVE_PROBLEMS)
+	templateIds = {
+			CdaHandlerConstants.SCT_TEMPLATE_ACTIVE_PROBLEMS
 	})
 public class ActiveProblemsSectionProcessor extends GenericLevel3SectionProcessor {
 	

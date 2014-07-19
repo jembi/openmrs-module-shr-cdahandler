@@ -12,7 +12,6 @@ import org.marc.everest.datatypes.generic.LIST;
 import org.marc.everest.datatypes.interfaces.IPredicate;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
-import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -100,8 +99,8 @@ public final class ClasspathScannerUtil {
 				
 				// Get the templates and add them to the  
 				LIST<II> templateIds = new LIST<II>();
-				for(TemplateId id : processAnnotation.process())
-					templateIds.add(new II(id.root()));
+				for(String id : processAnnotation.templateIds())
+					templateIds.add(new II(id));
 				
 				// Add to the processor list
 				this.m_processors.put((Class<Processor>)cls, templateIds);
