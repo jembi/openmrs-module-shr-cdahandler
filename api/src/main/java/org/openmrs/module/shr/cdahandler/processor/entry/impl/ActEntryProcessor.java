@@ -3,19 +3,9 @@ package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import org.marc.everest.datatypes.II;
-import org.marc.everest.datatypes.generic.CE;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
-import org.openmrs.BaseOpenmrsData;
-import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 
 /**

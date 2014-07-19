@@ -50,7 +50,7 @@ public class SeverityObservationEntryProcessor extends SimpleObservationEntryPro
 		else
 		{
 			CD<String> obsValue = (CD<String>)obs.getValue();
-			if(!obsValue.getCodeSystem().equals("2.16.840.1.113883.5.1063") ||
+			if(!obsValue.getCodeSystem().equals(CdaHandlerConstants.CODE_SYSTEM_OBSERVATION_VALUE) ||
 					!s_allowedCodes.contains( obsValue.getCode()))
 				validationIssues.error("Value of severity observaton shall be drawn from SeverityObservation code system");
 		}

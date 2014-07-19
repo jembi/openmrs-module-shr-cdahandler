@@ -1,14 +1,9 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
-import org.openmrs.BaseOpenmrsData;
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;

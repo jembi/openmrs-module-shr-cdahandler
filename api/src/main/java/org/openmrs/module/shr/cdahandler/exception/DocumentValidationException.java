@@ -1,10 +1,5 @@
 package org.openmrs.module.shr.cdahandler.exception;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.marc.everest.interfaces.IGraphable;
 
 /**

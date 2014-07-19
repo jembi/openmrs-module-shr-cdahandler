@@ -4,8 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
-import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor;
@@ -23,7 +25,8 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 	private static Object s_lockObject = new Object();
 	
 	// Log
-	protected final Log log = LogFactory.getLog(this.getClass());
+	private final Log log = LogFactory.getLog(this.getClass());
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	 
 	/**
 	 * Constructs a document parser factory
@@ -36,7 +39,7 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 	 * Gets or creates the singleton instance 
 	 * @return
 	 */
-	public final static SectionProcessorFactory getInstance()
+	public static SectionProcessorFactory getInstance()
 	{
 		if(s_instance == null)
 			synchronized (s_lockObject) {
@@ -56,15 +59,15 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 		
 		// Return document processor
 		if(candidateProcessor instanceof SectionProcessor)
-		{
 			log.info(String.format("Using template processor: '%s'", candidateProcessor.getTemplateName()));
-			return (SectionProcessor)candidateProcessor;
-		}
 		else
 		{
+			candidateProcessor = new GenericLevel2SectionProcessor();
 			log.warn(String.format("Could not find a processor for section template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
-			return new GenericLevel2SectionProcessor(); // fallback to the default implementation
 		}
+
+		
+		return (SectionProcessor)candidateProcessor;
 	}
 
 }

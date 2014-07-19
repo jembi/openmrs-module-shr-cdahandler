@@ -1,9 +1,10 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.marc.everest.annotations.Properties;
 import org.marc.everest.annotations.Property;
@@ -19,13 +20,10 @@ import org.marc.everest.datatypes.generic.IVL;
 import org.marc.everest.formatters.FormatterElementContext;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
-import org.openmrs.GlobalProperty;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -40,7 +38,7 @@ public final class DatatypeProcessorUtil {
 	private static Object s_lockObject = new Object();
 
 	// Identifier format
-	private String m_idFormat = "%2$s^^^&%1$s&ISO";
+	private CdaHandlerConfiguration m_configuration;
 
 	/**
 	 * Private ctor
@@ -48,18 +46,6 @@ public final class DatatypeProcessorUtil {
 	private DatatypeProcessorUtil()
 	{
 		
-	}
-	
-	/**
-	 * Initialize instance
-	 */
-	private void initializeInstance()
-	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_ID_FORMAT);
-		if(propertyValue != null && !propertyValue.isEmpty())
-			this.m_idFormat = propertyValue;
-		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_ID_FORMAT, this.m_idFormat));
 	}
 	
 	/**
@@ -73,7 +59,7 @@ public final class DatatypeProcessorUtil {
 				if(s_instance == null) // Another thread might have created while we were waiting for a lock
 				{
 					s_instance = new DatatypeProcessorUtil();
-					s_instance.initializeInstance();
+					s_instance.m_configuration = CdaHandlerConfiguration.getInstance();
 				}
 			}
 		}
@@ -87,7 +73,7 @@ public final class DatatypeProcessorUtil {
 	public String formatIdentifier(II id)
 	{
 		if(id == null) return "";
-		return String.format(this.m_idFormat, id.getRoot(), id.getExtension());
+		return String.format(this.m_configuration.getIdFormat(), id.getRoot(), id.getExtension());
 	}
 	
 	/**
@@ -98,7 +84,7 @@ public final class DatatypeProcessorUtil {
 	public String formatSimpleCode(CS<? extends IEnumeratedVocabulary> code)
 	{
 		if(code == null || code.getCode() == null) return "";
-		return String.format(this.m_idFormat, code.getCode().getCodeSystem(), code.getCode().getCode());
+		return String.format(this.m_configuration.getIdFormat(), code.getCode().getCodeSystem(), code.getCode().getCode());
 	}
 	
 	/**
@@ -109,7 +95,7 @@ public final class DatatypeProcessorUtil {
 	public String formatCodeValue(CV<?> code)
 	{
 		if(code == null) return "";
-		return String.format(this.m_idFormat, code.getCodeSystem(), code.getCode());
+		return String.format(this.m_configuration.getIdFormat(), code.getCodeSystem(), code.getCode());
 	}
 	/**
 	 * Parse a person name

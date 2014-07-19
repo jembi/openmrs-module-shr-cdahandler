@@ -19,6 +19,7 @@
 
 	<!-- Add here beans related to the API context -->
 
+
 	
 	<!-- Services accessible via Context.getService() -->
 	<bean parent="serviceContext">

@@ -7,18 +7,13 @@ import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Entry;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActClassDocumentEntryOrganizer;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
-import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -27,7 +22,6 @@ import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
-import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 
 /**
  * Represents a generic class which can process organizers.
@@ -42,9 +36,14 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 	 */
 	@Override
 	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
-		ValidationIssueCollection validationIssues = this.validate(entry);
-		if(validationIssues.hasErrors())
-			throw new DocumentValidationException("Cannot process an invalid entry", entry, validationIssues);
+
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(entry);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(entry, issues);
+		}
 
 		// We want to process the organizer as an Obs
 		Organizer organizer = (Organizer)entry;
@@ -53,7 +52,6 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		
 		// Cascade properties and process
 		ProcessorContext organizerContext = new ProcessorContext(organizer, organizerObs, this);
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
 		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
 		
 		// Iterate through components
@@ -65,7 +63,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 			ClinicalStatement statement = comp.getClinicalStatement();
 			
 			// Cascade data elements through the participation
-			datatypeUtil.cascade(organizer, statement, "effectiveTime","author");
+			this.m_datatypeUtil.cascade(organizer, statement, "effectiveTime","author");
 			
 			// Create processor and then process
 			EntryProcessor processor = factory.createProcessor(statement);
@@ -92,10 +90,6 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 	 */
 	protected Obs parseOrganizer(Organizer organizer) throws DocumentImportException {
 		
-		// Helper utils
-		OpenmrsConceptUtil conceptUtil = OpenmrsConceptUtil.getInstance();
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
-		
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		
 		// Organizer obs
@@ -106,12 +100,12 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		ST value = new ST(organizer.getClassCode().getCode().getCode());
 
 		// Concept
-		Concept concept = conceptUtil.getConcept(organizer.getCode());
+		Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());
 		if(concept == null && organizer.getCode() != null)
 		{
-			concept = conceptUtil.createConcept(organizer.getCode(), value);
+			concept = this.m_conceptUtil.createConcept(organizer.getCode(), value);
 			// Try to add this concept as a valid set member of the context
-			conceptUtil.addConceptToSet(parentObs.getConcept(), concept);
+			this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), concept);
 		}
 		else if(concept == null)
 			throw new DocumentImportException("Cannot reliably establish the type of organizer concept to create");
@@ -130,7 +124,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 
 		// Accession (ID) number
 		if(organizer.getId() != null)
-			organizerObs.setAccessionNumber(datatypeUtil.formatIdentifier(organizer.getId().get(0)));
+			organizerObs.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(organizer.getId().get(0)));
 		
 		// Copy encounter info
 		organizerObs.setEncounter(encounterInfo);

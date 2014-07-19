@@ -1,9 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.context;
 
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.StructuredBody;
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.Encounter;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 
 /**

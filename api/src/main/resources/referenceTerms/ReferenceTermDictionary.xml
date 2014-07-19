@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns1:referenceTermDictionary xmlns:ns1="http://ohie.org/openshr/data"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ohie.org/openshr/data ../ReferenceTermDictionary.xsd">
- 	<ns1:referenceTerm>
+<ns1:referenceTermDictionary xmlns:ns1="http://ohie.org/openshr/data">
+	<ns1:referenceTerm>
 		<ns1:id>001</ns1:id>
+		<ns1:uuid>9bc3ad1e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10162-6</ns1:code>
-		<ns1:description>HISTORY OF PREGNANCIES (Complex)</ns1:description>
+		<ns1:description>HISTORY OF PREGNANCIES (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -21,11 +21,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>002</ns1:id>
+		<ns1:uuid>9bc3b020-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>118185001</ns1:code>
 		<ns1:description>Pregnancy Finding</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001</ns1:setOf>
 		<ns1:mapping>
@@ -38,11 +40,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>003</ns1:id>
+		<ns1:uuid>9bc3b232-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11636-8</ns1:code>
 		<ns1:description>BIRTHS LIVE (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -55,11 +59,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>004</ns1:id>
+		<ns1:uuid>9bc3b566-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11637-6</ns1:code>
 		<ns1:description>BIRTHS PRETERM (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -72,11 +78,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>005</ns1:id>
+		<ns1:uuid>9bc3b782-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11638-4</ns1:code>
 		<ns1:description>BIRTHS STILL LIVING (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -89,11 +97,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>006</ns1:id>
+		<ns1:uuid>9bc3b9bc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11639-2</ns1:code>
 		<ns1:description>BIRTHS TERM (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -106,11 +116,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>007</ns1:id>
+		<ns1:uuid>9bc3bbba-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11640-0</ns1:code>
 		<ns1:description>BIRTHS TOTAL (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -123,11 +135,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>008</ns1:id>
+		<ns1:uuid>9bc3bda4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11612-9</ns1:code>
 		<ns1:description>ABORTIONS (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -140,11 +154,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>009</ns1:id>
+		<ns1:uuid>9bc3bf98-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11613-7</ns1:code>
 		<ns1:description>ABORTIONS INDUCED (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -157,11 +173,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>010</ns1:id>
+		<ns1:uuid>9bc3c178-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11614-5</ns1:code>
 		<ns1:description>ABORTIONS SPONTANEOUS (REPORTED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -174,11 +192,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>011</ns1:id>
+		<ns1:uuid>9bc3c362-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>237364002</ns1:code>
 		<ns1:description>Stillbirth (Finding)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -191,11 +211,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>012</ns1:id>
+		<ns1:uuid>9bc3c54c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>33065-4</ns1:code>
 		<ns1:description>ECTOPIC PREGNANCY (REPORTED)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Diagnosis</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -208,11 +230,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>013</ns1:id>
+		<ns1:uuid>9bc3c72c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>57062-2</ns1:code>
 		<ns1:description>Births.stillborn</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>011</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -225,11 +249,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>014</ns1:id>
+		<ns1:uuid>9bc3c916-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11996-6</ns1:code>
 		<ns1:description>Pregnancies</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -242,11 +268,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>015</ns1:id>
+		<ns1:uuid>9bc3cb00-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11639-2</ns1:code>
 		<ns1:description>Births.Term</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -259,11 +287,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>016</ns1:id>
+		<ns1:uuid>9bc3ccea-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11637-6</ns1:code>
 		<ns1:description>Births.Preterm</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -276,11 +306,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>017</ns1:id>
+		<ns1:uuid>9bc3cede-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>45371-2</ns1:code>
 		<ns1:description>Multiple pregnancy</ns1:description>
 		<ns1:conceptType>Boolean</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -293,11 +325,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>018</ns1:id>
+		<ns1:uuid>9bc3d208-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>49051-6</ns1:code>
 		<ns1:description>Gestational age</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>wk</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -310,11 +344,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>019</ns1:id>
+		<ns1:uuid>9bc3d410-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11887-7</ns1:code>
 		<ns1:description>FETUS, GESTATIONAL AGE (ESTIMATED FROM SELECTED DELIVERY DATE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>wk</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -327,11 +363,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>020</ns1:id>
+		<ns1:uuid>9bc3d5fa-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>32396-4</ns1:code>
 		<ns1:description>Labor duration</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>h</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -344,11 +382,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>021</ns1:id>
+		<ns1:uuid>9bc3d7ee-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8339-4</ns1:code>
 		<ns1:description>Body weight at birth</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>kg</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -361,11 +401,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>022</ns1:id>
+		<ns1:uuid>9bc3d9ce-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>29300-1</ns1:code>
 		<ns1:description>Procedure</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -378,11 +420,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>023</ns1:id>
+		<ns1:uuid>9bc3dbb8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8722-1</ns1:code>
 		<ns1:description>Surgical operation note anesthesia</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -395,11 +439,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>024</ns1:id>
+		<ns1:uuid>9bc3dd98-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>52829-9</ns1:code>
 		<ns1:description>Place of service</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -412,11 +458,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>025</ns1:id>
+		<ns1:uuid>9bc3df82-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>42839-1</ns1:code>
 		<ns1:description>Labor risk</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -429,11 +477,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>026</ns1:id>
+		<ns1:uuid>9bc3e162-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>42840-9</ns1:code>
 		<ns1:description>Delivery risk</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -446,11 +496,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>027</ns1:id>
+		<ns1:uuid>9bc3e34c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11449-6</ns1:code>
 		<ns1:description>PREGNANCY STATUS</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -463,11 +515,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>028</ns1:id>
+		<ns1:uuid>9bc3e52c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8678-5</ns1:code>
 		<ns1:description>MENSTRUAL STATUS</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -480,11 +534,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>029</ns1:id>
+		<ns1:uuid>9bc3e716-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8665-2</ns1:code>
 		<ns1:description>DATE LAST MENSTRUAL PERIOD</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -497,11 +553,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>030</ns1:id>
+		<ns1:uuid>9bc3e900-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11778-8</ns1:code>
 		<ns1:description>DELIVERY DATE (CLINICAL ESTIMATE)</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -514,11 +572,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>031</ns1:id>
+		<ns1:uuid>9bc3eaea-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11779-6</ns1:code>
 		<ns1:description>DELIVERY DATE (ESTIMATED FROM LAST MENSTRUAL PERIOD)</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -531,11 +591,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>032</ns1:id>
+		<ns1:uuid>9bc3edd8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11780-4</ns1:code>
 		<ns1:description>DELIVERY DATE (ESTIMATED FROM OVULATION DATE)</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -548,11 +610,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>033</ns1:id>
+		<ns1:uuid>9bc3efe0-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11884-4</ns1:code>
 		<ns1:description>FETUS, GESTATIONAL AGE (CLINICAL ESTIMATE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>wk</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -565,11 +629,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>034</ns1:id>
+		<ns1:uuid>9bc3f1ca-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11885-1</ns1:code>
 		<ns1:description>FETUS, GESTATIONAL AGE (ESTIMATED FROM LAST MENSTRUAL PERIOD)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>wk</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -582,11 +648,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>035</ns1:id>
+		<ns1:uuid>9bc3f3b4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>11886-9</ns1:code>
 		<ns1:description>FETUS, GESTATIONAL AGE (ESTIMATED FROM OVULATION DATE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>wk</ns1:units>
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
@@ -599,11 +667,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>036</ns1:id>
+		<ns1:uuid>9bc3f59e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8716-3</ns1:code>
-		<ns1:description>VITAL SIGNS (Complex)</ns1:description>
+		<ns1:description>VITAL SIGNS (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -616,11 +686,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>037</ns1:id>
+		<ns1:uuid>9bc3f9b8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>46680005</ns1:code>
 		<ns1:description>Vital Signs</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf>036</ns1:setOf>
 		<ns1:mapping>
@@ -633,11 +705,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>038</ns1:id>
+		<ns1:uuid>9bc3fbf2-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>9279-1</ns1:code>
 		<ns1:description>RESPIRATION RATE</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>/min</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -650,11 +724,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>039</ns1:id>
+		<ns1:uuid>9bc3fde6-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8867-4</ns1:code>
 		<ns1:description>HEART BEAT</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>/min</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -667,11 +743,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>040</ns1:id>
+		<ns1:uuid>9bc4002a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>2710-2</ns1:code>
 		<ns1:description>OXYGEN SATURATION</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>%</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -684,11 +762,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>042</ns1:id>
+		<ns1:uuid>9bc40228-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8480-6</ns1:code>
 		<ns1:description>INTRAVASCULAR SYSTOLIC</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>mmHg</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -701,11 +781,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>044</ns1:id>
+		<ns1:uuid>9bc40412-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8462-4</ns1:code>
 		<ns1:description>INTRAVASCULAR DIASTOLIC</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>mmHg</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -718,11 +800,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>045</ns1:id>
+		<ns1:uuid>9bc405fc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8310-5</ns1:code>
 		<ns1:description>BODY TEMPERATURE</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cel</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -735,11 +819,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>046</ns1:id>
+		<ns1:uuid>9bc407e6-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8310-5</ns1:code>
 		<ns1:description>BODY TEMPERATURE</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[degF]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -752,11 +838,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>047</ns1:id>
+		<ns1:uuid>9bc40af2-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8302-2</ns1:code>
 		<ns1:description>BODY HEIGHT (MEASURED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -769,11 +857,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>048</ns1:id>
+		<ns1:uuid>9bc40dc2-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8302-2</ns1:code>
 		<ns1:description>BODY HEIGHT (MEASURED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_us]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -786,11 +876,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>049</ns1:id>
+		<ns1:uuid>9bc40fb6-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8302-2</ns1:code>
 		<ns1:description>BODY HEIGHT (MEASURED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_uk]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -803,11 +895,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>050</ns1:id>
+		<ns1:uuid>9bc411a0-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8306-3</ns1:code>
 		<ns1:description>BODY HEIGHT^LYING</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -820,11 +914,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>051</ns1:id>
+		<ns1:uuid>9bc4138a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8306-3</ns1:code>
 		<ns1:description>BODY HEIGHT^LYING</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_us]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -837,11 +933,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>052</ns1:id>
+		<ns1:uuid>9bc4157e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8306-3</ns1:code>
 		<ns1:description>BODY HEIGHT^LYING</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_uk]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -854,11 +952,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>053</ns1:id>
+		<ns1:uuid>9bc41768-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8287-5</ns1:code>
 		<ns1:description>CIRCUMFRENCE.OCCIPITAL-FRONTAL (TAPE MEASURE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -871,11 +971,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>054</ns1:id>
+		<ns1:uuid>9bc41952-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8287-5</ns1:code>
 		<ns1:description>CIRCUMFRENCE.OCCIPITAL-FRONTAL (TAPE MEASURE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_us]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -888,11 +990,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>055</ns1:id>
+		<ns1:uuid>9bc41b32-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>8287-5</ns1:code>
 		<ns1:description>CIRCUMFRENCE.OCCIPITAL-FRONTAL (TAPE MEASURE)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>[in_uk]</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -905,11 +1009,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>056</ns1:id>
+		<ns1:uuid>9bc41d26-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>3141-9</ns1:code>
 		<ns1:description>BODY WEIGHT (MEASURED)</ns1:description>
 		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>kg</ns1:units>
 		<ns1:setOf>036 037</ns1:setOf>
 		<ns1:mapping>
@@ -922,11 +1028,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>057</ns1:id>
+		<ns1:uuid>9bc4206e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>51847-2</ns1:code>
 		<ns1:description>ASSESSMENT AND PLAN</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -939,11 +1047,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>058</ns1:id>
+		<ns1:uuid>9bc423fc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10154-3</ns1:code>
-		<ns1:description>CHIEF COMPLAINT (Complex)</ns1:description>
+		<ns1:description>CHIEF COMPLAINT (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -956,11 +1066,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>059</ns1:id>
+		<ns1:uuid>9bc4264a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10157-6</ns1:code>
-		<ns1:description>HISTORY OF FAMILY MEMBER DISEASES (Complex)</ns1:description>
+		<ns1:description>HISTORY OF FAMILY MEMBER DISEASES (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -973,11 +1085,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>060</ns1:id>
+		<ns1:uuid>9bc42848-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10164-2</ns1:code>
-		<ns1:description>HISTORY OF PRESENT ILLNESS (Complex)</ns1:description>
+		<ns1:description>HISTORY OF PRESENT ILLNESS (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -990,11 +1104,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>061</ns1:id>
+		<ns1:uuid>9bc42b4a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10167-5</ns1:code>
-		<ns1:description>HISTORY OF SURGICAL PROCEDURES (Complex)</ns1:description>
+		<ns1:description>HISTORY OF SURGICAL PROCEDURES (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -1007,11 +1123,13 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>062</ns1:id>
+		<ns1:uuid>9bc42d48-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>10187-3</ns1:code>
-		<ns1:description>REVIEW OF SYSTEMS (Complex)</ns1:description>
+		<ns1:description>REVIEW OF SYSTEMS (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -1024,13 +1142,509 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>063</ns1:id>
+		<ns1:uuid>9bc42f32-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>29762-2</ns1:code>
-		<ns1:description>SOCIAL HISTORY (Complex)</ns1:description>
+		<ns1:description>SOCIAL HISTORY (Section)</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>ConvSet</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>112</ns1:id>
+		<ns1:uuid>9bc42f32-0eb3-11e4-8742-b2227cce2587</ns1:uuid>
+		<ns1:code>11450-4</ns1:code>
+		<ns1:description>Problem List (Section)</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>113</ns1:id>
+		<ns1:uuid>9bc42f32-0eb3-11e4-8742-b2227cce4870</ns1:uuid>
+		<ns1:code>30954-2</ns1:code>
+		<ns1:description>HISTORY OF PAST ILLNESS (Section)</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>072</ns1:id>
+		<ns1:uuid>9bc4311c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>396782006</ns1:code>
+		<ns1:description>Past Medical History Unknown</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>073</ns1:id>
+		<ns1:uuid>9bc43306-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>407559004</ns1:code>
+		<ns1:description>Family History Unknown</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>074</ns1:id>
+		<ns1:uuid>9bc43540-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>160243008</ns1:code>
+		<ns1:description>No Significant Medical History </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>075</ns1:id>
+		<ns1:uuid>9bc43734-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>160245001</ns1:code>
+		<ns1:description>No current problems or disability</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>076</ns1:id>
+		<ns1:uuid>9bc4391e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>409137002</ns1:code>
+		<ns1:description>No Known Drug Allergies</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>160556</ns1:cielId>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>077</ns1:id>
+		<ns1:uuid>9bc43afe-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>160244002</ns1:code>
+		<ns1:description>No Known Allergies</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>160557</ns1:cielId>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>078</ns1:id>
+		<ns1:uuid>9bc43ce8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>64970000</ns1:code>
+		<ns1:description>Substance Type Unknown</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>090</ns1:id>
+		<ns1:uuid>9bc43ec8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>48765-2 </ns1:code>
+		<ns1:description>Allergies, adverse reactions, alerts (Section)</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>079</ns1:id>
+		<ns1:uuid>9bc4412a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>ALG</ns1:code>
+		<ns1:description>Allergy To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>080</ns1:id>
+		<ns1:uuid>9bc44332-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>OINT</ns1:code>
+		<ns1:description>Other Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>081</ns1:id>
+		<ns1:uuid>9bc44616-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>DALG</ns1:code>
+		<ns1:description>Drug Allergy To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>082</ns1:id>
+		<ns1:uuid>9bc44850-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>EALG</ns1:code>
+		<ns1:description>Environmental Allergy To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>083</ns1:id>
+		<ns1:uuid>9bc44a44-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>FALG</ns1:code>
+		<ns1:description>Food Allergy To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>084</ns1:id>
+		<ns1:uuid>9bc44c2e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>DINT</ns1:code>
+		<ns1:description>Drug Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>085</ns1:id>
+		<ns1:uuid>9bc44e0e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>EINT</ns1:code>
+		<ns1:description>Environmental Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>086</ns1:id>
+		<ns1:uuid>9bc44ff8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>FINT</ns1:code>
+		<ns1:description>Food Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>087</ns1:id>
+		<ns1:uuid>9bc451e2-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>DNAINT</ns1:code>
+		<ns1:description>Drug Non-Allergy Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>088</ns1:id>
+		<ns1:uuid>9bc453cc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>ENAINT</ns1:code>
+		<ns1:description>Environmental Non-Allergy Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>089</ns1:id>
+		<ns1:uuid>9bc455b6-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>FNAINT</ns1:code>
+		<ns1:description>Food Non-Allergy Intolerance To</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>076 077 078</ns1:units>
+		<ns1:setOf>090</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>071</ns1:id>
+		<ns1:uuid>9bc45796-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>56838-6</ns1:code>
+		<ns1:description>HISTORY OF INFECTIOUS DISEASE (Section)</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>091</ns1:id>
+		<ns1:uuid>9bc45980-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>H</ns1:code>
+		<ns1:description>High Severity</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SeverityObservation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.1063</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>092</ns1:id>
+		<ns1:uuid>9bc45c0a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>M</ns1:code>
+		<ns1:description>Moderate Severity</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SeverityObservation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.1063</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>093</ns1:id>
+		<ns1:uuid>9bc45e12-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>L</ns1:code>
+		<ns1:description>Low Severity</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SeverityObservation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.1063</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>094</ns1:id>
+		<ns1:uuid>9bc46006-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>SEV</ns1:code>
+		<ns1:description>Severity</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>ActCode</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.4</ns1:codeSystem>
+		<ns1:units>091 092 093</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1041,13 +1655,15 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>064</ns1:id>
+		<ns1:uuid>9bc462f4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>64572001</ns1:code>
-		<ns1:description>Condition</ns1:description>
+		<ns1:description>Condition (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Diagnosis</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
-		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1058,13 +1674,15 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>065</ns1:id>
+		<ns1:uuid>9bc464fc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>418799008</ns1:code>
-		<ns1:description>Symptom</ns1:description>
+		<ns1:description>Symptom (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Symptom</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
-		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1075,13 +1693,15 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>066</ns1:id>
+		<ns1:uuid>9bc466e6-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>404684003</ns1:code>
-		<ns1:description>Finding</ns1:description>
+		<ns1:description>Finding (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
-		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1092,13 +1712,15 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>067</ns1:id>
+		<ns1:uuid>9bc468d0-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>409586006</ns1:code>
-		<ns1:description>Complaint</ns1:description>
+		<ns1:description>Complaint (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
-		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1109,13 +1731,15 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>068</ns1:id>
+		<ns1:uuid>9bc46aba-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>248536006</ns1:code>
-		<ns1:description>Functional limitation</ns1:description>
+		<ns1:description>Functional limitation (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
-		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -1126,11 +1750,70 @@
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
 		<ns1:id>069</ns1:id>
+		<ns1:uuid>9bc46ca4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
 		<ns1:code>55607006</ns1:code>
-		<ns1:description>Problem</ns1:description>
+		<ns1:description>Problem (Class)</ns1:description>
 		<ns1:conceptType>Coded</ns1:conceptType>
-		<ns1:classification>Problem</ns1:classification>
+		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>070</ns1:id>
+		<ns1:uuid>9bc46ed4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>282291009</ns1:code>
+		<ns1:description>Diagnosis (Class)</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Diagnosis</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>072 073 074</ns1:units>
+		<ns1:setOf>112 113</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>095</ns1:id>
+		<ns1:uuid>9bc470d2-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>A</ns1:code>
+		<ns1:description>Abnormal</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1116</ns1:cielId>
+				<ns1:name>ABNORMAL</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>096</ns1:id>
+		<ns1:uuid>9bc472bc-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>B</ns1:code>
+		<ns1:description>better</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
 		<ns1:mapping>
@@ -1142,13 +1825,262 @@
 		</ns1:mapping>
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
-		<ns1:id>070</ns1:id>
-		<ns1:code>282291009</ns1:code>
-		<ns1:description>Diagnosis</ns1:description>
-		<ns1:conceptType>Coded</ns1:conceptType>
-		<ns1:classification>Diagnosis</ns1:classification>
-		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:id>097</ns1:id>
+		<ns1:uuid>9bc474b0-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>Carrier</ns1:code>
+		<ns1:description>Carrier</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
 		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>098</ns1:id>
+		<ns1:uuid>9bc476e0-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>D</ns1:code>
+		<ns1:description>decreased</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>099</ns1:id>
+		<ns1:uuid>9bc479d8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>U</ns1:code>
+		<ns1:description>increased</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>100</ns1:id>
+		<ns1:uuid>9bc47bf4-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>IND</ns1:code>
+		<ns1:description>Indeterminate</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>101</ns1:id>
+		<ns1:uuid>9bc47de8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>I</ns1:code>
+		<ns1:description>intermediate</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>102</ns1:id>
+		<ns1:uuid>9bc480ea-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>MS</ns1:code>
+		<ns1:description>moderately susceptible</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>103</ns1:id>
+		<ns1:uuid>c7f41a86-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>NEG</ns1:code>
+		<ns1:description>Negative</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>664</ns1:cielId>
+				<ns1:name>NEGATIVE</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>104</ns1:id>
+		<ns1:uuid>c7f41d9c-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>N</ns1:code>
+		<ns1:description>Normal</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1115</ns1:cielId>
+				<ns1:name>NORMAL</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>105</ns1:id>
+		<ns1:uuid>c7f41fb8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>POS</ns1:code>
+		<ns1:description>Positive</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>703</ns1:cielId>
+				<ns1:name>POSITIVE</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>106</ns1:id>
+		<ns1:uuid>c7f421e8-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>R</ns1:code>
+		<ns1:description>resistent</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>107</ns1:id>
+		<ns1:uuid>c7f42418-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>S</ns1:code>
+		<ns1:description>susceptible</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>108</ns1:id>
+		<ns1:uuid>c7f4262a-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>VS</ns1:code>
+		<ns1:description>Very susceptible</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>109</ns1:id>
+		<ns1:uuid>c7f4281e-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>W</ns1:code>
+		<ns1:description>worse</ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName>ObservationInterpretation</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.5.83</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>110</ns1:id>
+		<ns1:uuid>c7f42a26-0eb3-11e4-8742-b2227cce2b54</ns1:uuid>
+		<ns1:code>INT</ns1:code>
+		<ns1:description>Observation Interpretation</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Misc</ns1:classification>
+		<ns1:codeSystemName/>
+		<ns1:codeSystem/>
+		<ns1:units>095 096 097 098 099 100 101 102 103 104 105 106 107 108 109</ns1:units>
 		<ns1:setOf/>
 		<ns1:mapping>
 			<ns1:concept>

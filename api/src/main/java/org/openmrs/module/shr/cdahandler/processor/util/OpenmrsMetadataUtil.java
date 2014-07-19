@@ -8,13 +8,10 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
-import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.openmrs.Concept;
-import org.openmrs.ConceptName;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
-import org.openmrs.GlobalProperty;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.ProviderAttributeType;
@@ -23,7 +20,7 @@ import org.openmrs.VisitAttributeType;
 import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.util.OpenmrsConstants;
 
@@ -42,28 +39,13 @@ public class OpenmrsMetadataUtil {
 	private static Object s_lockObject = new Object();
 	
 	// Auto create encounter roles
-	private Boolean m_autoCreateMetadata = true;
-	
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	
 	/**
 	 * Private ctor
 	 */
 	protected OpenmrsMetadataUtil()
 	{
-		
-	}
-	
-	/**
-	 * Initialize instance
-	 */
-	private void initializeInstance()
-	{
-		// Auto create encounter roles
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_METADATA);
-		if(propertyValue != null && !propertyValue.isEmpty())
-			this.m_autoCreateMetadata = Boolean.parseBoolean(propertyValue);
-		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_METADATA, this.m_autoCreateMetadata.toString()));
 		
 	}
 	
@@ -76,10 +58,7 @@ public class OpenmrsMetadataUtil {
 		{
 			synchronized (s_lockObject) {
 				if(s_instance == null) // Another thread might have created while we were waiting for a lock
-				{
 					s_instance = new OpenmrsMetadataUtil();
-					s_instance.initializeInstance();
-				}
 			}
 		}
 		return s_instance;
@@ -117,13 +96,13 @@ public class OpenmrsMetadataUtil {
 			if(role.getDescription().equals(codeKey))
 				encounterRole = role;
 				
-		if(encounterRole == null && this.m_autoCreateMetadata) {
+		if(encounterRole == null && this.m_configuration.getAutoCreateMetaData()) {
 			encounterRole = new EncounterRole();
 			encounterRole.setName(cs.getCode().getCode());
 			encounterRole.setDescription(codeKey);
 			encounterRole = Context.getEncounterService().saveEncounterRole(encounterRole);
 		} 
-		else if(encounterRole == null && !this.m_autoCreateMetadata)
+		else if(encounterRole == null && !this.m_configuration.getAutoCreateMetaData())
 			throw new DocumentImportException(String.format("Encounter role %s is unknown", cs.getCode()));
 		
 		return encounterRole;
@@ -148,13 +127,13 @@ public class OpenmrsMetadataUtil {
 			if(type.getDescription().equals(codeKey))
 				encounterType = type;
 				
-		if(encounterType == null && this.m_autoCreateMetadata) {
+		if(encounterType == null && this.m_configuration.getAutoCreateMetaData()) {
 			encounterType = new EncounterType();
 			encounterType.setName(display);
 			encounterType.setDescription(codeKey);
 			encounterType = Context.getEncounterService().saveEncounterType(encounterType);
 		} 
-		else if(encounterType == null && !this.m_autoCreateMetadata)
+		else if(encounterType == null && !this.m_configuration.getAutoCreateMetaData())
 			throw new DocumentImportException(String.format("Encounter type %s is unknown", code.getCode()));
 		
 		return encounterType;
@@ -256,7 +235,7 @@ public class OpenmrsMetadataUtil {
 	 * Creates a person attribute 
 	 */
 	private PersonAttributeType createPersonAttributeType(String attributeName, String dataType, String description) {
-		if(!this.m_autoCreateMetadata)
+		if(!this.m_configuration.getAutoCreateMetaData())
 			throw new IllegalStateException("Cannot create attribute type");
 		PersonAttributeType res = new PersonAttributeType();
 		res.setName(attributeName);
@@ -369,7 +348,7 @@ public class OpenmrsMetadataUtil {
 	@SuppressWarnings("unchecked")
     public <T extends BaseAttributeType<?>> T createAttributeType(String name, String dataType, String description, int minOccurs, int maxOccurs, Class<T> attributeType)
 	{
-		if(!this.m_autoCreateMetadata)
+		if(!this.m_configuration.getAutoCreateMetaData())
 			throw new IllegalStateException("Cannot create meta-data");
 		
 		try
@@ -413,14 +392,14 @@ public class OpenmrsMetadataUtil {
 			if(type.getName().equals(visitTypeName))
 				visitType = type;
 		
-		if(visitType == null && this.m_autoCreateMetadata)
+		if(visitType == null && this.m_configuration.getAutoCreateMetaData())
 		{
 			visitType = new VisitType();
 			visitType.setName(visitTypeName);
 			visitType.setDescription(this.getLocalizedString("autocreated"));
 			visitType = Context.getVisitService().saveVisitType(visitType);
 		}
-		else if(visitType == null && !this.m_autoCreateMetadata)
+		else if(visitType == null && !this.m_configuration.getAutoCreateMetaData())
 			throw new DocumentImportException(String.format("Cannot find specified visit type %s", visitTypeName));
 		return visitType;
 	}
@@ -438,7 +417,7 @@ public class OpenmrsMetadataUtil {
 			if(type.getDescription() != null && type.getDescription().equals(relationshipTypeName))
 				visitType = type;
 		
-		if(visitType == null && this.m_autoCreateMetadata)
+		if(visitType == null && this.m_configuration.getAutoCreateMetaData())
 		{
 			visitType = new RelationshipType();
 			visitType.setName(relationshipTypeName);
@@ -447,7 +426,7 @@ public class OpenmrsMetadataUtil {
 			visitType.setbIsToA(relationship.getCode());
 			visitType = Context.getPersonService().saveRelationshipType(visitType);
 		}
-		else if(visitType == null && !this.m_autoCreateMetadata)
+		else if(visitType == null && !this.m_configuration.getAutoCreateMetaData())
 			throw new DocumentImportException(String.format("Cannot find specified relationship type %s", relationship));
 		return visitType;
     }

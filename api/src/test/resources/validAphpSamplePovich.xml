@@ -191,7 +191,7 @@
 							<code code='49051-6' displayName='GESTATIONAL AGE'
 								codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 							<statusCode code='completed' />
-							<effectiveTime value="20140609" />
+							<effectiveTime value="20140409" />
 							<value  xsi:type="PQ" value="16" unit="wk" />
 							<!-- <value xsi:type='INT' value='1'/> -->
 							<interpretationCode code="N" />
@@ -206,7 +206,7 @@
 							<code code='45371-2' displayName='MULTIPLE PREGNANCY' codeSystem='2.16.840.1.113883.6.1'
 								codeSystemName='LOINC' />
 							<statusCode code='completed' />
-							<effectiveTime value="20140609" />
+							<effectiveTime value="20140409" />
 							<value xsi:type='BL' value="false"/>
 							<interpretationCode code="N" />
 						</observation>

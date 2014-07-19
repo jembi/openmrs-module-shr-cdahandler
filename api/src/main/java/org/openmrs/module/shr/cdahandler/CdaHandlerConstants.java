@@ -1,6 +1,5 @@
 package org.openmrs.module.shr.cdahandler;
 
-import java.util.UUID;
 
 /**
  * A constant list of OIDs
@@ -12,6 +11,8 @@ public final class CdaHandlerConstants {
 	public static final String CODE_SYSTEM_LOINC = "2.16.840.1.113883.6.1";
 	public static final String CODE_SYSTEM_NAME_LOINC = "LOINC";
 	public static final String CODE_SYSTEM_SNOMED = "2.16.840.1.113883.6.96";
+	public static final String CODE_SYSTEM_ACT_CODE = "2.16.840.1.113883.5.4";
+	public static final Object CODE_SYSTEM_OBSERVATION_VALUE = "2.16.840.1.113883.5.1063";
 	
 	public static final String DOC_TEMPLATE_MEDICAL_DOCUMENTS = "1.3.6.1.4.1.19376.1.5.3.1.1.1";
 	public static final String DOC_TEMPLATE_MEDICAL_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.2";
@@ -44,7 +45,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_HISTORY_OF_PRESENT_ILLNESS = "1.3.6.1.4.1.19376.1.5.3.1.3.4";
 	public static final String SCT_TEMPLATE_HISTORY_OF_PAST_ILLNESS = "1.3.6.1.4.1.19376.1.5.3.1.3.8";
 	public static final String SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES = "1.3.6.1.4.1.19376.1.5.3.1.1.16.2.2";
-
+	public static final String SCT_TEMPLATE_ACTIVE_PROBLEMS = "1.3.6.1.4.1.19376.1.5.3.1.3.6";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
@@ -60,27 +61,6 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN = "1.3.6.1.4.1.19376.1.5.3.1.4.5.3";
 	public static final String ENT_TEMPLATE_ALLERGY_AND_INTOLERANCE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.6";
 	public static final String ENT_TEMPLATE_SEVERITY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.1";
-	
-	// Automatically create concepts
-    public static final String PROP_AUTOCREATE_CONCEPTS = "shr.cdahandler.autocreate.concepts";
-	// Automatically create locations
-    public static final String PROP_AUTOCREATE_LOCATIONS = "shr.cdahandler.autocreate.locations";
-	// Property name controlling auto-creation of encounter roles
-    public static final String PROP_AUTOCREATE_METADATA = "shr.cdahandler.autocreate.metaData";
-	// Property name controlling the auto-creation of patient id types
-    public static final String PROP_AUTOCREATE_PATIENTIDTYPE = "shr.cdahandler.autocreate.patients.idtype";
-	// Property name controlling the auto-creation of patients
-    public static final String PROP_AUTOCREATE_PATIENTS = "shr.cdahandler.autocreate.patients";
-	// Property name controlling the auto-creation of persons
-    public static final String PROP_AUTOCREATE_PERSONS = "shr.cdahandler.autocreate.persons";
-	// Property name controlling auto-creation of entities
-    public static final String PROP_AUTOCREATE_PROVIDERS = "shr.cdahandler.autocreate.providers";
-	// Property controlling the format of complex identifiers
-    public static final String PROP_ID_FORMAT = "shr.cdahandler.id.format";
-    // Testing mode
-    public static final String PROP_TEST_MODE = "shr.cdahandler.testmode";
-    // Strict validation
-    public static final String PROP_STRICT_VALIDATION = "shr.cdahandler.validation.strict";
     
 	
 }

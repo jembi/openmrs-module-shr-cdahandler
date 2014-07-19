@@ -1,6 +1,5 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,16 +10,13 @@ import org.marc.everest.datatypes.PN;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssociatedEntity;
-import org.openmrs.GlobalProperty;
-import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonName;
 import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -35,25 +31,15 @@ public final class PersonProcessorUtil {
 	private static Object s_lockObject = new Object();
 	
 	// Auto create providers
-	private Boolean m_autoCreatePersons = true;
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
 	
 	/**
 	 * Private ctor
 	 */
 	private PersonProcessorUtil()
 	{
-	}
-	
-	/**
-	 * Initialize instance
-	 */
-	private void initializeInstance()
-	{
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PERSONS);
-		if(propertyValue != null && !propertyValue.isEmpty())
-			this.m_autoCreatePersons = Boolean.parseBoolean(propertyValue);
-		else
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(CdaHandlerConstants.PROP_AUTOCREATE_PERSONS, this.m_autoCreatePersons.toString()));
 	}
 	
 	/**
@@ -65,10 +51,7 @@ public final class PersonProcessorUtil {
 		{
 			synchronized (s_lockObject) {
 				if(s_instance == null)
-				{
 					s_instance = new PersonProcessorUtil();
-					s_instance.initializeInstance();
-				}
 			}
 		}
 		return s_instance;
@@ -84,7 +67,7 @@ public final class PersonProcessorUtil {
 		
 		if(person == null || person.getNullFlavor() != null)
 			throw new DocumentImportException("Cannot parse a null person relationship");
-		else if(!this.m_autoCreatePersons)
+		else if(!this.m_configuration.getAutoCreatePersons())
 			throw new IllegalStateException("Cannot auto-create persons according to current global properties");
 
 		Person res = new Person();
@@ -93,7 +76,7 @@ public final class PersonProcessorUtil {
 		if(person.getName() != null)
 			for(PN pn : person.getName())
 				if(!pn.isNull())
-					res.addName(DatatypeProcessorUtil.getInstance().parseEN(pn));
+					res.addName(this.m_datatypeUtil.parseEN(pn));
 		
 		// Gender not provided.. Assign
 		res.setGender("U");
@@ -116,20 +99,17 @@ public final class PersonProcessorUtil {
 			throw new DocumentImportException("Entity role is null");
 		else if(entity.getAssociatedPerson() == null || entity.getAssociatedPerson().getNullFlavor() != null)
 			throw new DocumentImportException("Entity role is null");
-		else if (entity.getCode() == null && entity.getCode().isNull())
+		else if (entity.getCode() == null || entity.getCode().isNull())
 			throw new DocumentImportException("Entity role must have a valid relationship code");
-		
-		DatatypeProcessorUtil datatypeProcessor = DatatypeProcessorUtil.getInstance();
-		OpenmrsMetadataUtil metadataProcessor = OpenmrsMetadataUtil.getInstance();
 
 		// Person names for the name search
 		Set<PersonName> entityNames = new HashSet<PersonName>();
 		for(EN en : entity.getAssociatedPerson().getName())
 			if(!en.isNull())
-				entityNames.add(datatypeProcessor.parseEN(en));
+				entityNames.add(this.m_datatypeUtil.parseEN(en));
 
 		// Get relationship type
-		RelationshipType relationshipType = metadataProcessor.getOrCreateRelationshipType(entity.getCode());
+		RelationshipType relationshipType = this.m_metadataUtil.getOrCreateRelationshipType(entity.getCode());
 		
 		// Find all persons with the same name
 		List<Relationship> candidatePersons = Context.getPersonService().getRelationshipsByPerson(associatedWith);
@@ -160,11 +140,8 @@ public final class PersonProcessorUtil {
 		
 		if(entity.getAssociatedPerson() == null || entity.getAssociatedPerson().getNullFlavor() != null)
 			throw new DocumentImportException("AssociatedEntity is missing Person relationship");
-		else if(!this.m_autoCreatePersons)
+		else if(!this.m_configuration.getAutoCreatePersons())
 			throw new IllegalStateException("Cannot create persons");
-		
-		DatatypeProcessorUtil datatypeProcessor = DatatypeProcessorUtil.getInstance();
-		OpenmrsMetadataUtil metadataUtil = OpenmrsMetadataUtil.getInstance();
 		
 		Person res = this.createPerson(entity.getAssociatedPerson());
 	    
@@ -172,7 +149,7 @@ public final class PersonProcessorUtil {
 	    if(entity.getAddr() != null)
 	    	for(AD ad : entity.getAddr())
 	    		if(ad != null && !ad.isNull())
-	    			res.addAddress(datatypeProcessor.parseAD(ad));
+	    			res.addAddress(this.m_datatypeUtil.parseAD(ad));
 	    
 	    // Set Telecoms
 	    if(entity.getTelecom() != null)
@@ -181,7 +158,7 @@ public final class PersonProcessorUtil {
     			if(tel == null || tel.isNull()) continue;
 				
 				PersonAttribute telecomAttribute = new PersonAttribute();
-				telecomAttribute.setAttributeType(metadataUtil.getOrCreatePersonTelecomAttribute());
+				telecomAttribute.setAttributeType(this.m_metadataUtil.getOrCreatePersonTelecomAttribute());
 				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
 				telecomAttribute.setPerson(res);
 				res.addAttribute(telecomAttribute);

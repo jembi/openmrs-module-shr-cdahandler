@@ -1,30 +1,22 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl;
 
 import java.io.ByteArrayInputStream;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
-import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
-import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
-import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
-import org.openmrs.Provider;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
-import org.openmrs.module.shr.cdahandler.processor.context.DocumentProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
-import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.obs.ComplexData;
 
 /**
@@ -33,6 +25,11 @@ import org.openmrs.obs.ComplexData;
  * @author Justin Fyfe
  */
 public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
+
+	// Get the processor utils
+	protected final DatatypeProcessorUtil m_datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
+	protected final OpenmrsConceptUtil m_openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	
 	/**
 	 * Process the section
@@ -40,10 +37,13 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	@Override
 	public Obs process(Section section) throws DocumentImportException {
 
-		// Validate the section
-		ValidationIssueCollection validationIssues = this.validate(section);
-		if (validationIssues.hasErrors())
-			throw new DocumentValidationException("Cannot process an invalid section!", section, validationIssues);
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(section);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(section, issues);
+		}
 
 		Obs res = this.parseSectionElements(section);
 		res = Context.getObsService().saveObs(res, null);
@@ -66,10 +66,6 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		if(this.getContext().getParsedObject() instanceof Obs)
 			obsGrouper.setObsGroup((Obs)this.getContext().getParsedObject());
 		
-		// Get the processor utils
-		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
-		OpenmrsConceptUtil openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
-		
 		// TODO: Context conduction rules, do we care for CDA?
 		// Get the context that has the counter
 		ProcessorContext encounterContext = this.getContext();
@@ -80,9 +76,9 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		// Process encounter type
 		if (section.getCode() != null && !section.getCode().isNull())
 		{
-			Concept concept = openmrsConceptUtil.getConceptOrEquivalent(section.getCode());
+			Concept concept = this.m_openmrsConceptUtil.getConceptOrEquivalent(section.getCode());
 			if(concept == null)
-				concept = openmrsConceptUtil.createConcept(section.getCode(), section.getText());
+				concept = this.m_openmrsConceptUtil.createConcept(section.getCode(), section.getText());
 			obsGrouper.setConcept(concept);
 		}
 		
@@ -101,7 +97,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 			obsGrouper.setObsDatetime(encounterInfo.getEncounterDatetime());
 		
 		// TODO: ID of section
-		obsGrouper.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(section.getId()));
+		obsGrouper.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(section.getId()));
 		
 		// TODO: Add a note for text .. This is currently an obs because notes are to the patient not the encounter   
 		// This could be an obs attached to the encounter (would make more sense)

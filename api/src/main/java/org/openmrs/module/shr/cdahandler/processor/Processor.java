@@ -1,7 +1,5 @@
 package org.openmrs.module.shr.cdahandler.processor;
 
-import java.util.List;
-
 import org.marc.everest.interfaces.IGraphable;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;

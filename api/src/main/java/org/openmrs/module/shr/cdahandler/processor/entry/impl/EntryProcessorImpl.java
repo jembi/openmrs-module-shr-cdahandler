@@ -9,17 +9,19 @@ import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
 
 /**
  * Represents an implementation of an EntryProcessor
@@ -32,6 +34,12 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	// The context within which this parser is operating
 	protected ProcessorContext m_context;
 
+	// The Configuration and datatype utility
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	protected final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	protected final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
+	protected final OpenmrsDataUtil m_dataUtil = OpenmrsDataUtil.getInstance();
+	
 	/**
 	 * Gets the context under which this entry processor executes
 	 */
@@ -141,6 +149,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 					relationship.getClinicalStatement().getNullFlavor() != null)
 				continue;
 			
+			this.m_datatypeUtil.cascade(entry, relationship.getClinicalStatement(), "effectiveTime");
 			EntryProcessor processor = factory.createProcessor(relationship.getClinicalStatement());
 			if(processor != null)
 			{

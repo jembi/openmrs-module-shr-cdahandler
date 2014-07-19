@@ -4,31 +4,27 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.marc.everest.datatypes.II;
-import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.activelist.ActiveListItem;
+import org.openmrs.activelist.ActiveListType;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.AllergySeverity;
 import org.openmrs.activelist.AllergyType;
-import org.openmrs.activelist.Problem;
-import org.openmrs.activelist.ProblemModifier;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
-import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 
 /**
  * Represents a processor for the Allergis and Intolerances Entry
@@ -37,7 +33,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
  */
 @ProcessTemplates(process = { @TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN)})
 public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryProcessor {
-
+			
 	/**
 	 * Get the template name
 	 */
@@ -74,10 +70,11 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 		// Get Some information that assists in processing
 		Obs obs = (Obs)processedData;
 		Observation observation = (Observation)statement;
-
-		// We don't track the allergy to an obs if we can help it.. 
+		
+		// We don't track the allergy to an obs if we can help it..
 		Allergy res = super.createActiveListItem(act, obs, Allergy.class);
-
+		res.setActiveListType(Allergy.ACTIVE_LIST_TYPE);
+		
 		// Populate allergy contents ... What is the allergy type?
 		if(observation.getCode().getCode().equals("FALG") ||
 				observation.getCode().getCode().equals("FINT") ||
@@ -125,7 +122,7 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 		{
 			Observation manifestationObservation = manifestationRelationship.get(0).getClinicalStatementIfObservation();
 			// Get the concept
-			Concept reaction = OpenmrsConceptUtil.getInstance().getOrCreateConcept((CV)manifestationObservation.getValue());
+			Concept reaction = this.m_conceptUtil.getOrCreateConcept((CV)manifestationObservation.getValue());
 			res.setReaction(reaction);
 		}
 		

@@ -50,11 +50,13 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element name="id" type="xs:string" />
+              <xs:element name="uuid" type="xs:string" />
               <xs:element name="code" type="xs:string" />
               <xs:element name="description" type="xs:string" />
               <xs:element name="conceptType" type="conceptType" />
               <xs:element name="classification" type="classification" default="Misc" />
               <xs:element name="codeSystemName" type="codeSystem" />
+              <xs:element name="codeSystem" type="xs:string" />
               <xs:element name="units" type="xs:string" />
               <xs:element name="setOf" type="setList" />
               <xs:element name="mapping">

@@ -240,15 +240,14 @@
 						Text as described above
 					</text>
 					<entry>
-						<!--  History  -->
+						<!-- History -->
 						<organizer classCode="CLUSTER" moodCode="EVN">
-						  <templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1'/>
-						  <id root='1.2.3.2.43.2.232' extension='123912983'/>
-							<code code='118185001' displayName='Pregnancy Finding' 
-						   codeSystem='2.16.840.1.113883.6.96'
-						   codeSystemName='SNOMED CT'/>
-						  <statusCode code='completed'/>
-						  <effectiveTime value='20140609'/>
+							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1' />
+							<id root='1.2.3.2.43.2.232' extension='123912983' />
+							<code code='118185001' displayName='Pregnancy Finding'
+								codeSystem='2.16.840.1.113883.6.96' codeSystemName='SNOMED CT' />
+							<statusCode code='completed' />
+							<effectiveTime value='20140609' />
 							<component>
 								<!-- Required Pregnancy Observation element -->
 								<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5' />
@@ -260,7 +259,7 @@
 										codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 									<statusCode code='completed' />
 									<effectiveTime value="20140609" />
-									<value  xsi:type="INT" value="2" />
+									<value xsi:type="INT" value="2" />
 									<!-- <value xsi:type='INT' value='1'/> -->
 									<interpretationCode code="N" />
 								</observation>
@@ -271,11 +270,11 @@
 									<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
 									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
 									<id root='1' extension='3' />
-									<code code='11612-9' displayName='ABORTIONS (REPORTED)' codeSystem='2.16.840.1.113883.6.1'
-										codeSystemName='LOINC' />
+									<code code='11612-9' displayName='ABORTIONS (REPORTED)'
+										codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 									<statusCode code='completed' />
 									<effectiveTime value="20140609" />
-									<value xsi:type='INT' value="1"/>
+									<value xsi:type='INT' value="1" />
 									<interpretationCode code="N" />
 								</observation>
 							</component>
@@ -285,15 +284,16 @@
 									<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
 									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
 									<id root='1' extension='5' />
-									<code code='57062-2' displayName='STILLBORN BIRTHS' codeSystem='2.16.840.1.113883.6.1'
-										codeSystemName='LOINC' />
+									<code code='57062-2' displayName='STILLBORN BIRTHS'
+										codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 									<statusCode code='completed' />
 									<effectiveTime value="20110201" />
-									<value xsi:type='CD' code="237364002" displayName="Stillbirth (Finding)" codeSystem="2.16.840.1.113883.6.96"/>
+									<value xsi:type='CD' code="237364002" displayName="Stillbirth (Finding)"
+										codeSystem="2.16.840.1.113883.6.96" />
 									<interpretationCode code="N" />
 								</observation>
 							</component>
-						
+
 						</organizer>
 					</entry>
 					<entry>
@@ -307,7 +307,7 @@
 								codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 							<statusCode code='completed' />
 							<effectiveTime value="20140609" />
-							<value  xsi:type="PQ" value="3.5" unit="mo" />
+							<value xsi:type="PQ" value="3.5" unit="mo" />
 							<!-- <value xsi:type='INT' value='1'/> -->
 							<interpretationCode code="N" />
 						</observation>
@@ -318,11 +318,11 @@
 							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
 							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
 							<id root='1' extension='3' />
-							<code code='45371-2' displayName='MULTIPLE PREGNANCY' codeSystem='2.16.840.1.113883.6.1'
-								codeSystemName='LOINC' />
+							<code code='45371-2' displayName='MULTIPLE PREGNANCY'
+								codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 							<statusCode code='completed' />
 							<effectiveTime value="20140609" />
-							<value xsi:type='BL' value="true"/>
+							<value xsi:type='BL' value="true" />
 							<interpretationCode code="N" />
 						</observation>
 					</entry>
@@ -498,7 +498,7 @@
 										<reference value="#VitalSignsSection2" />
 									</text>
 									<statusCode code="completed" />
-									<value xsi:type="PQ" unit="mmHg" value="110" />
+									<value xsi:type="PQ" unit="mm[Hg]" value="110" />
 								</observation>
 							</component>
 						</organizer>
@@ -526,13 +526,114 @@
 										<reference value="#VitalSignsSection3" />
 									</text>
 									<statusCode code="completed" />
-									<value xsi:type="PQ" unit="mmHg" value="60" />
+									<value xsi:type="PQ" unit="mm[Hg]" value="60" />
 								</observation>
 							</component>
 						</organizer>
 					</entry>
 				</section>
 			</component>
+			<component>
+				<section>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.13" />
+					<code code="48765-2" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="HISTORY OF ALLERGIES" />
+					<title>Allergies and Adverse Reactions</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Allergen </th>
+									<th>Reaction </th>
+									<th>Comments</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td ID="ref_ef1f904ffb85468db0bc41bbe4c99c75_phrAllergy_Name_1">Penicillin</td>
+									<td
+										ID="ref_ef1f904ffb85468db0bc41bbe4c99c75_phrAllergy_Name_reaction1">Unknown Unknown</td>
+									<td>Reaction: laryngeal oedema
+										Reaction occurs within 10 minutes
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<act classCode='ACT' moodCode='EVN'>
+							<templateId root='2.16.840.1.113883.10.20.1.27' />
+							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.5.1' />
+							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.5.3' />
+							<id root='1.2.3.4.5.3.4.5.4.6' extension='4534' />
+							<code nullFlavor='NA' />
+							<statusCode code='active' />
+							<effectiveTime>
+								<low value="20070115141530" />
+							</effectiveTime>
+							<entryRelationship typeCode='SUBJ'>
+								<observation classCode="COND" moodCode="EVN"
+									negationInd="false">
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6" />
+									<id root="7aea1b00-b972-48e8-acb6-adc0e9cef77b" />
+									<code code="ALG" codeSystem="2.16.840.1.113883.5.4"
+										codeSystemName="ObservationIntoleranceType" />
+									<statusCode code="completed" />
+									<effectiveTime>
+										<low value="20070115141530" />
+									</effectiveTime>
+									<value xsi:type="CD" code="373270004" codeSystem="2.16.840.1.113883.6.96"
+										codeSystemName="SNOMED CT">
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="373270004" codeSystem="2.16.840.1.113883.6.96"
+													codeSystemName="SNOMED CT">
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1" />
+										<observation classCode="OBS" moodCode="EVN"
+											negationInd="false">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" />
+											<id root="853845cb-9f28-4185-a452-96153137e59b" />
+											<code code="PROBLEM" codeSystem="1.3.6.1.4.1.19376.1.5.3.2"
+												codeSystemName="IHEActCode" />
+											<statusCode code="completed" />
+											<value xsi:type="CD" code="39579001" codeSystem="2.16.840.1.113883.6.96"
+												codeSystemName="SNOMED CT">
+											</value>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode='SUBJ'
+										inversionInd='true'>
+										<observation classCode='OBS' moodCode='EVN'>
+											<templateId root='2.16.840.1.113883.10.20.1.55' />
+											<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.1' />
+											<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4'
+												codeSystemName='ActCode' />
+											<text>
+												<reference value='#severity-2' />
+											</text>
+											<statusCode code='completed' />
+											<value xsi:type='CD' code='H' codeSystem='2.16.840.1.113883.5.1063'
+												codeSystemName='ObservationValue' />
+										</observation>
+									</entryRelationship>
+
+								</observation>
+							</entryRelationship>
+						</act>
+
+					</entry>
+				</section>
+			</component>
+
+
 
 		</structuredBody>
 	</component>

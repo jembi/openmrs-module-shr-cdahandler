@@ -773,11 +773,11 @@
 								</tr>
 								<tr ID="VitalSignsSection2">
 									<td>INTRAVASCULAR SYSTOLIC</td>
-									<td>INTRAVASCULAR SYSTOLIC: 110 mmHg</td>
+									<td>INTRAVASCULAR SYSTOLIC: 110 mm[Hg]</td>
 								</tr>
 								<tr ID="VitalSignsSection3">
 									<td>INTRAVASCULAR DIASTOLIC</td>
-									<td>INTRAVASCULAR DIASTOLIC: 60 mmHg</td>
+									<td>INTRAVASCULAR DIASTOLIC: 60 mm[Hg]</td>
 								</tr>
 							</tbody>
 						</hl7:table>
@@ -862,7 +862,7 @@
 										<hl7:reference value="#VitalSignsSection2" />
 									</hl7:text>
 									<hl7:statusCode code="completed" />
-									<hl7:value xsi:type="hl7:PQ" unit="mmHg" value="110" />
+									<hl7:value xsi:type="hl7:PQ" unit="mm[Hg]" value="110" />
 								</hl7:observation>
 							</hl7:component>
 						</hl7:organizer>
@@ -891,7 +891,7 @@
 										<hl7:reference value="#VitalSignsSection3" />
 									</hl7:text>
 									<hl7:statusCode code="completed" />
-									<hl7:value xsi:type="hl7:PQ" unit="mmHg" value="60" />
+									<hl7:value xsi:type="hl7:PQ" unit="mm[Hg]" value="60" />
 								</hl7:observation>
 							</hl7:component>
 						</hl7:organizer>

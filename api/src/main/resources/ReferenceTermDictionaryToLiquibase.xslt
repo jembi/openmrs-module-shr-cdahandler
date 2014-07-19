@@ -9,10 +9,6 @@
 >
   <xsl:output method="xml" indent="yes"/>
 
-  <xsl:variable name="LOINC_HL7" select="'2.16.840.1.113883.6.1'"/>
-  <xsl:variable name="SNOMED_HL7" select="'2.16.840.1.113883.6.96'"/>
-  <xsl:variable name="HL7_MARITAL_HL7" select="'2.16.840.1.113883.5.2'"/>
-
   <xsl:template match="/rd:referenceTermDictionary">
     <databaseChangeLog xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
@@ -28,93 +24,32 @@
       </xsl:comment>
       <!--<property name="now" value="now()"/>-->
 
-      <changeSet dbms="mysql" id="0" author="justin" runInTransaction="true">
-        <preConditions>
-          <not>
-            <tableExists tableName="tmp_vocab_import"/>
-          </not>
-        </preConditions>
-        <sql>
-          <![CDATA[create temporary table tmp_vocab_import (
-            import_key varchar(100) unique not null,
-            concept_uuid varchar(50)
-            );
-          )]]>
-        </sql>
-      </changeSet>
-      <!-- Create source for LOINC -->
-      <changeSet  dbms="mysql" id="1" author="justin" runInTransaction="true">
-        <preConditions onError="HALT" onFail="MARK_RAN">
-          <and>
-            <tableExists tableName="concept_reference_source"/>
-            <sqlCheck expectedResult="0">
-              select count(name) from concept_reference_source where name='LOINC'
-            </sqlCheck>
-          </and>
-        </preConditions>
-        <insert tableName="concept_reference_source">
-          <column name="name" value="LOINC"/>
-          <column name="description" value="LOINC Codes"/>
-          <column name="creator" valueNumeric="1"/>
-          <column name="date_created" valueComputed="now()"/>
-          <column name="uuid" valueComputed="uuid()"/>
-          <column name="retired" valueNumeric="0"/>
-          <column name="hl7_code" value="{$LOINC_HL7}"/>
-        </insert>
-      </changeSet>
+      <!-- Create sources for LOINC -->
+      <xsl:for-each select="//rd:referenceTerm[rd:codeSystem/text() and not(rd:codeSystem/text()=preceding::rd:referenceTerm/rd:codeSystem/text())]">
+        <xsl:sort select="rd:codeSystemName"/>
+        <changeSet  dbms="mysql" id="{position() }" author="justin" runInTransaction="true">
+          <preConditions onError="HALT" onFail="MARK_RAN">
+            <and>
+              <tableExists tableName="concept_reference_source"/>
+              <sqlCheck expectedResult="0">
+                select count(name) from concept_reference_source where name='<xsl:value-of select="rd:codeSystemName"/>'
+              </sqlCheck>
+            </and>
+          </preConditions>
+          <insert tableName="concept_reference_source">
+            <column name="name" value="{rd:codeSystemName}"/>
+            <column name="description" value="{rd:codeSystemName} Codes"/>
+            <column name="creator" valueNumeric="1"/>
+            <column name="date_created" valueComputed="now()"/>
+            <column name="uuid" valueComputed="uuid()"/>
+            <column name="retired" valueNumeric="0"/>
+            <column name="hl7_code" value="{rd:codeSystem}"/>
+          </insert>
+        </changeSet>
+      </xsl:for-each>
 
-      <!-- Create source for SNOMED -->
-      <changeSet  dbms="mysql" id="2" author="justin" runInTransaction="true">
-        <preConditions onError="HALT" onFail="MARK_RAN">
-          <and>
-            <tableExists tableName="concept_reference_source"/>
-            <sqlCheck expectedResult="0">
-              select count(name) from concept_reference_source where name='SNOMED CT'
-            </sqlCheck>
-          </and>
-        </preConditions>
-        <insert tableName="concept_reference_source">
-          <column name="name" value="SNOMED CT"/>
-          <column name="description" value="SNOMED Codes"/>
-          <column name="creator" valueNumeric="1"/>
-          <column name="date_created" valueComputed="now()"/>
-          <column name="uuid" valueComputed="uuid()"/>
-          <column name="retired" valueNumeric="0"/>
-          <column name="hl7_code" value="{$SNOMED_HL7}"/>
-        </insert>
-      </changeSet>
-
-      <!-- Create source for MARITAL STATUS -->
-      <changeSet  dbms="mysql" id="3" author="justin" runInTransaction="true">
-        <preConditions onError="HALT" onFail="MARK_RAN">
-          <and>
-            <tableExists tableName="concept_reference_source"/>
-            <sqlCheck expectedResult="0">
-              select count(name) from concept_reference_source where name='HL7 Marital status'
-            </sqlCheck>
-          </and>
-        </preConditions>
-        <insert tableName="concept_reference_source">
-          <column name="name" value="HL7 Marital status"/>
-          <column name="description" value="HL7 Marital Status Codes"/>
-          <column name="creator" valueNumeric="1"/>
-          <column name="date_created" valueComputed="now()"/>
-          <column name="uuid" valueComputed="uuid()"/>
-          <column name="retired" valueNumeric="0"/>
-          <column name="hl7_code" value="{$HL7_MARITAL_HL7}"/>
-        </insert>
-      </changeSet>
-
-      
       <xsl:apply-templates />
 
-      <!-- Cleanup temp table -->
-      <changeSet id="99999" author="justin">
-        <preConditions>
-          <tableExists tableName="tmp_vocab_import"/>
-        </preConditions>
-        <dropTable tableName="tmp_vocab_import"/>
-      </changeSet>
     </databaseChangeLog>
 
   </xsl:template>
@@ -123,30 +58,33 @@
   <xsl:template match="rd:referenceTerm">
     <!-- Create reference term if not exists -->
     <xsl:variable name="taskId" select="rd:id * 20"/>
-    <changeSet  dbms="mysql" id="{$taskId}" author="justin">
-      <preConditions onError="HALT" onFail="MARK_RAN">
-        <and>
-          <tableExists tableName="concept_reference_term"/>
-          <sqlCheck expectedResult="0">
-            select count(code) from concept_reference_term inner join concept_reference_source on (concept_reference_term.concept_source_id = concept_reference_source.concept_source_id) where
-            code = '<xsl:value-of select="rd:code"/>' and concept_reference_source.name = '<xsl:value-of select="rd:codeSystemName"/>';
-          </sqlCheck>
-        </and>
-      </preConditions>
-      <comment>
-        Adding <xsl:value-of select="rd:code"/> to reference terms
-      </comment>
-      <insert tableName="concept_reference_term">
-        <column name="concept_reference_term_id" autoIncrement="true"/>
-        <column name="concept_source_id" valueComputed="(select concept_source_id from concept_reference_source where name = '{rd:codeSystemName}')"/>
-        <column name="name" value="{rd:description}"/>
-        <column name="code" value="{rd:code}"/>
-        <column name="description" value="{rd:description}"/>
-        <column name="uuid" valueComputed="uuid()"/>
-        <column name="creator" valueNumeric="1"/>
-        <column name="date_created" valueComputed="now()"/>
-      </insert>
-    </changeSet>
+
+    <xsl:if test="rd:codeSystem/text()">
+      <changeSet  dbms="mysql" id="{$taskId}" author="justin" runInTransaction="true">
+        <preConditions onError="HALT" onFail="MARK_RAN">
+          <and>
+            <tableExists tableName="concept_reference_term"/>
+            <sqlCheck expectedResult="0">
+              select count(code) from concept_reference_term inner join concept_reference_source on (concept_reference_term.concept_source_id = concept_reference_source.concept_source_id) where
+              code = '<xsl:value-of select="rd:code"/>' and concept_reference_source.name = '<xsl:value-of select="rd:codeSystemName"/>';
+            </sqlCheck>
+          </and>
+        </preConditions>
+        <comment>
+          Adding <xsl:value-of select="rd:code"/> to reference terms
+        </comment>
+        <insert tableName="concept_reference_term">
+          <column name="concept_reference_term_id" autoIncrement="true"/>
+          <column name="concept_source_id" valueComputed="(select concept_source_id from concept_reference_source where name = '{rd:codeSystemName}')"/>
+          <column name="name" value="{rd:description}"/>
+          <column name="code" value="{rd:code}"/>
+          <column name="description" value="{rd:description}"/>
+          <column name="uuid" valueComputed="uuid()"/>
+          <column name="creator" valueNumeric="1"/>
+          <column name="date_created" valueComputed="now()"/>
+        </insert>
+      </changeSet>
+    </xsl:if>
 
     <!-- create name variable -->
     <xsl:variable name="conceptName">
@@ -167,8 +105,8 @@
 
     <!-- Create concept if not exists or not specified -->
     <xsl:choose>
-      <xsl:when test="not(rd:mapping/rd:concept/rd:name/text())">
-        <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}">
+      <xsl:when test="not(rd:mapping/rd:concept/rd:cielId/text())">
+        <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}" runInTransaction="true">
           <preConditions onError="HALT" onFail="MARK_RAN">
             <and>
               <tableExists tableName="concept_name"/>
@@ -185,15 +123,11 @@
           <comment>
             Adding <xsl:value-of select="$conceptName"/> to concepts and adding mapping to reference term
           </comment>
-          <insert tableName="tmp_vocab_import">
-            <column name="import_key" value="{rd:id}"/>
-            <column name="concept_uuid" valueComputed="uuid()"/>
-          </insert>
           <insert tableName="concept">
             <column name="concept_id" autoIncrement="true"/>
             <column name="short_name" value="{rd:code}"/>
             <column name="description" value="{$conceptName}"/>
-            <column name="uuid" valueComputed="(select concept_uuid from tmp_vocab_import where import_key = '{rd:id}')"/>
+            <column name="uuid" value="{rd:uuid}"/>
             <column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where name='{rd:conceptType}')"/>
             <xsl:choose>
               <!-- SET -->
@@ -212,7 +146,7 @@
             <column name="date_created" valueComputed="now()"/>
           </insert>
           <insert tableName="concept_name">
-            <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key = '{rd:id}' )"/>
+            <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}' )"/>
             <column name="name" value="{$conceptName}"/>
             <column name="locale" value="en"/>
             <column name="creator" valueNumeric="1"/>
@@ -225,31 +159,31 @@
           <xsl:choose>
             <xsl:when test="rd:conceptType = 'Numeric'">
               <insert tableName="concept_numeric">
-                <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key = '{rd:id}' )"/>
+                <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}' )"/>
                 <column name="units" value="{rd:units}"/>
               </insert>
             </xsl:when>
             <xsl:when test="rd:conceptType = 'Complex'">
               <insert tableName="concept_complex">
-                <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key = '{rd:id}' )"/>
+                <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}' )"/>
                 <column name="handler" value="BinaryDataHandler"/>
               </insert>
             </xsl:when>
             <xsl:when test="rd:conceptType = 'Coded' and rd:units/text()">
               <xsl:variable name="questionConcept" select="."/>
               <xsl:variable name="answerConcepts" select="//rd:referenceTerm[contains($questionConcept/rd:units, rd:id)]"/>
-              
+
               <xsl:for-each select="$answerConcepts">
                 <!-- Look for answers -->
                 <insert tableName="concept_answer">
-                  <column name="answer_concept" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key = '{rd:id}' )"/>
+                  <column name="answer_concept" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}' )"/>
                   <column name="uuid" valueComputed="uuid()"/>
                   <column name="creator" valueNumeric="1"/>
                   <column name="date_created" valueComputed="now()"/>
-                  <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key = '{$questionConcept/rd:id}' )"/>
+                  <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$questionConcept/rd:uuid}' )"/>
                 </insert>
               </xsl:for-each>
-              
+
             </xsl:when>
           </xsl:choose>
 
@@ -262,12 +196,13 @@
         </xsl:variable>
 
         <!-- call map -->
-        <xsl:call-template name="createMap">
-          <xsl:with-param name="conceptId" select="rd:id"/>
-          <xsl:with-param name="mapType" select="$mapType"/>
-          <xsl:with-param name="referenceTerm" select="."/>
-        </xsl:call-template>
-
+        <xsl:if test="rd:codeSystem/text()">
+          <xsl:call-template name="createMap">
+            <xsl:with-param name="conceptId" select="rd:uuid"/>
+            <xsl:with-param name="mapType" select="$mapType"/>
+            <xsl:with-param name="referenceTerm" select="."/>
+          </xsl:call-template>
+        </xsl:if>
       </xsl:when>
       <xsl:otherwise>
         <!-- Concept is mapped to existing concept -->
@@ -278,10 +213,23 @@
     <!-- add reference term to sets -->
     <xsl:variable name="member" select="."/>
     <xsl:variable name="memberOfSets" select="//rd:referenceTerm[contains($member/rd:setOf, rd:id)]"/>
-
+    <xsl:variable name="memberUuid">
+      <xsl:choose>
+        <xsl:when test="not(rd:mapping/rd:concept/rd:cielId/text())">
+          <xsl:value-of select="rd:uuid"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="postpend-pad">
+            <xsl:with-param name="length" select="'36'"/>
+            <xsl:with-param name="padChar" select="'A'"/>
+            <xsl:with-param name="padVar" select="rd:mapping/rd:concept/rd:cielId"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:for-each select="$memberOfSets">
       <xsl:sort select="id"/>
-      <changeSet  dbms="mysql" author="justin" id="{$taskId + position() + 1}">
+      <changeSet  dbms="mysql" author="justin" id="{$taskId + position() + 1}" runInTransaction="true">
         <preConditions onError="HALT" onFail="MARK_RAN">
           <and>
             <tableExists tableName="concept_name"/>
@@ -289,19 +237,17 @@
             <tableExists tableName="concept_set"/>
             <!-- Check that the concept exists -->
             <sqlCheck expectedResult="1">
-              select count(uuid) from tmp_vocab_import where import_key='<xsl:value-of select="$member/rd:id"/>'
+              select count(uuid) from concept where uuid='<xsl:value-of select="$memberUuid"/>'
             </sqlCheck>
             <!-- Check that the set concept exists -->
             <sqlCheck expectedResult="1">
-              select count(uuid) from tmp_vocab_import where import_key='<xsl:value-of select="rd:id"/>'
+              select count(uuid) from concept where uuid='<xsl:value-of select="rd:uuid"/>'
             </sqlCheck>
             <sqlCheck expectedResult="0">
               select count(concept_set_id) from concept_set inner join concept as memberConcept on (concept_set.concept_id = memberConcept.concept_id)
-              inner join concept as setmemberConcept on (setmember.concept_id = concept_set.concept_set) 
-              inner join tmp_vocab_import as memberVocab on (memberVocab.uuid = memberConcept.uuid)
-              inner join tmp_vocab_import as setmemberVocab on (setmemberVocab.uuid = setmemberConcept.uuid)
-              where memberVocab.uuid = '<xsl:value-of select="$member/rd:id"/>'
-              and setmemberVocab.uuid = '<xsl:value-of select="rd:id"/>' 
+              inner join concept as setmemberConcept on (setmemberConcept.concept_id = concept_set.concept_set)
+              where memberConcept.uuid = '<xsl:value-of select="$memberUuid"/>'
+              and setmemberConcept.uuid = '<xsl:value-of select="rd:uuid"/>'
             </sqlCheck>
           </and>
         </preConditions>
@@ -310,8 +256,8 @@
         </comment>
         <insert tableName="concept_set">
           <column name="concept_set_id" autoIncrement="true"/>
-          <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import where import_key = '{$member/rd:id}')"/>
-          <column name="concept_set" valueComputed="(select concept_id from concept inner join tmp_vocab_import where import_key = '{rd:id}')"/>
+          <column name="concept_id" valueComputed="(select concept_id from concept where uuid= '{$memberUuid}')"/>
+          <column name="concept_set" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}')"/>
           <column name="creator" valueNumeric="1"/>
           <column name="uuid" valueComputed="uuid()"/>
           <column name="date_created" valueComputed="now()"/>
@@ -330,14 +276,22 @@
     <xsl:variable name="taskId" select="$referenceTerm/rd:id * 20" />
     <xsl:variable name="id" select="$referenceTerm/rd:id"/>
     <xsl:variable name="isSet" select="//rd:setOf[contains(text(),$id)]"/>
-    <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}">
+    <xsl:variable name="cielUuid">
+      <xsl:call-template name="postpend-pad">
+        <xsl:with-param name="length" select="'36'"/>
+        <xsl:with-param name="padChar" select="'A'"/>
+        <xsl:with-param name="padVar" select="rd:concept/rd:cielId"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}" runInTransaction="true">
       <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>
           <tableExists tableName="concept"/>
           <!-- Create a concept -->
           <sqlCheck expectedResult="0">
-            select count(concept_id) from concept_name where name='<xsl:value-of select="rd:concept/rd:name"/>' and locale='en'
+            select count(concept_id) from concept where uuid='<xsl:value-of select="$cielUuid"/>'
           </sqlCheck>
           <sqlCheck expectedResult="1">
             select count(concept_datatype_id) from concept_datatype where name='<xsl:value-of select="$referenceTerm/rd:conceptType"/>'
@@ -345,13 +299,13 @@
         </and>
       </preConditions>
       <comment>
-        Mapped term to an invalid concept <xsl:value-of select="rd:name"/> 
+        Mapped term to an invalid concept <xsl:value-of select="rd:name"/>
       </comment>
       <insert tableName="concept">
         <column name="concept_id" autoIncrement="true"/>
         <column name="short_name" value="{$referenceTerm/rd:code}"/>
         <column name="description" value="{rd:concept/rd:name}"/>
-        <column name="uuid" valueComputed="uuid()"/>
+        <column name="uuid" valueComputed="{$cielUuid}"/>
         <column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where name='{$referenceTerm/rd:conceptType}')"/>
         <xsl:choose>
           <!-- SET -->
@@ -370,7 +324,7 @@
         <column name="date_created" valueComputed="now()"/>
       </insert>
       <insert tableName="concept_name">
-        <column name="concept_id" valueComputed="(select concept_id from concept where short_name = '{$referenceTerm/rd:code}' and description = '{rd:concept/rd:name}')"/>
+        <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$cielUuid}')"/>
         <column name="name" value="{rd:concept/rd:name}"/>
         <column name="locale" value="en"/>
         <column name="creator" valueNumeric="1"/>
@@ -383,13 +337,13 @@
       <xsl:choose>
         <xsl:when test="$referenceTerm/rd:conceptType = 'Numeric'">
           <insert tableName="concept_numeric">
-            <column name="concept_id" valueComputed="(select concept_id from concept where short_name = '{$referenceTerm/rd:code}' and description = '{rd:concept/rd:name}')"/>
+            <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$cielUuid}')"/>
             <column name="units" value="{rd:units}"/>
           </insert>
         </xsl:when>
         <xsl:when test="$referenceTerm/rd:conceptType = 'Complex'">
           <insert tableName="concept_complex">
-            <column name="concept_id" valueComputed="(select concept_id from concept where short_name = '{$referenceTerm/rd:code}' and description = '{rd:concept/rd:name}')"/>
+            <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$cielUuid}')"/>
             <column name="handler" value="BinaryDataHandler"/>
           </insert>
         </xsl:when>
@@ -413,11 +367,11 @@
               </xsl:choose>
             </xsl:variable>
             <insert tableName="concept_answer">
-              <column name="answer_concept" valueComputed="(select concept_id from concept where short_name = '{rd:code}' and description = '{$answerName}')"/>
+              <column name="answer_concept" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}')"/>
               <column name="uuid" valueComputed="uuid()"/>
               <column name="creator" valueNumeric="1"/>
               <column name="date_created" valueComputed="now()"/>
-              <column name="concept_id" valueComputed="(select concept_id from concept where short_name = '{$questionConcept/rd:code}' and description = '{$questionConcept/rd:mapping/rd:concept/rd:name}')"/>
+              <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$cielUuid}')"/>
             </insert>
           </xsl:for-each>
 
@@ -425,9 +379,9 @@
       </xsl:choose>
 
     </changeSet>
-    
+
     <xsl:call-template name="createMap">
-      <xsl:with-param name="conceptId" select="rd:concept/rd:ciel"/>
+      <xsl:with-param name="conceptId" select="$cielUuid"/>
       <xsl:with-param name="mapType" select="rd:concept/rd:mapType"/>
       <xsl:with-param name="referenceTerm" select="$referenceTerm"/>
     </xsl:call-template>
@@ -439,7 +393,7 @@
     <xsl:param name="mapType"/>
     <xsl:param name="referenceTerm"/>
 
-    <changeSet  dbms="mysql" author="justin" id="{$referenceTerm/rd:id * 20 + 19}">
+    <changeSet  dbms="mysql" author="justin" id="{$referenceTerm/rd:id * 20 + 19}" runInTransaction="true">
       <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>
@@ -448,29 +402,28 @@
           <tableExists tableName="concept_reference_term"/>
           <!-- Check that the concept exists -->
           <sqlCheck expectedResult="1">
-            select count(concept_id) from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where import_key='<xsl:value-of select="$conceptId"/>'
+            select count(concept_id) from concept where uuid='<xsl:value-of select="$conceptId"/>'
           </sqlCheck>
           <!-- check reference term exists -->
           <sqlCheck expectedResult="1">
-            select count(concept_reference_term_id) from concept_reference_term inner join concept_reference_source on (concept_reference_term.concept_source_id = concept_reference_source.concept_source_id) 
-              where code='<xsl:value-of select="$referenceTerm/rd:code"/>' and concept_reference_source.name = '<xsl:value-of select="$referenceTerm/rd:codeSystemName"/>'
+            select count(concept_reference_term_id) from concept_reference_term inner join concept_reference_source on (concept_reference_term.concept_source_id = concept_reference_source.concept_source_id)
+            where code='<xsl:value-of select="$referenceTerm/rd:code"/>' and concept_reference_source.name = '<xsl:value-of select="$referenceTerm/rd:codeSystemName"/>'
           </sqlCheck>
         </and>
         <!-- ensure map doesn't already exist -->
         <sqlCheck expectedResult="0">
-          select count(concept_map_id) from concept_reference_map inner join concept on (concept_reference_map.concept_id = concept_name.concept_id)
-          inner join tmp_vocab_import on (tmp_vocab_import.uuid = concept.uuid)
+          select count(concept_map_id) from concept_reference_map inner join concept on (concept_reference_map.concept_id = concept.concept_id)
           inner join concept_reference_term on (concept_reference_term.concept_reference_term_id = concept_reference_map.concept_reference_term_id)
           inner join concept_reference_source on (concept_reference_source.concept_source_id = concept_reference_term.concept_source_id)
           where concept_reference_term.code='<xsl:value-of select="$referenceTerm/rd:code"/>'
           and concept_reference_source.name = '<xsl:value-of select="$referenceTerm/rd:codeSystemName"/>'
-          and tmp_vocab_import.import_key = '<xsl:value-of select="$conceptId"/>'
+          and concept.uuid = '<xsl:value-of select="$conceptId"/>'
         </sqlCheck>
       </preConditions>
       <comment>
         Create map :
-        Concept: <xsl:value-of select="$referenceTerm/rd:code"/> 
-        Is: <xsl:value-of select="$mapType"/> 
+        Concept: <xsl:value-of select="$referenceTerm/rd:code"/>
+        Is: <xsl:value-of select="$mapType"/>
         Term: <xsl:value-of select="$conceptId"/>
       </comment>
       <insert tableName="concept_reference_map">
@@ -478,11 +431,29 @@
         <column name="creator" valueNumeric="1"/>
         <column name="date_created" valueComputed="now()"/>
         <column name="uuid" valueComputed="uuid()"/>
-        <column name="concept_id" valueComputed="(select concept_id from concept inner join tmp_vocab_import on (concept.uuid = tmp_vocab_import.uuid) where tmp_vocab_import.import_key = '{$conceptId}' and locale = 'en')"/>
+        <column name="concept_id" valueComputed="(select concept_id from concept where uuid = '{$conceptId}' )"/>
         <column name="concept_reference_term_id" valueComputed="(select concept_reference_term_id from concept_reference_term inner join concept_reference_source on (concept_reference_source.concept_source_id = concept_reference_term.concept_source_id) where code = '{$referenceTerm/rd:code}' and concept_reference_source.name = '{$referenceTerm/rd:codeSystemName}')"/>
         <column name="concept_map_type_id" valueComputed="(select concept_map_type_id from concept_map_type where name = '{$mapType}')"/>
       </insert>
     </changeSet>
   </xsl:template>
 
+  <xsl:template name="postpend-pad">
+    <!-- recursive template to right justify and prepend the value with whatever padChar is passed in   -->
+    <xsl:param name="padChar"> </xsl:param>
+    <xsl:param name="padVar"/>
+    <xsl:param name="length"/>
+    <xsl:choose>
+      <xsl:when test="string-length($padVar) &lt; $length">
+        <xsl:call-template name="postpend-pad">
+          <xsl:with-param name="padChar" select="$padChar"/>
+          <xsl:with-param name="padVar" select="concat($padVar,$padChar)"/>
+          <xsl:with-param name="length" select="$length"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="substring($padVar,string-length($padVar) - $length + 1)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet>

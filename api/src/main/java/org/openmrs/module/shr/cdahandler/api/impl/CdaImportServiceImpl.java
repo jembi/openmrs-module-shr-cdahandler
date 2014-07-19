@@ -13,29 +13,16 @@
  */
 package org.openmrs.module.shr.cdahandler.api.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.marc.everest.formatters.interfaces.IFormatterParseResult;
-import org.marc.everest.formatters.xml.datatypes.r1.DatatypeFormatter;
-import org.marc.everest.formatters.xml.datatypes.r1.R1FormatterCompatibilityMode;
-import org.marc.everest.formatters.xml.its1.XmlIts1Formatter;
-import org.marc.everest.interfaces.IResultDetail;
-import org.marc.everest.interfaces.ResultDetailType;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
-import org.openmrs.VisitAttribute;
-import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.shr.cdahandler.CdaProcessor;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
-import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
-import org.openmrs.module.shr.cdahandler.processor.factory.impl.*;
-import org.openmrs.module.shr.cdahandler.processor.util.*;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * It is a default implementation of {@link CdaImportService}.
@@ -55,6 +42,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#importDocument(java.io.InputStream)
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public Visit importDocument(InputStream doc) throws DocumentImportException 
 	{
 		if(this.m_processor == null)

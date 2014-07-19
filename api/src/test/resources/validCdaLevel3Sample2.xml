@@ -148,7 +148,7 @@
 									<effectiveTime>
 										<low value="20061001141437" />
 									</effectiveTime>
-									<value xsi:type="CD">
+									<value xsi:type="CD" code="95882006" codeSystem="2.16.840.1.113883.6.96">
 										<originalText>
 											<reference
 												value="#ref_ab5adeab2d214b41b432464dff992447_phrCondition_Name_Active_1" />
@@ -210,7 +210,7 @@
 									<effectiveTime>
 										<low value="20070115141530" />
 									</effectiveTime>
-									<value xsi:type="CD">
+									<value xsi:type="CD" code="426722004" codeSystem="2.16.840.1.113883.6.96" displayName="Iodinated contrast media">
 										<originalText>
 											<reference
 												value="#ref_ef1f904ffb85468db0bc41bbe4c99c75_phrAllergy_Name_1" />
@@ -219,7 +219,7 @@
 									<participant typeCode="CSM">
 										<participantRole classCode="MANU">
 											<playingEntity classCode="MMAT">
-												<code>
+												<code code="426722004" codeSystem="2.16.840.1.113883.6.96">
 													<originalText>
 														<reference
 															value="#ref_ef1f904ffb85468db0bc41bbe4c99c75_phrAllergy_Name_1" />
@@ -237,7 +237,7 @@
 											<code code="PROBLEM" codeSystem="1.3.6.1.4.1.19376.1.5.3.2"
 												codeSystemName="IHEActCode" />
 											<statusCode code="completed" />
-											<value xsi:type="CD">
+											<value xsi:type="CD" code="82966003" codeSystem="2.16.840.1.113883.6.96" >
 												<originalText>
 													<reference
 														value="#ref_ef1f904ffb85468db0bc41bbe4c99c75_phrAllergy_Name_reaction1" />

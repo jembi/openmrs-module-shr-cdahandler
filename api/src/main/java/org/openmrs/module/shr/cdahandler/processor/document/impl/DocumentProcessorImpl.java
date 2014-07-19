@@ -2,21 +2,15 @@ package org.openmrs.module.shr.cdahandler.processor.document.impl;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
-import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PQ;
-import org.marc.everest.datatypes.generic.CE;
-import org.marc.everest.datatypes.interfaces.IPredicate;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
@@ -28,7 +22,6 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Performer1;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ServiceEvent;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.StructuredBody;
-import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
@@ -37,6 +30,7 @@ import org.openmrs.Relationship;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -66,7 +60,19 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	
 	// The context within which this parser is operating
 	protected ProcessorContext m_context;
+
+	// Utilities
+	protected final OpenmrsMetadataUtil m_openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
+	protected final OpenmrsConceptUtil m_openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
+	protected final DatatypeProcessorUtil m_datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
+	protected final AssignedEntityProcessorUtil m_assignedEntityProcessorUtil = AssignedEntityProcessorUtil.getInstance();
+	protected final PatientRoleProcessorUtil m_patientRoleProcessorUtil = PatientRoleProcessorUtil.getInstance();
+	protected final PersonProcessorUtil m_personProcessorUtil = PersonProcessorUtil.getInstance();
+	protected final LocationOrganizationProcessorUtil m_locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	
+
+
 	/**
 	 * Gets the context within which this processor runs (if any)
 	 */
@@ -96,11 +102,15 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	@Override
 	public Visit process(ClinicalDocument doc) throws DocumentImportException
 	{
-		// Perform any additional validation over and above the regular validation
-		ValidationIssueCollection validationIssues = this.validate(doc);
-		if(validationIssues.hasErrors())
-			throw new DocumentValidationException("This document is not valid according to its template", doc, validationIssues);
-				
+		
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(doc);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(doc, issues);
+		}
+		
 		Visit visitInformation = this.processHeader(doc);
 		
 		// Encounters - This may be a level 1 document so we better check
@@ -163,16 +173,12 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		// Get the body
 		NonXMLBody bodyChoiceIfNonXMLBody = doc.getComponent().getBodyChoiceIfNonXMLBody();
 		
-		OpenmrsMetadataUtil openmrsMetaData = OpenmrsMetadataUtil.getInstance();
-		OpenmrsConceptUtil openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
-		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
-
 		Encounter binaryContentEncounter = visitInformation.getEncounters().iterator().next();
 		
 		// Process contents
 		Obs binaryContentObs = new Obs();
-		binaryContentObs.setConcept(openmrsConceptUtil.getOrCreateRMIMConcept(openmrsMetaData.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
-		binaryContentObs.setAccessionNumber(datatypeProcessorUtil.formatIdentifier(doc.getId()));
+		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(m_openmrsMetadataUtil.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
+		binaryContentObs.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
 		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
 		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());
 		binaryContentObs.setLocation(visitInformation.getLocation());
@@ -208,14 +214,6 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		Visit visitInformation = new Visit();
 		
-		// Processor instances (makes the code look cleaner)
-		AssignedEntityProcessorUtil assignedEntityProcessorUtil = AssignedEntityProcessorUtil.getInstance();
-		PatientRoleProcessorUtil patientRoleProcessorUtil = PatientRoleProcessorUtil.getInstance();
-		PersonProcessorUtil personProcessorUtil = PersonProcessorUtil.getInstance();
-		DatatypeProcessorUtil datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
-		OpenmrsMetadataUtil openmrsMetadataUtil = OpenmrsMetadataUtil.getInstance();
-		LocationOrganizationProcessorUtil locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
-		
 		// Create a context for this parse operation
 		//DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
 
@@ -227,7 +225,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		// Parse the header
 		if(doc.getRecordTarget().size() != 1)
 			throw new DocumentImportException("Can only handle documents with exactly one patient");
-		visitInformation.setPatient(patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole()));
+		visitInformation.setPatient(this.m_patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole()));
 
 		// TODO: Document code
 		
@@ -236,8 +234,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		{
 			// TODO: Figure out where to stuff aut.getTime() .
 			// This element represents the time that the author started participating in the creation of the clinical document .. Is it important?
-			Provider provider = assignedEntityProcessorUtil.processProvider(aut.getAssignedAuthor());
-			EncounterRole role = openmrsMetadataUtil.getOrCreateEncounterRole(aut.getTypeCode());
+			Provider provider = this.m_assignedEntityProcessorUtil.processProvider(aut.getAssignedAuthor());
+			EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(aut.getTypeCode());
 			visitEncounter.addProvider(role, provider);
 		}
 
@@ -250,8 +248,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getConfidentialityCode() != null && !doc.getConfidentialityCode().isNull())
 		{
 			VisitAttribute confidentiality = new VisitAttribute();
-			confidentiality.setAttributeType(openmrsMetadataUtil.getOrCreateVisitConfidentialityCodeAttributeType());
-			confidentiality.setValueReferenceInternal(datatypeProcessorUtil.formatSimpleCode(doc.getConfidentialityCode()));
+			confidentiality.setAttributeType(this.m_openmrsMetadataUtil.getOrCreateVisitConfidentialityCodeAttributeType());
+			confidentiality.setValueReferenceInternal(this.m_datatypeProcessorUtil.formatSimpleCode(doc.getConfidentialityCode()));
 			visitInformation.addAttribute(confidentiality);
 		}
 		
@@ -260,7 +258,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getCustodian() != null && doc.getCustodian().getNullFlavor() == null &&
 				doc.getCustodian().getAssignedCustodian() != null && doc.getCustodian().getAssignedCustodian().getNullFlavor() == null)
 		{
-			visitInformation.setLocation(locationOrganizationProcessorUtil.processOrganization(doc.getCustodian().getAssignedCustodian().getRepresentedCustodianOrganization()));
+			visitInformation.setLocation(this.m_locationOrganizationProcessorUtil.processOrganization(doc.getCustodian().getAssignedCustodian().getRepresentedCustodianOrganization()));
 		}
 		
 		// TODO: DocumentationOf (perhaps as an encounter related to the Visit with an EncounterType of CDA Service Information)
@@ -283,8 +281,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			// Add performers with their function this is used when the provider is referenced elsewhere in the document
 			for(Performer1 prf : serviceEvent.getPerformer())
 			{
-				Provider provider = assignedEntityProcessorUtil.processProvider(prf.getAssignedEntity());
-				EncounterRole role = openmrsMetadataUtil.getOrCreateEncounterRole(prf.getFunctionCode());
+				Provider provider = this.m_assignedEntityProcessorUtil.processProvider(prf.getAssignedEntity());
+				EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(prf.getFunctionCode());
 				visitEncounter.addProvider(role, provider);
 			}
 		}
@@ -311,7 +309,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 				continue;
 			
 			// Process the relationship
-			Relationship rel = personProcessorUtil.processAssociatedEntity(ptcpt.getAssociatedEntity(), visitInformation.getPatient());
+			Relationship rel = this.m_personProcessorUtil.processAssociatedEntity(ptcpt.getAssociatedEntity(), visitInformation.getPatient());
 			
 			// Update the known time the relationship existed based on event time
 			if(rel.getStartDate() == null || visitInformation.getStartDatetime().compareTo(rel.getStartDate()) < 0)
@@ -329,8 +327,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 				throw new NotImplementedException("OpenSHR cannot store informants of type related persons .. yet");
 			else
 			{
-				Provider provider = assignedEntityProcessorUtil.processProvider(inf.getInformantChoiceIfAssignedEntity());
-				EncounterRole role = openmrsMetadataUtil.getOrCreateEncounterRole(inf.getTypeCode());
+				Provider provider = this.m_assignedEntityProcessorUtil.processProvider(inf.getInformantChoiceIfAssignedEntity());
+				EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(inf.getTypeCode());
 				visitEncounter.addProvider(role, provider);
 			}
 		}
@@ -341,8 +339,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getLegalAuthenticator() != null)
 		{
 			// TODO: Where to store signature code? Or is it enough that this data would be stored in the provenance with the document?
-			Provider provider = assignedEntityProcessorUtil.processProvider(doc.getLegalAuthenticator().getAssignedEntity());
-			EncounterRole role = openmrsMetadataUtil.getOrCreateEncounterRole(doc.getLegalAuthenticator().getTypeCode());
+			Provider provider = this.m_assignedEntityProcessorUtil.processProvider(doc.getLegalAuthenticator().getAssignedEntity());
+			EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(doc.getLegalAuthenticator().getTypeCode());
 			visitEncounter.addProvider(role, provider);
 		}
 
@@ -350,8 +348,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getDataEnterer() != null)
 		{
 			// TODO: Where to store the time the data was entered?
-			Provider provider = assignedEntityProcessorUtil.processProvider(doc.getDataEnterer().getAssignedEntity());
-			EncounterRole role = openmrsMetadataUtil.getOrCreateEncounterRole(doc.getDataEnterer().getTypeCode());
+			Provider provider = this.m_assignedEntityProcessorUtil.processProvider(doc.getDataEnterer().getAssignedEntity());
+			EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(doc.getDataEnterer().getTypeCode());
 			visitEncounter.addProvider(role, provider);
 		}
 
@@ -359,8 +357,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc.getId() != null && !doc.getId().isNull())
 		{
 			VisitAttribute provenance = new VisitAttribute();
-			provenance.setAttributeType(openmrsMetadataUtil.getOrCreateVisitExternalIdAttributeType());
-			provenance.setValueReferenceInternal(datatypeProcessorUtil.formatIdentifier(doc.getId()));
+			provenance.setAttributeType(this.m_openmrsMetadataUtil.getOrCreateVisitExternalIdAttributeType());
+			provenance.setValueReferenceInternal(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
 			visitInformation.addAttribute(provenance);
 		}
 
@@ -377,7 +375,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			else
 				visitTypeName = "UNKNOWN";
 		}
-		visitInformation.setVisitType(openmrsMetadataUtil.getVisitType(visitTypeName));
+		visitInformation.setVisitType(this.m_openmrsMetadataUtil.getVisitType(visitTypeName));
 
 		// Add attributes to the visit encounter
 		visitEncounter.setPatient(visitInformation.getPatient());
@@ -386,7 +384,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		visitEncounter.setLocation(visitInformation.getLocation());
 		visitEncounter.setEncounterDatetime(visitInformation.getStartDatetime());
 		visitEncounter.setDateCreated(visitInformation.getDateCreated());
-		visitEncounter.setEncounterType(openmrsMetadataUtil.getOrCreateEncounterType(doc.getCode()));
+		visitEncounter.setEncounterType(this.m_openmrsMetadataUtil.getOrCreateEncounterType(doc.getCode()));
 		visitEncounter = Context.getEncounterService().saveEncounter(visitEncounter);
 		
 		// Add encounters

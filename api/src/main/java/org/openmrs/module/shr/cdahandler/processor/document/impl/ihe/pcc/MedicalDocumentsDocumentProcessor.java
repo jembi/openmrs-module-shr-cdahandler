@@ -1,7 +1,5 @@
 package org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc;
 
-import java.util.List;
-
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.interfaces.IGraphable;
@@ -14,7 +12,6 @@ import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcessorImpl;
-import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor;
 
 /**
  * Represents a processor that can import PCC Medical Documents 

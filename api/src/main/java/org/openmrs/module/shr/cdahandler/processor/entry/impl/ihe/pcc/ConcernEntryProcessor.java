@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.NullFlavor;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
@@ -25,11 +24,7 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.annotation.TemplateId;
-import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
-import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor;
-import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
-import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 
 /**
  * Processes concern entries
@@ -41,7 +36,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 			@TemplateId(root = CdaHandlerConstants.ENT_TEMPLATE_CONCERN_ENTRY)
 	})
 public class ConcernEntryProcessor extends ActEntryProcessor {
-	
+
 	/**
 	 * Get the template name
 	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
@@ -72,31 +67,33 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	@Override
 	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
 		
-		ValidationIssueCollection validationIssues = this.validate(entry);
-		if(validationIssues.hasErrors()) 
-			throw new DocumentValidationException("Cannot process invalid entry", entry, validationIssues);
-		
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(entry);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(entry, issues);
+		}
+
 		// This is an interesting thought, according to the spec
 		// There may be multiple entries each of which identify the problems of concern
 		// Hmm... I think the only way this can be done is to process each of the
 		//        entries as an observation saving to the encounter, then creating a 
 		//		  problem for each of the observations that exist. Ensuring that the 
 		// 		  the problem list item doesn't already exist via accession number?
-		Set<Obs> childObservations = new HashSet<Obs>();
-		
 		Act act = (Act)entry;
 		for(EntryRelationship relationship : act.getEntryRelationship())
 		{
 			
 			if(relationship == null || relationship.getNullFlavor() != null ||
 					relationship.getClinicalStatement() == null ||
-					relationship.getClinicalStatement().getNullFlavor() == null)
+					relationship.getClinicalStatement().getNullFlavor() != null)
 				continue;
 		
 			// Process the active list item
 			ActiveListItem listItem = this.parseActContents(act, relationship.getClinicalStatement());
 			if(listItem != null)
-				listItem = Context.getActiveListService().saveActiveListItem(listItem);
+				Context.getActiveListService().saveActiveListItem(listItem);
 		}
 		
 		return null;
@@ -118,14 +115,13 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	{
 		// Get the encounter context
 		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
 		
 		// Already reported as a problem?
 		for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
 		{
 			// First, does the UUID match? And also, is it an active problem?
 			for(II id : act.getId())
-				if(prob.getStartObs().getAccessionNumber().equals(datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
+				if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
 					return prob;
 					break;
 		}
@@ -151,7 +147,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	    if(act.getEffectiveTime() == null || act.getEffectiveTime().isNull())
 	    	validationIssues.error("Act must carry an effective time");
 	    else if(act.getEffectiveTime().getLow() == null || act.getEffectiveTime().getLow().isNull())
-	    	validationIssues.error("Act's effectiveTime element must be populated with a Low value");
+	    	validationIssues.warn("Act's effectiveTime element must be populated with a Low value");
 	    else
 	    {
 	    	Boolean isHighNull = act.getEffectiveTime().getHigh() == null || act.getEffectiveTime().isNull();
@@ -255,6 +251,8 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 					res.setEndDate(act.getEffectiveTime().getHigh().getDateValue().getTime());
 				}
 			}
+			if(res.getStartDate() == null && obs.getObsDatetime() != null)
+				res.setStartDate(obs.getObsDatetime());
 		}
 		else if(act.getStatusCode().getCode() != ActStatus.Completed)
 			throw new DocumentImportException("Missing effective time of the problem");

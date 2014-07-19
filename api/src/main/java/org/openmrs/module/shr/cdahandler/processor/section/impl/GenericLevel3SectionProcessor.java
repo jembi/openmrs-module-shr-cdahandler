@@ -1,23 +1,15 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.marc.everest.datatypes.II;
-import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component5;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Entry;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
-import org.openmrs.BaseOpenmrsData;
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -52,7 +44,6 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 		// Validate the section done by super
 		Obs level2Data = super.process(section); // Process the level 2 portions
 		ProcessorContext parseContext = new ProcessorContext(section, level2Data, this);
-		
 		ProcessorFactory factory = EntryProcessorFactory.getInstance();
 
 	    // Process entries
@@ -136,14 +127,14 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 			// Must have vital sign organizer
 			for(String entry : expectedEntries)
 				if(section.getEntry().size() == 0 || !this.hasEntry(section, entry))
-					validationIssues.error(String.format("Section %s expects entry of %s", this.getTemplateName(), entry));
+					validationIssues.warn(String.format("Section %s expects entry of %s", this.getTemplateName(), entry));
 
 	    // Assert subsections
 		if(expectedSubSections != null)
 			// Must have vital sign organizer
 			for(String entry : expectedSubSections)
 				if(section.getComponent().size() == 0 || !this.hasSubSection(section, entry))
-					validationIssues.error(String.format("Section %s expects sub-section component of %s", this.getTemplateName(), entry));
+					validationIssues.warn(String.format("Section %s expects sub-section component of %s", this.getTemplateName(), entry));
 
 		
 	    return validationIssues;

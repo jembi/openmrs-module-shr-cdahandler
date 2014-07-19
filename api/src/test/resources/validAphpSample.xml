@@ -144,57 +144,8 @@
 							<statusCode code='completed' />
 							<effectiveTime value="2011" />
 							<repeatNumber />
-							<value code="1325" codeSystem="1.3.6.1.4.1.12009.2"
-								codeSystemName="LOINC" displayName="CODED ANSWER" xsi:type="CD" />
+							<value value="1" xsi:type="INT" />
 							<!-- <value xsi:type='INT' value='1'/> -->
-							<interpretationCode code="N" />
-							<targetSiteCode code="1506555919" />
-						</observation>
-					</entry>
-					<entry>
-						<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5' />
-						<observation classCode="OBS" moodCode="EVN">
-							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
-							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
-							<id root='1' extension='2' />
-							<code code='11636-8-A' displayName='A' codeSystem='2.16.840.1.113883.6.1'
-								codeSystemName='LOINC' />
-							<statusCode code='completed' />
-							<effectiveTime value="2011" />
-							<repeatNumber />
-							<value xsi:type='INT' value='1' />
-							<interpretationCode code="N" />
-							<targetSiteCode code="1506555919" />
-						</observation>
-					</entry>
-					<entry>
-						<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5' />
-						<observation classCode="OBS" moodCode="EVN">
-							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
-							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
-							<id root='1' extension='2' />
-							<code code='11636-8-B' displayName='B' codeSystem='2.16.840.1.113883.6.1'
-								codeSystemName='LOINC' />
-							<statusCode code='completed' />
-							<effectiveTime value="2011" />
-							<repeatNumber />
-							<value xsi:type='ST'>TEST</value>
-							<interpretationCode code="N" />
-							<targetSiteCode code="1506555919" />
-						</observation>
-					</entry>
-					<entry>
-						<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13.5' />
-						<observation classCode="OBS" moodCode="EVN">
-							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
-							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
-							<id root='1' extension='2' />
-							<code code='11636-8-C' displayName='C' codeSystem='2.16.840.1.113883.6.1'
-								codeSystemName='LOINC' />
-							<statusCode code='completed' />
-							<effectiveTime value="2011" />
-							<repeatNumber />
-							<value xsi:type='TS' value='20110101' />
 							<interpretationCode code="N" />
 							<targetSiteCode code="1506555919" />
 						</observation>

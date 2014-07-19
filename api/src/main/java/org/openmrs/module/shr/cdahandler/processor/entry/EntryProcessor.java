@@ -1,7 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.entry;
 
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Entry;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.Processor;

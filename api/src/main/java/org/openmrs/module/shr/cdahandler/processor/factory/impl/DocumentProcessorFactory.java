@@ -4,6 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.GenericDocumentProcessor;
@@ -23,8 +26,9 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 	private static Object s_lockObject = new Object();
 	
 	// Log
-	protected final Log log = LogFactory.getLog(this.getClass());
-	 
+	private final Log log = LogFactory.getLog(this.getClass());
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	
 	/**
 	 * Constructs a document parser factory
 	 */
@@ -36,7 +40,7 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 	 * Gets or creates the singleton instance 
 	 * @return
 	 */
-	public final static DocumentProcessorFactory getInstance()
+	public static DocumentProcessorFactory getInstance()
 	{
 		if(s_instance == null)
 			synchronized (s_lockObject) {
@@ -54,17 +58,18 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 		ClasspathScannerUtil scanner = ClasspathScannerUtil.getInstance();
 		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
-		// Return document processor
+		// Log document processor
 		if(candidateProcessor instanceof DocumentProcessor)
-		{
 			log.info(String.format("Using template processor: '%s'", candidateProcessor.getTemplateName()));
-			return (DocumentProcessor)candidateProcessor;
-		}
 		else 
 		{
+			candidateProcessor = new GenericDocumentProcessor();
 			log.warn(String.format("Could not find a processor for document template %s ... Fallback processor: StructuredBodyDocumentProcessor", FormatterUtil.toWireFormat(object.getTemplateId())));
-			return new GenericDocumentProcessor(); // fallback to the default implementation
 		}
+		
+		
+		return (DocumentProcessor)candidateProcessor;
+		
 	}
 
 }

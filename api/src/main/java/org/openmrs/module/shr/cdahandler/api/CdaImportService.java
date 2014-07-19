@@ -15,7 +15,6 @@ package org.openmrs.module.shr.cdahandler.api;
 
 import java.io.InputStream;
 
-import org.openmrs.Encounter;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
