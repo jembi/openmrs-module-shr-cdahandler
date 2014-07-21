@@ -19,12 +19,10 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
-import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 
@@ -157,11 +155,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 					sectionContext = sectionContext.getParent();
 				
 				// Now find the text
-				StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
-				if(referencedNode != null)
-				{
-					res.setComment(referencedNode.toString());
-				}
+				//StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
+				//if(referencedNode != null)
+				//{
+				//	res.setComment(referencedNode.toString());
+				//}
 			}
 		}
 

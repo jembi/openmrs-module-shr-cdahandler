@@ -58,19 +58,19 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 
 		// Validate .. First we get the code from the organizer/container and figure out if this is an allowed value within its container
 		CE<String> conceptGroupCode = this.getConceptSetCode();
-		if(conceptGroupCode != null && this.m_configuration.getValidateConceptStructure())
+		if(conceptGroupCode != null)
 		{
 			try {
 		        Concept conceptGroup = this.m_conceptUtil.getConcept(conceptGroupCode),
 		        		codedObservationConcept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
 
 		        // If we're not validating concept structure...
-		        /*
+		        
 		        if(!this.m_configuration.getValidateConceptStructure() && conceptGroup == null)
 		        	conceptGroup = this.m_conceptUtil.createConcept(conceptGroupCode);
 		        if(!this.m_configuration.getValidateConceptStructure() && codedObservationConcept == null)
 		        	codedObservationConcept = this.m_conceptUtil.createConcept(observation.getCode(), observation.getValue());
-		        */
+		        
 		        
 		        // First check, is the coded observation concept understood by OpenMRS?
 	        	// Sometimes N/A applies for boolean as well as the observation is an indicator (i.e. the presence of this value
