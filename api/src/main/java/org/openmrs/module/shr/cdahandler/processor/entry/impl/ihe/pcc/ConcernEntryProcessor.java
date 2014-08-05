@@ -8,6 +8,7 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
@@ -114,14 +115,17 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
 		
 		// Already reported as a problem?
-		for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
-		{
-			// First, does the UUID match? And also, is it an active problem?
-			for(II id : act.getId())
-				if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
-					return prob;
-					break;
-		}
+		for(Reference reference : act.getReference())
+			if(reference.getExternalActChoiceIfExternalAct() == null)
+				continue;
+			else
+				for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
+				{
+					// First, does the UUID match? And also, is it an active problem?
+					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
+						if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
+							return prob;
+				}
 		
 		return null;
 
@@ -254,6 +258,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		else if(act.getStatusCode().getCode() != ActStatus.Completed)
 			throw new DocumentImportException("Missing effective time of the problem");
 
+		
 		// Void this?
 		if(act.getStatusCode().getCode() == ActStatus.Aborted || 
 				act.getStatusCode().getCode() == ActStatus.Suspended)
@@ -266,6 +271,8 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		// Copy attributes
 		res.setPerson(encounterInfo.getPatient());
 		
+		// Author
+		super.setCreator(res, act, encounterInfo);
 		return res;
     }
 	

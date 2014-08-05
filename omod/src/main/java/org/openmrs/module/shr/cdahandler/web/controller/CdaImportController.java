@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.shr.cdahandler.web.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 
@@ -27,11 +28,16 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.marc.everest.formatters.FormatterUtil;
+import org.marc.everest.interfaces.IResultDetail;
+import org.marc.everest.interfaces.ResultDetailType;
+import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.Encounter;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.api.DocumentParseException;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -59,28 +65,35 @@ public class CdaImportController {
 	
 	@RequestMapping(value = "/module/shr-cdahandler/import", method = RequestMethod.POST)
 	public ModelAndView importPOST(HttpServletRequest request, HttpServletResponse response,
-	        @ModelAttribute("document") Document document, @RequestParam(value = "importFile") MultipartFile file)
-	        throws Throwable {
+	        @ModelAttribute("document") Document document, @RequestParam(value = "importFile") MultipartFile file) throws Throwable
+	         {
 		if (file == null || file.isEmpty())
 			return new ModelAndView("redirect:import.form");
 		
 		log.info("User uploaded document " + file.getOriginalFilename());
 		
-		try {
-			Visit e = Context.getService(CdaImportService.class).importDocument(
-			    file.getInputStream());
-			log.info("Successfully imported document. Generated visit with id ");
-			
-			document.transformCDAtoHTML(file.getInputStream());
-			
-		}
-		catch (DocumentParseException e) {
-			log.warn("Invalid CDA document uploaded", e);
-		}
-		catch (Throwable e) {
-			log.error("", e);
-			throw e;
-		}
+		
+			try {
+                Visit e = Context.getService(CdaImportService.class).importDocument(
+                    file.getInputStream());
+				log.info("Successfully imported document. Generated visit with id ");
+				document.transformCDAtoHTML(file.getInputStream());
+			}
+			catch(DocumentValidationException e)
+			{
+				// HACK:
+				log.error("Error generated", e);
+				
+				for(IResultDetail dtl : e.getValidationIssues())
+					if(dtl.getType() == ResultDetailType.ERROR)
+						log.error(dtl.getMessage());
+					else
+						log.warn(dtl.getMessage());
+				throw e;
+				
+			}
+		
+		
 		return new ModelAndView("redirect:import.form");
 	}
 	

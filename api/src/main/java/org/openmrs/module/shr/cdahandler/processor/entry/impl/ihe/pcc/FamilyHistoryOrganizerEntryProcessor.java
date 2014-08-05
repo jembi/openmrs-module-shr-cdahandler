@@ -94,7 +94,7 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 
 		// Family member relationship 
 		Obs familyMemberRelationObs = new Obs(organizerObs.getPerson(), 
-			Context.getConceptService().getConcept(160593), 
+			Context.getConceptService().getConcept(1560), 
 			organizerObs.getObsDatetime(), 
 			organizerObs.getLocation());
 		familyMemberRelationObs.setValueCoded(this.m_conceptUtil.getConceptOrEquivalent(subject.getCode()));

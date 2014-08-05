@@ -13,6 +13,7 @@ import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ED;
+import org.marc.everest.datatypes.EN;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
 import org.marc.everest.datatypes.PQ;
@@ -35,6 +36,7 @@ import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
+import org.openmrs.Drug;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
@@ -81,6 +83,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		try {
 			this.getOrCreateConceptSource("LOINC", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null);
 			this.getOrCreateConceptSource("SNOMED CT", CdaHandlerConstants.CODE_SYSTEM_SNOMED, "SNOMED-CT", null);
+			this.getOrCreateConceptSource("UCUM", CdaHandlerConstants.CODE_SYSTEM_UCUM, "Universal Code for Units of Measure", null);
 			this.m_narrowerThan = Context.getConceptService().getConceptMapTypeByName("NARROWER-THAN");
 			this.m_sameAs = Context.getConceptService().getConceptMapTypeByName("SAME-AS");
 			
@@ -621,6 +624,48 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 			
 		
+    }
+
+	/**
+	 * Get a drug code from a concept
+	 * @throws DocumentImportException 
+	 */
+	public Drug getOrCreateDrugFromConcept(CE<?> drugCode, EN name) throws DocumentImportException {
+
+
+		// First, is there a concept matching the type?
+		Concept drugConcept = this.getOrCreateConceptAndEquivalents(drugCode);
+		List<Drug> candidateDrugs = Context.getConceptService().getDrugsByConcept(drugConcept);
+
+		// Process the search results
+		if(candidateDrugs.size() == 1)// found one
+			return candidateDrugs.get(0);
+		else if(candidateDrugs.size() == 0 && this.m_configuration.getAutoCreateConcepts()) // found none and can create
+		{
+			Drug retVal = new Drug();
+			
+			// Set name
+			if(name != null && !name.isNull())
+				retVal.setName(name.toString());
+			else
+				retVal.setName(drugCode.getDisplayName());
+
+			retVal.setConcept(drugConcept);
+			
+			retVal = Context.getConceptService().saveDrug(retVal);
+			return retVal;
+		}
+		else
+			throw new DocumentImportException("Could not reliably determine the drug to associate with this administration");
+    }
+
+	/**
+	 * Get or creates a concept for a UCUM code
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateUcumConcept(String unit) throws DocumentImportException {
+		// Try to get the concept source based on reference term
+		return this.getOrCreateConcept(new CV<String>(unit, CdaHandlerConstants.CODE_SYSTEM_UCUM, "UCUM", null, unit, null));
     }
 	
 }

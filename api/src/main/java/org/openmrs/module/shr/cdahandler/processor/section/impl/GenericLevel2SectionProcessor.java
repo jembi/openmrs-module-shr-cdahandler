@@ -91,7 +91,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		
 		// Created on...
 		obsGrouper.setDateCreated(encounterInfo.getDateCreated());
-		
+		obsGrouper.setCreator(encounterInfo.getCreator());
 		// If we have a visit start time this would represent the encounter time as well
 		if (encounterInfo.getEncounterDatetime() != null)
 			obsGrouper.setObsDatetime(encounterInfo.getEncounterDatetime());

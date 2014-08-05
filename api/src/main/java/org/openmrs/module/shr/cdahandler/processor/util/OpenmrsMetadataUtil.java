@@ -431,5 +431,6 @@ public class OpenmrsMetadataUtil {
 		return visitType;
     }
 
+
 	
 }

@@ -11,20 +11,22 @@ import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActMoodDocumentObservation;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
-import org.openmrs.module.shr.cdahandler.processor.section.SectionProcessor;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 
@@ -35,7 +37,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 	// Metadata util
 	protected final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
-
+			
 	/**
 	 * Process the observation
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
@@ -53,7 +55,23 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 		// Observation from entry
 		Observation observation = (Observation)entry;
-		
+
+		// Only store EVN or " I DID OBSERVE " Observations, the other mood codes 
+		// if encountered should create more appropriate data
+		if(observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Eventoccurrence))
+			return this.processEventOccurance(observation);
+		else
+			throw new DocumentImportException(String.format("Don't yet understand mood code '%s'", observation.getMoodCode().getCode()));
+	}
+
+
+
+	/**
+	 * Process an observation in a manner where the observation 
+	 * DID OCCUR (moodCode = EVN)
+	 * @throws DocumentImportException 
+	 */
+	protected BaseOpenmrsData processEventOccurance(Observation observation) throws DocumentImportException {
 		// Create concept and datatype services
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
@@ -61,18 +79,34 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
 		// Void any existing obs that have the same id
 		Obs previousObs = null;
+		
+		// References to previous order
+		for(Reference reference : observation.getReference())
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+			!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				continue;
+			else
+				for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
+				{
+					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
+						if(currentObs.getAccessionNumber() != null
+						&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+						{
+							previousObs = currentObs;
+							Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
+						}
+				}
+		
+		// Validate no duplicates on AN
 		if(observation.getId() != null)
-			for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
+			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
 			{
 				for(II id : observation.getId())
-					if(previousObs == null && currentObs.getAccessionNumber() != null
-					&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-					{
-						previousObs = currentObs;
-						Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
-					}
-			}
-		
+					if(currentOrder.getAccessionNumber() != null
+					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+						throw new DocumentImportException(String.format("Duplicate obs %s", id));
+			}			
+
 		
 		Obs res = new Obs();
 		res.setPreviousVersion(previousObs);
@@ -83,8 +117,12 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		res.setDateCreated(encounterInfo.getDateCreated());
 		res.setEncounter(encounterInfo);
 		
+		
 		if(observation.getId() != null && !observation.getId().isNull())
 			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(observation.getId().get(0)));
+		
+		// Set the creator
+		super.setCreator(res, observation, encounterInfo);
 		
 		// Value may be changed
 		ANY value = observation.getValue();
@@ -164,13 +202,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				}
 			}
 		}
-
 		
 		// Get entry value
 		res = this.m_dataUtil.setObsValue(res, value);
 		res = Context.getObsService().saveObs(res, null);
-		    
-		
+		   
 		// Repeat number ... as an obs.. 
 		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
 		{
@@ -211,7 +247,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(observation, res, this);
-		super.processEntryRelationships(entry, childContext);
+		super.processEntryRelationships(observation, childContext);
 		
 		return res;
 	}
@@ -238,8 +274,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		ClinicalStatement statement = (ClinicalStatement)object;
 		// Must be an observation
 		if(!statement.isPOCD_MT000040UVObservation())
+		{
 			validationIssues.error(super.getInvalidClinicalStatementErrorText(Observation.class, statement.getClass()));
-
+			return validationIssues;
+		}
+		
 		Observation obs = (Observation)statement;
 		CE<String> expectedCode = this.getExpectedCode();
 		if(expectedCode != null && (obs.getCode() == null || !obs.getCode().semanticEquals(expectedCode).toBoolean()))
@@ -264,4 +303,50 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		return validationIssues;
 	}
+
+
+	/**
+	 * Validates that the provided observation can be used in the 
+	 * parentCode adding validation messages to validationIssues if necessary
+	 */
+	public void validateConceptWithContainer(CE<String> parentCode, Observation observation,
+                                             ValidationIssueCollection validationIssues) {
+		try {
+	        Concept conceptGroup = this.m_conceptUtil.getConcept(parentCode),
+	        		codedObservationConcept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
+        // If we're not validating concept structure...
+        /*
+        if(!this.m_configuration.getValidateConceptStructure() && conceptGroup == null)
+        	conceptGroup = this.m_conceptUtil.createConcept(conceptGroupCode);
+        if(!this.m_configuration.getValidateConceptStructure() && codedObservationConcept == null)
+        	codedObservationConcept = this.m_conceptUtil.createConcept(observation.getCode(), observation.getValue());
+        */
+        
+        // First check, is the coded observation concept understood by OpenMRS?
+    	// Sometimes N/A applies for boolean as well as the observation is an indicator (i.e. the presence of this value
+        // indicates true for the question concept)
+        if(conceptGroup == null || codedObservationConcept == null)
+        {
+	        	validationIssues.error(String.format("The observation concept %s is not understood or is not registered for this value of type %s type (hint: units may be incompatible)", observation.getCode(), observation.getValue().getClass()));
+        }
+        // Next check that the concept is a valid pregnancy concept
+    	else if(!conceptGroup.getSetMembers().contains(codedObservationConcept))
+    	{
+    		StringBuilder allowedConcepts = new StringBuilder();
+    		for(Concept gm : conceptGroup.getSetMembers())
+    		{
+    			allowedConcepts.append(gm.toString());
+    			allowedConcepts.append(" ");
+    		}
+    		if(!this.m_configuration.getValidateConceptStructure())
+	        	this.m_conceptUtil.addConceptToSet(conceptGroup, codedObservationConcept);
+    		else
+    			validationIssues.error(String.format("The code %s is not understood to be a valid concept according to the allowed values of %s = (%s)", codedObservationConcept, conceptGroup, allowedConcepts));
+    	}
+    }
+    catch (DocumentImportException e) {
+    	validationIssues.error(e.getMessage());
+    }
+
+    }
 }

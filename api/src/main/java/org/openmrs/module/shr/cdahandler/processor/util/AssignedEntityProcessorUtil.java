@@ -9,6 +9,7 @@ import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.Provider;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
@@ -197,7 +198,23 @@ public final class AssignedEntityProcessorUtil {
 		}
 		
 		res = Context.getProviderService().saveProvider(res);
+		
+		// Create a user as this will be assigned to the users
+		this.createUser(res, id);
+		
 		return res;
 	}
+
+	/**
+	 * Create a user for the provider
+	 */
+	private void createUser(Provider provider, String id) {
+		if(this.m_configuration.getAutoCreateUsers())
+		{
+		    User res = new User(provider.getPerson());
+		    res.setUsername(id);
+		    res = Context.getUserService().saveUser(res, id);
+		}
+    }
 	
 }

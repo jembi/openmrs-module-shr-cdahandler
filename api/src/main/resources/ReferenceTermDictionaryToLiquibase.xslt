@@ -27,7 +27,7 @@
       <!-- Create sources for LOINC -->
       <xsl:for-each select="//rd:referenceTerm[rd:codeSystem/text() and not(rd:codeSystem/text()=preceding::rd:referenceTerm/rd:codeSystem/text())]">
         <xsl:sort select="rd:codeSystemName"/>
-        <changeSet  dbms="mysql" id="{position() }" author="justin" runInTransaction="true">
+        <changeSet  dbms="mysql" id="shr-cdahandler-{position() }" author="justin" runInTransaction="true">
           <preConditions onError="HALT" onFail="MARK_RAN">
             <and>
               <tableExists tableName="concept_reference_source"/>
@@ -60,7 +60,7 @@
     <xsl:variable name="taskId" select="rd:id * 100"/>
 
     <xsl:if test="rd:codeSystem/text()">
-      <changeSet  dbms="mysql" id="{$taskId}" author="justin" runInTransaction="true">
+      <changeSet  dbms="mysql" id="shr-cdahandler-{$taskId}" author="justin" runInTransaction="true">
         <preConditions onError="HALT" onFail="MARK_RAN">
           <and>
             <tableExists tableName="concept_reference_term"/>
@@ -106,7 +106,7 @@
     <!-- Create concept if not exists or not specified -->
     <xsl:choose>
       <xsl:when test="not(rd:mapping/rd:concept/rd:cielId/text())">
-        <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}" runInTransaction="true">
+        <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$taskId + 1}" runInTransaction="true">
           <preConditions onError="HALT" onFail="MARK_RAN">
             <and>
               <tableExists tableName="concept_name"/>
@@ -229,7 +229,7 @@
     </xsl:variable>
     <xsl:for-each select="$memberOfSets">
       <xsl:sort select="id"/>
-      <changeSet  dbms="mysql" author="justin" id="{$taskId + position() + 1}" runInTransaction="true">
+      <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$taskId + position() + 1}" runInTransaction="true">
         <preConditions onError="HALT" onFail="MARK_RAN">
           <and>
             <tableExists tableName="concept_name"/>
@@ -284,7 +284,7 @@
       </xsl:call-template>
     </xsl:variable>
 
-    <changeSet  dbms="mysql" author="justin" id="{$taskId + 1}" runInTransaction="true">
+    <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$taskId + 1}" runInTransaction="true">
       <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>
@@ -393,7 +393,7 @@
     <xsl:param name="mapType"/>
     <xsl:param name="referenceTerm"/>
 
-    <changeSet  dbms="mysql" author="justin" id="{$referenceTerm/rd:id * 100 + 99}" runInTransaction="true">
+    <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$referenceTerm/rd:id * 100 + 99}" runInTransaction="true">
       <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>

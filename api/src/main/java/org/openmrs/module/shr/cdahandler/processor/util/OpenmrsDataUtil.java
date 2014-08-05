@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ED;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
 import org.marc.everest.datatypes.PQ;
@@ -20,7 +21,13 @@ import org.marc.everest.datatypes.generic.RTO;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.Obs;
+import org.openmrs.Patient;
+import org.openmrs.Provider;
+import org.openmrs.User;
+import org.openmrs.Visit;
+import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
+import org.openmrs.customdatatype.InvalidCustomValueException;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.obs.ComplexData;
@@ -40,6 +47,8 @@ public final class OpenmrsDataUtil {
 	// Util classes
 	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	
 	
 	/**
 	 * Private ctor
@@ -144,6 +153,32 @@ public final class OpenmrsDataUtil {
 				
 		return observation;
 	}
+
+	/**
+	 * Get a visit by its id
+	 * @return
+	 * @throws DocumentImportException 
+	 * @throws InvalidCustomValueException 
+	 */
+	public Visit getVisitById(II id, Patient patient) throws InvalidCustomValueException, DocumentImportException {
+		for(Visit visit : Context.getVisitService().getActiveVisitsByPatient(patient))
+		{
+			for(VisitAttribute attr : visit.getAttributes())
+				if(attr.getAttributeType().equals(this.m_conceptUtil.getOrCreateVisitExternalIdAttributeType()) &&
+					attr.getValue().equals(this.m_datatypeUtil.formatIdentifier(id)))
+					return visit;
+		}
+		return null;
+    }
+
+	/**
+	 * Get the user from the provider
+	 */
+	public User getUser(Provider provider) {
+		for(User user : Context.getUserService().getUsersByPerson(provider.getPerson(), false))
+			return user;
+		return null;
+    }
 
 
 }

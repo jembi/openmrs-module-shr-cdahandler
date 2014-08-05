@@ -23,6 +23,8 @@ public final class CdaHandlerConfiguration {
     public static final String PROP_AUTOCREATE_PATIENTS = "shr.cdahandler.autocreate.patients";
 	// Property name controlling the auto-creation of persons
     public static final String PROP_AUTOCREATE_PERSONS = "shr.cdahandler.autocreate.persons";
+	// Property name controlling the auto-creation of users
+    public static final String PROP_AUTOCREATE_USERS = "shr.cdahandler.autocreate.users";
 	// Property name controlling auto-creation of entities
     public static final String PROP_AUTOCREATE_PROVIDERS = "shr.cdahandler.autocreate.providers";
 	// Property controlling the format of complex identifiers
@@ -31,7 +33,9 @@ public final class CdaHandlerConfiguration {
     public static final String PROP_VALIDATE_STRUCTURE = "shr.cdahandler.validation.cda";
     // Strict validation
     public static final String PROP_VALIDATE_CONCEPT_STRUCTURE = "shr.cdahandler.validation.conceptStructure";
-
+    // Update existing
+    public static final String PROP_UPDATE_EXISTING = "shr.cdahandler.updateExisting";
+    
     private Boolean m_autoCreateProviders = true;
     private Boolean m_autoCreateLocations = true;
     private Boolean m_autoCreateConcepts = true;
@@ -41,6 +45,8 @@ public final class CdaHandlerConfiguration {
     private Boolean m_autoCreatePersons = true;
     private Boolean m_validateInstances = true;
     private Boolean m_validateConceptStructure = true;
+    private Boolean m_updateExisting = true;
+    private Boolean m_autoCreateUsers = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
     
@@ -106,7 +112,8 @@ public final class CdaHandlerConfiguration {
 		this.m_autoCreateMetadata = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_METADATA, this.m_autoCreateMetadata);
 		this.m_validateInstances = this.getOrCreateGlobalProperty(PROP_VALIDATE_STRUCTURE, this.m_validateInstances);
 		this.m_validateConceptStructure = this.getOrCreateGlobalProperty(PROP_VALIDATE_CONCEPT_STRUCTURE, this.m_validateInstances);
-
+		this.m_updateExisting = this.getOrCreateGlobalProperty(PROP_UPDATE_EXISTING, this.m_updateExisting);
+		this.m_autoCreateUsers = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_USERS,  this.m_autoCreateUsers);
 	}
 
 	/**
@@ -184,5 +191,20 @@ public final class CdaHandlerConfiguration {
 	public boolean getValidationEnabled() {
 		return this.m_validateInstances;
     }
+
+	/**
+	 * Get the shr.cdahandler.updatedExisting value
+	 * @return
+	 */
+	public boolean getUpdateExisting() {
+		return this.m_updateExisting;
+    }
 	
+	/**
+	 * Get the shr.cdahandler.autocreate.users value
+	 * @return
+	 */
+	public boolean getAutoCreateUsers()	{
+		return this.m_autoCreateUsers;
+	}
 }

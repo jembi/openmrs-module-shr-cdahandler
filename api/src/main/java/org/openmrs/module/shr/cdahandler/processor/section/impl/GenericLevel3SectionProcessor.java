@@ -1,5 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.marc.everest.datatypes.II;
@@ -156,14 +157,8 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 	/**
 	 * Returns true if the section contains the specified template
 	 */
-	public boolean hasEntry(Section section, String string) {
-		II templateId = new II(string);
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
-		for(Entry ent : section.getEntry())
-			if(datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
-				return true;
-		return false;
-				
+	public boolean hasEntry(Section section, String templateId) {
+		return this.getEntry(section, templateId).size() > 0;
     }
 
 	/**
@@ -177,6 +172,20 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 				return true;
 		return false;
 				
+    }
+
+	/**
+	 * Get a section
+	 * @param entTemplateSimpleObservation
+	 */
+	public List<Entry> getEntry(Section section, String sectionTemplateId) {
+		ArrayList<Entry> retVal = new ArrayList<Entry>();
+		II templateId = new II(sectionTemplateId);
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		for(Entry ent : section.getEntry())
+			if(datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+				retVal.add(ent);
+		return retVal;
     }
 
 	

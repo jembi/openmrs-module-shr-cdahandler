@@ -13,12 +13,15 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
+import org.openmrs.Provider;
+import org.openmrs.User;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
+import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
@@ -39,7 +42,8 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	protected final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	protected final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	protected final OpenmrsDataUtil m_dataUtil = OpenmrsDataUtil.getInstance();
-	
+	protected final AssignedEntityProcessorUtil m_assignedEntityUtil = AssignedEntityProcessorUtil.getInstance();
+
 	/**
 	 * Gets the context under which this entry processor executes
 	 */
@@ -157,6 +161,28 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				processor.process(relationship.getClinicalStatement());
 			}
 		}
+    }
+
+	/**
+	 * Set the creator on the openMrs data
+	 * @throws DocumentImportException 
+	 */
+	public void setCreator(BaseOpenmrsData data, ClinicalStatement statement, Encounter encounterInfo) throws DocumentImportException {
+		// Created by different?
+		if(statement.getAuthor().size() == 1)
+		{
+			Provider createdByProvider = this.m_assignedEntityUtil.processProvider(statement.getAuthor().get(0).getAssignedAuthor());
+			User createdBy = this.m_dataUtil.getUser(createdByProvider);
+			data.setCreator(createdBy);
+			if(statement.getAuthor().get(0).getTime() != null &&
+					!statement.getAuthor().get(0).getTime().isNull())
+				data.setDateCreated(statement.getAuthor().get(0).getTime().getDateValue().getTime());
+		}
+		else if (statement.getAuthor().size() > 1)
+			throw new DocumentImportException("Observations can only have one author");
+		else
+			data.setCreator(encounterInfo.getCreator());
+	    
     }
 	
 }

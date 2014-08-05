@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.ValidationResultDetail;
@@ -13,6 +15,8 @@ import org.marc.everest.resultdetails.ValidationResultDetail;
  */
 public class ValidationIssueCollection implements Iterable<ValidationResultDetail> {
 	
+	protected final Log log = LogFactory.getLog(this.getClass());
+
 	// The internal collection of items
 	private List<ValidationResultDetail> m_internalList = new ArrayList<ValidationResultDetail>();
 
@@ -23,6 +27,7 @@ public class ValidationIssueCollection implements Iterable<ValidationResultDetai
 	public void error(String description)
 	{
 		this.m_internalList.add(new ValidationResultDetail(ResultDetailType.ERROR, description));
+		log.error(description);
 	}
 	
 	/**
@@ -31,6 +36,7 @@ public class ValidationIssueCollection implements Iterable<ValidationResultDetai
 	public void warn(String description)
 	{
 		this.m_internalList.add(new ValidationResultDetail(ResultDetailType.WARNING, description));
+		log.warn(description);
 	}
 	
 	/**

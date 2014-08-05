@@ -11,6 +11,7 @@ import org.marc.everest.datatypes.ADXP;
 import org.marc.everest.datatypes.EN;
 import org.marc.everest.datatypes.ENXP;
 import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
@@ -19,8 +20,10 @@ import org.marc.everest.formatters.FormatterElementContext;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
+import org.openmrs.OrderFrequency;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
@@ -292,6 +295,32 @@ public final class DatatypeProcessorUtil {
 				return true;
 		return false;
     }
-	
+
+	/**
+	 * Convert a PQ (time units) to frequency
+	 */
+	public OrderFrequency getOrCreateOrderFrequency(PQ period) {
+		
+		if(!PQ.isValidTimeFlavor(period))
+			throw new IllegalArgumentException("Period must be a time based quantity");
+		
+		// Frequency name
+		String frequencyName = period.toString(); 
+		List<OrderFrequency> candidateFrequencies = Context.getOrderService().getOrderFrequencies(frequencyName, Context.getLocale(), true, false);
+		if(candidateFrequencies.size() == 1)
+			return candidateFrequencies.get(0);
+		else
+		{
+			// Convert units to days (example 6h => 0.25 d)
+			PQ repeatsPerDay = period.convert("d");
+			// Inverse for times per day
+			OrderFrequency orderFrequency = new OrderFrequency();
+			orderFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
+			orderFrequency.setName(period.toString());
+			Context.getOrderService().saveOrderFrequency(orderFrequency);
+			return orderFrequency;
+		}
+    }
+
 	
 }

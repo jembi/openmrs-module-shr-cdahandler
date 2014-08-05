@@ -10,10 +10,13 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -92,12 +95,48 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		
+		// References to previous organizer?
+		Obs previousObs = null;
+		
+		for(Reference reference : organizer.getReference())
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+			!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				continue;
+			else
+				for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
+				{
+					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
+						if(currentObs.getAccessionNumber() != null
+						&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+						{
+							previousObs = currentObs;
+							Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
+						}
+				}
+		
+		// Validate no duplicates on AN
+		if(organizer.getId() != null)
+			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
+			{
+				for(II id : organizer.getId())
+					if(currentOrder.getAccessionNumber() != null
+					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+						throw new DocumentImportException(String.format("Duplicate obs %s", id));
+			}			
+
+				
 		// Organizer obs
 		Obs organizerObs = new Obs(),
 				parentObs = (Obs)this.getContext().getParsedObject();
 		
 		// The value will be a classifier of the type of organizer
 		ST value = new ST(organizer.getClassCode().getCode().getCode());
+		
+		// Previous version
+		organizerObs.setPreviousVersion(previousObs);
+		
+		// Set the creator
+		super.setCreator(organizerObs, organizer, encounterInfo);
 
 		// Concept
 		Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());

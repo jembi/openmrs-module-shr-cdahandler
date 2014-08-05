@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
 import org.marc.everest.datatypes.PQ;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
@@ -19,14 +20,18 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Informant12;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.NonXMLBody;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Participant1;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Performer1;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.RelatedDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ServiceEvent;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.StructuredBody;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipDocument;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Provider;
 import org.openmrs.Relationship;
+import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
@@ -43,6 +48,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorU
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.LocationOrganizationProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.PersonProcessorUtil;
@@ -70,7 +76,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	protected final PersonProcessorUtil m_personProcessorUtil = PersonProcessorUtil.getInstance();
 	protected final LocationOrganizationProcessorUtil m_locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
 	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	
+	protected final OpenmrsDataUtil m_openmrsDataUtil = OpenmrsDataUtil.getInstance();
 
 
 	/**
@@ -213,7 +219,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 
 		
 		Visit visitInformation = new Visit();
-		
+
 		// Create a context for this parse operation
 		//DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
 
@@ -221,14 +227,61 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		Encounter visitEncounter = new Encounter();
 
 		// TODO: How to add an attribute which points to the CDA from which the visit was constructed
-		
 		// Parse the header
 		if(doc.getRecordTarget().size() != 1)
 			throw new DocumentImportException("Can only handle documents with exactly one patient");
 		visitInformation.setPatient(this.m_patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole()));
 
-		// TODO: Document code
-		
+		// Are we replacing data?
+		for(RelatedDocument dr : doc.getRelatedDocument())
+		{
+			if(dr.getParentDocument() == null || dr.getParentDocument().getNullFlavor() != null)
+				continue;
+			
+			// Old visit found?
+			Visit oldVisit = null;
+			for(int i = 0; i < dr.getParentDocument().getId().size() && oldVisit == null; i++)
+				oldVisit = this.m_openmrsDataUtil.getVisitById(dr.getParentDocument().getId().get(i), visitInformation.getPatient());
+
+			if(oldVisit == null)
+				log.warn(String.format("Can't find the visit identified as %s to be associated", FormatterUtil.toWireFormat(dr.getParentDocument().getId())));
+			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.RPLC)) // Replacement of
+			{
+				// Void the old visit with reason of replaced by this one
+				log.info(String.format("Voided %s", oldVisit));
+				String voidReason = this.m_datatypeProcessorUtil.formatIdentifier(dr.getParentDocument().getId().get(0));
+				Context.getVisitService().voidVisit(oldVisit, voidReason);
+
+				// Void the encounter and all observations 
+				for(Encounter enc : visitInformation.getEncounters())
+				{
+					log.info(String.format("Voided %s", enc));
+					Context.getEncounterService().voidEncounter(enc, voidReason);
+					for(Obs obs : enc.getObs())
+					{
+						log.info(String.format("Voided %s", obs));
+						Context.getObsService().voidObs(obs, voidReason);
+					}
+					for(Order ord : enc.getOrders())
+					{
+						log.info(String.format("Voided %s", ord));
+						Context.getOrderService().voidOrder(ord, voidReason);
+					}
+				}
+				// TODO: Void Allergies & Problems? How to do this?
+				
+			}
+			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.APND))
+			{
+				// Append, so that means we're updating the visit with a new encounter!
+				visitInformation = oldVisit; // TODO: See if this is the correct way to do this
+				visitInformation.setDateChanged(doc.getEffectiveTime().getDateValue().getTime());
+				
+			}
+			else
+				log.warn(String.format("Don't understand the relationship type %s", FormatterUtil.toWireFormat(dr.getTypeCode())));
+		}
+				
 		// Parse the authors of this document
 		for(Author aut : doc.getAuthor())
 		{
@@ -237,6 +290,19 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			Provider provider = this.m_assignedEntityProcessorUtil.processProvider(aut.getAssignedAuthor());
 			EncounterRole role = this.m_openmrsMetadataUtil.getOrCreateEncounterRole(aut.getTypeCode());
 			visitEncounter.addProvider(role, provider);
+			
+			// Assign this author as the creator or updater
+			User createdOrUpdatedBy = this.m_openmrsDataUtil.getUser(provider);
+			if(createdOrUpdatedBy != null)
+			{
+				visitEncounter.setCreator(createdOrUpdatedBy);
+				if(visitInformation.getChangedBy() != null &&
+						visitInformation.getDateChanged() != null)
+					visitInformation.setChangedBy(createdOrUpdatedBy);
+				else if(visitInformation.getCreator() != null)
+					visitInformation.setCreator(createdOrUpdatedBy);
+			}
+			
 		}
 
 		// TODO: Authorization & Participants
@@ -296,7 +362,8 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			visitInformation.setStopDatetime(doc.getEffectiveTime().add(new PQ(BigDecimal.ONE, "s")).getDateValue().getTime());
 		
 		// Effective time
-		visitInformation.setDateCreated(doc.getEffectiveTime().getDateValue().getTime());
+		if(visitInformation.getDateCreated() == null)
+			visitInformation.setDateCreated(doc.getEffectiveTime().getDateValue().getTime());
 
 		// Participants and their relationship
 		for(Participant1 ptcpt : doc.getParticipant())
