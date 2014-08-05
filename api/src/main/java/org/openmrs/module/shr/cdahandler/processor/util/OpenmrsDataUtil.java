@@ -37,26 +37,6 @@ import org.openmrs.obs.ComplexData;
  */
 public final class OpenmrsDataUtil {
 	
-	// Log
-	protected final Log log = LogFactory.getLog(this.getClass());
-
-	// singleton instance
-	private static OpenmrsDataUtil s_instance;
-	private static Object s_lockObject = new Object();
-
-	// Util classes
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
-	
-	
-	/**
-	 * Private ctor
-	 */
-	protected OpenmrsDataUtil()
-	{
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -70,6 +50,26 @@ public final class OpenmrsDataUtil {
 			}
 		}
 		return s_instance;
+	}
+
+	// Log
+	protected final Log log = LogFactory.getLog(this.getClass());
+	// singleton instance
+	private static OpenmrsDataUtil s_instance;
+
+	private static Object s_lockObject = new Object();
+	// Util classes
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
+	
+	
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	
+	/**
+	 * Private ctor
+	 */
+	protected OpenmrsDataUtil()
+	{
 	}
 
 	
@@ -94,6 +94,32 @@ public final class OpenmrsDataUtil {
 		return res;
     }
 	
+	/**
+	 * Get the user from the provider
+	 */
+	public User getUser(Provider provider) {
+		for(User user : Context.getUserService().getUsersByPerson(provider.getPerson(), false))
+			return user;
+		return null;
+    }
+
+	/**
+	 * Get a visit by its id
+	 * @return
+	 * @throws DocumentImportException 
+	 * @throws InvalidCustomValueException 
+	 */
+	public Visit getVisitById(II id, Patient patient) throws InvalidCustomValueException, DocumentImportException {
+		for(Visit visit : Context.getVisitService().getActiveVisitsByPatient(patient))
+		{
+			for(VisitAttribute attr : visit.getAttributes())
+				if(attr.getAttributeType().equals(this.m_conceptUtil.getOrCreateVisitExternalIdAttributeType()) &&
+					attr.getValue().equals(this.m_datatypeUtil.formatIdentifier(id)))
+					return visit;
+		}
+		return null;
+    }
+
 	/**
 	 * Set the observation value using an appropriate call
 	 * @throws ParseException 
@@ -153,32 +179,6 @@ public final class OpenmrsDataUtil {
 				
 		return observation;
 	}
-
-	/**
-	 * Get a visit by its id
-	 * @return
-	 * @throws DocumentImportException 
-	 * @throws InvalidCustomValueException 
-	 */
-	public Visit getVisitById(II id, Patient patient) throws InvalidCustomValueException, DocumentImportException {
-		for(Visit visit : Context.getVisitService().getActiveVisitsByPatient(patient))
-		{
-			for(VisitAttribute attr : visit.getAttributes())
-				if(attr.getAttributeType().equals(this.m_conceptUtil.getOrCreateVisitExternalIdAttributeType()) &&
-					attr.getValue().equals(this.m_datatypeUtil.formatIdentifier(id)))
-					return visit;
-		}
-		return null;
-    }
-
-	/**
-	 * Get the user from the provider
-	 */
-	public User getUser(Provider provider) {
-		for(User user : Context.getUserService().getUsersByPerson(provider.getPerson(), false))
-			return user;
-		return null;
-    }
 
 
 }

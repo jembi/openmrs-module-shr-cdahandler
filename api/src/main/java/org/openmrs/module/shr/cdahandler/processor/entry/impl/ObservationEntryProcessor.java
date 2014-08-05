@@ -5,7 +5,6 @@ import java.util.List;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.II;
-import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
@@ -39,6 +38,14 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 	protected final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
 			
 	/**
+	 * Gets the code expected to be on this observation (null if none specified)
+	 * @return
+	 */
+	protected abstract CE<String> getExpectedCode();
+
+
+
+	/**
 	 * Process the observation
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
 	 */
@@ -63,6 +70,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		else
 			throw new DocumentImportException(String.format("Don't yet understand mood code '%s'", observation.getMoodCode().getCode()));
 	}
+
 
 
 
@@ -195,11 +203,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 					sectionContext = sectionContext.getParent();
 				
 				// Now find the text
-				StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
-				if(referencedNode != null)
-				{
-					res.setComment(referencedNode.toString());
-				}
+				//StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
+				//if(referencedNode != null)
+				//{
+				//	res.setComment(referencedNode.toString());
+				//}
 			}
 		}
 		
@@ -251,15 +259,6 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		return res;
 	}
-
-
-
-
-	/**
-	 * Gets the code expected to be on this observation (null if none specified)
-	 * @return
-	 */
-	protected abstract CE<String> getExpectedCode();
 	
 	/**
 	 * Validate the observation

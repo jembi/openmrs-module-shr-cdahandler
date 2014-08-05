@@ -29,20 +29,20 @@ public class MedicationsSectionProcessor extends GenericLevel3SectionProcessor {
 	}
 
 	/**
+	 * Get the expected section code
+	 */
+	@Override
+    public CE<String> getExpectedSectionCode() {
+		return new CE<String>("10160-0", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF MEDICATION USE", null);
+    }
+
+	/**
 	 * Get the template name
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
 	 */
 	@Override
     public String getTemplateName() {
 		return "Medications Section";
-    }
-
-	/**
-	 * Get the expected section code
-	 */
-	@Override
-    public CE<String> getExpectedSectionCode() {
-		return new CE<String>("10160-0", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF MEDICATION USE", null);
     }
 	
 	

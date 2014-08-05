@@ -14,6 +14,14 @@ public class GenericDocumentProcessor extends DocumentProcessorImpl {
 
 
 	/**
+	 * Get the template name .. Since this is a generic handler it has no template name
+	 */
+	@Override
+	public String getTemplateName() {
+		return null;
+	}
+
+	/**
 	 * Implementation of validate for Processor
 	 */
 	@Override
@@ -35,14 +43,6 @@ public class GenericDocumentProcessor extends DocumentProcessorImpl {
 
 		return validationErrors;
 		
-	}
-
-	/**
-	 * Get the template name .. Since this is a generic handler it has no template name
-	 */
-	@Override
-	public String getTemplateName() {
-		return null;
 	}
 	
 	

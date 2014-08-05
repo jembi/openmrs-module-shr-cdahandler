@@ -21,23 +21,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
  */
 public final class AssignedEntityProcessorUtil {
 
-	// singleton instance
-	private static AssignedEntityProcessorUtil s_instance;
-	private static Object s_lockObject = new Object();
-	
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
-	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
-	private final PersonProcessorUtil m_personUtil = PersonProcessorUtil.getInstance();
-	
-	/**
-	 * Private ctor
-	 */
-	private AssignedEntityProcessorUtil()
-	{
-		
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -52,36 +35,22 @@ public final class AssignedEntityProcessorUtil {
 		}
 		return s_instance;
 	}
+	// singleton instance
+	private static AssignedEntityProcessorUtil s_instance;
+	
+	private static Object s_lockObject = new Object();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
+	
+	private final PersonProcessorUtil m_personUtil = PersonProcessorUtil.getInstance();
 	
 	/**
-	 * Parse a provider from the AssignedAuthor node
-	 * @param aut The AssignedAuthor to parse
-	 * @return The parsed assigned author
+	 * Private ctor
 	 */
-	public Provider processProvider(AssignedAuthor aut) throws DocumentImportException {
-
-		if (aut == null || aut.getNullFlavor() != null)
-			throw new DocumentImportException("AssignedAuthor role is null");
-		else if(aut.getId() == null || aut.getId().isNull() || aut.getId().isEmpty())
-			throw new DocumentImportException("No identifiers found for author");
+	private AssignedEntityProcessorUtil()
+	{
 		
-		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
-		// ie. root becomes an attribute and the extension becomes the value
-		// Anyways, for now represent in the standard ITI guidance for II data type
-		String id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
-		
-		Provider res = null;
-		
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for author id");
-		else 				
-			res = Context.getProviderService().getProviderByIdentifier(id);
-			
-		if (res==null && this.m_configuration.getAutoCreateProviders())
-			res = this.createProvider(aut, id);
-		else if(res == null && !this.m_configuration.getAutoCreateProviders())
-			throw new DocumentImportException(String.format("Unknown provider %s", id));
-		return res;
 	}
 	
 	/**
@@ -107,39 +76,7 @@ public final class AssignedEntityProcessorUtil {
 			), id);
 		
 	}
-
-	/**
-	 * Create a provider from an assigned entity if applicable
-	 * @param assignedEntity The assigned entity class to parse
-	 * @return The OpenMRS provider
-	 * @throws DocumentImportException 
-	 */
-	public Provider processProvider(AssignedEntity assignedEntity) throws DocumentImportException {
-
-		if (assignedEntity == null || assignedEntity.getNullFlavor() != null)
-			throw new DocumentImportException("AssignedEntity role is null");
-		else if(assignedEntity.getId() == null || assignedEntity.getId().isNull() || assignedEntity.getId().isEmpty())
-			throw new DocumentImportException("No identifiers found for author");
-
-		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
-		// ie. root becomes an attribute and the extension becomes the value
-		// Anyways, for now represent in the standard ITI guidance for II data type
-		String id = this.m_datatypeUtil.formatIdentifier(assignedEntity.getId().get(0));
-		
-		Provider res = null;
-		
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for author id");
-		else 				
-			res = Context.getProviderService().getProviderByIdentifier(id);
-			
-		if (res==null)
-			res = this.createProvider(assignedEntity, id);
-		
-		return res;
 	
-	}
-
 	/**
 	 * Create a provider from the assigned entity
 	 * @param assignedEntity The assigned entity to be created
@@ -216,5 +153,68 @@ public final class AssignedEntityProcessorUtil {
 		    res = Context.getUserService().saveUser(res, id);
 		}
     }
+
+	/**
+	 * Parse a provider from the AssignedAuthor node
+	 * @param aut The AssignedAuthor to parse
+	 * @return The parsed assigned author
+	 */
+	public Provider processProvider(AssignedAuthor aut) throws DocumentImportException {
+
+		if (aut == null || aut.getNullFlavor() != null)
+			throw new DocumentImportException("AssignedAuthor role is null");
+		else if(aut.getId() == null || aut.getId().isNull() || aut.getId().isEmpty())
+			throw new DocumentImportException("No identifiers found for author");
+		
+		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
+		// ie. root becomes an attribute and the extension becomes the value
+		// Anyways, for now represent in the standard ITI guidance for II data type
+		String id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
+		
+		Provider res = null;
+		
+		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
+			throw new DocumentImportException("No data specified for author id");
+		else 				
+			res = Context.getProviderService().getProviderByIdentifier(id);
+			
+		if (res==null && this.m_configuration.getAutoCreateProviders())
+			res = this.createProvider(aut, id);
+		else if(res == null && !this.m_configuration.getAutoCreateProviders())
+			throw new DocumentImportException(String.format("Unknown provider %s", id));
+		return res;
+	}
+
+	/**
+	 * Create a provider from an assigned entity if applicable
+	 * @param assignedEntity The assigned entity class to parse
+	 * @return The OpenMRS provider
+	 * @throws DocumentImportException 
+	 */
+	public Provider processProvider(AssignedEntity assignedEntity) throws DocumentImportException {
+
+		if (assignedEntity == null || assignedEntity.getNullFlavor() != null)
+			throw new DocumentImportException("AssignedEntity role is null");
+		else if(assignedEntity.getId() == null || assignedEntity.getId().isNull() || assignedEntity.getId().isEmpty())
+			throw new DocumentImportException("No identifiers found for author");
+
+		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
+		// ie. root becomes an attribute and the extension becomes the value
+		// Anyways, for now represent in the standard ITI guidance for II data type
+		String id = this.m_datatypeUtil.formatIdentifier(assignedEntity.getId().get(0));
+		
+		Provider res = null;
+		
+		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
+			throw new DocumentImportException("No data specified for author id");
+		else 				
+			res = Context.getProviderService().getProviderByIdentifier(id);
+			
+		if (res==null)
+			res = this.createProvider(assignedEntity, id);
+		
+		return res;
+	
+	}
 	
 }

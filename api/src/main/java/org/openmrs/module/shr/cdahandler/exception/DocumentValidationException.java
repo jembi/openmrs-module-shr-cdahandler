@@ -33,17 +33,6 @@ public class DocumentValidationException extends DocumentImportException {
     	this.m_target = target;
 	}
     /**
-     * Constructs a new instance of the DocumentValidationException class with
-     * the specified cause.
-     * 
-     * @param ex The cause of this exception
-     */
-	public DocumentValidationException(Throwable ex, IGraphable target, ValidationIssueCollection issues) { 
-		super(ex); 
-    	this.m_issues = issues;
-    	this.m_target = target;
-	}
-    /**
      * Constructs a new instance of the DocumentValidationException class with 
      * the specified message and cause
      * 
@@ -55,21 +44,32 @@ public class DocumentValidationException extends DocumentImportException {
     	this.m_issues = issues;
     	this.m_target = target;
 	}
-
-	/**
-	 * Gets the validation issues which caused this exception to be thrown
-	 */
-	public ValidationIssueCollection getValidationIssues()
-	{
-		return this.m_issues;
+    /**
+     * Constructs a new instance of the DocumentValidationException class with
+     * the specified cause.
+     * 
+     * @param ex The cause of this exception
+     */
+	public DocumentValidationException(Throwable ex, IGraphable target, ValidationIssueCollection issues) { 
+		super(ex); 
+    	this.m_issues = issues;
+    	this.m_target = target;
 	}
-	
+
 	/**
 	 * Gets the target object that failed validation
 	 */
 	public IGraphable getTarget()
 	{
 		return this.m_target;
+	}
+	
+	/**
+	 * Gets the validation issues which caused this exception to be thrown
+	 */
+	public ValidationIssueCollection getValidationIssues()
+	{
+		return this.m_issues;
 	}
 
 }

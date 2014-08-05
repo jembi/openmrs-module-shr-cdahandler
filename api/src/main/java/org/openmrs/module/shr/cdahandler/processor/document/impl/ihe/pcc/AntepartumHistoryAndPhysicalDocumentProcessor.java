@@ -20,14 +20,6 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhysicalDocumentProcessor {
 
 	/**
-	 * Get template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Antepartum History & Physical";
-    }
-
-	/**
 	 * Get the expected sections
 	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.HistoryAndPhysicalDocumentProcessor#getExpectedSections()
 	 */
@@ -44,6 +36,14 @@ public class AntepartumHistoryAndPhysicalDocumentProcessor extends HistoryAndPhy
 					));   
 			return retVal;
 	}
+
+	/**
+	 * Get template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Antepartum History & Physical";
+    }
 
 
 	/**

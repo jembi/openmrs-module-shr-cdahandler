@@ -36,133 +36,6 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor;
 public class ConcernEntryProcessor extends ActEntryProcessor {
 
 	/**
-	 * Get the template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
-	 */
-	@Override
-	public String getTemplateName() {
-		return "Concern Entry";
-	}
-	
-	/**
-	 * Get the expected entries .. there are none other than there should be more than one
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor#getExpectedEntries()
-	 */
-	@Override
-	protected List<String> getExpectedEntryRelationships() {
-		return null;
-	}
-	
-	/**
-	 * The concern gets placed in two places in the OpenMRS datamodel:
-	 * 
-	 *  First: It is placed as an observation within the encounter being reported for this document import
-	 *  Second: As an active list item
-	 *  
-	 *  This method will only return the observation (or a group of them if more than one exists)
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
-	 */
-	@Override
-	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
-		
-		// Validate
-		if(this.m_configuration.getValidationEnabled())
-		{
-			ValidationIssueCollection issues = this.validate(entry);
-			if(issues.hasErrors())
-				throw new DocumentValidationException(entry, issues);
-		}
-
-		// This is an interesting thought, according to the spec
-		// There may be multiple entries each of which identify the problems of concern
-		// Hmm... I think the only way this can be done is to process each of the
-		//        entries as an observation saving to the encounter, then creating a 
-		//		  problem for each of the observations that exist. Ensuring that the 
-		// 		  the problem list item doesn't already exist via accession number?
-		Act act = (Act)entry;
-		for(EntryRelationship relationship : act.getEntryRelationship())
-		{
-			
-			if(relationship == null || relationship.getNullFlavor() != null ||
-					relationship.getClinicalStatement() == null ||
-					relationship.getClinicalStatement().getNullFlavor() != null)
-				continue;
-		
-			// Process the active list item
-			ActiveListItem listItem = this.parseActContents(act, relationship.getClinicalStatement());
-			if(listItem != null)
-				Context.getActiveListService().saveActiveListItem(listItem);
-		}
-		
-		return null;
-	}
-
-	/**
-	 * Parse act contents into a list item... This technically can't be done at this 
-	 * level because a concern entry doesn't have enough information information about
-	 * the type of concern to know which active list item to create  
-	 */
-	protected ActiveListItem parseActContents(Act act, ClinicalStatement obs) throws DocumentImportException {
-		return null;
-    }
-
-	/**
-	 * Gets the current list item based on the patient and type
-	 */
-	protected <T extends ActiveListItem> T getCurrentActiveListItem(Class<T> clazz, Act act)
-	{
-		// Get the encounter context
-		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
-		
-		// Already reported as a problem?
-		for(Reference reference : act.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null)
-				continue;
-			else
-				for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
-				{
-					// First, does the UUID match? And also, is it an active problem?
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
-							return prob;
-				}
-		
-		return null;
-
-	}
-	
-	
-	/**
-	 * Validate this section adheres to the ConcernEntry
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor#validate(org.marc.everest.interfaces.IGraphable)
-	 */
-	@Override
-    public ValidationIssueCollection validate(IGraphable object) {
-	    ValidationIssueCollection validationIssues = super.validate(object);
-	    if(validationIssues.hasErrors()) return validationIssues;
-	    
-	    // Shall have a code with nullflavor NA
-	    Act act = (Act)object;
-	    if(act.getCode() != null && act.getCode().getNullFlavor().getCode() != NullFlavor.NotApplicable)
-	    	validationIssues.error("Act must carry a code with nullFlavor = 'NA'");
-	    if(act.getEffectiveTime() == null || act.getEffectiveTime().isNull())
-	    	validationIssues.error("Act must carry an effective time");
-	    else if(act.getEffectiveTime().getLow() == null || act.getEffectiveTime().getLow().isNull())
-	    	validationIssues.warn("Act's effectiveTime element must be populated with a Low value");
-	    else
-	    {
-	    	Boolean isHighNull = act.getEffectiveTime().getHigh() == null || act.getEffectiveTime().isNull();
-	    	ActStatus status = act.getStatusCode().getCode();
-	    	if(isHighNull && (status == ActStatus.Aborted || status == ActStatus.Completed))
-	    		validationIssues.error("Act's effectiveTime element must be populated with a High value when status code implies the act is completed (completed, aborted)");
-	    	else if(!isHighNull && (status == ActStatus.Active || status == ActStatus.Suspended))
-	    		validationIssues.error("Act's effectiveTime element must not be populated with a High value when status code implies the act is still ongoing (active, suspended)");
-	    }
-	    
-	    return validationIssues;
-    }
-
-	/**
 	 * Calculate the current status
 	 */
 	public ActStatus calculateCurrentStatus(ActiveListItem res) {
@@ -179,7 +52,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		else
 			return null;
     }
-
+	
 	/**
 	 * Processes common list contents for the specified class
 	 * Auto generated method comment
@@ -274,6 +147,133 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		// Author
 		super.setCreator(res, act, encounterInfo);
 		return res;
+    }
+	
+	/**
+	 * Gets the current list item based on the patient and type
+	 */
+	protected <T extends ActiveListItem> T getCurrentActiveListItem(Class<T> clazz, Act act)
+	{
+		// Get the encounter context
+		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
+		
+		// Already reported as a problem?
+		for(Reference reference : act.getReference())
+			if(reference.getExternalActChoiceIfExternalAct() == null)
+				continue;
+			else
+				for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
+				{
+					// First, does the UUID match? And also, is it an active problem?
+					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
+						if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
+							return prob;
+				}
+		
+		return null;
+
+	}
+
+	/**
+	 * Get the expected entries .. there are none other than there should be more than one
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor#getExpectedEntries()
+	 */
+	@Override
+	protected List<String> getExpectedEntryRelationships() {
+		return null;
+	}
+
+	/**
+	 * Get the template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Concern Entry";
+	}
+	
+	
+	/**
+	 * Parse act contents into a list item... This technically can't be done at this 
+	 * level because a concern entry doesn't have enough information information about
+	 * the type of concern to know which active list item to create  
+	 */
+	protected ActiveListItem parseActContents(Act act, ClinicalStatement obs) throws DocumentImportException {
+		return null;
+    }
+
+	/**
+	 * The concern gets placed in two places in the OpenMRS datamodel:
+	 * 
+	 *  First: It is placed as an observation within the encounter being reported for this document import
+	 *  Second: As an active list item
+	 *  
+	 *  This method will only return the observation (or a group of them if more than one exists)
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
+	 */
+	@Override
+	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+		
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(entry);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(entry, issues);
+		}
+
+		// This is an interesting thought, according to the spec
+		// There may be multiple entries each of which identify the problems of concern
+		// Hmm... I think the only way this can be done is to process each of the
+		//        entries as an observation saving to the encounter, then creating a 
+		//		  problem for each of the observations that exist. Ensuring that the 
+		// 		  the problem list item doesn't already exist via accession number?
+		Act act = (Act)entry;
+		for(EntryRelationship relationship : act.getEntryRelationship())
+		{
+			
+			if(relationship == null || relationship.getNullFlavor() != null ||
+					relationship.getClinicalStatement() == null ||
+					relationship.getClinicalStatement().getNullFlavor() != null)
+				continue;
+		
+			// Process the active list item
+			ActiveListItem listItem = this.parseActContents(act, relationship.getClinicalStatement());
+			if(listItem != null)
+				Context.getActiveListService().saveActiveListItem(listItem);
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Validate this section adheres to the ConcernEntry
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor#validate(org.marc.everest.interfaces.IGraphable)
+	 */
+	@Override
+    public ValidationIssueCollection validate(IGraphable object) {
+	    ValidationIssueCollection validationIssues = super.validate(object);
+	    if(validationIssues.hasErrors()) return validationIssues;
+	    
+	    // Shall have a code with nullflavor NA
+	    Act act = (Act)object;
+	    if(act.getCode() != null && act.getCode().getNullFlavor().getCode() != NullFlavor.NotApplicable)
+	    	validationIssues.error("Act must carry a code with nullFlavor = 'NA'");
+	    if(act.getEffectiveTime() == null || act.getEffectiveTime().isNull())
+	    	validationIssues.error("Act must carry an effective time");
+	    else if(act.getEffectiveTime().getLow() == null || act.getEffectiveTime().getLow().isNull())
+	    	validationIssues.warn("Act's effectiveTime element must be populated with a Low value");
+	    else
+	    {
+	    	Boolean isHighNull = act.getEffectiveTime().getHigh() == null || act.getEffectiveTime().isNull();
+	    	ActStatus status = act.getStatusCode().getCode();
+	    	if(isHighNull && (status == ActStatus.Aborted || status == ActStatus.Completed))
+	    		validationIssues.error("Act's effectiveTime element must be populated with a High value when status code implies the act is completed (completed, aborted)");
+	    	else if(!isHighNull && (status == ActStatus.Active || status == ActStatus.Suspended))
+	    		validationIssues.error("Act's effectiveTime element must not be populated with a High value when status code implies the act is still ongoing (active, suspended)");
+	    }
+	    
+	    return validationIssues;
     }
 	
 	

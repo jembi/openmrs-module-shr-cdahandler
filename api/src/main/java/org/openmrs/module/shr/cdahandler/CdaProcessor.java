@@ -29,22 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public final class CdaProcessor {
 
-	// Log for this processor
-	protected final Log log = LogFactory.getLog(this.getClass());
-	
-	private static CdaProcessor s_instance = null;
-	private static Object s_lockObject = new Object();
-	
-	// Configuration
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	
-	/**
-	 * CDA processor constructor
-	 */
-	protected CdaProcessor()
-	{
-	}
-
 	/**
 	 * Get (and initialize) an instance of the CdaProcessor 
 	 */
@@ -59,6 +43,22 @@ public final class CdaProcessor {
 				}
             }
 		return s_instance;
+	}
+	
+	// Log for this processor
+	protected final Log log = LogFactory.getLog(this.getClass());
+	private static CdaProcessor s_instance = null;
+	
+	private static Object s_lockObject = new Object();
+	
+	// Configuration
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+
+	/**
+	 * CDA processor constructor
+	 */
+	protected CdaProcessor()
+	{
 	}
 	
 	/**

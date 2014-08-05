@@ -38,6 +38,24 @@ public class AntepartumVisitSummaryFlowsheetSectionProcessor extends GenericLeve
 	}
 
 	/**
+	 * Get expected section code
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode()
+	 */
+	@Override
+    public CE<String> getExpectedSectionCode() {
+		return new CE<String>("57059-8", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "Pregnancy Visit Summary", null);
+    }
+
+	/**
+	 * Get the name of the template
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Antepartum Visit Summary Flowsheet";
+    }
+
+	/**
 	 * Validate the section
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor#validate(org.marc.everest.interfaces.IGraphable)
 	 */
@@ -66,24 +84,6 @@ public class AntepartumVisitSummaryFlowsheetSectionProcessor extends GenericLeve
 	    }
 	    
 	    return issueCollection;
-    }
-
-	/**
-	 * Get the name of the template
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Antepartum Visit Summary Flowsheet";
-    }
-
-	/**
-	 * Get expected section code
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode()
-	 */
-	@Override
-    public CE<String> getExpectedSectionCode() {
-		return new CE<String>("57059-8", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "Pregnancy Visit Summary", null);
     }
 	
 	

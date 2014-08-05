@@ -37,19 +37,19 @@ public class SocialHistorySectionProcessor extends GenericLevel3SectionProcessor
 	}
 
 	/**
-	 * Get the template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Social History";
-    }
-
-	/**
 	 * Get the expected section code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("29762-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "SOCIAL HISTORY", null);
+    }
+
+	/**
+	 * Get the template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Social History";
     }
 	
 	

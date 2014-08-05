@@ -16,7 +16,6 @@ import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor;
-import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
 
 /**
  * Estimated delivery date observation entry
@@ -25,12 +24,53 @@ public class EstimatedDeliveryDateObservationEntryProcessor extends ObservationE
 
 	
 	/**
-	 * Get the name of the template processor
-	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 * Supporting Entry Processor
 	 */
-	@Override
-	public String getTemplateName() {
-		return "Estimated Delivery Date Observation";
+	private final static class SupportingObservationEntryProcessor extends ObservationEntryProcessor
+	{
+		/**
+		 * No expected code
+		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor#getExpectedCode()
+		 */
+		@Override
+        protected CE<String> getExpectedCode() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
+
+		/**
+		 * No expected sections
+		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+		 */
+		@Override
+        protected List<String> getExpectedEntryRelationships() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
+
+		/** 
+		 * Get template name
+		 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+		 */
+		@Override
+        public String getTemplateName() {
+			return "EDD Supporting Observation";
+        }
+
+		/**
+		 * Process entry relationships 
+		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#processEntryRelationships(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement, org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext)
+		 */
+		@Override
+        protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext)
+            throws DocumentImportException {
+			if(this.getContext().getProcessor() instanceof EstimatedDeliveryDateObservationEntryProcessor)
+				((EstimatedDeliveryDateObservationEntryProcessor)this.getContext().getProcessor()).processEntryRelationships(entry, childContext);
+			else
+				throw new DocumentImportException("Supporting observations can only be nested twice deep");
+        }
+		
+		
 	}
 	
 	/**
@@ -50,6 +90,36 @@ public class EstimatedDeliveryDateObservationEntryProcessor extends ObservationE
 	protected List<String> getExpectedEntryRelationships() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Get the name of the template processor
+	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Estimated Delivery Date Observation";
+	}
+	
+	/**
+	 * Process entry relationships which is different here as there are no templateIds on the entries on an EDD
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#processEntryRelationships(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement, org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext)
+	 */
+	@Override
+    protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext)
+        throws DocumentImportException {
+
+		for(EntryRelationship relationship : entry.getEntryRelationship())
+		{
+			if(relationship == null || relationship.getClinicalStatement() == null ||
+					relationship.getClinicalStatement().getNullFlavor() != null)
+				continue;
+			
+			this.m_datatypeUtil.cascade(entry, relationship.getClinicalStatement(), "effectiveTime");
+			EntryProcessor processor = new SupportingObservationEntryProcessor(); 
+			processor.setContext(childContext);
+			processor.process(relationship.getClinicalStatement());
+		}   
 	}
 
 	/**
@@ -119,76 +189,5 @@ public class EstimatedDeliveryDateObservationEntryProcessor extends ObservationE
 						obs.getMethodCode() != null)
 			validationIssues.error("Supporting observations shall not include repeatNumber, interpretationCode, or methodCode");
 
-	}
-
-	/**
-	 * Process entry relationships which is different here as there are no templateIds on the entries on an EDD
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#processEntryRelationships(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement, org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext)
-	 */
-	@Override
-    protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext)
-        throws DocumentImportException {
-
-		for(EntryRelationship relationship : entry.getEntryRelationship())
-		{
-			if(relationship == null || relationship.getClinicalStatement() == null ||
-					relationship.getClinicalStatement().getNullFlavor() != null)
-				continue;
-			
-			this.m_datatypeUtil.cascade(entry, relationship.getClinicalStatement(), "effectiveTime");
-			EntryProcessor processor = new SupportingObservationEntryProcessor(); 
-			processor.setContext(childContext);
-			processor.process(relationship.getClinicalStatement());
-		}   
-	}
-	
-	/**
-	 * Supporting Entry Processor
-	 */
-	private final static class SupportingObservationEntryProcessor extends ObservationEntryProcessor
-	{
-		/** 
-		 * Get template name
-		 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
-		 */
-		@Override
-        public String getTemplateName() {
-			return "EDD Supporting Observation";
-        }
-
-		/**
-		 * No expected code
-		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor#getExpectedCode()
-		 */
-		@Override
-        protected CE<String> getExpectedCode() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-
-		/**
-		 * No expected sections
-		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
-		 */
-		@Override
-        protected List<String> getExpectedEntryRelationships() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-
-		/**
-		 * Process entry relationships 
-		 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#processEntryRelationships(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement, org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext)
-		 */
-		@Override
-        protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext)
-            throws DocumentImportException {
-			if(this.getContext().getProcessor() instanceof EstimatedDeliveryDateObservationEntryProcessor)
-				((EstimatedDeliveryDateObservationEntryProcessor)this.getContext().getProcessor()).processEntryRelationships(entry, childContext);
-			else
-				throw new DocumentImportException("Supporting observations can only be nested twice deep");
-        }
-		
-		
 	}
 }

@@ -22,13 +22,6 @@ public class DocumentPersistenceException extends DocumentImportException {
      */
 	public DocumentPersistenceException(String msg) { super(msg); }
     /**
-     * Constructs a new instance of the DocumentPersistenceException class with
-     * the specified cause.
-     * 
-     * @param ex The cause of this exception
-     */
-	public DocumentPersistenceException(Throwable ex) { super(ex); }
-    /**
      * Constructs a new instance of the DocumentPersistenceException class with 
      * the specified message and cause
      * 
@@ -38,6 +31,13 @@ public class DocumentPersistenceException extends DocumentImportException {
 	public DocumentPersistenceException(String msg, Throwable ex) {
 		super(msg, ex);
 	}
+    /**
+     * Constructs a new instance of the DocumentPersistenceException class with
+     * the specified cause.
+     * 
+     * @param ex The cause of this exception
+     */
+	public DocumentPersistenceException(Throwable ex) { super(ex); }
 	
 	
 	

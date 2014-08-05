@@ -15,21 +15,21 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 public class AdvanceDirectivesSectionProcessor extends GenericLevel2SectionProcessor {
 
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Advance Directives";
-    }
-
-	/**
 	 * Get expected section code
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode()
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("42348-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "ADVNACE DIRECTIVES", null);
+    }
+
+	/**
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Advance Directives";
     }
 	
 }

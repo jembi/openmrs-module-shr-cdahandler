@@ -36,6 +36,53 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 
 	
 	/**
+	 * Get a section
+	 * @param entTemplateSimpleObservation
+	 */
+	public List<Entry> getEntry(Section section, String sectionTemplateId) {
+		ArrayList<Entry> retVal = new ArrayList<Entry>();
+		II templateId = new II(sectionTemplateId);
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		for(Entry ent : section.getEntry())
+			if(datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+				retVal.add(ent);
+		return retVal;
+    }
+
+	/**
+	 * Gets a list of expected entries
+	 */
+	protected abstract List<String> getExpectedEntries(Section section);
+
+	/**
+	 * Get a list of expected sub-sections for the section
+	 * Implemented because most entries don't require sub-sections
+	 */
+	protected List<String> getExpectedSubSections(Section section){
+		return null;
+	}
+
+	/**
+	 * Returns true if the section contains the specified template
+	 */
+	public boolean hasEntry(Section section, String templateId) {
+		return this.getEntry(section, templateId).size() > 0;
+    }
+	
+	/**
+	 * Returns true if the section contains the specified section entry
+	 */
+	public boolean hasSubSection(Section section, String string) {
+		II templateId = new II(string);
+		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
+		for(Component5 ent : section.getComponent())
+			if(datatypeUtil.hasTemplateId(ent.getSection(), templateId))
+				return true;
+		return false;
+				
+    }
+
+	/**
 	 * Process the entries in this section
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
 	 */
@@ -139,53 +186,6 @@ public abstract class GenericLevel3SectionProcessor extends GenericLevel2Section
 
 		
 	    return validationIssues;
-    }
-
-	/**
-	 * Gets a list of expected entries
-	 */
-	protected abstract List<String> getExpectedEntries(Section section);
-
-	/**
-	 * Get a list of expected sub-sections for the section
-	 * Implemented because most entries don't require sub-sections
-	 */
-	protected List<String> getExpectedSubSections(Section section){
-		return null;
-	}
-	
-	/**
-	 * Returns true if the section contains the specified template
-	 */
-	public boolean hasEntry(Section section, String templateId) {
-		return this.getEntry(section, templateId).size() > 0;
-    }
-
-	/**
-	 * Returns true if the section contains the specified section entry
-	 */
-	public boolean hasSubSection(Section section, String string) {
-		II templateId = new II(string);
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
-		for(Component5 ent : section.getComponent())
-			if(datatypeUtil.hasTemplateId(ent.getSection(), templateId))
-				return true;
-		return false;
-				
-    }
-
-	/**
-	 * Get a section
-	 * @param entTemplateSimpleObservation
-	 */
-	public List<Entry> getEntry(Section section, String sectionTemplateId) {
-		ArrayList<Entry> retVal = new ArrayList<Entry>();
-		II templateId = new II(sectionTemplateId);
-		DatatypeProcessorUtil datatypeUtil = DatatypeProcessorUtil.getInstance();
-		for(Entry ent : section.getEntry())
-			if(datatypeUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
-				retVal.add(ent);
-		return retVal;
     }
 
 	

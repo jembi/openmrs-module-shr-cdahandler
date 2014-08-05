@@ -23,6 +23,33 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 public class MedicalSummaryDocumentProcessor extends MedicalDocumentsDocumentProcessor {
 	
 	/**
+	 * Gets the code expected on the document
+	 */
+	protected CE<String> getExpectedCode() {
+	    return null;
+    }
+
+	/**
+	 * Gets the sections expected to be present in this document
+	 */
+	protected List<String> getExpectedSections()
+	{
+		return Arrays.asList(new String[] {
+	    		CdaHandlerConstants.SCT_TEMPLATE_MEDICATIONS 
+	    }) ;
+	}
+
+	/**
+	 * Get the name of the template
+	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+	    // TODO Auto-generated method stub
+	    return "Medical Summary";
+    }
+
+	/**
 	 * Validate
 	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor#validate(org.marc.everest.interfaces.IGraphable)
 	 */
@@ -67,33 +94,6 @@ public class MedicalSummaryDocumentProcessor extends MedicalDocumentsDocumentPro
 			doc.getCode().setDisplayName(expectedCode.getDisplayName());
 	    
 	    return validationIssues;
-    }
-
-	/**
-	 * Get the name of the template
-	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-	    // TODO Auto-generated method stub
-	    return "Medical Summary";
-    }
-
-	/**
-	 * Gets the sections expected to be present in this document
-	 */
-	protected List<String> getExpectedSections()
-	{
-		return Arrays.asList(new String[] {
-	    		CdaHandlerConstants.SCT_TEMPLATE_MEDICATIONS 
-	    }) ;
-	}
-
-	/**
-	 * Gets the code expected on the document
-	 */
-	protected CE<String> getExpectedCode() {
-	    return null;
     }
 
 }

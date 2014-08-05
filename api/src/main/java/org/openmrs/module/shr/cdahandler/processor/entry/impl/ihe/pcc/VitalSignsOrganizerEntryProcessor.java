@@ -18,14 +18,6 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProc
 public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	
 	/**
-	 * Get template name
-	 */
-	@Override
-	public String getTemplateName() {
-		return "Vital Signs Organizer";
-	}
-
-	/**
 	 * Get the expected code
 	 */
 	@Override
@@ -49,5 +41,13 @@ public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
     protected List<String> getExpectedEntryRelationships() {
 	    return null;
     }
+
+	/**
+	 * Get template name
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Vital Signs Organizer";
+	}
 	
 }

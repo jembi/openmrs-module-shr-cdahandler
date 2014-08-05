@@ -31,15 +31,6 @@ public class ValidationIssueCollection implements Iterable<ValidationResultDetai
 	}
 	
 	/**
-	 * Adds a warning to the collection
-	 */
-	public void warn(String description)
-	{
-		this.m_internalList.add(new ValidationResultDetail(ResultDetailType.WARNING, description));
-		log.warn(description);
-	}
-	
-	/**
 	 * True if this collection contains errors
 	 * @return
 	 */
@@ -50,7 +41,7 @@ public class ValidationIssueCollection implements Iterable<ValidationResultDetai
 				return true;
 		return false;
 	}
-
+	
 	/**
 	 * Get the iterator for the collection
 	 * @see java.lang.Iterable#iterator()
@@ -59,5 +50,14 @@ public class ValidationIssueCollection implements Iterable<ValidationResultDetai
     public Iterator<ValidationResultDetail> iterator() {
 		return this.m_internalList.iterator();
     }
+
+	/**
+	 * Adds a warning to the collection
+	 */
+	public void warn(String description)
+	{
+		this.m_internalList.add(new ValidationResultDetail(ResultDetailType.WARNING, description));
+		log.warn(description);
+	}
 	
 }

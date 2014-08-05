@@ -18,21 +18,6 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
  */
 public final class SectionProcessorFactory implements ProcessorFactory {
 
-	// Singleton instance
-	private static SectionProcessorFactory s_instance;
-	private static Object s_lockObject = new Object();
-	
-	// Log
-	private final Log log = LogFactory.getLog(this.getClass());
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	 
-	/**
-	 * Constructs a document parser factory
-	 */
-	private SectionProcessorFactory() 
-	{
-	}
-	
 	/**
 	 * Gets or creates the singleton instance 
 	 * @return
@@ -45,6 +30,21 @@ public final class SectionProcessorFactory implements ProcessorFactory {
 					s_instance = new SectionProcessorFactory();
 			}
 		return s_instance;
+	}
+	// Singleton instance
+	private static SectionProcessorFactory s_instance;
+	
+	private static Object s_lockObject = new Object();
+	// Log
+	private final Log log = LogFactory.getLog(this.getClass());
+	 
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	
+	/**
+	 * Constructs a document parser factory
+	 */
+	private SectionProcessorFactory() 
+	{
 	}
 	
 	/**

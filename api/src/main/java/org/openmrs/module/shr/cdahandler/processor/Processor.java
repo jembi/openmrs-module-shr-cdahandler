@@ -18,15 +18,15 @@ public interface Processor {
 	ProcessorContext getContext();
 	
 	/**
-	 * Sets the context of the processor
-	 */
-	void setContext(ProcessorContext context);
-	
-	/**
 	 * Gets the name of the template the processor handles
 	 * @return
 	 */
 	String getTemplateName();
+	
+	/**
+	 * Sets the context of the processor
+	 */
+	void setContext(ProcessorContext context);
 	
 	/**
 	 * Validate an object can be processed

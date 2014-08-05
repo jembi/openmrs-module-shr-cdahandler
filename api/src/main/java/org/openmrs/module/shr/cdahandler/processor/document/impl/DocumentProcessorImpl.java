@@ -88,18 +88,10 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	}
 
 	/**
-	 * Sets the context within which this processor runs
-	 */
-	@Override
-	public void setContext(ProcessorContext context) {
-		this.m_context = context;
-	}
-	
-	/**
 	 * Get the template name that this processor handles
 	 */
 	public abstract String getTemplateName();
-
+	
 	/**
 	 * Processes ClinicalDocument into an openMRS visit saving it into the 
 	 * database.
@@ -127,83 +119,6 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 
 		return visitInformation;
 	}
-
-	/**
-	 * Parse structured body content
-	 * @throws DocumentImportException 
-	 */
-	private Visit processLevel2Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
-
-		StructuredBody structuredBody = doc.getComponent().getBodyChoiceIfStructuredBody();
-		SectionProcessorFactory factory = SectionProcessorFactory.getInstance();
-		Encounter visitEncounter = visitInformation.getEncounters().iterator().next();
-
-		// Add visit to context
-		DocumentProcessorContext rootContext = new DocumentProcessorContext(doc, visitInformation, this);
-		// Add encounter to context
-		ProcessorContext childContext = new ProcessorContext(structuredBody, visitEncounter, this, rootContext);
-		
-		// Iterate through sections saving them
-		for(Component3 comp : structuredBody.getComponent())
-		{
-			// empty section?
-			if(comp == null || comp.getNullFlavor() != null ||
-					comp.getSection() == null || comp.getSection().getNullFlavor() != null)
-			{
-				log.warn("Component is missing section. Skipping");
-				continue;
-			}
-			
-			Section section = comp.getSection();
-			
-			// TODO: Now process section
-			SectionProcessor processor = factory.createProcessor(section);
-			processor.setContext(childContext);
-			processor.process(section);
-			
-		}
-		
-		return visitInformation;
-    }
-
-	/**
-	 * Process content when the body choice is non-xml content
-	 * Auto generated method comment
-	 * 
-	 * @param bodyChoiceIfNonXMLBody
-	 * @throws DocumentImportException 
-	 */
-	private Visit processLevel1Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
-		
-
-		// Get the body
-		NonXMLBody bodyChoiceIfNonXMLBody = doc.getComponent().getBodyChoiceIfNonXMLBody();
-		
-		Encounter binaryContentEncounter = visitInformation.getEncounters().iterator().next();
-		
-		// Process contents
-		Obs binaryContentObs = new Obs();
-		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(m_openmrsMetadataUtil.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
-		binaryContentObs.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
-		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
-		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());
-		binaryContentObs.setLocation(visitInformation.getLocation());
-		binaryContentObs.setVoided(false);
-		binaryContentObs.setPerson(visitInformation.getPatient());
-		binaryContentObs.setEncounter(binaryContentEncounter);
-		binaryContentObs.setObsDatetime(binaryContentEncounter.getDateCreated());
-
-		// Set the binary content
-		ByteArrayInputStream textStream = new ByteArrayInputStream(bodyChoiceIfNonXMLBody.getText().getData());
-		ComplexData complexData = new ComplexData(UUID.randomUUID().toString() + ".bin", textStream);
-		binaryContentObs.setComplexData(complexData);
-		binaryContentEncounter.addObs(binaryContentObs);
-		
-		// Update encounter
-		Context.getEncounterService().saveEncounter(binaryContentEncounter);
-		
-		return visitInformation;
-    }
 
 	/**
 	 * Parse the header of the CDA document
@@ -461,6 +376,91 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		visitInformation = Context.getVisitService().saveVisit(visitInformation);
 		
 		return visitInformation;
+	}
+
+	/**
+	 * Process content when the body choice is non-xml content
+	 * Auto generated method comment
+	 * 
+	 * @param bodyChoiceIfNonXMLBody
+	 * @throws DocumentImportException 
+	 */
+	private Visit processLevel1Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
+		
+
+		// Get the body
+		NonXMLBody bodyChoiceIfNonXMLBody = doc.getComponent().getBodyChoiceIfNonXMLBody();
+		
+		Encounter binaryContentEncounter = visitInformation.getEncounters().iterator().next();
+		
+		// Process contents
+		Obs binaryContentObs = new Obs();
+		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(m_openmrsMetadataUtil.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
+		binaryContentObs.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
+		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
+		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());
+		binaryContentObs.setLocation(visitInformation.getLocation());
+		binaryContentObs.setVoided(false);
+		binaryContentObs.setPerson(visitInformation.getPatient());
+		binaryContentObs.setEncounter(binaryContentEncounter);
+		binaryContentObs.setObsDatetime(binaryContentEncounter.getDateCreated());
+
+		// Set the binary content
+		ByteArrayInputStream textStream = new ByteArrayInputStream(bodyChoiceIfNonXMLBody.getText().getData());
+		ComplexData complexData = new ComplexData(UUID.randomUUID().toString() + ".bin", textStream);
+		binaryContentObs.setComplexData(complexData);
+		binaryContentEncounter.addObs(binaryContentObs);
+		
+		// Update encounter
+		Context.getEncounterService().saveEncounter(binaryContentEncounter);
+		
+		return visitInformation;
+    }
+
+	/**
+	 * Parse structured body content
+	 * @throws DocumentImportException 
+	 */
+	private Visit processLevel2Content(ClinicalDocument doc, Visit visitInformation) throws DocumentImportException {
+
+		StructuredBody structuredBody = doc.getComponent().getBodyChoiceIfStructuredBody();
+		SectionProcessorFactory factory = SectionProcessorFactory.getInstance();
+		Encounter visitEncounter = visitInformation.getEncounters().iterator().next();
+
+		// Add visit to context
+		DocumentProcessorContext rootContext = new DocumentProcessorContext(doc, visitInformation, this);
+		// Add encounter to context
+		ProcessorContext childContext = new ProcessorContext(structuredBody, visitEncounter, this, rootContext);
+		
+		// Iterate through sections saving them
+		for(Component3 comp : structuredBody.getComponent())
+		{
+			// empty section?
+			if(comp == null || comp.getNullFlavor() != null ||
+					comp.getSection() == null || comp.getSection().getNullFlavor() != null)
+			{
+				log.warn("Component is missing section. Skipping");
+				continue;
+			}
+			
+			Section section = comp.getSection();
+			
+			// TODO: Now process section
+			SectionProcessor processor = factory.createProcessor(section);
+			processor.setContext(childContext);
+			processor.process(section);
+			
+		}
+		
+		return visitInformation;
+    }
+
+	/**
+	 * Sets the context within which this processor runs
+	 */
+	@Override
+	public void setContext(ProcessorContext context) {
+		this.m_context = context;
 	}
 	
 	/**

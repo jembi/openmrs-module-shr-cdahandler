@@ -32,13 +32,6 @@ public class DocumentImportException extends Exception {
      */
 	public DocumentImportException(String msg) { super(msg); }
     /**
-     * Constructs a new instance of the DocumentImportException class with
-     * the specified cause.
-     * 
-     * @param ex The cause of this exception
-     */
-	public DocumentImportException(Throwable ex) { super(ex); }
-    /**
      * Constructs a new instance of the DocumentImportException class with 
      * the specified message and cause
      * 
@@ -48,5 +41,12 @@ public class DocumentImportException extends Exception {
 	public DocumentImportException(String msg, Throwable ex) {
 		super(msg, ex);
 	}
+    /**
+     * Constructs a new instance of the DocumentImportException class with
+     * the specified cause.
+     * 
+     * @param ex The cause of this exception
+     */
+	public DocumentImportException(Throwable ex) { super(ex); }
 
 }

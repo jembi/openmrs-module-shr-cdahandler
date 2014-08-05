@@ -27,24 +27,10 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	
 		
 	/**
-	 * @see ModuleActivator#willRefreshContext()
-	 */
-	public void willRefreshContext() {
-		log.info("Refreshing SHR CDA Handler Module");
-	}
-	
-	/**
 	 * @see ModuleActivator#contextRefreshed()
 	 */
 	public void contextRefreshed() {
 		log.info("SHR CDA Handler Module refreshed");
-	}
-	
-	/**
-	 * @see ModuleActivator#willStart()
-	 */
-	public void willStart() {
-		log.info("Starting SHR CDA Handler Module");
 	}
 	
 	/**
@@ -55,17 +41,31 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	}
 	
 	/**
-	 * @see ModuleActivator#willStop()
-	 */
-	public void willStop() {
-		log.info("Stopping SHR CDA Handler Module");
-	}
-	
-	/**
 	 * @see ModuleActivator#stopped()
 	 */
 	public void stopped() {
 		log.info("SHR CDA Handler Module stopped");
+	}
+	
+	/**
+	 * @see ModuleActivator#willRefreshContext()
+	 */
+	public void willRefreshContext() {
+		log.info("Refreshing SHR CDA Handler Module");
+	}
+	
+	/**
+	 * @see ModuleActivator#willStart()
+	 */
+	public void willStart() {
+		log.info("Starting SHR CDA Handler Module");
+	}
+	
+	/**
+	 * @see ModuleActivator#willStop()
+	 */
+	public void willStop() {
+		log.info("Stopping SHR CDA Handler Module");
 	}
 		
 }

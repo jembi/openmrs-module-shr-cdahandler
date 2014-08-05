@@ -24,6 +24,12 @@ public class SeverityObservationEntryProcessor extends SimpleObservationEntryPro
 
 	// Allowed codes
 	private static final List<String> s_allowedCodes = Arrays.asList("H","M","L"); 
+	@Override
+    protected CE<String> getExpectedCode() {
+	    // TODO Auto-generated method stub
+	    return new CE<String>("SEV", "2.16.840.1.113883.5.4", "ActCode", null, "Severity", null);
+    }
+
 	/**
 	 * Get template name
 	 */
@@ -56,12 +62,6 @@ public class SeverityObservationEntryProcessor extends SimpleObservationEntryPro
 
 		return validationIssues;
 		
-    }
-
-	@Override
-    protected CE<String> getExpectedCode() {
-	    // TODO Auto-generated method stub
-	    return new CE<String>("SEV", "2.16.840.1.113883.5.4", "ActCode", null, "Severity", null);
     }
 	
 	

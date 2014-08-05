@@ -22,13 +22,13 @@ public class EstimatedDeliveryDatesSectionProcessor extends GenericLevel3Section
 	
 	
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 * Get the expected entries
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor#getExpectedEntries(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
 	 */
 	@Override
-    public String getTemplateName() {
-		return "Estimated Delivery Date";
-    }
+	protected List<String> getExpectedEntries(Section section) {
+		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION);
+	}
 
 	/**
 	 * Get the expected section code
@@ -40,12 +40,12 @@ public class EstimatedDeliveryDatesSectionProcessor extends GenericLevel3Section
     }
 
 	/**
-	 * Get the expected entries
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor#getExpectedEntries(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section)
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
 	 */
 	@Override
-	protected List<String> getExpectedEntries(Section section) {
-		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION);
-	}
+    public String getTemplateName() {
+		return "Estimated Delivery Date";
+    }
 	
 }

@@ -32,25 +32,22 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	
 	/**
-	 * Process the section
+	 * Gets a list of Expected code (anything for generic)
 	 */
-	@Override
-	public Obs process(Section section) throws DocumentImportException {
-
-		// Validate
-		if(this.m_configuration.getValidationEnabled())
-		{
-			ValidationIssueCollection issues = this.validate(section);
-			if(issues.hasErrors())
-				throw new DocumentValidationException(section, issues);
-		}
-
-		Obs res = this.parseSectionElements(section);
-		res = Context.getObsService().saveObs(res, null);
-
-		return res;
+	public CE<String> getExpectedSectionCode() 
+	{
+		return null;
 	}
 	
+	/**
+	 * Gets the name of this template 
+	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+	    return null;
+    }
+
 	/**
 	 * Parse section elements as an obs group 
 	 * Auto generated method comment
@@ -117,6 +114,26 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	}
 
 	/**
+	 * Process the section
+	 */
+	@Override
+	public Obs process(Section section) throws DocumentImportException {
+
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(section);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(section, issues);
+		}
+
+		Obs res = this.parseSectionElements(section);
+		res = Context.getObsService().saveObs(res, null);
+
+		return res;
+	}
+	
+	/**
 	 * Validate this section processor can perform the necessary function
 	 */
 	@Override
@@ -161,23 +178,6 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		}*/
 		
 		return validationIssues;
-	}
-
-	/**
-	 * Gets the name of this template 
-	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-	    return null;
-    }
-	
-	/**
-	 * Gets a list of Expected code (anything for generic)
-	 */
-	public CE<String> getExpectedSectionCode() 
-	{
-		return null;
 	}
 
 }

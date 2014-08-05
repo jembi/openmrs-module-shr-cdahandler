@@ -20,19 +20,19 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 public class ReviewOfSystemsSectionProcessor extends GenericLevel2SectionProcessor {
 
 	/**
-	 * Get template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Review of Systems";
-    }
-
-	/**
 	 * Get the expected section code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10187-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "REVIEW OF SYSTEMS", null);
+    }
+
+	/**
+	 * Get template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Review of Systems";
     }
 	
 	

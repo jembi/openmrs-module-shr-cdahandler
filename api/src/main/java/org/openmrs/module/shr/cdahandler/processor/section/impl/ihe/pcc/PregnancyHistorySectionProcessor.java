@@ -33,19 +33,19 @@ public class PregnancyHistorySectionProcessor extends GenericLevel3SectionProces
 	}
 
 	/**
-	 * Get template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Pregnancy History";
-    }
-
-	/**
 	 * Get expected section code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10162-6", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "HISTORY OF PREGNANCIES", null);
+    }
+
+	/**
+	 * Get template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Pregnancy History";
     }
 	
 	

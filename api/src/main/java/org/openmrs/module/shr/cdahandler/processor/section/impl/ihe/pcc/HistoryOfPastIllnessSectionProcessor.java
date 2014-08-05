@@ -33,21 +33,21 @@ public class HistoryOfPastIllnessSectionProcessor extends GenericLevel3SectionPr
 	}
 
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "History of Past Illness";
-    }
-
-	/**
 	 * Get expected code
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode()
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("11348-0", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF PAST ILLNESS", null);
+    }
+
+	/**
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "History of Past Illness";
     }
 	
 	

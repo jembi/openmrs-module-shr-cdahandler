@@ -38,19 +38,19 @@ public class FamilyMedicalHistorySectionProcessor extends GenericLevel3SectionPr
 	}
 
 	/**
-	 * Get the template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Family History";
-    }
-
-	/**
 	 * Get the expected code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10157-6", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF FAMILY MEMBER DISEASES", null);
+    }
+
+	/**
+	 * Get the template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Family History";
     }
 	
 	

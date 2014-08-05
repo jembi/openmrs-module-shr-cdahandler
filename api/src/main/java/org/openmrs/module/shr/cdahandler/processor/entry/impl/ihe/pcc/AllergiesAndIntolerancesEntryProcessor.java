@@ -39,15 +39,6 @@ public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEnt
 		);
 	
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Allergies and Intolerances";
-    }
-
-	/**
 	 * Get the expected code
 	 */
 	@Override
@@ -62,6 +53,24 @@ public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEnt
 	@Override
     protected List<String> getExpectedEntryRelationships() {
 		return null;
+    }
+
+	/**
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Allergies and Intolerances";
+    }
+
+	/**
+	 * Special processing of the allergy observation
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
+	 */
+	@Override
+    public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+	    return super.process(entry);
     }
 
 	/**
@@ -87,15 +96,6 @@ public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEnt
 			validationIssues.error("Value must be of type CD");
 		
 		return validationIssues;
-    }
-
-	/**
-	 * Special processing of the allergy observation
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
-	 */
-	@Override
-    public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
-	    return super.process(entry);
     }
 	
 	

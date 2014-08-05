@@ -19,12 +19,11 @@ public class HistoryAndPhysicalDocumentProcessor extends MedicalSummaryDocumentP
 
 
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor#getTemplateName()
+	 * Get the expected code
 	 */
 	@Override
-    public String getTemplateName() {
-		return "History & Physical";
+    protected CE<String> getExpectedCode() {
+		return new CE<String>("34117-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY AND PHYSICAL", null);
     }
 
 	/**
@@ -49,11 +48,12 @@ public class HistoryAndPhysicalDocumentProcessor extends MedicalSummaryDocumentP
     }
 
 	/**
-	 * Get the expected code
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor#getTemplateName()
 	 */
 	@Override
-    protected CE<String> getExpectedCode() {
-		return new CE<String>("34117-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY AND PHYSICAL", null);
+    public String getTemplateName() {
+		return "History & Physical";
     }
 	
 	

@@ -37,11 +37,6 @@ public class DocumentProcessorContext extends ProcessorContext {
 	}
 
 	/**
-	 * Gets all providers parsed from the root context
-	 */
-	public Map<EncounterRole, Set<Provider>> getProviders() { return this.m_providers; }
-	
-	/**
 	 * Add a provider to the visit context
 	 * @param role
 	 * @param provider
@@ -55,6 +50,14 @@ public class DocumentProcessorContext extends ProcessorContext {
 		}
 		currentSet.add(provider);
 	}
+	
+	/**
+	 * Get the clinical document
+	 * @return
+	 */
+	public ClinicalDocument getDocument() {
+		return (ClinicalDocument)this.getRawObject();
+    }
 
 	/**
 	 * Gets the parsed object as a visit
@@ -64,11 +67,8 @@ public class DocumentProcessorContext extends ProcessorContext {
 	}
 
 	/**
-	 * Get the clinical document
-	 * @return
+	 * Gets all providers parsed from the root context
 	 */
-	public ClinicalDocument getDocument() {
-		return (ClinicalDocument)this.getRawObject();
-    }
+	public Map<EncounterRole, Set<Provider>> getProviders() { return this.m_providers; }
 
 }

@@ -23,6 +23,43 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryPr
 public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 	
 	/**
+	 * Gets the concept code from which values and concepts for this observation may be drawn
+	 * Auto generated method comment
+	 * 
+	 * @return
+	 */
+	protected CE<String> getConceptSetCode()
+	{
+		IGraphable context = this.getContext().getRawObject();
+		if(context instanceof Section)
+			return ((Section)context).getCode();
+		else if(context instanceof Organizer)
+			return ((Organizer)context).getCode();
+		else
+			return null;
+	}
+
+	
+	/**
+	 * Get expected code
+	 */
+	@Override
+    protected CE<String> getExpectedCode() {
+		return null;
+    }
+
+
+	/**
+	 * Get expected entry relationships
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+	 */
+	@Override
+    protected List<String> getExpectedEntryRelationships() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+	
+	/**
 	 * Gets the template name
 	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
 	 */
@@ -31,7 +68,6 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 		return "Simple Observations";
 	}
 
-	
 	/**
 	 * Validate this entry
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#validate(org.marc.everest.interfaces.IGraphable)
@@ -59,42 +95,6 @@ public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 		if(conceptGroupCode != null && this.m_configuration.getValidateConceptStructure())
 	        super.validateConceptWithContainer(conceptGroupCode, observation, validationIssues);
 		return validationIssues;
-    }
-
-
-	/**
-	 * Get expected code
-	 */
-	@Override
-    protected CE<String> getExpectedCode() {
-		return null;
-    }
-	
-	/**
-	 * Gets the concept code from which values and concepts for this observation may be drawn
-	 * Auto generated method comment
-	 * 
-	 * @return
-	 */
-	protected CE<String> getConceptSetCode()
-	{
-		IGraphable context = this.getContext().getRawObject();
-		if(context instanceof Section)
-			return ((Section)context).getCode();
-		else if(context instanceof Organizer)
-			return ((Organizer)context).getCode();
-		else
-			return null;
-	}
-
-	/**
-	 * Get expected entry relationships
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
-	 */
-	@Override
-    protected List<String> getExpectedEntryRelationships() {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 	
 }

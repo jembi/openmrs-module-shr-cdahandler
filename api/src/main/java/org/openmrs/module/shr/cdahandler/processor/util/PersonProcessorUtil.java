@@ -26,22 +26,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
  */
 public final class PersonProcessorUtil {
 
-	// singleton instance
-	private static PersonProcessorUtil s_instance;
-	private static Object s_lockObject = new Object();
-	
-	// Auto create providers
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
-	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
-	
-	/**
-	 * Private ctor
-	 */
-	private PersonProcessorUtil()
-	{
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -56,7 +40,60 @@ public final class PersonProcessorUtil {
 		}
 		return s_instance;
 	}
+	// singleton instance
+	private static PersonProcessorUtil s_instance;
+	
+	private static Object s_lockObject = new Object();
+	// Auto create providers
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	
+	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
+	
+	/**
+	 * Private ctor
+	 */
+	private PersonProcessorUtil()
+	{
+	}
 		
+	/**
+	 * Create a person from associated entity
+	 * @param entity
+	 * @throws DocumentImportException 
+	 */
+	protected Person createPerson(AssociatedEntity entity) throws DocumentImportException {
+		
+		if(entity.getAssociatedPerson() == null || entity.getAssociatedPerson().getNullFlavor() != null)
+			throw new DocumentImportException("AssociatedEntity is missing Person relationship");
+		else if(!this.m_configuration.getAutoCreatePersons())
+			throw new IllegalStateException("Cannot create persons");
+		
+		Person res = this.createPerson(entity.getAssociatedPerson());
+	    
+	    // Set addresses
+	    if(entity.getAddr() != null)
+	    	for(AD ad : entity.getAddr())
+	    		if(ad != null && !ad.isNull())
+	    			res.addAddress(this.m_datatypeUtil.parseAD(ad));
+	    
+	    // Set Telecoms
+	    if(entity.getTelecom() != null)
+	    	for(TEL tel : entity.getTelecom())
+	    	{
+    			if(tel == null || tel.isNull()) continue;
+				
+				PersonAttribute telecomAttribute = new PersonAttribute();
+				telecomAttribute.setAttributeType(this.m_metadataUtil.getOrCreatePersonTelecomAttribute());
+				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				telecomAttribute.setPerson(res);
+				res.addAttribute(telecomAttribute);
+	    	}
+	    
+	    return res;
+	    
+    }
+
 	/**
 	 * Parse an HL7v3 Person class into the equivalent OpenMRS class
 	 * @param person The HL7v3
@@ -129,43 +166,6 @@ public final class PersonProcessorUtil {
 		rel = Context.getPersonService().saveRelationship(rel);
 		
 		return rel;
-    }
-
-	/**
-	 * Create a person from associated entity
-	 * @param entity
-	 * @throws DocumentImportException 
-	 */
-	protected Person createPerson(AssociatedEntity entity) throws DocumentImportException {
-		
-		if(entity.getAssociatedPerson() == null || entity.getAssociatedPerson().getNullFlavor() != null)
-			throw new DocumentImportException("AssociatedEntity is missing Person relationship");
-		else if(!this.m_configuration.getAutoCreatePersons())
-			throw new IllegalStateException("Cannot create persons");
-		
-		Person res = this.createPerson(entity.getAssociatedPerson());
-	    
-	    // Set addresses
-	    if(entity.getAddr() != null)
-	    	for(AD ad : entity.getAddr())
-	    		if(ad != null && !ad.isNull())
-	    			res.addAddress(this.m_datatypeUtil.parseAD(ad));
-	    
-	    // Set Telecoms
-	    if(entity.getTelecom() != null)
-	    	for(TEL tel : entity.getTelecom())
-	    	{
-    			if(tel == null || tel.isNull()) continue;
-				
-				PersonAttribute telecomAttribute = new PersonAttribute();
-				telecomAttribute.setAttributeType(this.m_metadataUtil.getOrCreatePersonTelecomAttribute());
-				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
-				telecomAttribute.setPerson(res);
-				res.addAttribute(telecomAttribute);
-	    	}
-	    
-	    return res;
-	    
     }
 	
 }

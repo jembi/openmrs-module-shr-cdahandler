@@ -33,21 +33,21 @@ public class ActiveProblemsSectionProcessor extends GenericLevel3SectionProcesso
 	}
 
 	/**
-	 * Get the template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Active Problems";
-    }
-
-	/**
 	 * Get the expected code
 	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getExpectedSectionCode()
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 	    return new CE<String>("11450-4", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "PROBLEM LIST", null);
+    }
+
+	/**
+	 * Get the template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2SectionProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Active Problems";
     }
 	
 	

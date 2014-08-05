@@ -14,23 +14,6 @@ import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
  */
 public final class EntryProcessorFactory implements ProcessorFactory {
 	
-	// Singleton instance
-	private static EntryProcessorFactory s_instance;
-	private static Object s_lockObject = new Object();
-	
-	// Get configuration
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance(); 
-	
-	// Log
-	private final Log log = LogFactory.getLog(this.getClass());
-	 
-	/**
-	 * Constructs a document parser factory
-	 */
-	private EntryProcessorFactory() 
-	{
-	}
-	
 	/**
 	 * Gets or creates the singleton instance 
 	 * @return
@@ -43,6 +26,23 @@ public final class EntryProcessorFactory implements ProcessorFactory {
 					s_instance = new EntryProcessorFactory();
 			}
 		return s_instance;
+	}
+	// Singleton instance
+	private static EntryProcessorFactory s_instance;
+	
+	private static Object s_lockObject = new Object(); 
+	
+	// Get configuration
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	 
+	// Log
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	/**
+	 * Constructs a document parser factory
+	 */
+	private EntryProcessorFactory() 
+	{
 	}
 	
 	/**

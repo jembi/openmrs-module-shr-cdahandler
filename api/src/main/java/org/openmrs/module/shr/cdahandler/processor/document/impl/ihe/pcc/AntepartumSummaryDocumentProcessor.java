@@ -16,14 +16,6 @@ import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 @ProcessTemplates(templateIds = { CdaHandlerConstants.DOC_TEMPLATE_ANTEPARTUM_SUMMARY})
 public class AntepartumSummaryDocumentProcessor extends MedicalSummaryDocumentProcessor {
 	/**
-	 * Get template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Antepartum Summary";
-    }
-
-	/**
 	 * Get the expected sections
 	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.HistoryAndPhysicalDocumentProcessor#getExpectedSections()
 	 */
@@ -43,6 +35,14 @@ public class AntepartumSummaryDocumentProcessor extends MedicalSummaryDocumentPr
 					));   
 			return retVal;
 	}
+
+	/**
+	 * Get template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Antepartum Summary";
+    }
 
 
 	/**

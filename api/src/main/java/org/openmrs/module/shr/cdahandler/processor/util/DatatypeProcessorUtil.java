@@ -34,21 +34,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
  */
 public final class DatatypeProcessorUtil {
 
-	// singleton instance
-	private static DatatypeProcessorUtil s_instance;
-	private static Object s_lockObject = new Object();
-
-	// Identifier format
-	private CdaHandlerConfiguration m_configuration;
-
-	/**
-	 * Private ctor
-	 */
-	private DatatypeProcessorUtil()
-	{
-		
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -66,27 +51,88 @@ public final class DatatypeProcessorUtil {
 		}
 		return s_instance;
 	}
+	// singleton instance
+	private static DatatypeProcessorUtil s_instance;
+
+	private static Object s_lockObject = new Object();
+
+	// Identifier format
+	private CdaHandlerConfiguration m_configuration;
+	
+	/**
+	 * Private ctor
+	 */
+	private DatatypeProcessorUtil()
+	{
+		
+	}
 
 	/**
-	 * Format an ID into a string
-	 * @return
+	 * Cascades values from source to destination
+	 * @throws DocumentImportException 
 	 */
-	public String formatIdentifier(II id)
+	public void cascade(IGraphable source, IGraphable destination, String... propertyNames) throws DocumentImportException
 	{
-		if(id == null) return "";
-		return String.format(this.m_configuration.getIdFormat(), id.getRoot(), id.getExtension());
+
+		List<String> traversalsToCopy  = Arrays.asList(propertyNames);
+		
+		// Find methods
+		for(Method m : source.getClass().getMethods())
+		{
+			
+			// Get property annotations
+			Property property = m.getAnnotation(Property.class);
+			Properties properties = m.getAnnotation(Properties.class);
+			if(property == null && properties == null) continue;
+			
+			// everest annotations are on getters
+			if(!m.getName().startsWith("get")) 
+				continue;
+				
+			// Is there another property in destination?
+			try {
+				Method destinationMethod = destination.getClass().getMethod(m.getName(), null);
+            
+				if(destinationMethod == null || destinationMethod.invoke(destination, null) != null) // no point can't cascade anyways
+					continue;
+				
+				// Set a context
+				FormatterElementContext sourceContext = new FormatterElementContext(source.getClass(), m),
+						destinationContext = new FormatterElementContext(destination.getClass(), destinationMethod);
+				
+				Boolean shouldCopy = false;
+				// See if this is an interesting property
+				shouldCopy = (sourceContext.getPropertyAnnotation() != null &&
+						traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
+						sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
+				if(sourceContext.getPropertiesAnnotation() != null)
+					for(Property prop : sourceContext.getPropertiesAnnotation().value())
+						shouldCopy |= (sourceContext.getPropertyAnnotation() != null &&
+							traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
+							sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
+				
+				// If properties found the cascade 
+				if(shouldCopy)
+		                destinationContext.getSetterMethod().invoke(destination, m.invoke(source, null));
+            }
+			catch(NoSuchMethodException e)
+			{
+				
+			}
+            catch (Exception e) {
+                throw new DocumentImportException("Could not cascade property values", e);
+            }
+		}
+			
+		
 	}
 	
 	/**
-	 * Format a code
-	 * @param code The code to format
-	 * @return The formatted code identifier
+	 * Gets the empty identifier string
 	 */
-	public String formatSimpleCode(CS<? extends IEnumeratedVocabulary> code)
-	{
-		if(code == null || code.getCode() == null) return "";
-		return String.format(this.m_configuration.getIdFormat(), code.getCode().getCodeSystem(), code.getCode().getCode());
-	}
+	public String emptyIdString() {
+		return this.formatIdentifier(new II());
+    }
 	
 	/**
 	 * Format a coded value
@@ -99,60 +145,65 @@ public final class DatatypeProcessorUtil {
 		return String.format(this.m_configuration.getIdFormat(), code.getCodeSystem(), code.getCode());
 	}
 	/**
-	 * Parse a person name
-	 * @param name The name to parse
-	 * @return The parsed name
+	 * Format an ID into a string
+	 * @return
 	 */
-	@SuppressWarnings("incomplete-switch")
-	public PersonName parseEN(EN en)
+	public String formatIdentifier(II id)
 	{
-		PersonName name = new PersonName();
-		// Iterate through parts
-		for(ENXP part : en.getParts())
-			if(part.getType() != null)
-				switch(part.getType().getCode())
-				{
-					case Family:
-						if(name.getFamilyName() == null)
-							name.setFamilyName(part.getValue());
-						else if(name.getFamilyName2() == null)
-							name.setFamilyName2(part.getValue());
-						else
-							name.setFamilyName2(name.getFamilyName2() + " " + part.getValue());
-						break;
-					case Given:
-						if(name.getGivenName() == null)
-							name.setGivenName(part.getValue());
-						else if (name.getMiddleName() == null)
-							name.setMiddleName(part.getValue());
-						else
-							name.setMiddleName(name.getMiddleName() + " " + part.getValue());
-						break;
-					case Prefix:
-						if(name.getPrefix() == null)
-							name.setPrefix(part.getValue());
-						else
-							name.setPrefix(part.getValue() + " " + part.getValue());
-						break;
-						// TODO: Suffix?
-				}
-			else // This represents a simple name
-			{
-				if(name.getGivenName() == null)
-					name.setGivenName(part.getValue());
-				else if(name.getMiddleName() == null)
-					name.setMiddleName(part.getValue());
-				else {
-					name.setMiddleName(name.getMiddleName() + " " + part.getValue());
-				}
-				
-				if(name.getFamilyName() == null)
-					name.setFamilyName("?");
-				break;
-			}
-	
-		return name;
+		if(id == null) return "";
+		return String.format(this.m_configuration.getIdFormat(), id.getRoot(), id.getExtension());
 	}
+
+	/**
+	 * Format a code
+	 * @param code The code to format
+	 * @return The formatted code identifier
+	 */
+	public String formatSimpleCode(CS<? extends IEnumeratedVocabulary> code)
+	{
+		if(code == null || code.getCode() == null) return "";
+		return String.format(this.m_configuration.getIdFormat(), code.getCode().getCodeSystem(), code.getCode().getCode());
+	}
+
+	
+	/**
+	 * Convert a PQ (time units) to frequency
+	 */
+	public OrderFrequency getOrCreateOrderFrequency(PQ period) {
+		
+		if(!PQ.isValidTimeFlavor(period))
+			throw new IllegalArgumentException("Period must be a time based quantity");
+		
+		// Frequency name
+		String frequencyName = period.toString(); 
+		List<OrderFrequency> candidateFrequencies = Context.getOrderService().getOrderFrequencies(frequencyName, Context.getLocale(), true, false);
+		if(candidateFrequencies.size() == 1)
+			return candidateFrequencies.get(0);
+		else
+		{
+			// Convert units to days (example 6h => 0.25 d)
+			PQ repeatsPerDay = period.convert("d");
+			// Inverse for times per day
+			OrderFrequency orderFrequency = new OrderFrequency();
+			orderFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
+			orderFrequency.setName(period.toString());
+			Context.getOrderService().saveOrderFrequency(orderFrequency);
+			return orderFrequency;
+		}
+    }
+
+	/**
+	 * Returns true if the template identifiers in clinicalStatement contains 
+	 * the specified templateId
+	 */
+	public boolean hasTemplateId(InfrastructureRoot cdaObject, II templateId) {
+		if(cdaObject == null || cdaObject.getTemplateId() == null)
+			return false;
+		for(II templId : cdaObject.getTemplateId())
+			if(templateId.semanticEquals(templId).toBoolean())
+				return true;
+		return false;
+    }
 
 	/**
 	 * Parse an HL7v3 AD into an OpenMRS PersonAddress
@@ -215,112 +266,61 @@ public final class DatatypeProcessorUtil {
 		return address;
 	}
 
-	
 	/**
-	 * Gets the empty identifier string
+	 * Parse a person name
+	 * @param name The name to parse
+	 * @return The parsed name
 	 */
-	public String emptyIdString() {
-		return this.formatIdentifier(new II());
-    }
-
-	/**
-	 * Cascades values from source to destination
-	 * @throws DocumentImportException 
-	 */
-	public void cascade(IGraphable source, IGraphable destination, String... propertyNames) throws DocumentImportException
+	@SuppressWarnings("incomplete-switch")
+	public PersonName parseEN(EN en)
 	{
-
-		List<String> traversalsToCopy  = Arrays.asList(propertyNames);
-		
-		// Find methods
-		for(Method m : source.getClass().getMethods())
-		{
-			
-			// Get property annotations
-			Property property = m.getAnnotation(Property.class);
-			Properties properties = m.getAnnotation(Properties.class);
-			if(property == null && properties == null) continue;
-			
-			// everest annotations are on getters
-			if(!m.getName().startsWith("get")) 
-				continue;
-				
-			// Is there another property in destination?
-			try {
-				Method destinationMethod = destination.getClass().getMethod(m.getName(), null);
-            
-				if(destinationMethod == null || destinationMethod.invoke(destination, null) != null) // no point can't cascade anyways
-					continue;
-				
-				// Set a context
-				FormatterElementContext sourceContext = new FormatterElementContext(source.getClass(), m),
-						destinationContext = new FormatterElementContext(destination.getClass(), destinationMethod);
-				
-				Boolean shouldCopy = false;
-				// See if this is an interesting property
-				shouldCopy = (sourceContext.getPropertyAnnotation() != null &&
-						traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
-						sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
-				if(sourceContext.getPropertiesAnnotation() != null)
-					for(Property prop : sourceContext.getPropertiesAnnotation().value())
-						shouldCopy |= (sourceContext.getPropertyAnnotation() != null &&
-							traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
-							sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
-				
-				// If properties found the cascade 
-				if(shouldCopy)
-		                destinationContext.getSetterMethod().invoke(destination, m.invoke(source, null));
-            }
-			catch(NoSuchMethodException e)
+		PersonName name = new PersonName();
+		// Iterate through parts
+		for(ENXP part : en.getParts())
+			if(part.getType() != null)
+				switch(part.getType().getCode())
+				{
+					case Family:
+						if(name.getFamilyName() == null)
+							name.setFamilyName(part.getValue());
+						else if(name.getFamilyName2() == null)
+							name.setFamilyName2(part.getValue());
+						else
+							name.setFamilyName2(name.getFamilyName2() + " " + part.getValue());
+						break;
+					case Given:
+						if(name.getGivenName() == null)
+							name.setGivenName(part.getValue());
+						else if (name.getMiddleName() == null)
+							name.setMiddleName(part.getValue());
+						else
+							name.setMiddleName(name.getMiddleName() + " " + part.getValue());
+						break;
+					case Prefix:
+						if(name.getPrefix() == null)
+							name.setPrefix(part.getValue());
+						else
+							name.setPrefix(part.getValue() + " " + part.getValue());
+						break;
+						// TODO: Suffix?
+				}
+			else // This represents a simple name
 			{
+				if(name.getGivenName() == null)
+					name.setGivenName(part.getValue());
+				else if(name.getMiddleName() == null)
+					name.setMiddleName(part.getValue());
+				else {
+					name.setMiddleName(name.getMiddleName() + " " + part.getValue());
+				}
 				
+				if(name.getFamilyName() == null)
+					name.setFamilyName("?");
+				break;
 			}
-            catch (Exception e) {
-                throw new DocumentImportException("Could not cascade property values", e);
-            }
-		}
-			
-		
+	
+		return name;
 	}
-
-	/**
-	 * Returns true if the template identifiers in clinicalStatement contains 
-	 * the specified templateId
-	 */
-	public boolean hasTemplateId(InfrastructureRoot cdaObject, II templateId) {
-		if(cdaObject == null || cdaObject.getTemplateId() == null)
-			return false;
-		for(II templId : cdaObject.getTemplateId())
-			if(templateId.semanticEquals(templId).toBoolean())
-				return true;
-		return false;
-    }
-
-	/**
-	 * Convert a PQ (time units) to frequency
-	 */
-	public OrderFrequency getOrCreateOrderFrequency(PQ period) {
-		
-		if(!PQ.isValidTimeFlavor(period))
-			throw new IllegalArgumentException("Period must be a time based quantity");
-		
-		// Frequency name
-		String frequencyName = period.toString(); 
-		List<OrderFrequency> candidateFrequencies = Context.getOrderService().getOrderFrequencies(frequencyName, Context.getLocale(), true, false);
-		if(candidateFrequencies.size() == 1)
-			return candidateFrequencies.get(0);
-		else
-		{
-			// Convert units to days (example 6h => 0.25 d)
-			PQ repeatsPerDay = period.convert("d");
-			// Inverse for times per day
-			OrderFrequency orderFrequency = new OrderFrequency();
-			orderFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
-			orderFrequency.setName(period.toString());
-			Context.getOrderService().saveOrderFrequency(orderFrequency);
-			return orderFrequency;
-		}
-    }
 
 	
 }

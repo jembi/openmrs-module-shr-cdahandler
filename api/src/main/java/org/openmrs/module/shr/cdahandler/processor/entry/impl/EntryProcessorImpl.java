@@ -45,84 +45,6 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	protected final AssignedEntityProcessorUtil m_assignedEntityUtil = AssignedEntityProcessorUtil.getInstance();
 
 	/**
-	 * Gets the context under which this entry processor executes
-	 */
-	@Override
-	public ProcessorContext getContext() {
-		return this.m_context;
-	}
-
-	/**
-	 * Sets the context under which this entry processor executes
-	 */
-	@Override
-	public void setContext(ProcessorContext context) {
-		this.m_context = context;
-	}
-
-	/**
-	 * Validate that the section can be processed
-	 */
-	@Override
-	public ValidationIssueCollection validate(IGraphable object)
-	{
-		ValidationIssueCollection validationIssues = new ValidationIssueCollection();
-		if(!(object instanceof ClinicalStatement))
-			validationIssues.error(String.format("Expected ClinicalStatement got %s", object.getClass()));
-		
-		// Cast to clinical statement
-		ClinicalStatement statement = (ClinicalStatement)object;
-		// Get expected entries
-		List<String> expectedEntries = this.getExpectedEntryRelationships();
-		if(expectedEntries != null)
-			for(String comp : expectedEntries)
-				if(!this.hasEntryRelationship(statement, comp))
-					validationIssues.error(String.format("ClinicalStatement of type %s must have component matching template %s", FormatterUtil.toWireFormat(statement.getTemplateId()), comp));
-
-		return validationIssues;
-	}
-
-	/**
-	 * Process the section
-	 */
-	@Override
-	public abstract BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException;
-
-
-	/**
-	 * Gets the processor context which contains the encounter which an entry belongs 
-	 */
-	protected final ProcessorContext getEncounterContext()
-	{
-		ProcessorContext encounterContext = this.getContext();
-		while(encounterContext.getParent() != null && !(encounterContext.getParsedObject() instanceof Encounter))
-				encounterContext = encounterContext.getParent();
-		return encounterContext;
-	}
-
-	/**
-	 * Get invalid clinical statemnet model text
-	 */
-	protected final String getInvalidClinicalStatementErrorText(Class<? extends IGraphable> expected, Class<? extends IGraphable> actual)
-	{
-		String expectedName = ((Structure)expected.getAnnotation(Structure.class)).name(),
-				actualName = ((Structure)actual.getAnnotation(Structure.class)).name();
-		return String.format("Invalid ClinicalStatement for this entry. Expected %s found %s", expectedName, actualName);
-	}
-	
-	/**
-	 * Get the components expected in this act
-	 */
-	protected abstract List<String> getExpectedEntryRelationships();
-	
-	/**
-	 * Returns true if the section contains the specified template
-	 */
-	public final boolean hasEntryRelationship(ClinicalStatement statement, String string) {
-		return this.findEntryRelationship(statement, string).size() > 0;
-    }
-
-	/**
 	 * Find an entry relationship
 	 */
 	protected final List<EntryRelationship> findEntryRelationship(ClinicalStatement statement, String templateIdRoot) {
@@ -140,6 +62,54 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		return retVal;
 	}
 
+	/**
+	 * Gets the context under which this entry processor executes
+	 */
+	@Override
+	public ProcessorContext getContext() {
+		return this.m_context;
+	}
+
+	/**
+	 * Gets the processor context which contains the encounter which an entry belongs 
+	 */
+	protected final ProcessorContext getEncounterContext()
+	{
+		ProcessorContext encounterContext = this.getContext();
+		while(encounterContext.getParent() != null && !(encounterContext.getParsedObject() instanceof Encounter))
+				encounterContext = encounterContext.getParent();
+		return encounterContext;
+	}
+
+	/**
+	 * Get the components expected in this act
+	 */
+	protected abstract List<String> getExpectedEntryRelationships();
+
+
+	/**
+	 * Get invalid clinical statemnet model text
+	 */
+	protected final String getInvalidClinicalStatementErrorText(Class<? extends IGraphable> expected, Class<? extends IGraphable> actual)
+	{
+		String expectedName = ((Structure)expected.getAnnotation(Structure.class)).name(),
+				actualName = ((Structure)actual.getAnnotation(Structure.class)).name();
+		return String.format("Invalid ClinicalStatement for this entry. Expected %s found %s", expectedName, actualName);
+	}
+
+	/**
+	 * Returns true if the section contains the specified template
+	 */
+	public final boolean hasEntryRelationship(ClinicalStatement statement, String string) {
+		return this.findEntryRelationship(statement, string).size() > 0;
+    }
+	
+	/**
+	 * Process the section
+	 */
+	@Override
+	public abstract BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException;
+	
 	/**
 	 * Process entry relationships
 	 * @throws DocumentImportException 
@@ -164,6 +134,14 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
     }
 
 	/**
+	 * Sets the context under which this entry processor executes
+	 */
+	@Override
+	public void setContext(ProcessorContext context) {
+		this.m_context = context;
+	}
+
+	/**
 	 * Set the creator on the openMrs data
 	 * @throws DocumentImportException 
 	 */
@@ -184,6 +162,28 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 			data.setCreator(encounterInfo.getCreator());
 	    
     }
+
+	/**
+	 * Validate that the section can be processed
+	 */
+	@Override
+	public ValidationIssueCollection validate(IGraphable object)
+	{
+		ValidationIssueCollection validationIssues = new ValidationIssueCollection();
+		if(!(object instanceof ClinicalStatement))
+			validationIssues.error(String.format("Expected ClinicalStatement got %s", object.getClass()));
+		
+		// Cast to clinical statement
+		ClinicalStatement statement = (ClinicalStatement)object;
+		// Get expected entries
+		List<String> expectedEntries = this.getExpectedEntryRelationships();
+		if(expectedEntries != null)
+			for(String comp : expectedEntries)
+				if(!this.hasEntryRelationship(statement, comp))
+					validationIssues.error(String.format("ClinicalStatement of type %s must have component matching template %s", FormatterUtil.toWireFormat(statement.getTemplateId()), comp));
+
+		return validationIssues;
+	}
 	
 }
 

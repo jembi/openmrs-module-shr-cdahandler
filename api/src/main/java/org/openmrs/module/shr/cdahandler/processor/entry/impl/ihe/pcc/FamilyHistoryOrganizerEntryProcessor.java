@@ -34,15 +34,6 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
 public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	
 	/**
-	 * Get the name of the template
-	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
-	 */
-	@Override
-	public String getTemplateName() {
-		return "Family History Organizer";
-	}
-	
-	/**
 	 * Get the expected code, this is null as the code comes from a code system rather than a code
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor#getExpectedCode()
 	 */
@@ -51,7 +42,7 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	/**
 	 * Get the expected components
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor#getExpectedComponents()
@@ -60,7 +51,7 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 	protected List<String> getExpectedComponents() {
 		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION);
 	}
-	
+
 	/**
 	 * Get expected entry relationships
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
@@ -68,6 +59,15 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 	@Override
 	protected List<String> getExpectedEntryRelationships() {
 		return null;
+	}
+	
+	/**
+	 * Get the name of the template
+	 * @see org.openmrs.module.shr.cdahandler.processor.Processor#getTemplateName()
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Family History Organizer";
 	}
 
 	/**

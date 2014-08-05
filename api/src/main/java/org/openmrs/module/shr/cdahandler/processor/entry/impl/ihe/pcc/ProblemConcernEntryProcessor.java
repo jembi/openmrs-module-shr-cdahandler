@@ -29,21 +29,21 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
 public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 
 	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.ConcernEntryProcessor#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-		return "Problem Concern Entry";
-    }
-
-	/**
 	 * Get expected entries which in this case are Problem Entries
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.ConcernEntryProcessor#getExpectedEntries()
 	 */
 	@Override
     protected List<String> getExpectedEntryRelationships() {
 		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION);
+    }
+
+	/**
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.ConcernEntryProcessor#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+		return "Problem Concern Entry";
     }
 
 	/**

@@ -20,21 +20,21 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 public class AssessmentAndPlanSectionProcessor extends GenericLevel2SectionProcessor {
 
 	/**
-	 * Get the template name
-	 */
-	@Override
-    public String getTemplateName() {
-	    // TODO Auto-generated method stub
-	    return super.getTemplateName();
-    }
-
-	/**
 	 * Get the expected section code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 	    // TODO Auto-generated method stub
 	    return new CE<String>("51847-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "ASSESSMENT AND PLAN", null);
+    }
+
+	/**
+	 * Get the template name
+	 */
+	@Override
+    public String getTemplateName() {
+	    // TODO Auto-generated method stub
+	    return super.getTemplateName();
     }
 	
 	

@@ -32,20 +32,20 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
 public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryProcessor {
 			
 	/**
-	 * Get the template name
-	 */
-	@Override
-    public String getTemplateName() {
-	    return "Allergies and Intolerances Concern";
-    }
-
-	/**
 	 * Get expected entries
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc.ConcernEntryProcessor#getExpectedEntries()
 	 */
 	@Override
     protected List<String> getExpectedEntryRelationships() {
 		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_ALLERGY_AND_INTOLERANCE_OBSERVATION);
+    }
+
+	/**
+	 * Get the template name
+	 */
+	@Override
+    public String getTemplateName() {
+	    return "Allergies and Intolerances Concern";
     }
 
 	/**

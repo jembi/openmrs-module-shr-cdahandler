@@ -24,22 +24,14 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProc
 public class PregnancyHistoryOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	
 	/**
-	 * Gets the template name
-	 */
-	@Override
-	public String getTemplateName() {
-		return "Pregnancy History Organizer";
-	}
-	
-	
-	/**
 	 * Get expected code(s)
 	 */
 	@Override
 	public CE<String> getExpectedCode() {
 		return new CE<String>("118185001", CdaHandlerConstants.CODE_SYSTEM_SNOMED, "SNOMED CT", null, "Pregnancy Finding", null);
 	}
-
+	
+	
 	/**
 	 * Get expected sections .. 
 	 */
@@ -47,6 +39,25 @@ public class PregnancyHistoryOrganizerEntryProcessor extends OrganizerEntryProce
 	protected List<String> getExpectedComponents() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Get expected entry relationships
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
+	 */
+	@Override
+    protected List<String> getExpectedEntryRelationships() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+
+	/**
+	 * Gets the template name
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Pregnancy History Organizer";
 	}
 
 
@@ -77,17 +88,6 @@ public class PregnancyHistoryOrganizerEntryProcessor extends OrganizerEntryProce
 					validationIssues.error("A pregnancy history organizer shall only contain either a Pregnancy Observation or a Birth Event Organizer entry");
 			}
 		return validationIssues;
-    }
-
-
-	/**
-	 * Get expected entry relationships
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#getExpectedEntryRelationships()
-	 */
-	@Override
-    protected List<String> getExpectedEntryRelationships() {
-	    // TODO Auto-generated method stub
-	    return null;
     }
 
 	

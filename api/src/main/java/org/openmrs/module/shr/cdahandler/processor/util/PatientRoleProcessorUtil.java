@@ -30,24 +30,6 @@ public final class PatientRoleProcessorUtil {
 
 	// Auto create patients
 	
-	// singleton instance
-	private static PatientRoleProcessorUtil s_instance;
-	private static Object s_lockObject = new Object();
-	
-	// Configuration and util instances
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
-	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
-	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
-	
-	
-	/**
-	 * Private ctor
-	 */
-	private PatientRoleProcessorUtil()
-	{
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -62,76 +44,25 @@ public final class PatientRoleProcessorUtil {
 		}
 		return s_instance;
 	}
-
-	/**
-	 * Parse OpenMRS patient data from a CDA PatientRole
-	 * @param cd
-	 * @return
-	 * @throws DocumentImportException
-	 * @throws DocumentException 
-	 */
-	public Patient processPatient(PatientRole patient) throws DocumentImportException {
-
-		// Ensure patient is not null and has identifiers
-		Patient res = null;
-		if (patient == null || patient.getNullFlavor() != null)
-			throw new DocumentImportException("Patient role is null");
-		else if(patient.getId() == null || patient.getId().isNull() || patient.getId().isEmpty())
-			throw new DocumentImportException("No patient identifiers found in document");
-		
-		// Create identifier type or get identifier type
-		PatientIdentifier pid = this.getApplicablePatientIdentifier(patient.getId());
-		List<Patient> matches = Context.getPatientService().getPatients(null, pid.getIdentifier(), Collections.singletonList(pid.getIdentifierType()), true);
-		
-		if (matches.isEmpty() && this.m_configuration.getAutoCreatePatients()) {
-			res = this.createPatient(patient, pid);
-		} else if(!matches.isEmpty()){
-			res = matches.get(0);
-		}
-		else 
-			throw new DocumentImportException(String.format("Patient %s not found", pid.getIdentifier()));
-		
-		
-		return res;
-	}
+	// singleton instance
+	private static PatientRoleProcessorUtil s_instance;
+	
+	private static Object s_lockObject = new Object();
+	// Configuration and util instances
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
+	
+	
+	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	
 	/**
-	 * Generates or retrieves the patient identifier type from the ids
-	 * Based heavily on code from SurangaK
-	 * @param patientIds Identifiers to scan for a useful ID type
-	 * @return The PatientIdentifierType of the first found match in ids or a new PatientIdentifierType based on the first entry
-	 * @throws DocumentImportException 
+	 * Private ctor
 	 */
-	public PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentImportException {
-		
-		// There may be multiple identifiers here, need to figure out a way to weed out the ones we're not interested in
-		PatientIdentifierType pit = null;
-		II candidateId = null;
-		for(II id : patientIds)
-		{
-			candidateId = id;
-			pit = Context.getPatientService().getPatientIdentifierTypeByName(candidateId.getRoot());
-			if(pit != null)
-				break; // don't look any further
-		}
-		
-		// If none found 
-		if (pit==null && this.m_configuration.getAutoCreatePatientIdType()) {
-			candidateId = patientIds.get(0);
-			//create new id type
-			pit = new PatientIdentifierType();
-			pit.setName(candidateId.getRoot());
-			pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", candidateId.getAssigningAuthorityName() != null ? candidateId.getAssigningAuthorityName() : candidateId.getRoot())); 
-			Context.getPatientService().savePatientIdentifierType(pit);
-		}
-		else if(pit == null && !this.m_configuration.getAutoCreatePatientIdType())
-			throw new DocumentImportException(String.format("Could not find a known patient identifier type"));
-		return new PatientIdentifier(
-				candidateId.getExtension(), 
-				pit, 
-				Context.getLocationService().getDefaultLocation());
+	private PatientRoleProcessorUtil()
+	{
 	}
-	
+
 	/**
 	 * Creates a patient from the specified CDA PatientRole object
 	 * @param importPatient The PatientRole from which the OpenMRS patient should be created
@@ -220,6 +151,75 @@ public final class PatientRoleProcessorUtil {
 
 		
 		res = Context.getPatientService().savePatient(res);
+		
+		return res;
+	}
+	
+	/**
+	 * Generates or retrieves the patient identifier type from the ids
+	 * Based heavily on code from SurangaK
+	 * @param patientIds Identifiers to scan for a useful ID type
+	 * @return The PatientIdentifierType of the first found match in ids or a new PatientIdentifierType based on the first entry
+	 * @throws DocumentImportException 
+	 */
+	public PatientIdentifier getApplicablePatientIdentifier(COLL<II> patientIds) throws DocumentImportException {
+		
+		// There may be multiple identifiers here, need to figure out a way to weed out the ones we're not interested in
+		PatientIdentifierType pit = null;
+		II candidateId = null;
+		for(II id : patientIds)
+		{
+			candidateId = id;
+			pit = Context.getPatientService().getPatientIdentifierTypeByName(candidateId.getRoot());
+			if(pit != null)
+				break; // don't look any further
+		}
+		
+		// If none found 
+		if (pit==null && this.m_configuration.getAutoCreatePatientIdType()) {
+			candidateId = patientIds.get(0);
+			//create new id type
+			pit = new PatientIdentifierType();
+			pit.setName(candidateId.getRoot());
+			pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", candidateId.getAssigningAuthorityName() != null ? candidateId.getAssigningAuthorityName() : candidateId.getRoot())); 
+			Context.getPatientService().savePatientIdentifierType(pit);
+		}
+		else if(pit == null && !this.m_configuration.getAutoCreatePatientIdType())
+			throw new DocumentImportException(String.format("Could not find a known patient identifier type"));
+		return new PatientIdentifier(
+				candidateId.getExtension(), 
+				pit, 
+				Context.getLocationService().getDefaultLocation());
+	}
+	
+	/**
+	 * Parse OpenMRS patient data from a CDA PatientRole
+	 * @param cd
+	 * @return
+	 * @throws DocumentImportException
+	 * @throws DocumentException 
+	 */
+	public Patient processPatient(PatientRole patient) throws DocumentImportException {
+
+		// Ensure patient is not null and has identifiers
+		Patient res = null;
+		if (patient == null || patient.getNullFlavor() != null)
+			throw new DocumentImportException("Patient role is null");
+		else if(patient.getId() == null || patient.getId().isNull() || patient.getId().isEmpty())
+			throw new DocumentImportException("No patient identifiers found in document");
+		
+		// Create identifier type or get identifier type
+		PatientIdentifier pid = this.getApplicablePatientIdentifier(patient.getId());
+		List<Patient> matches = Context.getPatientService().getPatients(null, pid.getIdentifier(), Collections.singletonList(pid.getIdentifierType()), true);
+		
+		if (matches.isEmpty() && this.m_configuration.getAutoCreatePatients()) {
+			res = this.createPatient(patient, pid);
+		} else if(!matches.isEmpty()){
+			res = matches.get(0);
+		}
+		else 
+			throw new DocumentImportException(String.format("Patient %s not found", pid.getIdentifier()));
+		
 		
 		return res;
 	}

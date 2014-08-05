@@ -22,6 +22,15 @@ import org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcess
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 
 	/**
+	 * Get template name
+	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcessorImpl#getTemplateName()
+	 */
+	@Override
+    public String getTemplateName() {
+	    return "Medical Document";
+    }
+
+	/**
 	 * Validate those constraints which are required to ensure successful processing
 	 * of this document
 	 */
@@ -95,15 +104,6 @@ public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 	    }
 	    
 	    return validationIssues;
-    }
-
-	/**
-	 * Get template name
-	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcessorImpl#getTemplateName()
-	 */
-	@Override
-    public String getTemplateName() {
-	    return "Medical Document";
     }
 
 	

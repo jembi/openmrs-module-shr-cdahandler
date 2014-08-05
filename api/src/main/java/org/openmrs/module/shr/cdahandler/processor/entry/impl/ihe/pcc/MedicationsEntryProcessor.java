@@ -18,19 +18,19 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.SubstanceAdministr
 public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProcessor {
 	
 	/**
-	 * Get the template name
-	 */
-	@Override
-	public String getTemplateName() {
-		return "Medications";
-	}
-	
-	/**
 	 * Get the expected entry relationships
 	 */
 	@Override
 	protected List<String> getExpectedEntryRelationships() {
 		return null;
+	}
+	
+	/**
+	 * Get the template name
+	 */
+	@Override
+	public String getTemplateName() {
+		return "Medications";
 	}
 
 	/**

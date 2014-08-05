@@ -33,6 +33,12 @@ public abstract class SectionProcessorImpl implements SectionProcessor {
 	}
 
 	/**
+	 * Process the section
+	 */
+	@Override
+	public abstract Obs process(Section section) throws DocumentImportException;
+
+	/**
 	 * Sets the context under which this section processor executes
 	 */
 	@Override
@@ -51,12 +57,6 @@ public abstract class SectionProcessorImpl implements SectionProcessor {
 			validationIssues.error(String.format("Expected Section got %s", object.getClass()));
 		return validationIssues;
 	}
-
-	/**
-	 * Process the section
-	 */
-	@Override
-	public abstract Obs process(Section section) throws DocumentImportException;
 	
 	
 }

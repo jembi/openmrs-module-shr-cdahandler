@@ -48,17 +48,17 @@ public class ProcessorContext {
 	 */
 	public ProcessorContext getParent() { return this.m_parent; }
 	/**
-	 * Gets the current object being parsed
+	 * Gets the OpenMRS object that this context is currently building 
 	 */
-	public IGraphable getRawObject() { return this.m_object; }
+	public BaseOpenmrsData getParsedObject() { return this.m_parsedObject; }
 	/**
 	 * Gets the parser that is being used in this context
 	 */
 	public Processor getProcessor() { return this.m_parser; }
 	/**
-	 * Gets the OpenMRS object that this context is currently building 
+	 * Gets the current object being parsed
 	 */
-	public BaseOpenmrsData getParsedObject() { return this.m_parsedObject; }
+	public IGraphable getRawObject() { return this.m_object; }
 	
 	/**
 	 * Gets the root context

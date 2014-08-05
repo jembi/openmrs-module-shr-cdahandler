@@ -22,24 +22,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
  */
 public final class LocationOrganizationProcessorUtil {
 	
-	// singleton instance
-	private static LocationOrganizationProcessorUtil s_instance;
-	private static Object s_lockObject = new Object();
-
-	// Utility classes
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
-	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
-
-
-	/**
-	 * Private ctor
-	 */
-	private LocationOrganizationProcessorUtil()
-	{
-		
-	}
-	
 	/**
 	 * Get the singleton instance
 	 */
@@ -54,82 +36,25 @@ public final class LocationOrganizationProcessorUtil {
 		}
 		return s_instance;
 	}
+	// singleton instance
+	private static LocationOrganizationProcessorUtil s_instance;
 
+	private static Object s_lockObject = new Object();
+	// Utility classes
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
+
+
+	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
+	
 	/**
-	 * Parse an HL7v3 Organization into an OpenMRS location
-	 * with a tag representing the organization itself.
-	 * 
-	 * This method will create a default location for the organization
-	 * if one does not exist and will create a tags representing organization
-	 * identity 
-	 * 
-	 * @param representedCustodianOrganization The HL7v3 organization RMIM instance
-	 * @return The parsed location
-	 * @throws DocumentImportException 
+	 * Private ctor
 	 */
-	public Location processOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentImportException {
-		
-		
-		if (representedCustodianOrganization == null || representedCustodianOrganization.getNullFlavor() != null)
-			throw new DocumentImportException("CustodianOrganization role is null");
-		else if(representedCustodianOrganization.getId() == null || representedCustodianOrganization.getId().isNull() || representedCustodianOrganization.getId().isEmpty())
-			throw new DocumentImportException("No identifiers found for organization");
-		
-		String id = this.m_datatypeUtil.formatIdentifier(representedCustodianOrganization.getId().get(0));
-		
-		Location res = null;
-
-		// Was there an id?
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for location id");
-		else
-			res = this.getOrganizationByExternalId(id);
-		
-		if (res==null && this.m_configuration.getAutoCreateLocations())
-		{
-			// Copy a CustodianOrganization to an Organization
-			SET<ON> name = new SET<ON>();
-			SET<TEL> tel = new SET<TEL>();
-			SET<AD> addr = new SET<AD>();
-			
-			if(representedCustodianOrganization.getName() != null)
-				name.add(representedCustodianOrganization.getName());
-			if(representedCustodianOrganization.getAddr() != null)
-				addr.add(representedCustodianOrganization.getAddr());
-			if(representedCustodianOrganization.getTelecom() != null)
-				tel.add(representedCustodianOrganization.getTelecom());
-			Organization asOrganization = new Organization(
-				representedCustodianOrganization.getId(),
-				name,
-				tel,
-				addr,
-				null,
-				null
-			);
-			res = this.createLocation(asOrganization, id);
-		}
-		else if(res == null && !this.m_configuration.getAutoCreateLocations())
-			throw new DocumentImportException(String.format("Unknown location %s", id));
-		return res;
-    }
-
-	/**
-	 * Get organization by an external id
-	 */
-	public Location getOrganizationByExternalId(String id) throws DocumentImportException
+	private LocationOrganizationProcessorUtil()
 	{
 		
-		// TODO: This is an organization not a location so we need to get all locations belonging to the organization
-		// TODO: For now this is stored just as a location with an externalId tag
-		// HACK: The function that does this natively in OpenMRS is missing from 1.9 and is available in 1.10
-		for(Location loc : Context.getLocationService().getAllLocations())
-		{
-			List<LocationAttribute> locAttributes = loc.getActiveAttributes(this.m_metaDataUtil.getOrCreateLocationExternalIdAttributeType());
-			if(locAttributes.size() == 1 && locAttributes.get(0).getValueReference().equals(id)) 
-				return loc; 
-		}
-		return  null;
 	}
+
 	/**
 	 * Create a location in the oMRS data store from an organization
 	 * 
@@ -192,6 +117,23 @@ public final class LocationOrganizationProcessorUtil {
     }
 
 	/**
+	 * Get organization by an external id
+	 */
+	public Location getOrganizationByExternalId(String id) throws DocumentImportException
+	{
+		
+		// TODO: This is an organization not a location so we need to get all locations belonging to the organization
+		// TODO: For now this is stored just as a location with an externalId tag
+		// HACK: The function that does this natively in OpenMRS is missing from 1.9 and is available in 1.10
+		for(Location loc : Context.getLocationService().getAllLocations())
+		{
+			List<LocationAttribute> locAttributes = loc.getActiveAttributes(this.m_metaDataUtil.getOrCreateLocationExternalIdAttributeType());
+			if(locAttributes.size() == 1 && locAttributes.get(0).getValueReference().equals(id)) 
+				return loc; 
+		}
+		return  null;
+	}
+	/**
 	 * Copy address parts from an AD into the specified location
 	 * @throws DocumentImportException 
 	 */
@@ -210,6 +152,64 @@ public final class LocationOrganizationProcessorUtil {
 		target.setCountry(personAddress.getCountry());
 		target.setCountyDistrict(personAddress.getCountyDistrict());
 		target.setPostalCode(personAddress.getPostalCode());
+    }
+
+	/**
+	 * Parse an HL7v3 Organization into an OpenMRS location
+	 * with a tag representing the organization itself.
+	 * 
+	 * This method will create a default location for the organization
+	 * if one does not exist and will create a tags representing organization
+	 * identity 
+	 * 
+	 * @param representedCustodianOrganization The HL7v3 organization RMIM instance
+	 * @return The parsed location
+	 * @throws DocumentImportException 
+	 */
+	public Location processOrganization(CustodianOrganization representedCustodianOrganization) throws DocumentImportException {
+		
+		
+		if (representedCustodianOrganization == null || representedCustodianOrganization.getNullFlavor() != null)
+			throw new DocumentImportException("CustodianOrganization role is null");
+		else if(representedCustodianOrganization.getId() == null || representedCustodianOrganization.getId().isNull() || representedCustodianOrganization.getId().isEmpty())
+			throw new DocumentImportException("No identifiers found for organization");
+		
+		String id = this.m_datatypeUtil.formatIdentifier(representedCustodianOrganization.getId().get(0));
+		
+		Location res = null;
+
+		// Was there an id?
+		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
+			throw new DocumentImportException("No data specified for location id");
+		else
+			res = this.getOrganizationByExternalId(id);
+		
+		if (res==null && this.m_configuration.getAutoCreateLocations())
+		{
+			// Copy a CustodianOrganization to an Organization
+			SET<ON> name = new SET<ON>();
+			SET<TEL> tel = new SET<TEL>();
+			SET<AD> addr = new SET<AD>();
+			
+			if(representedCustodianOrganization.getName() != null)
+				name.add(representedCustodianOrganization.getName());
+			if(representedCustodianOrganization.getAddr() != null)
+				addr.add(representedCustodianOrganization.getAddr());
+			if(representedCustodianOrganization.getTelecom() != null)
+				tel.add(representedCustodianOrganization.getTelecom());
+			Organization asOrganization = new Organization(
+				representedCustodianOrganization.getId(),
+				name,
+				tel,
+				addr,
+				null,
+				null
+			);
+			res = this.createLocation(asOrganization, id);
+		}
+		else if(res == null && !this.m_configuration.getAutoCreateLocations())
+			throw new DocumentImportException(String.format("Unknown location %s", id));
+		return res;
     }
 
 	/**

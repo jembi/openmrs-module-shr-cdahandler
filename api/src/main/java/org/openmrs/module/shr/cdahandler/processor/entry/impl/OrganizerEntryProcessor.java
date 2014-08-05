@@ -34,59 +34,28 @@ import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 
 	/**
-	 * Process the organizer
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
+	 * Get the expected codes
 	 */
-	@Override
-	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+	public abstract CE<String> getExpectedCode();
 
-		// Validate
-		if(this.m_configuration.getValidationEnabled())
-		{
-			ValidationIssueCollection issues = this.validate(entry);
-			if(issues.hasErrors())
-				throw new DocumentValidationException(entry, issues);
-		}
+	/**
+	 * Get the components expected in this organizer
+	 */
+	protected abstract List<String> getExpectedComponents();
 
-		// We want to process the organizer as an Obs
-		Organizer organizer = (Organizer)entry;
-		Obs organizerObs = this.parseOrganizer(organizer);
-		organizerObs = Context.getObsService().saveObs(organizerObs, null);
-		
-		// Cascade properties and process
-		ProcessorContext organizerContext = new ProcessorContext(organizer, organizerObs, this);
-		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
-		
-		// Iterate through components
-		for(Component4 comp : organizer.getComponent())
-		{
-			if(comp.getClinicalStatement() == null || comp.getClinicalStatement().getNullFlavor() != null)
-				continue;
-			
-			ClinicalStatement statement = comp.getClinicalStatement();
-			
-			// Cascade data elements through the participation
-			this.m_datatypeUtil.cascade(organizer, statement, "effectiveTime","author");
-			
-			// Create processor and then process
-			EntryProcessor processor = factory.createProcessor(statement);
-			if(processor == null)
-	    	{
-	    		log.warn(String.format("No processor found for entry type %s", FormatterUtil.toWireFormat(comp.getClinicalStatement().getTemplateId())));
-	    		continue;
-	    	}
-			
-			processor.setContext(organizerContext);
-			processor.process(statement);
-			
-		}
-		
-		// Process entry relationships
-		super.processEntryRelationships(entry, organizerContext);
-		
-		return organizerObs;
-	}
-
+	/**
+	 * Returns true if the section contains the specified template
+	 */
+	public boolean hasComponent(Organizer organizer, String string) {
+		II templateId = new II(string);
+		DatatypeProcessorUtil processorUtil = DatatypeProcessorUtil.getInstance();
+		for(Component4 ent : organizer.getComponent())
+			if(processorUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
+					return true;
+		return false;
+				
+    }
+	
 	/**
 	 * Parse the organizer into an Obs group
 	 * @throws DocumentImportException 
@@ -175,16 +144,60 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		return organizerObs;
 		
     }
-
-	/**
-	 * Get the expected codes
-	 */
-	public abstract CE<String> getExpectedCode();
 	
 	/**
-	 * Get the components expected in this organizer
+	 * Process the organizer
+	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
 	 */
-	protected abstract List<String> getExpectedComponents();
+	@Override
+	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+
+		// Validate
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(entry);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(entry, issues);
+		}
+
+		// We want to process the organizer as an Obs
+		Organizer organizer = (Organizer)entry;
+		Obs organizerObs = this.parseOrganizer(organizer);
+		organizerObs = Context.getObsService().saveObs(organizerObs, null);
+		
+		// Cascade properties and process
+		ProcessorContext organizerContext = new ProcessorContext(organizer, organizerObs, this);
+		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
+		
+		// Iterate through components
+		for(Component4 comp : organizer.getComponent())
+		{
+			if(comp.getClinicalStatement() == null || comp.getClinicalStatement().getNullFlavor() != null)
+				continue;
+			
+			ClinicalStatement statement = comp.getClinicalStatement();
+			
+			// Cascade data elements through the participation
+			this.m_datatypeUtil.cascade(organizer, statement, "effectiveTime","author");
+			
+			// Create processor and then process
+			EntryProcessor processor = factory.createProcessor(statement);
+			if(processor == null)
+	    	{
+	    		log.warn(String.format("No processor found for entry type %s", FormatterUtil.toWireFormat(comp.getClinicalStatement().getTemplateId())));
+	    		continue;
+	    	}
+			
+			processor.setContext(organizerContext);
+			processor.process(statement);
+			
+		}
+		
+		// Process entry relationships
+		super.processEntryRelationships(entry, organizerContext);
+		
+		return organizerObs;
+	}
 	
 	/**
 	 * Validate the organizer
@@ -216,19 +229,6 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 				if(!this.hasComponent(organizer, comp))
 					validationIssues.error(String.format("Organizer must have component matching template %s", comp));
 		return validationIssues;
-    }
-	
-	/**
-	 * Returns true if the section contains the specified template
-	 */
-	public boolean hasComponent(Organizer organizer, String string) {
-		II templateId = new II(string);
-		DatatypeProcessorUtil processorUtil = DatatypeProcessorUtil.getInstance();
-		for(Component4 ent : organizer.getComponent())
-			if(processorUtil.hasTemplateId(ent.getClinicalStatement(), templateId))
-					return true;
-		return false;
-				
     }
 	
 }

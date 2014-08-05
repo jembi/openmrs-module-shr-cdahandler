@@ -20,19 +20,19 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel2Sec
 public class HistoryOfPresentIllnessSectionProcessor extends GenericLevel2SectionProcessor {
 
 	/**
-	 * Get template name
-	 */
-	@Override
-    public String getTemplateName() {
-		return "History of Present Illness";
-    }
-
-	/**
 	 * Get the expected code
 	 */
 	@Override
     public CE<String> getExpectedSectionCode() {
 		return new CE<String>("10164-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "HISTORY OF PRESENT ILLNESS", null);
+    }
+
+	/**
+	 * Get template name
+	 */
+	@Override
+    public String getTemplateName() {
+		return "History of Present Illness";
     }
 	
 	
