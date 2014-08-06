@@ -533,10 +533,10 @@
 		</ns1:mapping>
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
-		<ns1:id>029</ns1:id>
-		<ns1:uuid>84920e39-ae72-459b-8c69-7a7f0812a562</ns1:uuid>
-		<ns1:code>8665-2</ns1:code>
-		<ns1:description>DATE LAST MENSTRUAL PERIOD</ns1:description>
+		<ns1:id>030</ns1:id>
+		<ns1:uuid>498aa25f-9e1b-4285-9549-1fd56471ccc2</ns1:uuid>
+		<ns1:code>11778-8</ns1:code>
+		<ns1:description>DELIVERY DATE (CLINICAL ESTIMATE)</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
@@ -545,17 +545,17 @@
 		<ns1:setOf>001 002</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
-				<ns1:cielId>1427</ns1:cielId>
-				<ns1:name>LAST MENSRUAL PERIOD</ns1:name>
-				<ns1:mapType>SAME-AS</ns1:mapType>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
-		<ns1:id>030</ns1:id>
-		<ns1:uuid>498aa25f-9e1b-4285-9549-1fd56471ccc2</ns1:uuid>
-		<ns1:code>11778-8</ns1:code>
-		<ns1:description>DELIVERY DATE (CLINICAL ESTIMATE)</ns1:description>
+		<ns1:id>032</ns1:id>
+		<ns1:uuid>ef491c63-7621-4ed6-a7e9-8b0b213f9e95</ns1:uuid>
+		<ns1:code>11780-4</ns1:code>
+		<ns1:description>DELIVERY DATE (ESTIMATED FROM OVULATION DATE)</ns1:description>
 		<ns1:conceptType>Date</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
@@ -580,50 +580,12 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf>001 002</ns1:setOf>
+		<ns1:setOf>001 002 030</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId>5596</ns1:cielId>
 				<ns1:name>ESTIMATED DATE OF CONFINEMENT</ns1:name>
 				<ns1:mapType>SAME-AS</ns1:mapType>
-			</ns1:concept>
-		</ns1:mapping>
-	</ns1:referenceTerm>
-	<ns1:referenceTerm>
-		<ns1:id>032</ns1:id>
-		<ns1:uuid>ef491c63-7621-4ed6-a7e9-8b0b213f9e95</ns1:uuid>
-		<ns1:code>11780-4</ns1:code>
-		<ns1:description>DELIVERY DATE (ESTIMATED FROM OVULATION DATE)</ns1:description>
-		<ns1:conceptType>Date</ns1:conceptType>
-		<ns1:classification>Finding</ns1:classification>
-		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
-		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
-		<ns1:units/>
-		<ns1:setOf>001 002</ns1:setOf>
-		<ns1:mapping>
-			<ns1:concept>
-				<ns1:cielId/>
-				<ns1:name/>
-				<ns1:mapType/>
-			</ns1:concept>
-		</ns1:mapping>
-	</ns1:referenceTerm>
-	<ns1:referenceTerm>
-		<ns1:id>033</ns1:id>
-		<ns1:uuid>657fcb7b-9360-4f76-97a3-cea780b4cd46</ns1:uuid>
-		<ns1:code>11884-4</ns1:code>
-		<ns1:description>FETUS, GESTATIONAL AGE (CLINICAL ESTIMATE)</ns1:description>
-		<ns1:conceptType>Numeric</ns1:conceptType>
-		<ns1:classification>Finding</ns1:classification>
-		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
-		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
-		<ns1:units>wk</ns1:units>
-		<ns1:setOf>001 002</ns1:setOf>
-		<ns1:mapping>
-			<ns1:concept>
-				<ns1:cielId>1438</ns1:cielId>
-				<ns1:name>WEEKS OF CURRENT GESTATION</ns1:name>
-				<ns1:mapType>NARROWER-THAN</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -3022,6 +2984,25 @@
 		</ns1:mapping>
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
+		<ns1:id>224</ns1:id>
+		<ns1:uuid>96bfb5ec-8fea-43e9-baa5-5052b436d2</ns1:uuid>
+		<ns1:code>57061-4</ns1:code>
+		<ns1:description>ACOG VISIT SUMMARY BATTERY</ns1:description>
+		<ns1:conceptType>Text</ns1:conceptType>
+		<ns1:classification>Test</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
 		<ns1:id>165</ns1:id>
 		<ns1:uuid>401f474a-0ccc-4341-a4c4-ea0347bb508a</ns1:uuid>
 		<ns1:code>57063-0</ns1:code>
@@ -3031,7 +3012,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>030</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3050,7 +3031,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>030</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3069,7 +3050,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>030</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3088,26 +3069,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
-		<ns1:mapping>
-			<ns1:concept>
-				<ns1:cielId/>
-				<ns1:name/>
-				<ns1:mapType/>
-			</ns1:concept>
-		</ns1:mapping>
-	</ns1:referenceTerm>
-	<ns1:referenceTerm>
-		<ns1:id>169</ns1:id>
-		<ns1:uuid>517917d3-0471-4903-a9a2-bff099f651e6</ns1:uuid>
-		<ns1:code>11888-5</ns1:code>
-		<ns1:description>GESTATIONAL AGE-TIME-PT-^FETUS-QN-ESTIMATED FROM CLINICIANS PHYSICAL EXAM  M</ns1:description>
-		<ns1:conceptType>Numeric</ns1:conceptType>
-		<ns1:classification>Finding</ns1:classification>
-		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
-		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
-		<ns1:units>wk</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>030</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3126,7 +3088,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>031 165 166 167 168</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3145,7 +3107,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>031 165 166 167 168</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3164,7 +3126,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>g</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3183,7 +3145,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>g</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3202,7 +3164,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3354,7 +3316,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>175 176 177 178 179 180 181</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3373,7 +3335,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>175 176 177 178 179 180 181</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3392,7 +3354,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>/min</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3411,7 +3373,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>/min</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3563,7 +3525,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>186 187 188 189 190 191 192</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3582,7 +3544,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3601,7 +3563,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3620,7 +3582,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3639,7 +3601,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>%</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3658,7 +3620,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>cm</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3791,7 +3753,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>199 200 201 202 203 204</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3924,7 +3886,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>206 207 208 209 210 211</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -3943,7 +3905,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>206 207 208 209 210 211</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -4057,7 +4019,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>214 215 216 217 218</ns1:units>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -4076,7 +4038,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -4095,7 +4057,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -4114,7 +4076,64 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>224</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>029</ns1:id>
+		<ns1:uuid>84920e39-ae72-459b-8c69-7a7f0812a562</ns1:uuid>
+		<ns1:code>8665-2</ns1:code>
+		<ns1:description>DATE LAST MENSTRUAL PERIOD</ns1:description>
+		<ns1:conceptType>Date</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>001 002 031 165 166 167 168</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1427</ns1:cielId>
+				<ns1:name>LAST MENSRUAL PERIOD</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>033</ns1:id>
+		<ns1:uuid>657fcb7b-9360-4f76-97a3-cea780b4cd46</ns1:uuid>
+		<ns1:code>11884-4</ns1:code>
+		<ns1:description>FETUS, GESTATIONAL AGE (CLINICAL ESTIMATE)</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units>wk</ns1:units>
+		<ns1:setOf>001 002 031 165 166 167 168 224</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1438</ns1:cielId>
+				<ns1:name>WEEKS OF CURRENT GESTATION</ns1:name>
+				<ns1:mapType>NARROWER-THAN</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>223</ns1:id>
+		<ns1:uuid>657fcb7b-9360-4f76-97a3-cea780b4cd47</ns1:uuid>
+		<ns1:code>11888-5</ns1:code>
+		<ns1:description>Gestational age US composite estimate</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units>wk</ns1:units>
+		<ns1:setOf>031 165 166 167 168</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
