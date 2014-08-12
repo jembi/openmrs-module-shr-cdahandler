@@ -298,6 +298,9 @@
 							<effectiveTime xsi:type="IVL_TS">
 								<low value="20061001141645" />
 							</effectiveTime>
+							<effectiveTime xsi:type="PIVL_TS">
+								<period value="8" unit="h"/>
+							</effectiveTime>
 							<routeCode nullFlavor="UNK" />
 							<doseQuantity value="250" unit="mg" />
 							<rateQuantity nullFlavor="UNK" />

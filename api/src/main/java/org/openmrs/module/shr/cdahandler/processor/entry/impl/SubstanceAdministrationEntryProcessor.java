@@ -2,27 +2,38 @@ package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
 import java.util.Date;
 
+import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.TS;
+import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.EIVL;
 import org.marc.everest.datatypes.generic.IVL;
 import org.marc.everest.datatypes.generic.PIVL;
 import org.marc.everest.datatypes.interfaces.ISetComponent;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ManufacturedProduct;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Material;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Supply;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.BaseOpenmrsMetadata;
+import org.openmrs.CareSetting;
+import org.openmrs.Concept;
+import org.openmrs.Drug;
 import org.openmrs.DrugOrder;
+import org.openmrs.CareSetting.CareSettingType;
 import org.openmrs.DrugOrder.DosingType;
 import org.openmrs.Encounter;
+import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Order.Action;
 import org.openmrs.api.OrderContext;
@@ -42,214 +53,32 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 	protected AssignedEntityProcessorUtil m_providerUtil = AssignedEntityProcessorUtil.getInstance();
 
 	/**
-	 * Process the entry into a 
-	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#process(org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement)
+	 * Adds the specified obs to the parentObs ensuring that the concept is a valid concept for the parent obs
+	 * @throws DocumentImportException 
 	 */
-	@Override
-	public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
-		
-		// We create a drug order in the OpenMRS datastore for substance administrations
-		if(this.m_configuration.getValidationEnabled())
-		{
-			ValidationIssueCollection validationIssues = this.validate(entry);
-			if(validationIssues.hasErrors())
-				throw new DocumentValidationException(entry, validationIssues);
-		}
+	protected Obs setMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
+		// Create the result
+		Obs res = new Obs(parentObs.getPerson(), 
+			obsConcept, 
+			parentObs.getObsDatetime(), 
+			parentObs.getLocation());
+		res.setEncounter(parentObs.getEncounter());
+		res.setDateCreated(parentObs.getDateCreated());
+		// Ensure obsConcept is a valid set member of parentObs.getConcept
+		if(!parentObs.getConcept().getSetMembers().contains(obsConcept))
+			this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
 
-		SubstanceAdministration administration = (SubstanceAdministration)entry;
-		
-		// We create a drug order if one does not already exist!
-		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
-		// Get current order and void if existing for an update
-		Order previousOrder = null;
-		
-		// References to previous order
-		for(Reference reference : administration.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null)
-				continue;
-			else
-				for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
-				{
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(currentOrder.getAccessionNumber() != null
-						&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						{
-							previousOrder = currentOrder;
-							Context.getOrderService().voidOrder(currentOrder, String.format("replaced in %s", encounterInfo));
-						}
-				}
-		
-		// Validate no duplicates on AN
-		if(administration.getId() != null)
-			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
-			{
-				for(II id : administration.getId())
-					if(currentOrder.getAccessionNumber() != null
-					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						throw new DocumentImportException(String.format("Duplicate order number %s", id));
-			}			
-		
-		// Now we create a new order
-		DrugOrder res = new DrugOrder();
-	
-		res.setPreviousOrder(previousOrder);
-		res.setPatient(encounterInfo.getPatient());
-		res.setDateCreated(encounterInfo.getDateCreated());
-		res.setEncounter(encounterInfo);
-		
-		// Set the creator
-		super.setCreator(res, administration, encounterInfo);
-		
-		// Is this a prescribe? 
-		if(previousOrder != null)
-			res.setAction(Action.REVISE);
-		else
-			res.setAction(Action.NEW);
-			
-		// Set the ID
-		if(administration.getId() != null && !administration.getId().isNull())
-			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(administration.getId().get(0)));
-		
-		// The type of procedure or administration done
-		if(administration.getCode() != null && !administration.getCode().isNull())
-			res.setConcept(this.m_conceptUtil.getOrCreateConceptAndEquivalents(administration.getCode()));
-		
-		// Effective time(s)
-		Date discontinueDate = null;
-		for(ISetComponent<TS> eft : administration.getEffectiveTime())
-		{
-			// TODO: Is there a better way to represent these frequencies in oMRS than as serializations of the data types? Like a coded list?
-			if(eft instanceof IVL) // The effective range time
-			{
-				IVL<TS> effectiveRange = ((IVL<TS>)eft).toBoundIvl();
-				if(effectiveRange.getLow() != null && !effectiveRange.getLow().isNull())
-					res.setStartDate(effectiveRange.getLow().getDateValue().getTime());
-				if(effectiveRange.getHigh() != null && !effectiveRange.getHigh().isNull())
-				{
-					if(administration.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Eventoccurrence))
-						discontinueDate = effectiveRange.getHigh().getDateValue().getTime();
-					else
-						res.setAutoExpireDate(effectiveRange.getHigh().getDateValue().getTime());
-				}
-			}
-			else if(eft instanceof EIVL) // Event based, for example: After Meals
-			{
-				EIVL<TS> frequency = (EIVL<TS>)eft;
-				res.setDosingInstructions(String.format("Event:%s", frequency.getEvent().getCode().getCode()));
-			}
-			else if(eft instanceof TS) // Happened at one instant in time or will happen at one instant in time = Scheduled date
-			{
-				TS frequency = (TS)eft;
-				res.setScheduledDate(frequency.getDateValue().getTime());
-			}
-			else if(eft instanceof PIVL) // period
-			{
-				PIVL<TS> frequency = (PIVL<TS>)eft;
-				// Frequency needs to be expressed in terms of repeats per day 
-				if(frequency.getPhase() != null)
-				{
-					frequency.setPhase(frequency.getPhase().toBoundIvl());
-					res.setDosingInstructions(String.format("Frequency interval:%s", frequency.getPhase().toString()));
-				}
-				// Period to repeats per day
-				if(frequency.getPeriod() != null)
-					res.setFrequency(this.m_datatypeUtil.getOrCreateOrderFrequency(frequency.getPeriod()));
-			}
-			else
-				throw new DocumentPersistenceException(String.format("Cannot represent administration frequency of %s", FormatterUtil.createXsiTypeName(eft)));
-		}
-		
-		
-		// Dosage?
-		if(administration.getDoseQuantity().getValue() != null)
-		{
-			res.setDosingType(DosingType.SIMPLE);
-				res.setDose(administration.getDoseQuantity().getValue().getValue().doubleValue());
-			if(administration.getDoseQuantity().getValue().getUnit() != null)
-				res.setDoseUnits(this.m_conceptUtil.getOrCreateUcumConcept(administration.getDoseQuantity().getValue().getUnit()));
-		}
-		else // TODO: Make these Obs maybe?
-			throw new DocumentPersistenceException("OpenSHR only supports explicit (non-ranged) doses for administrations");
-		
-		// Now route
-		if(administration.getRouteCode() != null && !administration.getRouteCode().isNull())
-			res.setRoute(this.m_conceptUtil.getOrCreateConceptAndEquivalents(administration.getRouteCode()));
-		
-		// Drug time ... 
-		if(administration.getConsumable() != null && administration.getConsumable().getNullFlavor() == null &&
-				administration.getConsumable().getManufacturedProduct() != null && administration.getConsumable().getManufacturedProduct().getNullFlavor() == null)
-		{
-			ManufacturedProduct product = administration.getConsumable().getManufacturedProduct();
-			if(product.getManufacturedDrugOrOtherMaterialIfManufacturedLabeledDrug() != null) // A labelled drug
-				;
-			else
-			{
-				Material drugMaterial =  product.getManufacturedDrugOrOtherMaterialIfManufacturedMaterial();
-				if(drugMaterial.getCode() != null)
-					res.setDrug(this.m_conceptUtil.getOrCreateDrugFromConcept(drugMaterial.getCode(), drugMaterial.getName()));
-				else
-					throw new DocumentImportException("Drug must carry a coded identifier for the product administered");
-			}
-		}
-		
-		// reason will link to another obs
-		StringBuilder reason = new StringBuilder(); 
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_INTERNAL_REFERENCE))
-			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasReason))
-				reason.append(String.format("%s;",this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0))));
-		if(!reason.toString().isEmpty())
-			res.setOrderReasonNonCoded(reason.toString());
-
-		// This is the person who performed the dispense or is intended to perform the dispense
-		OrderContext orderContext = new OrderContext();
-
-		// Prescription (supply) entry relationship?
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_SUPPLY))
-			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.REFR))
-			{
-				
-				Supply supply = er.getClinicalStatementIfSupply();
-				
-				// Repeat number
-				if(supply.getRepeatNumber() != null && !supply.getRepeatNumber().isNull() &&
-						supply.getRepeatNumber().getValue() != null)
-					res.setNumRefills(supply.getRepeatNumber().getValue().toInteger());
-
-				// Quantity
-				if(supply.getQuantity() != null && !supply.getQuantity().isNull())
-				{
-					res.setQuantity(supply.getQuantity().getValue().doubleValue());
-					res.setQuantityUnits(this.m_conceptUtil.getOrCreateUcumConcept(supply.getQuantity().getUnit()));
-				}
-					
-				// Author, who prescribed?
-				if(supply.getAuthor().size() > 0)
-					res.setOrderer(this.m_providerUtil.processProvider(supply.getAuthor().get(0).getAssignedAuthor()));
-				
-				// Performer, who performed the fulfillment?
-				if(supply.getPerformer().size() > 0)
-				{
-					orderContext.setAttribute("PRF", this.m_providerUtil.processProvider(supply.getPerformer().get(0).getAssignedEntity()));
-				}
-			}
-		
-		// Save the order 
-		res = (DrugOrder)Context.getOrderService().saveOrder(res, null);
-
-		// Is this an event? If so it happened in the past and isn't active so we have to discontinue it
-		if(administration.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Eventoccurrence))
-			try
-			{
-				res = (DrugOrder)Context.getOrderService().discontinueOrder(res, "MoodCode=EVN", discontinueDate, null, encounterInfo);
-			}
-			catch(Exception e)
-			{
-				throw new DocumentPersistenceException(e);
-			}
+		// Set the value
+		if(value instanceof ANY)
+			this.m_dataUtil.setObsValue(res, (ANY)value);
+		else if(value instanceof Concept)
+			res.setValueCoded((Concept)value);
+		else if(value instanceof String)
+			res.setValueText(value.toString());
+		parentObs.addGroupMember(res);
 
 		return res;
-		
-	}
+    }
 
 	/**
 	 * Validate a substance administration can be processed

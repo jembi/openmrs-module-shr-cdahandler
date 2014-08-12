@@ -1,6 +1,9 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
+import java.util.UUID;
+
 import org.marc.everest.datatypes.AD;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedAuthor;
@@ -149,8 +152,8 @@ public final class AssignedEntityProcessorUtil {
 		if(this.m_configuration.getAutoCreateUsers())
 		{
 		    User res = new User(provider.getPerson());
-		    res.setUsername(id);
-		    res = Context.getUserService().saveUser(res, id);
+		    //res.setUsername(id);
+		    res = Context.getUserService().createUser(res, "B"+UUID.randomUUID().toString());
 		}
     }
 
@@ -169,7 +172,13 @@ public final class AssignedEntityProcessorUtil {
 		// TODO: How to add this like the ECID/EPID identifiers in the current SHR
 		// ie. root becomes an attribute and the extension becomes the value
 		// Anyways, for now represent in the standard ITI guidance for II data type
-		String id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
+		String id = this.m_datatypeUtil.emptyIdString();
+		if(this.m_configuration.getEpidRoot().isEmpty())
+			id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
+		else
+			for(II autId : aut.getId())
+				if(autId.getRoot().equals(this.m_configuration.getEpidRoot()))
+					id = this.m_datatypeUtil.formatIdentifier(autId);
 		
 		Provider res = null;
 		

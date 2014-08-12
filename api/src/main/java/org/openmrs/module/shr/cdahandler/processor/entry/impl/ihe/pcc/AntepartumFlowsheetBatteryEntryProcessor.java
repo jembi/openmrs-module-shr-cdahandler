@@ -1,4 +1,4 @@
-package org.openmrs.module.shr.cdahandler.processor.entry.impl;
+package org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActClassDocumentEntryOrganize
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
+import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
 
 /**
  * Antepartum Flowsheet Battery Entry Processor

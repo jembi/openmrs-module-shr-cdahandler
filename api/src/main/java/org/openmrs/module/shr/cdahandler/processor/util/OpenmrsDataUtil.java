@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
+import org.marc.everest.datatypes.CO;
 import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.INT;
@@ -18,8 +19,12 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
@@ -161,18 +166,27 @@ public final class OpenmrsDataUtil {
 			ComplexData complexData = new ComplexData("observationdata", textStream);
 			observation.setComplexData(complexData);
 		}
-		else if(value instanceof CE)
+		else if(value instanceof CE || value instanceof CO)
 		{
 			
-			// Set code system if possible... 
-			// Is the value an OpenMRS concept
-			Concept concept = this.m_conceptUtil.getTypeSpecificConcept((CE<String>)value, null);
-			if(concept == null) // Maybe an inappropriate concept then?
-				concept = this.m_conceptUtil.getOrCreateConcept((CV<String>)value);
-			
-			this.m_conceptUtil.addAnswerToConcept(observation.getConcept(), concept);
-			observation.setValueCoded(concept);
+			CE<String> codeValue = null;
+			if(value instanceof CO)
+				codeValue = ((CO)value).getCode();
+			else
+				codeValue = (CE<String>)value;
+
+			// Coded 
+			if(codeValue != null)
+			{
+				Concept concept = this.m_conceptUtil.getTypeSpecificConcept(codeValue, null);
+				if(concept == null) // Maybe an inappropriate concept then?
+					concept = this.m_conceptUtil.getOrCreateConcept(codeValue);
 				
+				this.m_conceptUtil.addAnswerToConcept(observation.getConcept(), concept);
+				observation.setValueCoded(concept);
+			}
+			else // ordinal
+				observation.setValueNumeric(((CO)value).toDouble());
 		}
 		else
 			throw new DocumentImportException("Cannot represent this concept!");

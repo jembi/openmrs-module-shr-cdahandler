@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
@@ -44,6 +45,15 @@ public class AntepartumSummaryDocumentProcessor extends MedicalSummaryDocumentPr
 		return "Antepartum Summary";
     }
 
+	
+	/**
+	 * Get expected code
+	 * @see org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor#getExpectedCode()
+	 */
+	@Override
+    protected CE<String> getExpectedCode() {
+		return new CE<String>("57055-6", CdaHandlerConstants.CODE_SYSTEM_LOINC, CdaHandlerConstants.CODE_SYSTEM_NAME_LOINC, null, "ANTEPARTUM SUMMARY NOTE", null);
+    }
 
 	/**
 	 * Validate (Includes several header templates)

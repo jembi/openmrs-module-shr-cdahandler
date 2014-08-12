@@ -8,6 +8,7 @@ import org.marc.everest.annotations.Properties;
 import org.marc.everest.annotations.Property;
 import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.ADXP;
+import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.EN;
 import org.marc.everest.datatypes.ENXP;
 import org.marc.everest.datatypes.II;
@@ -16,10 +17,12 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.IVL;
+import org.marc.everest.datatypes.generic.PIVL;
 import org.marc.everest.formatters.FormatterElementContext;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
+import org.openmrs.Concept;
 import org.openmrs.OrderFrequency;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
@@ -46,6 +49,7 @@ public final class DatatypeProcessorUtil {
 				{
 					s_instance = new DatatypeProcessorUtil();
 					s_instance.m_configuration = CdaHandlerConfiguration.getInstance();
+					
 				}
 			}
 		}
@@ -58,6 +62,7 @@ public final class DatatypeProcessorUtil {
 
 	// Identifier format
 	private CdaHandlerConfiguration m_configuration;
+	private OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	
 	/**
 	 * Private ctor
@@ -168,28 +173,32 @@ public final class DatatypeProcessorUtil {
 	
 	/**
 	 * Convert a PQ (time units) to frequency
+	 * @throws DocumentImportException 
 	 */
-	public OrderFrequency getOrCreateOrderFrequency(PQ period) {
-		
-		if(!PQ.isValidTimeFlavor(period))
-			throw new IllegalArgumentException("Period must be a time based quantity");
+	public OrderFrequency getOrCreateOrderFrequency(ANY frequency) throws DocumentImportException {
 		
 		// Frequency name
-		String frequencyName = period.toString(); 
-		List<OrderFrequency> candidateFrequencies = Context.getOrderService().getOrderFrequencies(frequencyName, Context.getLocale(), true, false);
-		if(candidateFrequencies.size() == 1)
-			return candidateFrequencies.get(0);
-		else
+		Concept frequencyConcept = this.m_conceptUtil.getOrCreateFrequencyConcept(frequency); 
+		OrderFrequency candidateFrequency = Context.getOrderService().getOrderFrequencyByConcept(frequencyConcept);
+		if(candidateFrequency != null)
+			return candidateFrequency;
+		else if(frequencyConcept != null && frequency instanceof PIVL)
 		{
 			// Convert units to days (example 6h => 0.25 d)
-			PQ repeatsPerDay = period.convert("d");
-			// Inverse for times per day
-			OrderFrequency orderFrequency = new OrderFrequency();
-			orderFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
-			orderFrequency.setName(period.toString());
-			Context.getOrderService().saveOrderFrequency(orderFrequency);
-			return orderFrequency;
+			PIVL<TS> pivlValue = (PIVL)frequency;
+			if(pivlValue.getPeriod() == null || pivlValue.getPhase() != null)
+				throw new DocumentImportException(String.format("Cannot represent this frequency %s", frequency));
+			PQ repeatsPerDay = pivlValue.getPeriod().convert("d");
+			// Is there a concept
+			candidateFrequency = new OrderFrequency();
+			candidateFrequency.setConcept(frequencyConcept);
+			candidateFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
+			candidateFrequency.setName(frequencyConcept.getPreferredName(Context.getLocale()).getName());
+			candidateFrequency = Context.getOrderService().saveOrderFrequency(candidateFrequency);
+			return candidateFrequency;
 		}
+		else
+			throw new DocumentImportException(String.format("Cannot represent frequency %s", frequency));
     }
 
 	/**

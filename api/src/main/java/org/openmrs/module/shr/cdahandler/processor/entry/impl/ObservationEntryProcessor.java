@@ -107,12 +107,12 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		// Validate no duplicates on AN
 		if(observation.getId() != null)
-			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
+			for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
 			{
 				for(II id : observation.getId())
-					if(currentOrder.getAccessionNumber() != null
-					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						throw new DocumentImportException(String.format("Duplicate obs %s", id));
+					if(currentObs.getAccessionNumber() != null
+					&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+						return currentObs; //throw new DocumentImportException(String.format("Duplicate obs %s", id));
 			}			
 
 		
@@ -130,7 +130,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(observation.getId().get(0)));
 		
 		// Set the creator
-		super.setCreator(res, observation, encounterInfo);
+		super.setCreator(res, observation);
 		
 		// Value may be changed
 		ANY value = observation.getValue();
@@ -314,19 +314,19 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 	        Concept conceptGroup = this.m_conceptUtil.getConcept(parentCode),
 	        		codedObservationConcept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
         // If we're not validating concept structure...
-        /*
+        
         if(!this.m_configuration.getValidateConceptStructure() && conceptGroup == null)
-        	conceptGroup = this.m_conceptUtil.createConcept(conceptGroupCode);
+        	conceptGroup = this.m_conceptUtil.createConcept(parentCode);
         if(!this.m_configuration.getValidateConceptStructure() && codedObservationConcept == null)
         	codedObservationConcept = this.m_conceptUtil.createConcept(observation.getCode(), observation.getValue());
-        */
+        
         
         // First check, is the coded observation concept understood by OpenMRS?
     	// Sometimes N/A applies for boolean as well as the observation is an indicator (i.e. the presence of this value
         // indicates true for the question concept)
         if(conceptGroup == null || codedObservationConcept == null)
         {
-	        	validationIssues.error(String.format("The observation concept %s is not understood or is not registered for this value of type %s type (hint: units may be incompatible)", observation.getCode(), observation.getValue().getClass()));
+	        validationIssues.error(String.format("The observation concept %s is not understood or is not registered for this value of type %s type (hint: units may be incompatible)", observation.getCode(), observation.getValue().getClass()));
         }
         // Next check that the concept is a valid pregnancy concept
     	else if(!conceptGroup.getSetMembers().contains(codedObservationConcept))

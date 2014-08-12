@@ -7,12 +7,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.generic.SET;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedAuthor;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
+import org.openmrs.EncounterRole;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
@@ -25,6 +31,7 @@ import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorU
 import org.openmrs.module.shr.cdahandler.processor.util.DatatypeProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsConceptUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsDataUtil;
+import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 /**
  * Represents an implementation of an EntryProcessor
@@ -43,6 +50,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	protected final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	protected final OpenmrsDataUtil m_dataUtil = OpenmrsDataUtil.getInstance();
 	protected final AssignedEntityProcessorUtil m_assignedEntityUtil = AssignedEntityProcessorUtil.getInstance();
+	protected final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
 
 	/**
 	 * Find an entry relationship
@@ -145,11 +153,15 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	 * Set the creator on the openMrs data
 	 * @throws DocumentImportException 
 	 */
-	public void setCreator(BaseOpenmrsData data, ClinicalStatement statement, Encounter encounterInfo) throws DocumentImportException {
+	public void setCreator(BaseOpenmrsData data, ClinicalStatement statement) throws DocumentImportException {
+
 		// Created by different?
+		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		if(statement.getAuthor().size() == 1)
 		{
-			Provider createdByProvider = this.m_assignedEntityUtil.processProvider(statement.getAuthor().get(0).getAssignedAuthor());
+			AssignedAuthor headerAuthor = this.findAuthorFromHeader(statement.getAuthor().get(0).getAssignedAuthor().getId());
+			// Get the provider
+			Provider createdByProvider = this.m_assignedEntityUtil.processProvider(headerAuthor);
 			User createdBy = this.m_dataUtil.getUser(createdByProvider);
 			data.setCreator(createdBy);
 			if(statement.getAuthor().get(0).getTime() != null &&
@@ -161,6 +173,57 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		else
 			data.setCreator(encounterInfo.getCreator());
 	    
+    }
+
+	/**
+	 * Clone an encounter for registering a sub-encounter
+	 * @throws DocumentImportException 
+	 */
+	protected Encounter createEncounter(ClinicalStatement statement) throws DocumentImportException {
+		Encounter retVal = new Encounter();
+		this.setCreator(retVal, statement);
+		
+		// Get encounter root
+		Encounter rootEncounter = (Encounter)this.getEncounterContext().getParsedObject();
+		retVal.setVisit(rootEncounter.getVisit());
+		retVal.setLocation(rootEncounter.getLocation());
+		retVal.setPatient(rootEncounter.getPatient());
+		
+		// Parse the authors of this document
+		for(Author aut : statement.getAuthor())
+		{
+			AssignedAuthor headerAuthor = this.findAuthorFromHeader(aut.getAssignedAuthor().getId());
+			// This element represents the time that the author started participating in the creation of the clinical document .. Is it important?
+			Provider provider = this.m_assignedEntityUtil.processProvider(aut.getAssignedAuthor());
+			EncounterRole role = this.m_metadataUtil.getOrCreateEncounterRole(aut.getTypeCode());
+			retVal.addProvider(role, provider);
+		}
+		
+		return retVal;
+    }
+
+	/**
+	 * Find the assigned author in the header
+	 * @throws DocumentImportException 
+	 */
+	private AssignedAuthor findAuthorFromHeader(SET<II> authorIds) throws DocumentImportException {
+		// Get the author from the CDA header
+		ClinicalDocument documentContext = (ClinicalDocument)this.getContext().getRootContext().getRawObject();
+		AssignedAuthor headerAuthor = null;
+		for(II id : authorIds)
+		{
+			for(Author aut : documentContext.getAuthor())
+				if(aut.getAssignedAuthor().getId().contains(id))
+				{
+					headerAuthor = aut.getAssignedAuthor();
+					break;
+				}
+			if(headerAuthor != null) break;
+		}
+		
+		if(headerAuthor == null)
+			throw new DocumentImportException("Author in entry must appear in the header as well");
+		return headerAuthor;
     }
 
 	/**
@@ -184,6 +247,16 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 
 		return validationIssues;
 	}
+	
+	/**
+	 * Get the CDA section to which this belongs
+	 */
+	public Section getSection() {
+		ProcessorContext context = this.getContext();
+		while(!(context.getRawObject() instanceof Section))
+			context = context.getParent();
+		return (Section)context.getRawObject();
+    }
 	
 }
 

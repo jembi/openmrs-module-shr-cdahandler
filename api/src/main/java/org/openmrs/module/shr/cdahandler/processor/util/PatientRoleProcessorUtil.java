@@ -52,7 +52,7 @@ public final class PatientRoleProcessorUtil {
 	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
-	
+	private final LocationOrganizationProcessorUtil m_locationUtil = LocationOrganizationProcessorUtil.getInstance();
 	
 	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	
@@ -69,7 +69,7 @@ public final class PatientRoleProcessorUtil {
 	 * @param id The identifier to use for the patient
 	 * @return
 	 */
-	public Patient createPatient(PatientRole importPatient, PatientIdentifier id) throws DocumentImportException {
+	public Patient createPatient(PatientRole importPatient) throws DocumentImportException {
 		
 		if(!this.m_configuration.getAutoCreatePatients()) // not supposed to be here
 			throw new IllegalStateException("Cannot auto-create patients according to current global properties");
@@ -77,9 +77,39 @@ public final class PatientRoleProcessorUtil {
 		
 		Patient res = new Patient();
 		
-		id.setPreferred(true);
-		res.addIdentifier(id);
-
+		// Now add other ids
+		for(II id : importPatient.getId())
+		{
+			PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(id.getRoot());
+			if(pit == null && this.m_configuration.getAutoCreatePatientIdType())
+			{
+				pit = new PatientIdentifierType();
+				pit.setName(id.getRoot());
+				pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", id.getAssigningAuthorityName() != null ? id.getAssigningAuthorityName() : id.getRoot()));
+				
+				pit = Context.getPatientService().savePatientIdentifierType(pit);
+			}
+			else if(pit == null && !this.m_configuration.getAutoCreatePatientIdType())
+				continue; // next
+			
+			PatientIdentifier pid = new PatientIdentifier();
+			pid.setIdentifierType(pit);
+			pid.setIdentifier(id.getExtension());
+			
+			// Provider organization
+			if(importPatient.getProviderOrganization() != null && importPatient.getProviderOrganization().getId() != null)
+				for(II provId : importPatient.getProviderOrganization().getId())
+					if(provId.getRoot().equals(id.getRoot()))
+						pid.setLocation(this.m_locationUtil.processOrganization(importPatient.getProviderOrganization()));
+			
+			// Get default location
+			if(pid.getLocation() == null)
+				pid.setLocation(Context.getLocationService().getDefaultLocation());
+			
+			pid.setPreferred(id.getRoot().equals(this.m_configuration.getEcidRoot()));
+			res.addIdentifier(pid);
+		}
+		
 		// Don't attempt to parse a null patient
 		if(importPatient.getPatient() != null)
 		{	
@@ -171,8 +201,8 @@ public final class PatientRoleProcessorUtil {
 		{
 			candidateId = id;
 			pit = Context.getPatientService().getPatientIdentifierTypeByName(candidateId.getRoot());
-			if(pit != null)
-				break; // don't look any further
+			if(pit != null && pit.getName().equals(this.m_configuration.getEcidRoot())) 
+				break; // don't look any further we have the ECID
 		}
 		
 		// If none found 
@@ -213,7 +243,7 @@ public final class PatientRoleProcessorUtil {
 		List<Patient> matches = Context.getPatientService().getPatients(null, pid.getIdentifier(), Collections.singletonList(pid.getIdentifierType()), true);
 		
 		if (matches.isEmpty() && this.m_configuration.getAutoCreatePatients()) {
-			res = this.createPatient(patient, pid);
+			res = this.createPatient(patient);
 		} else if(!matches.isEmpty()){
 			res = matches.get(0);
 		}

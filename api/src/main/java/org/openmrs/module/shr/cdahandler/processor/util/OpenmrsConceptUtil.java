@@ -12,6 +12,7 @@ import org.jfree.util.Log;
 import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
+import org.marc.everest.datatypes.CO;
 import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.EN;
 import org.marc.everest.datatypes.INT;
@@ -23,6 +24,8 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
+import org.marc.everest.datatypes.generic.EIVL;
+import org.marc.everest.datatypes.generic.PIVL;
 import org.marc.everest.datatypes.generic.RTO;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.openmrs.Concept;
@@ -41,6 +44,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.util.OpenmrsConstants;
 
 /**
  * A class for interacting (creating/looking up) OpenMRS concepts
@@ -68,7 +72,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	}
 	// singleton instance
 	private static OpenmrsConceptUtil s_instance;
-
+ 
 	private static Object s_lockObject = new Object();
 	// Map types
 	private ConceptMapType m_narrowerThan = null;
@@ -77,7 +81,6 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	// Configuration and util instances
 	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 
-	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 		
 	// pq Unit maps
 	private final Map<String, String> m_openMrsUcumUnitMaps = new HashMap<String,String>();
@@ -142,8 +145,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			log.warn("Cannot add concept to the specified concept set according to configuration rules");
 
 		if(needsSave)
+		{
+			
 			setConcept = Context.getConceptService().saveConcept(setConcept);
-		
+		}		
 			
 		
     }
@@ -330,6 +335,13 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
 		else if(value instanceof BL)
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.BOOLEAN_UUID);
+		else if (value instanceof CO)
+		{
+			if(((CO)value).getValue() != null)
+				return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+			else
+				return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+		}
 		else
 			return Context.getConceptService().getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID);
 	}
@@ -469,6 +481,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			conceptSource = new ConceptSource();
 			conceptSource.setName(name);
 			conceptSource.setHl7Code(hl7);
+			if(description == null)
+				description = "Automatically Created by OpenSHR";
 			conceptSource.setDescription(description);
 			conceptSource = Context.getConceptService().saveConceptSource(conceptSource);
 			if(enumeratedVocabularySource != null && IEnumeratedVocabulary.class.isAssignableFrom(enumeratedVocabularySource))
@@ -487,17 +501,28 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Get a drug code from a concept
 	 * @throws DocumentImportException 
 	 */
-	public Drug getOrCreateDrugFromConcept(CE<?> drugCode, EN name) throws DocumentImportException {
+	public Drug getOrCreateDrugFromConcept(CE<?> drugCode, EN name, CE<String> administrationUnitCode) throws DocumentImportException {
 
 
 		// First, is there a concept matching the type?
-		Concept drugConcept = this.getOrCreateConceptAndEquivalents(drugCode);
-		List<Drug> candidateDrugs = Context.getConceptService().getDrugsByConcept(drugConcept);
+		Concept drugConcept = this.getOrCreateDrugConcept(drugCode);
+		
+		// The the form (table, puffer, etc)
+		Concept formCode = this.getOrCreateDrugAdministrationFormConcept(administrationUnitCode);
 
+		// CAndidate drugs with the concept of the product
+		List<Drug> candidateDrugs = Context.getConceptService().getDrugsByConcept(drugConcept);
+		Drug candidateDrugWithMatchingForm = null;
+		for(Drug candidate : candidateDrugs)
+			if(formCode != null && formCode.equals(candidate.getDosageForm()))
+				candidateDrugWithMatchingForm = candidate;
+			else if(formCode == null && candidate.getDosageForm() == null)
+				candidateDrugWithMatchingForm = candidate;
+		
 		// Process the search results
-		if(candidateDrugs.size() == 1)// found one
-			return candidateDrugs.get(0);
-		else if(candidateDrugs.size() == 0 && this.m_configuration.getAutoCreateConcepts()) // found none and can create
+		if(candidateDrugWithMatchingForm != null)// found one
+			return candidateDrugWithMatchingForm;
+		else if(candidateDrugWithMatchingForm == null && this.m_configuration.getAutoCreateConcepts()) // found none and can create
 		{
 			Drug retVal = new Drug();
 			
@@ -507,14 +532,24 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			else
 				retVal.setName(drugCode.getDisplayName());
 
+			// SEt concept for the material
 			retVal.setConcept(drugConcept);
 			
+			// Set admin form
+			if(formCode != null)
+				retVal.setDosageForm(formCode);
+			
+			if(!this.m_configuration.getAutoCreateConcepts())
+				throw new IllegalStateException("Cannot create concepts according to configuration policy");
+			
 			retVal = Context.getConceptService().saveDrug(retVal);
+			
 			return retVal;
 		}
 		else
 			throw new DocumentImportException("Could not reliably determine the drug to associate with this administration");
     }
+
 
 	/**
 	 * Get or creste a reference term
@@ -587,9 +622,23 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @throws DocumentImportException 
 	 */
 	public Concept getOrCreateUcumConcept(String unit) throws DocumentImportException {
+
 		// Try to get the concept source based on reference term
-		return this.getOrCreateConcept(new CV<String>(unit, CdaHandlerConstants.CODE_SYSTEM_UCUM, "UCUM", null, unit, null));
-    }
+		CV<String> properCode = new CV<String>(unit, CdaHandlerConstants.CODE_SYSTEM_UCUM, "UCUM", null, unit, null);
+		Concept concept = this.getOrCreateConcept(properCode);
+		
+		
+		// For validation
+		String doseConceptUuid = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GP_DRUG_DOSING_UNITS_CONCEPT_UUID);
+		Concept drugDoses = Context.getConceptService().getConceptByUuid(doseConceptUuid);
+		if(drugDoses != null && !drugDoses.getSetMembers().contains(concept))
+		{
+			drugDoses.addSetMember(concept);
+			drugDoses = Context.getConceptService().saveConcept(drugDoses);
+		}
+		
+		return concept;
+	}
 
 	/**
 	 * Gets a type specific concept
@@ -667,5 +716,243 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			Log.error(e.getMessage(), e);
 		}
 	}
-	
+
+	/**
+	 * Get or create a frequency concept 
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateFrequencyConcept(ANY frequency) throws DocumentImportException {
+		if(frequency instanceof TS)
+			return Context.getConceptService().getConcept(162135);
+		else if(frequency instanceof PIVL)
+		{
+			PIVL<TS> pivlValue = (PIVL<TS>)frequency;
+			
+			if(pivlValue.getPhase() != null)
+				throw new DocumentImportException("Cannot represent periodic intervals with phase as FrequencyConcept");
+			else if(pivlValue.getPeriod() != null)
+			{
+				PQ dailyFreq = pivlValue.getPeriod().convert("h");
+				int cid = 0;
+				switch(dailyFreq.getValue().intValue())
+				{
+					case 24:
+						cid = 162252;
+						break;
+					case 12:
+						cid = 162251;
+						break;
+					case 8:
+						cid = 162250;
+						break;
+					case 36:
+						cid = 162254;
+						break;
+					case 48:
+						cid = 162253;
+						break;
+					case 72:
+						cid = 162255;
+						break;
+					default:
+						int dailyFreqInt = dailyFreq.getValue().intValue();
+						if(dailyFreqInt >= 1 && dailyFreqInt <= 6)
+							cid = 162243 + dailyFreqInt;
+						else if(pivlValue.getPeriod().convert("min").getValue().intValue() == 30) // 30 mins
+							cid = 162243;
+						else
+							cid = this.createFrequencyConcept(dailyFreq).getId();
+				} // switch
+				
+				Concept concept = Context.getConceptService().getConcept(cid);
+				if(concept == null)
+					concept = this.createFrequencyConcept(dailyFreq);
+				return concept;
+			}
+			else
+				throw new DocumentImportException("Cannot represent this period interval");
+		}
+		else if(frequency instanceof EIVL)
+		{
+			EIVL<TS> event = (EIVL<TS>)frequency;
+			PQ dailyFreq = null;
+			if(event.getOffset() != null && event.getOffset().getValue() != null)
+				dailyFreq = event.getOffset().getValue().convert("h");
+			
+			int cid = 0;
+			switch(event.getEvent().getCode())
+			{
+				case HourOfSleep:
+					cid = 160863;
+					break;
+				case AfterMeal:
+					if(dailyFreq == null)
+						cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, "After Meals", null)).getId();
+					else if(dailyFreq.getValue().intValue() == 12)
+						cid = 160860;
+					else if(dailyFreq.getValue().intValue() == 8)
+						cid = 160867;
+					else if(dailyFreq.getValue().intValue() == 6)
+						cid = 160871;
+					else
+						throw new DocumentImportException("Can't determine how to represent frequency");
+					break;
+				case BeforeMeal:
+					if(dailyFreq == null)
+						cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, "Before Meals", null)).getId();
+					else if(dailyFreq.getValue().intValue() == 12)
+						cid = 160859;
+					else if(dailyFreq.getValue().intValue() == 8)
+						cid = 160868;
+					else if(dailyFreq.getValue().intValue() == 6)
+						cid = 160872;
+					else
+						throw new DocumentImportException("Can't determine how to represent frequency");
+					break;
+				case BeforeBreakfast:
+				case AfterBreakfast:
+				case BetweenBreakfastAndLunch:
+					cid = 160865;
+					break;
+				case AfterDinner:
+				case BeforeDinner:
+				case BetweenDinnerAndSleep:
+				case BetweenLunchAndDinner:
+					cid = 160864;
+					break;
+				default:
+					cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, event.getEvent().getCode().getCode(), null)).getId();
+			}
+			
+			Concept concept = Context.getConceptService().getConcept(cid);
+			if(concept == null)
+				concept = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, event.getEvent().getCode().getCode(), null));
+			return concept;
+		}
+		else
+			throw new DocumentImportException(String.format("Cannot represent the frequency %s", frequency));
+    }
+
+	/**
+	 * Create a PQ frequency concept
+	 */
+	private Concept createFrequencyConcept(PQ dailyFreq) {
+		String conceptName = String.format("Every %s %s", dailyFreq.getValue(), dailyFreq.getUnit());
+		Concept concept = Context.getConceptService().getConceptByName(conceptName);
+		if(concept == null)
+		{
+			ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Frequency");
+			if(conceptClass == null)
+			{
+				conceptClass = new ConceptClass();
+				conceptClass.setName("Frequency");
+				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass = Context.getConceptService().saveConceptClass(conceptClass);
+			}
+			concept = new Concept();
+			concept.addName(new ConceptName(conceptName, Context.getLocale()));
+			concept.setPreferredName(concept.getName());
+			concept.setConceptClass(conceptClass);
+			concept = Context.getConceptService().saveConcept(concept);
+		}
+		return concept;
+    }
+
+	/**
+	 * Get or create route concept
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateRouteConcept(CE<String> routeCode) throws DocumentImportException {
+		// Try to get the concept source based on reference term
+		Concept concept = this.getOrCreateConcept(routeCode);
+		
+		// For validation
+		String routeConceptUuid = Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GP_DRUG_ROUTES_CONCEPT_UUID);
+		Concept routeCodes = Context.getConceptService().getConceptByUuid(routeConceptUuid);
+		if(routeCodes != null && !routeCodes.getSetMembers().contains(concept))
+		{
+			routeCodes.addSetMember(concept);
+			routeCodes = Context.getConceptService().saveConcept(routeCodes);
+		}
+		
+		return concept;
+	}
+
+	/**
+	 * Get or create a drug form code
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateDrugAdministrationFormConcept(CE<String> administrationUnitCode) throws DocumentImportException {
+		// Try to get the concept source based on reference term
+		Concept concept = this.getConceptOrEquivalent(administrationUnitCode);
+
+		if(concept == null)
+		{
+			concept = this.createConcept(administrationUnitCode);
+			ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Drug Form");
+			if(conceptClass == null)
+			{
+				conceptClass = new ConceptClass();
+				conceptClass.setName("Drug Form");
+				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass = Context.getConceptService().saveConceptClass(conceptClass);
+			}
+			concept = Context.getConceptService().saveConcept(concept);
+		}
+		
+		return concept;
+    }
+
+	/**
+	 * Get or create a drug concept
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateDrugConcept(CE<?> drugCode) throws DocumentImportException {
+		Concept concept = this.getConceptOrEquivalent(drugCode);
+
+		if(concept == null)
+		{
+			concept = this.createConcept(drugCode);
+			ConceptClass conceptClass = Context.getConceptService().getConceptClassByName("Drug");
+			if(conceptClass == null)
+			{
+				conceptClass = new ConceptClass();
+				conceptClass.setName("Drug");
+				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass = Context.getConceptService().saveConceptClass(conceptClass);
+			}
+			concept = Context.getConceptService().saveConcept(concept);
+		}
+		
+		return concept;
+    }
+
+	/**
+	 * Get or creates the drug route question concept
+	 * @return
+	 * @throws DocumentImportException 
+	 */
+	public Concept getOrCreateDrugRouteConcept() throws DocumentImportException {
+		Concept rmimConcept = this.getOrCreateRMIMConcept("Drug Route of Administration", new CV<String>());
+		
+		// Now, add as a set member to History of Medications
+		Concept historyOfMedications = Context.getConceptService().getConcept(160741),
+				medicationOrders = Context.getConceptService().getConcept(1282);
+		if(historyOfMedications != null && !historyOfMedications.getSetMembers().contains(rmimConcept))
+		{
+			historyOfMedications.addSetMember(rmimConcept);
+			historyOfMedications = Context.getConceptService().saveConcept(historyOfMedications);
+		}
+		if(medicationOrders != null && !historyOfMedications.getSetMembers().contains(rmimConcept))
+		{
+			medicationOrders.addSetMember(rmimConcept);
+			medicationOrders = Context.getConceptService().saveConcept(historyOfMedications);
+		
+		}
+		
+		return rmimConcept;
+		
+
+	}
+
 }

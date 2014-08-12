@@ -9,6 +9,7 @@ import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
+import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
@@ -18,6 +19,7 @@ import org.openmrs.ProviderAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.VisitAttributeType;
 import org.openmrs.VisitType;
+import org.openmrs.CareSetting.CareSettingType;
 import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
@@ -430,6 +432,17 @@ public class OpenmrsMetadataUtil {
 			throw new DocumentImportException(String.format("Cannot find specified visit type %s", visitTypeName));
 		return visitType;
 	}
+
+	/**
+	 * Inpatient care setting
+	 * @return
+	 */
+	public CareSetting getOrCreateInpatientCareSetting() {
+		CareSetting setting = Context.getOrderService().getCareSettingByName("INPATIENT");
+		if(setting == null && this.m_configuration.getAutoCreateMetaData())
+			setting = new CareSetting("INPATIENT", this.getLocalizedString("autocreated"), CareSettingType.INPATIENT);
+		return setting;
+    }
 
 
 	

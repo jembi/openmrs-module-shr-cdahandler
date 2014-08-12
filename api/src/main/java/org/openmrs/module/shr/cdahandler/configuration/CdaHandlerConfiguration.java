@@ -48,7 +48,10 @@ public final class CdaHandlerConfiguration {
     public static final String PROP_VALIDATE_STRUCTURE = "shr.cdahandler.validation.cda";
     // Strict validation
     public static final String PROP_VALIDATE_CONCEPT_STRUCTURE = "shr.cdahandler.validation.conceptStructure";
-    
+    // The root of EPIDs
+    public static final String PROP_EPID_ROOT = "shr.cdahandler.id.epidRoot";
+    // The root of ECIDs
+	private static final String PROP_ECID_ROOT = "shr.cdahandler.id.ecidRoot";
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr.cdahandler.updateExisting";
     private Boolean m_autoCreateProviders = true;
@@ -61,7 +64,8 @@ public final class CdaHandlerConfiguration {
     private Boolean m_validateInstances = true;
     private Boolean m_validateConceptStructure = true;
     private Boolean m_updateExisting = true;
-    
+    private String m_epidRoot = "";
+    private String m_ecidRoot = "";
     private Boolean m_autoCreateUsers = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
@@ -141,12 +145,28 @@ public final class CdaHandlerConfiguration {
 	}
 	
 	/**
+	 * Get the EPID root
+	 * @return
+	 */
+	public String getEpidRoot() {
+		return this.m_epidRoot;
+	}
+	
+	/**
 	 * Get the shr.cdahandler.idformat value
 	 */
 	public String getIdFormat() {
 		return this.m_idFormat;
     }
 
+	/**
+	 * Get the shr.cdahandler.id.ecidRoot value
+	 */
+	public String getEcidRoot() {
+		return this.m_ecidRoot;
+    }
+
+	
 	/**
      * Read a global property
      */
@@ -206,5 +226,7 @@ public final class CdaHandlerConfiguration {
 		this.m_validateConceptStructure = this.getOrCreateGlobalProperty(PROP_VALIDATE_CONCEPT_STRUCTURE, this.m_validateInstances);
 		this.m_updateExisting = this.getOrCreateGlobalProperty(PROP_UPDATE_EXISTING, this.m_updateExisting);
 		this.m_autoCreateUsers = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_USERS,  this.m_autoCreateUsers);
+		this.m_epidRoot = this.getOrCreateGlobalProperty(PROP_EPID_ROOT, this.m_epidRoot);
+		this.m_ecidRoot = this.getOrCreateGlobalProperty(PROP_ECID_ROOT, this.m_ecidRoot);
 	}
 }

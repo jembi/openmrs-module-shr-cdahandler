@@ -16,7 +16,8 @@ public final class CdaHandlerConstants {
 	public static final String CODE_SYSTEM_FAMILY_MEMBER = "2.16.840.1.113883.5.111";
 	public static final String CODE_SYSTEM_CIEL = "9.9.9.9.9.9.9"; // TODO: Get the actual OID for this
 	public static final String CODE_SYSTEM_UCUM = "2.16.840.1.113883.6.8";
-		
+	public static final String CODE_SYSTEM_ROUTE_OF_ADMINISTRATION = "2.16.840.1.113883.5.112";
+			
 	// Document Template Medical Documents
 	public static final String DOC_TEMPLATE_MEDICAL_DOCUMENTS = "1.3.6.1.4.1.19376.1.5.3.1.1.1";
 	public static final String DOC_TEMPLATE_MEDICAL_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.2";
@@ -33,7 +34,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_CCD_3_12 = "2.16.840.1.113883.10.20.1.16";
 	public static final String SCT_TEMPLATE_CODED_VITAL_SIGNS = "1.3.6.1.4.1.19376.1.5.3.1.1.5.3.2";
 	public static final String SCT_TEMPLATE_VITAL_SIGNS = "1.3.6.1.4.1.19376.1.5.3.1.3.25";
-	public static final String SCT_TEMPLATE_MEDICATIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.7";
+	public static final String SCT_TEMPLATE_MEDICATIONS = "1.3.6.1.4.1.19376.1.5.3.1.3.19";
 	public static final String SCT_TEMPLATE_CHIEF_COMPLAINT = "1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1";
 	public static final String SCT_TEMPLATE_ASSESSMENT_AND_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.1.13.2.5";
 	public static final String SCT_TEMPLATE_CODED_HISTORY_OF_INFECTION = "1.3.6.1.4.1.19376.1.5.3.1.1.16.2.1.1.1";
@@ -78,6 +79,7 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_SUPPLY = "1.3.6.1.4.1.19376.1.5.3.1.4.7.3";
 	public static final String ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.1";
 	public static final String ENT_TEMPLATE_ANTEPARTUM_FLOWSHEET_PANEL = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.2";
+	public static final String ENT_TEMPLATE_MEDICATION_INSTRUCTIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.3";
 	
 	// Section Templates
 	public static final String SCT_TEMPLATE_EXAM_GENERAL_APPEARANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.9.16";

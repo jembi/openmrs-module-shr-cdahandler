@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.ProcessorFactory;
@@ -51,7 +52,10 @@ public final class EntryProcessorFactory implements ProcessorFactory {
 	@Override
 	public EntryProcessor createProcessor(InfrastructureRoot object) {
 		ClasspathScannerUtil scanner = ClasspathScannerUtil.getInstance();
-		Processor candidateProcessor = scanner.createProcessor(object.getTemplateId());
+		
+		Processor candidateProcessor = null;
+		if(object.getTemplateId() != null)
+			candidateProcessor = scanner.createProcessor(object.getTemplateId());
 		
 		// Log the processor selected
 		if(candidateProcessor instanceof EntryProcessor)

@@ -50,17 +50,23 @@ import org.openmrs.util.OpenmrsConstants;
 public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	
 	private static final String ACTIVE_LIST_INITIAL_XML = "include/ActiveListTest.xml";
+	private static final String CIEL_LIST_INITIAL_XML = "include/CielList.xml";
+	
 	protected final Log log = LogFactory.getLog(this.getClass());
 	private CdaImportService m_service;
 
 	@Before
 	public void beforeEachTest() throws Exception {
 
+		
 		this.m_service = Context.getService(CdaImportService.class);
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
 		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
+		Context.getAdministrationService().setGlobalProperty("order.nextOrderNumberSeed", "1");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
+		initializeInMemoryDatabase();
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
+		executeDataSet(CIEL_LIST_INITIAL_XML);
 		// TODO: Set properties
 	}
 	
@@ -166,5 +172,6 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		assertTrue(id != null);
 		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}
+
 
 }

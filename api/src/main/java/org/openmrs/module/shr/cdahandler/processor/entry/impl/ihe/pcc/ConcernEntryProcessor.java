@@ -145,7 +145,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		res.setPerson(encounterInfo.getPatient());
 		
 		// Author
-		super.setCreator(res, act, encounterInfo);
+		super.setCreator(res, act);
 		return res;
     }
 	

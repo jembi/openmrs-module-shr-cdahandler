@@ -105,7 +105,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		organizerObs.setPreviousVersion(previousObs);
 		
 		// Set the creator
-		super.setCreator(organizerObs, organizer, encounterInfo);
+		super.setCreator(organizerObs, organizer);
 
 		// Concept
 		Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());
@@ -168,7 +168,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		// Cascade properties and process
 		ProcessorContext organizerContext = new ProcessorContext(organizer, organizerObs, this);
 		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
-		
+ 
 		// Iterate through components
 		for(Component4 comp : organizer.getComponent())
 		{
@@ -192,6 +192,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 			processor.process(statement);
 			
 		}
+
 		
 		// Process entry relationships
 		super.processEntryRelationships(entry, organizerContext);

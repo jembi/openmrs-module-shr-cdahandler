@@ -609,11 +609,11 @@ None of the following address elements are specifically required by HITSP C32, s
 								<period value="6" unit="h"/>
 							</effectiveTime>
 							<!--The following route, dose and administrationUnit elements are HITSP/C83 Sig Components that are optional elements in a HITSP/C83 document. The dose and administrationUnit information is often inferable from the code (e.g. RxNorm code) of the consumable/manufacturedProduct. The route is often inferable from the administrativeUnit (e.g tablet implies oral route). -->
-							<routeCode>
+							<routeCode code="ORNEB" codeSystem="2.16.840.1.113883.5.112" displayName="inhalation, nebulization, oral" >
 								<originalText>inhallation</originalText>
 							</routeCode>
 							<doseQuantity value="2" unit="puffs"/>
-							<administrationUnitCode>
+							<administrationUnitCode code="421759004" codeSystem="2.16.840.1.113883.6.96" displayName="Metered dose aerosol inhaler">
 								<originalText>inhaler</originalText>
 							</administrationUnitCode>
 							<consumable>
@@ -652,11 +652,11 @@ None of the following address elements are specifically required by HITSP C32, s
 								<period value="24" unit="h"/>
 							</effectiveTime>
 							<!--The following route, dose and administrationUnit elements are HITSP/C83 Sig Components that are optional elements in a HITSP/C83 document. The dose and administrationUnit information is often inferable from the code (e.g. RxNorm code) of the consumable/manufacturedProduct. The route is often inferable from the administrativeUnit (e.g tablet implies oral route). -->
-							<routeCode>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" displayName="Oral" >
 								<originalText>oral</originalText>
 							</routeCode>
 							<doseQuantity value="75" unit="mg"/>
-							<administrationUnitCode>
+							<administrationUnitCode code="421026006" codeSystem="2.16.840.1.113883.6.96" displayName="Tablet dose form">
 								<originalText>tablet</originalText>
 							</administrationUnitCode>
 							<consumable>
@@ -697,11 +697,11 @@ None of the following address elements are specifically required by HITSP C32, s
 								<period value="12" unit="h"/>
 							</effectiveTime>
 							<!--The following route, dose and administrationUnit elements are HITSP/C83 Sig Components that are optional elements in a HITSP/C83 document. The dose and administrationUnit information is often inferable from the code (e.g. RxNorm code) of the consumable/manufacturedProduct. The route is often inferable from the administrativeUnit (e.g tablet implies oral route). -->
-							<routeCode>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" displayName="Oral" >
 								<originalText>oral</originalText>
 							</routeCode>
 							<doseQuantity value="25" unit="mg"/>
-							<administrationUnitCode>
+							<administrationUnitCode code="421026006" codeSystem="2.16.840.1.113883.6.96" displayName="Tablet dose form">
 								<originalText>tablet</originalText>
 							</administrationUnitCode>
 							<consumable>
@@ -741,11 +741,11 @@ None of the following address elements are specifically required by HITSP C32, s
 								<period value="24" unit="h"/>
 							</effectiveTime>
 							<!--The following route, dose and administrationUnit elements are HITSP/C83 Sig Components that are optional elements in a HITSP/C83 document. The dose and administrationUnit information is often inferable from the code (e.g. RxNorm code) of the consumable/manufacturedProduct. The route is often inferable from the administrativeUnit (e.g tablet implies oral route). -->
-							<routeCode>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" displayName="Oral" >
 								<originalText>oral</originalText>
 							</routeCode>
 							<doseQuantity value="20" unit="mg"/>
-							<administrationUnitCode>
+							<administrationUnitCode code="421026006" codeSystem="2.16.840.1.113883.6.96" displayName="Tablet dose form">
 								<originalText>tablet</originalText>
 							</administrationUnitCode>
 							<consumable>
@@ -786,11 +786,11 @@ None of the following address elements are specifically required by HITSP C32, s
 								<period value="6" unit="h"/>
 							</effectiveTime>
 							<!--The following route, dose and administrationUnit elements are HITSP/C83 Sig Components that are optional elements in a HITSP/C83 document. The dose and administrationUnit information is often inferable from the code (e.g. RxNorm code) of the consumable/manufacturedProduct. The route is often inferable from the administrativeUnit (e.g tablet implies oral route). -->
-							<routeCode>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" displayName="Oral" >
 								<originalText>oral</originalText>
 							</routeCode>
 							<doseQuantity value="500" unit="mg"/>
-							<administrationUnitCode>
+							<administrationUnitCode code="421026006" codeSystem="2.16.840.1.113883.6.96" displayName="Tablet dose form">
 								<originalText>tablet</originalText>
 							</administrationUnitCode>
 							<consumable>
