@@ -56,7 +56,7 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 	 * Adds the specified obs to the parentObs ensuring that the concept is a valid concept for the parent obs
 	 * @throws DocumentImportException 
 	 */
-	protected Obs setMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
+	protected Obs processMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
 		// Create the result
 		Obs res = new Obs(parentObs.getPerson(), 
 			obsConcept, 
@@ -64,9 +64,10 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 			parentObs.getLocation());
 		res.setEncounter(parentObs.getEncounter());
 		res.setDateCreated(parentObs.getDateCreated());
+		res.setCreator(parentObs.getCreator());
+		res.setLocation(parentObs.getLocation());
 		// Ensure obsConcept is a valid set member of parentObs.getConcept
-		if(!parentObs.getConcept().getSetMembers().contains(obsConcept))
-			this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
+		this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
 
 		// Set the value
 		if(value instanceof ANY)
@@ -75,8 +76,9 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 			res.setValueCoded((Concept)value);
 		else if(value instanceof String)
 			res.setValueText(value.toString());
-		parentObs.addGroupMember(res);
-
+		
+		//res.setObsGroup(parentObs);
+		res = Context.getObsService().saveObs(res, null);
 		return res;
     }
 

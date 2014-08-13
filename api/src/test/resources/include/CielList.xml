@@ -18,6 +18,7 @@
   <concept concept_id="162394" datatype_id="4" class_id="5" is_set="0" retired="false"  date_created="2014-04-05"/>
 
   <concept_name concept_name_id="332" concept_id="160741" name="Medication History" locale="en" date_created="2014-04-05" creator="2" voided="false" locale_preferred="0" concept_name_type="FULLY_SPECIFIED"/> 
+  <concept_name concept_name_id="333" concept_id="1282" name="Medication Orders" locale="en" date_created="2014-04-05" creator="2" voided="false" locale_preferred="0" concept_name_type="FULLY_SPECIFIED"/> 
   <!-- <concept_name concept_id="1282" datatype_id="4" class_id="5" is_set="0" retired="false"  date_created="2014-04-05"/> 
   <concept_name concept_id="1444" datatype_id="4" class_id="5" is_set="0" retired="false"  date_created="2014-04-05"/> 
   <concept_name concept_id="1519" datatype_id="4" class_id="5" is_set="0" retired="false"  date_created="2014-04-05"/> 

@@ -1,7 +1,10 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.marc.everest.datatypes.ANY;
@@ -309,7 +312,8 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 	{
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
-
+		Set<Obs> setMembers = new HashSet<Obs>();
+		
 		// Get current order and void if existing for an update
 		Obs previousHistoryObs = null;
 
@@ -348,7 +352,18 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 		medicationHistoryObs.setLocation(encounterInfo.getLocation());
 		medicationHistoryObs.setObsDatetime(encounterInfo.getEncounterDatetime());
 		medicationHistoryObs.setEncounter(encounterInfo);
+		medicationHistoryObs.setDateCreated(encounterInfo.getDateCreated());
 		super.setCreator(medicationHistoryObs, administration);				
+		
+		
+		// Prescription (supply) entry relationship?
+		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_SUPPLY))
+			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.REFR))
+			{
+				
+				Order ord = (Order)this.processAdministrationAsOrder(administration);
+				medicationHistoryObs.setOrder(ord);
+			}
 		
 		// Effective time(s)
 		for(ISetComponent<TS> eft : administration.getEffectiveTime())
@@ -360,14 +375,14 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 				
 				IVL<TS> effectiveRange = ((IVL<TS>)eft).toBoundIvl();
 				if(effectiveRange.getLow() != null && !effectiveRange.getLow().isNull())
-					this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1190), effectiveRange.getLow());
+					setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1190), effectiveRange.getLow()));
 				if(effectiveRange.getHigh() != null && !effectiveRange.getHigh().isNull())
-					this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1191), effectiveRange.getHigh());
+					setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1191), effectiveRange.getHigh()));
 			}
 			else if(eft instanceof PIVL || eft instanceof EIVL || eft instanceof TS) // period
 			{
 				Concept frequency = this.m_conceptUtil.getOrCreateFrequencyConcept((ANY)eft);
-				this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(160855), frequency);
+				setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(160855), frequency));
 			}
 			else
 				throw new DocumentPersistenceException(String.format("Cannot represent administration frequency of %s", FormatterUtil.createXsiTypeName(eft)));
@@ -376,20 +391,20 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 		
 		// Dosage? 
 		if(administration.getDoseQuantity() != null)
-			this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1444), administration.getDoseQuantity().toString());
+			setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1444), administration.getDoseQuantity().toString()));
 			
 		// Now form
 		if(administration.getAdministrationUnitCode() != null && !administration.getAdministrationUnitCode().isNull())
 		{
 			Concept formCode = this.m_conceptUtil.getOrCreateDrugAdministrationFormConcept(administration.getAdministrationUnitCode());
-			this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1519), formCode);
+			setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1519), formCode));
 		}
 		
 		// Now route
 		if(administration.getRouteCode() != null && !administration.getRouteCode().isNull())
 		{
 			Concept routeCodeConcept = this.m_conceptUtil.getOrCreateDrugRouteConcept();
-			this.setMedicationObservationValue(medicationHistoryObs, routeCodeConcept, administration.getRouteCode());
+			setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, routeCodeConcept, administration.getRouteCode()));
 		}
 
 
@@ -421,23 +436,25 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 				{
 					
 					Drug drug = this.m_conceptUtil.getOrCreateDrugFromConcept(drugMaterial.getCode(), drugMaterial.getName(), administration.getAdministrationUnitCode());
-					this.setMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1282), drug.getConcept());
+					setMembers.add(this.processMedicationObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1282), drug.getConcept()));
 				}
 				else
 					throw new DocumentImportException("Drug must carry a coded identifier for the product administered");
 			}
 		}
 		
+		
 		// Prescription (supply) entry relationship?
 		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_SUPPLY))
 			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.REFR))
 			{
-				
 				Order ord = (Order)this.processAdministrationAsOrder(administration);
 				medicationHistoryObs.setOrder(ord);
 			}
 		
+		medicationHistoryObs.setGroupMembers(setMembers);
 		medicationHistoryObs = Context.getObsService().saveObs(medicationHistoryObs, null);
+
 		return medicationHistoryObs;		
 	}
 	
