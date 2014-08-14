@@ -6,7 +6,16 @@ package org.openmrs.module.shr.cdahandler;
  */
 public final class CdaHandlerConstants {
 	
-	
+	public static final String FMT_CODE_PCC_MS = "urn:ihe:pcc:xds-ms:2007"; 
+	public static final String FMT_CODE_PCC_HP = "urn:ihe:pcc:hp:2008";
+	public static final String FMT_CODE_PCC_APHP = "urn:ihe:pcc:aphp:2008";
+	public static final String FMT_CODE_PCC_APS = "urn:ihe:pcc:aps:2007";
+	public static final String FMT_CODE_LAB = "urn:ihe:lab:xd-lab:2008"; 
+	public static final String FMT_CODE_PCC_APL = "urn:ihe:pcc:apl:2008"; 
+	public static final String FMT_CODE_PCC_APE = "urn:ihe:pcc:ape:2008"; 
+	public static final String FMT_CODE_PCC_LDS = "urn:ihe:pcc:lds:2009";
+	public static final String FMT_CODE_PCC_MDS = "urn:ihe:pcc:mds:2009";
+
 	// Loinc
 	public static final String CODE_SYSTEM_LOINC = "2.16.840.1.113883.6.1";
 	public static final String CODE_SYSTEM_NAME_LOINC = "LOINC";

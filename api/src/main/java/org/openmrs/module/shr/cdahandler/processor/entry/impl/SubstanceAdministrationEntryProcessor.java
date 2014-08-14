@@ -1,47 +1,12 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
-import java.util.Date;
-
 import org.marc.everest.datatypes.ANY;
-import org.marc.everest.datatypes.II;
-import org.marc.everest.datatypes.TS;
-import org.marc.everest.datatypes.generic.CS;
-import org.marc.everest.datatypes.generic.EIVL;
-import org.marc.everest.datatypes.generic.IVL;
-import org.marc.everest.datatypes.generic.PIVL;
-import org.marc.everest.datatypes.interfaces.ISetComponent;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ManufacturedProduct;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Material;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Supply;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelationship;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
-import org.openmrs.BaseOpenmrsData;
-import org.openmrs.BaseOpenmrsMetadata;
-import org.openmrs.CareSetting;
 import org.openmrs.Concept;
-import org.openmrs.Drug;
-import org.openmrs.DrugOrder;
-import org.openmrs.CareSetting.CareSettingType;
-import org.openmrs.DrugOrder.DosingType;
-import org.openmrs.Encounter;
 import org.openmrs.Obs;
-import org.openmrs.Order;
-import org.openmrs.Order.Action;
-import org.openmrs.api.OrderContext;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
-import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
-import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 
@@ -56,7 +21,7 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 	 * Adds the specified obs to the parentObs ensuring that the concept is a valid concept for the parent obs
 	 * @throws DocumentImportException 
 	 */
-	protected Obs processMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
+	protected Obs addMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
 		// Create the result
 		Obs res = new Obs(parentObs.getPerson(), 
 			obsConcept, 
@@ -77,8 +42,9 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 		else if(value instanceof String)
 			res.setValueText(value.toString());
 		
+		parentObs.addGroupMember(res);
 		//res.setObsGroup(parentObs);
-		res = Context.getObsService().saveObs(res, null);
+		//res = Context.getObsService().saveObs(res, null);
 		return res;
     }
 

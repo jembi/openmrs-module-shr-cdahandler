@@ -14,9 +14,22 @@
 package org.openmrs.module.shr.cdahandler;
 
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleActivator;
+import org.openmrs.module.shr.cdahandler.contenthandler.CdaContentHandler;
+import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
+import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumSummaryDocumentProcessor;
+import org.openmrs.module.shr.contenthandler.api.AlreadyRegisteredException;
+import org.openmrs.module.shr.contenthandler.api.CodedValue;
+import org.openmrs.module.shr.contenthandler.api.ContentHandlerService;
+import org.openmrs.module.shr.contenthandler.api.InvalidCodedValueException;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -25,7 +38,19 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
 	
-		
+	// Format codes this handler supports
+	protected final Map<String, String> m_formatTypeCodes = new HashMap<String, String>()
+			{{
+				put("urn:ihe:pcc:xds-ms:2007", "");
+				put("urn:ihe:pcc:hp:2008", "34117-2");
+				put("urn:ihe:pcc:aphp:2008", "34117-2");
+				put("urn:ihe:pcc:aps:2007", "57055-6");
+				put("urn:ihe:pcc:ape:2008", "34895-3");
+				put("urn:ihe:pcc:lds:2009", "57057-2");
+				put("urn:ihe:pcc:mds:2009", "57058-0");
+			}};
+	
+
 	/**
 	 * @see ModuleActivator#contextRefreshed()
 	 */
@@ -38,6 +63,24 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	 */
 	public void started() {
 		log.info("SHR CDA Handler Module started");
+		
+		// Register the format codes
+		ContentHandlerService contentHandler = Context.getService(ContentHandlerService.class);
+		for(Map.Entry<String, String> formatTypeCode : this.m_formatTypeCodes.entrySet())
+		{
+			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "IHE Format Codes");
+			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), "LOINC");
+			try {
+	            contentHandler.registerContentHandler(formatCode, typeCode, CdaContentHandler.getInstance());
+            }
+            catch (AlreadyRegisteredException e) {
+	            log.error("Error generated", e);
+            }
+            catch (InvalidCodedValueException e) {
+	            log.error("Error generated", e);
+            }
+		}
+		
 	}
 	
 	/**

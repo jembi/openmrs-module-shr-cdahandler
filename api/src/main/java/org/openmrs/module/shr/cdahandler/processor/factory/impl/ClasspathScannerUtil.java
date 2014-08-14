@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.factory.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -89,6 +90,15 @@ public final class ClasspathScannerUtil {
 		
 	}
 
+	/**
+	 * Get all processor types registered
+	 */
+	public Set<Class<Processor>> getProcessors()
+	{
+		return this.m_processors.keySet();
+	}
+	
+	
 	/**
 	 * Create processor instance which can handle the template ids that are
 	 * in the templateIds list

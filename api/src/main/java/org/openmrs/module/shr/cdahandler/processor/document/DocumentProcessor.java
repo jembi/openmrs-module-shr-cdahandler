@@ -17,7 +17,6 @@ public interface DocumentProcessor extends Processor {
 	 * @param doc The document to be parsed
 	 * @return A collection of data containing all the interpreted information from the CDA
 	 */
-	// TODO: Can the Visit object do everything we need for this? I feel that for Allergies and Problems a Visit may not work as a diagnosis cannot be assigned to a visit, is this true?
 	Visit process(ClinicalDocument doc) throws DocumentImportException;
-	
+
 }

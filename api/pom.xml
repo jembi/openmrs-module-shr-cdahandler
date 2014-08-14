@@ -54,6 +54,13 @@
 		</dependency>
 
 		<!-- End OpenMRS core -->
+		
+		<!--  Content Handler Module -->
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>shr-contenthandler-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.lpg</groupId>
 			<artifactId>net.sourceforge.lpg.lpgjavaruntime</artifactId>
