@@ -2,6 +2,8 @@ package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
+import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,18 +21,23 @@ import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
+import org.marc.everest.datatypes.generic.SET;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
+import org.openmrs.activelist.Allergy;
+import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.InvalidCustomValueException;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
@@ -156,8 +163,9 @@ public final class OpenmrsDataUtil {
 			observation.setValueBoolean(((BL)value).toBoolean());
 		else if(value instanceof ED)
 		{
-			ByteArrayInputStream textStream = new ByteArrayInputStream(((ED) value).getData());
-			ComplexData complexData = new ComplexData("observationdata", textStream);
+			String title = UUID.randomUUID().toString() + ".bin";
+			ByteArrayInputStream textStream = new ByteArrayInputStream(((ED)value).getData());
+			ComplexData complexData = new ComplexData(title, textStream);
 			observation.setComplexData(complexData);
 		}
 		else if(value instanceof SD)
@@ -171,7 +179,12 @@ public final class OpenmrsDataUtil {
 			
 			CE<String> codeValue = null;
 			if(value instanceof CO)
-				codeValue = ((CO)value).getCode();
+			{
+				if(((CO)value).getValue() != null)
+					observation.setValueNumeric(((CO)value).toDouble());
+				else
+					codeValue = ((CO)value).getCode();
+			}
 			else
 				codeValue = (CE<String>)value;
 
@@ -185,8 +198,6 @@ public final class OpenmrsDataUtil {
 				this.m_conceptUtil.addAnswerToConcept(observation.getConcept(), concept);
 				observation.setValueCoded(concept);
 			}
-			else // ordinal
-				observation.setValueNumeric(((CO)value).toDouble());
 		}
 		else
 			throw new DocumentImportException("Cannot represent this concept!");
@@ -194,5 +205,63 @@ public final class OpenmrsDataUtil {
 		return observation;
 	}
 
+
+	/**
+	 * Find an obs by the set of ids
+	 */
+	public <T extends BaseOpenmrsData> T findExistingItem(SET<II> ids, String shrRoot, List<T> existingCollection) {
+
+		T retVal = null;
+		
+		for(T itm : existingCollection)
+			for(II id : ids)
+				if(this.m_datatypeUtil.formatIdentifier(id).equals(this.m_datatypeUtil.emptyIdString()))
+					continue; // no id ... typically this is <id/> elements which aren't valid but we'll process them anyways
+				else if(id.getRoot().equals(shrRoot) && itm.getId().toString().equals(id.getExtension()))
+					return itm;
+				else if(itm instanceof Obs &&
+						((Obs)itm).getAccessionNumber() != null &&
+						((Obs)itm).getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+					return itm;
+				else if(itm instanceof Order &&
+						((Order)itm).getAccessionNumber() != null &&
+						((Order)itm).getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
+					return itm;
+				
+		return null;
+    }
+
+	/**
+	 * Find an existing obs 
+	 */
+	public Obs findExistingObs(SET<II> ids, Patient patient)
+	{
+		return this.findExistingItem(ids, this.m_configuration.getObsRoot(), Context.getObsService().getObservationsByPerson(patient));
+	}
+
+	/**
+	 * Find an existing obs 
+	 */
+	public Order findExistingOrder(SET<II> ids, Patient patient)
+	{
+		return this.findExistingItem(ids, this.m_configuration.getOrderRoot(), Context.getOrderService().getAllOrdersByPatient(patient));
+	}
+
+	/**
+	 * Find an existing obs 
+	 */
+	public Allergy findExistingAllergy(SET<II> ids, Patient patient)
+	{
+		return (Allergy)this.findExistingItem(ids, this.m_configuration.getAllergyRoot(), Context.getActiveListService().getActiveListItems(patient, Allergy.ACTIVE_LIST_TYPE));
+	}
+
+
+	/**
+	 * Find an existing obs 
+	 */
+	public Problem findExistingProblem(SET<II> ids, Patient patient)
+	{
+		return (Problem)this.findExistingItem(ids, this.m_configuration.getAllergyRoot(), Context.getActiveListService().getActiveListItems(patient, Problem.ACTIVE_LIST_TYPE));
+	}
 
 }

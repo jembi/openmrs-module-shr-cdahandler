@@ -6,7 +6,7 @@
 		<ns1:code>10162-6</ns1:code>
 		<ns1:description>HISTORY OF PREGNANCIES </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -15,6 +15,63 @@
 			<ns1:concept>
 				<ns1:cielId>42226720-2051-46a7-8ae4-5d5f84964345</ns1:cielId>
 				<ns1:name>HISTORY OF PREGNANCIES  (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>224</ns1:id>
+		<ns1:uuid>96bfb5ec-8fea-43e9-baa5-5052b436d2</ns1:uuid>
+		<ns1:code>57061-4</ns1:code>
+		<ns1:description>ACOG VISIT SUMMARY BATTERY</ns1:description>
+		<ns1:conceptType>Text</ns1:conceptType>
+		<ns1:classification>Test</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>474</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c19</ns1:uuid>
+		<ns1:code>57075-4</ns1:code>
+		<ns1:description>Newborn delivery information from newborn</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c19</ns1:cielId>
+				<ns1:name>Newborn delivery information from newborn (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>161</ns1:id>
+		<ns1:uuid>cce52eb4-a7b1-4f9b-8e38-ddd8671c48b4</ns1:uuid>
+		<ns1:code>57060-6</ns1:code>
+		<ns1:description>Estimated date of delivery</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>cce52eb4-a7b1-4f9b-8e38-ddd8671c48b4</ns1:cielId>
+				<ns1:name>Estimated date of delivery (Text)</ns1:name>
 				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
@@ -542,7 +599,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf>001 002</ns1:setOf>
+		<ns1:setOf>001 002 161</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>
@@ -633,7 +690,7 @@
 		<ns1:code>8716-3</ns1:code>
 		<ns1:description>VITAL SIGNS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -732,7 +789,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>mmHg</ns1:units>
-		<ns1:setOf>036 037</ns1:setOf>
+		<ns1:setOf>036 037 224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId>5085</ns1:cielId>
@@ -751,7 +808,7 @@
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units>mmHg</ns1:units>
-		<ns1:setOf>036 037</ns1:setOf>
+		<ns1:setOf>036 037 224</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId>5086</ns1:cielId>
@@ -1013,7 +1070,7 @@
 		<ns1:code>10154-3</ns1:code>
 		<ns1:description>CHIEF COMPLAINT </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1032,7 +1089,7 @@
 		<ns1:code>10157-6</ns1:code>
 		<ns1:description>HISTORY OF FAMILY MEMBER DISEASES </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1051,7 +1108,7 @@
 		<ns1:code>10164-2</ns1:code>
 		<ns1:description>HISTORY OF PRESENT ILLNESS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1070,7 +1127,7 @@
 		<ns1:code>10167-5</ns1:code>
 		<ns1:description>HISTORY OF SURGICAL PROCEDURES </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1089,7 +1146,7 @@
 		<ns1:code>10187-3</ns1:code>
 		<ns1:description>REVIEW OF SYSTEMS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1108,7 +1165,7 @@
 		<ns1:code>29762-2</ns1:code>
 		<ns1:description>SOCIAL HISTORY </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1127,11 +1184,11 @@
 		<ns1:code>11450-4</ns1:code>
 		<ns1:description>Problem List </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>474</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId>e349b894-3b9d-43a5-af1a-4797ee7c2d77</ns1:cielId>
@@ -1146,7 +1203,7 @@
 		<ns1:code>30954-2</ns1:code>
 		<ns1:description>HISTORY OF PAST ILLNESS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1526,7 +1583,7 @@
 		<ns1:code>56838-6</ns1:code>
 		<ns1:description>HISTORY OF INFECTIOUS DISEASE </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1925,11 +1982,11 @@
 		<ns1:code>29545-2</ns1:code>
 		<ns1:description>PHYSICAL EXAMINATION </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
-		<ns1:setOf/>
+		<ns1:setOf>474</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId>8dbea62d-9a92-4361-a66c-d2f4dea084eb</ns1:cielId>
@@ -1944,7 +2001,7 @@
 		<ns1:code>10210-3</ns1:code>
 		<ns1:description>GENERAL STATUS</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1963,7 +2020,7 @@
 		<ns1:code>XX-VisibleImplantedDevices </ns1:code>
 		<ns1:description>Visible Implanted Devices</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -1982,7 +2039,7 @@
 		<ns1:code>29302-7</ns1:code>
 		<ns1:description>INTEGUMENTARY SYSTEM</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2001,7 +2058,7 @@
 		<ns1:code>10199-8</ns1:code>
 		<ns1:description>HEAD</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2020,7 +2077,7 @@
 		<ns1:code>10197-2</ns1:code>
 		<ns1:description>EYE</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2039,7 +2096,7 @@
 		<ns1:code>11393-6</ns1:code>
 		<ns1:description>EARS and NOSE and MOUTH and THROAT</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2058,7 +2115,7 @@
 		<ns1:code>10195-6</ns1:code>
 		<ns1:description>EAR</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2077,7 +2134,7 @@
 		<ns1:code>10203-8</ns1:code>
 		<ns1:description>NOSE</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2096,7 +2153,7 @@
 		<ns1:code>10201-2</ns1:code>
 		<ns1:description>MOUTH and THROAT and TEETH</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2115,7 +2172,7 @@
 		<ns1:code>11411-6</ns1:code>
 		<ns1:description>NECK </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2134,7 +2191,7 @@
 		<ns1:code>29307-6</ns1:code>
 		<ns1:description>ENDOCRINE SYSTEM </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2153,7 +2210,7 @@
 		<ns1:code>10207-9</ns1:code>
 		<ns1:description>THORAX + LUNGS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2172,7 +2229,7 @@
 		<ns1:code>11392-8</ns1:code>
 		<ns1:description>CHEST WALL </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2191,7 +2248,7 @@
 		<ns1:code>10193-1</ns1:code>
 		<ns1:description>BREASTS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2210,7 +2267,7 @@
 		<ns1:code>10200-4</ns1:code>
 		<ns1:description>HEART</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2229,7 +2286,7 @@
 		<ns1:code>11412-4</ns1:code>
 		<ns1:description>RESPIRATORY SYSTEM</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2248,7 +2305,7 @@
 		<ns1:code>10191-5</ns1:code>
 		<ns1:description>ABDOMEN</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2267,7 +2324,7 @@
 		<ns1:code>11447-0</ns1:code>
 		<ns1:description>HEMATOLOGIC + LYMPHATIC + IMMUNOLOGIC SYSTEM</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2286,7 +2343,7 @@
 		<ns1:code>10208-7</ns1:code>
 		<ns1:description>VESSELS</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2305,7 +2362,7 @@
 		<ns1:code>11410-8</ns1:code>
 		<ns1:description>MUSCULOSKELETAL SYSTEM </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2324,7 +2381,7 @@
 		<ns1:code>10202-0</ns1:code>
 		<ns1:description>NEUROLOGIC SYSTEM </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2343,7 +2400,7 @@
 		<ns1:code>11400-9</ns1:code>
 		<ns1:description>GENITALIA</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2362,7 +2419,7 @@
 		<ns1:code>10205-3</ns1:code>
 		<ns1:description>RECTUM</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2381,7 +2438,7 @@
 		<ns1:code>10196-4</ns1:code>
 		<ns1:description>EXTREMITIES</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2400,7 +2457,7 @@
 		<ns1:code>10204-6</ns1:code>
 		<ns1:description>PELVIS</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2894,7 +2951,7 @@
 		<ns1:code>10160-0 </ns1:code>
 		<ns1:description>HISTORY OF MEDICATION USE</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2908,31 +2965,12 @@
 		</ns1:mapping>
 	</ns1:referenceTerm>
 	<ns1:referenceTerm>
-		<ns1:id>161</ns1:id>
-		<ns1:uuid>cce52eb4-a7b1-4f9b-8e38-ddd8671c48b4</ns1:uuid>
-		<ns1:code>57060-6</ns1:code>
-		<ns1:description>Estimated date of delivery</ns1:description>
-		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
-		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
-		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
-		<ns1:units/>
-		<ns1:setOf/>
-		<ns1:mapping>
-			<ns1:concept>
-				<ns1:cielId>cce52eb4-a7b1-4f9b-8e38-ddd8671c48b4</ns1:cielId>
-				<ns1:name>Estimated date of delivery (Text)</ns1:name>
-				<ns1:mapType>SAME-AS</ns1:mapType>
-			</ns1:concept>
-		</ns1:mapping>
-	</ns1:referenceTerm>
-	<ns1:referenceTerm>
 		<ns1:id>162</ns1:id>
 		<ns1:uuid>a31f4840-4121-426c-8c89-b7f73333771b</ns1:uuid>
 		<ns1:code>61145-9</ns1:code>
 		<ns1:description>PATIENT PLAN OF CARE</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2948,10 +2986,10 @@
 	<ns1:referenceTerm>
 		<ns1:id>163</ns1:id>
 		<ns1:uuid>4d2efe4e-3e66-441d-b308-ae5584a3e45e</ns1:uuid>
-		<ns1:code>47059-8</ns1:code>
+		<ns1:code>57059-8</ns1:code>
 		<ns1:description>Pregnancy Visit Summary</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2970,7 +3008,7 @@
 		<ns1:code>42348-3</ns1:code>
 		<ns1:description>ADVANCE DIRECTIVES</ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
-		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:classification>CDA Section</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
 		<ns1:units/>
@@ -2980,25 +3018,6 @@
 				<ns1:cielId>5659098f-9ab7-4e18-ab53-facd1db76ec5</ns1:cielId>
 				<ns1:name>ADVANCE DIRECTIVES (Text)</ns1:name>
 				<ns1:mapType>SAME-AS</ns1:mapType>
-			</ns1:concept>
-		</ns1:mapping>
-	</ns1:referenceTerm>
-	<ns1:referenceTerm>
-		<ns1:id>224</ns1:id>
-		<ns1:uuid>96bfb5ec-8fea-43e9-baa5-5052b436d2</ns1:uuid>
-		<ns1:code>57061-4</ns1:code>
-		<ns1:description>ACOG VISIT SUMMARY BATTERY</ns1:description>
-		<ns1:conceptType>Text</ns1:conceptType>
-		<ns1:classification>Test</ns1:classification>
-		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
-		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
-		<ns1:units/>
-		<ns1:setOf/>
-		<ns1:mapping>
-			<ns1:concept>
-				<ns1:cielId/>
-				<ns1:name/>
-				<ns1:mapType/>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -4033,7 +4052,7 @@
 		<ns1:uuid>96bfb5ec-8fea-43e9-baa5-5052bac6d2a0</ns1:uuid>
 		<ns1:code>38208-5 </ns1:code>
 		<ns1:description>Pain severity - Reported</ns1:description>
-		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:conceptType>Numeric</ns1:conceptType>
 		<ns1:classification>Finding</ns1:classification>
 		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
@@ -4149,7 +4168,7 @@
 		<ns1:description>injection, amniotic fluid</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4168,7 +4187,7 @@
 		<ns1:description>injection, biliary tract</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4187,7 +4206,7 @@
 		<ns1:description>injection, urinary bladder</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4206,7 +4225,7 @@
 		<ns1:description>instillation, urinary catheter</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4225,7 +4244,7 @@
 		<ns1:description>irrigation, urinary bladder</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4244,7 +4263,7 @@
 		<ns1:description>irrigation, urinary bladder, continuous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4263,7 +4282,7 @@
 		<ns1:description>irrigation, urinary bladder, tidal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4282,7 +4301,7 @@
 		<ns1:description>topical application, buccal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4301,7 +4320,7 @@
 		<ns1:description>instillation, continuous ambulatory peritoneal dialysis port</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4320,7 +4339,7 @@
 		<ns1:description>instillation, cecostomy</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4339,7 +4358,7 @@
 		<ns1:description>topical application, cervical</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4358,7 +4377,7 @@
 		<ns1:description>injection, cervical</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4377,7 +4396,7 @@
 		<ns1:description>insertion, cervical (uterine)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4396,7 +4415,7 @@
 		<ns1:description>chew, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4415,7 +4434,7 @@
 		<ns1:description>injection, for cholangiography</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4434,7 +4453,7 @@
 		<ns1:description>instillation, chest tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4453,7 +4472,7 @@
 		<ns1:description>topical application, dental</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4472,7 +4491,7 @@
 		<ns1:description>rinse, dental</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4491,7 +4510,7 @@
 		<ns1:description>dissolve, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4510,7 +4529,7 @@
 		<ns1:description>douche, vaginal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4529,7 +4548,7 @@
 		<ns1:description>topical application, soaked dressing</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4548,7 +4567,7 @@
 		<ns1:description>instillation, enteral feeding tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4567,7 +4586,7 @@
 		<ns1:description>electro-osmosis</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4586,7 +4605,7 @@
 		<ns1:description>injection, endosinusial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4605,7 +4624,7 @@
 		<ns1:description>enema, rectal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4624,7 +4643,7 @@
 		<ns1:description>instillation, enteral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4643,7 +4662,7 @@
 		<ns1:description>infusion, epidural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4662,7 +4681,7 @@
 		<ns1:description>injection, epidural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4681,7 +4700,7 @@
 		<ns1:description>injection, epidural, push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4700,7 +4719,7 @@
 		<ns1:description>injection, epidural, slow push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4719,7 +4738,7 @@
 		<ns1:description>instillation, endotracheal tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4738,7 +4757,7 @@
 		<ns1:description>nebulization, endotracheal tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4757,7 +4776,7 @@
 		<ns1:description>diffusion, extracorporeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4776,7 +4795,7 @@
 		<ns1:description>injection, extracorporeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4795,7 +4814,7 @@
 		<ns1:description>injection, extra-amniotic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4814,7 +4833,7 @@
 		<ns1:description>gargle</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4833,7 +4852,7 @@
 		<ns1:description>injection, gastric button</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4852,7 +4871,7 @@
 		<ns1:description>topical application, gingival</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4871,7 +4890,7 @@
 		<ns1:description>injection, gingival</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4890,7 +4909,7 @@
 		<ns1:description>instillation, gastro-jejunostomy tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4909,7 +4928,7 @@
 		<ns1:description>instillation, gastrostomy tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4928,7 +4947,7 @@
 		<ns1:description>irrigation, genitourinary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4947,7 +4966,7 @@
 		<ns1:description>topical application, hair</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4966,7 +4985,7 @@
 		<ns1:description>diffusion, hemodialysis</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -4985,7 +5004,7 @@
 		<ns1:description>injection, hemodialysis port</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5004,7 +5023,7 @@
 		<ns1:description>infusion, intraarterial catheter</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5023,7 +5042,7 @@
 		<ns1:description>injection, intra-abdominal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5042,7 +5061,7 @@
 		<ns1:description>injection, intraarterial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5061,7 +5080,7 @@
 		<ns1:description>injection, intraarterial, push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5080,7 +5099,7 @@
 		<ns1:description>injection, intraarterial, slow push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5099,7 +5118,7 @@
 		<ns1:description>injection, intraarticular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5118,7 +5137,7 @@
 		<ns1:description>instillation, intrabronchial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5137,7 +5156,7 @@
 		<ns1:description>injection, intrabursal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5156,7 +5175,7 @@
 		<ns1:description>infusion, intracardiac</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5175,7 +5194,7 @@
 		<ns1:description>injection, intracardiac</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5194,7 +5213,7 @@
 		<ns1:description>injection, intracardiac, rapid push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5213,7 +5232,7 @@
 		<ns1:description>injection, intracardiac, slow push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5232,7 +5251,7 @@
 		<ns1:description>injection, intracardiac, push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5251,7 +5270,7 @@
 		<ns1:description>injection, intracartilaginous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5270,7 +5289,7 @@
 		<ns1:description>injection, intracaudal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5289,7 +5308,7 @@
 		<ns1:description>injection, intracavernous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5308,7 +5327,7 @@
 		<ns1:description>injection, intracavitary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5327,7 +5346,7 @@
 		<ns1:description>injection, intracerebral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5346,7 +5365,7 @@
 		<ns1:description>injection, intracisternal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5365,7 +5384,7 @@
 		<ns1:description>infusion, intracoronary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5384,7 +5403,7 @@
 		<ns1:description>topical application, intracorneal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5403,7 +5422,7 @@
 		<ns1:description>injection, intracoronary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5422,7 +5441,7 @@
 		<ns1:description>injection, intracoronary, push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5441,7 +5460,7 @@
 		<ns1:description>topical application, intracoronal (dental)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5460,7 +5479,7 @@
 		<ns1:description>injection, intracorpus cavernosum</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5479,7 +5498,7 @@
 		<ns1:description>implantation, intradermal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5498,7 +5517,7 @@
 		<ns1:description>injection, intradermal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5517,7 +5536,7 @@
 		<ns1:description>injection, intradiscal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5536,7 +5555,7 @@
 		<ns1:description>mucosal absorption, intraduodenal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5555,7 +5574,7 @@
 		<ns1:description>injection, intraductal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5574,7 +5593,7 @@
 		<ns1:description>instillation, intraduodenal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5593,7 +5612,7 @@
 		<ns1:description>injection, intradural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5612,7 +5631,7 @@
 		<ns1:description>injection, intraepidermal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5631,7 +5650,7 @@
 		<ns1:description>injection, intraepithelial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5650,7 +5669,7 @@
 		<ns1:description>instillation, intraesophageal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5669,7 +5688,7 @@
 		<ns1:description>topical application, intraesophageal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5688,7 +5707,7 @@
 		<ns1:description>instillation, intragastric</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5707,7 +5726,7 @@
 		<ns1:description>irrigation, intragastric</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5726,7 +5745,7 @@
 		<ns1:description>lavage, intragastric</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5745,7 +5764,7 @@
 		<ns1:description>instillation, intraileal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5764,7 +5783,7 @@
 		<ns1:description>topical application, intraileal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5783,7 +5802,7 @@
 		<ns1:description>injection, intralesional</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5802,7 +5821,7 @@
 		<ns1:description>irrigation, intralesional</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5821,7 +5840,7 @@
 		<ns1:description>topical application, intralesional</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5840,7 +5859,7 @@
 		<ns1:description>injection, intraluminal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5859,7 +5878,7 @@
 		<ns1:description>topical application, intraluminal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5878,7 +5897,7 @@
 		<ns1:description>injection, intralymphatic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5897,7 +5916,7 @@
 		<ns1:description>injection, intramuscular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5905,7 +5924,7 @@
 			<ns1:concept>
 				<ns1:cielId>160243</ns1:cielId>
 				<ns1:name>Intramuscular administration</ns1:name>
-				<ns1:mapType>BROADER-THAN</ns1:mapType>
+				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -5916,7 +5935,7 @@
 		<ns1:description>injection, intramuscular, deep</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5935,7 +5954,7 @@
 		<ns1:description>injection, intramuscular, z track</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5954,7 +5973,7 @@
 		<ns1:description>injection, intramedullary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5973,7 +5992,7 @@
 		<ns1:description>insufflation</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -5992,7 +6011,7 @@
 		<ns1:description>injection, interameningeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6011,7 +6030,7 @@
 		<ns1:description>injection, interstitial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6030,7 +6049,7 @@
 		<ns1:description>injection, intraocular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6049,7 +6068,7 @@
 		<ns1:description>instillation, intraocular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6068,7 +6087,7 @@
 		<ns1:description>irrigation, intraocular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6087,7 +6106,7 @@
 		<ns1:description>topical application, iontophoresis</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6106,7 +6125,7 @@
 		<ns1:description>infusion, intraosseous, continuous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6125,7 +6144,7 @@
 		<ns1:description>injection, intraosseous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6144,7 +6163,7 @@
 		<ns1:description>insertion, intraocular, surgical</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6163,7 +6182,7 @@
 		<ns1:description>topical application, intraocular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6182,7 +6201,7 @@
 		<ns1:description>injection, intraovarian</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6201,7 +6220,7 @@
 		<ns1:description>injection, intrapericardial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6220,7 +6239,7 @@
 		<ns1:description>injection, intraperitoneal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6239,7 +6258,7 @@
 		<ns1:description>injection, intrapulmonary</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6258,7 +6277,7 @@
 		<ns1:description>injection, intrapleural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6277,7 +6296,7 @@
 		<ns1:description>inhalation, intermittent positive pressure breathing (ippb)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6296,7 +6315,7 @@
 		<ns1:description>injection, intraprostatic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6315,7 +6334,7 @@
 		<ns1:description>injection, insulin pump</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6334,7 +6353,7 @@
 		<ns1:description>instillation, intrasinal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6353,7 +6372,7 @@
 		<ns1:description>injection, intraspinal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6372,7 +6391,7 @@
 		<ns1:description>injection, intrasternal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6391,7 +6410,7 @@
 		<ns1:description>injection, intrasynovial</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6410,7 +6429,7 @@
 		<ns1:description>infusion, intrathecal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6429,7 +6448,7 @@
 		<ns1:description>injection, intratendinous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6448,7 +6467,7 @@
 		<ns1:description>injection, intratesticular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6467,7 +6486,7 @@
 		<ns1:description>injection, intrathoracic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6486,7 +6505,7 @@
 		<ns1:description>injection, intrathecal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6505,7 +6524,7 @@
 		<ns1:description>instillation, intratracheal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6524,7 +6543,7 @@
 		<ns1:description>mucosal absorption, intratracheal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6543,7 +6562,7 @@
 		<ns1:description>injection, intratubular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6562,7 +6581,7 @@
 		<ns1:description>injection, intratumor</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6581,7 +6600,7 @@
 		<ns1:description>injection, intratympanic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6600,7 +6619,7 @@
 		<ns1:description>insertion, intrauterine</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6619,7 +6638,7 @@
 		<ns1:description>injection, intrauterine</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6638,7 +6657,7 @@
 		<ns1:description>injection, intracervical (uterus)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6657,7 +6676,7 @@
 		<ns1:description>instillation, intrauterine</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6676,7 +6695,7 @@
 		<ns1:description>injection, intraureteral, retrograde</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6695,7 +6714,7 @@
 		<ns1:description>infusion, intravenous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6703,7 +6722,7 @@
 			<ns1:concept>
 				<ns1:cielId>160242</ns1:cielId>
 				<ns1:name>Intravenous administration</ns1:name>
-				<ns1:mapType>BROADER-THAN</ns1:mapType>
+				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -6714,7 +6733,7 @@
 		<ns1:description>infusion, intravenous catheter</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6733,7 +6752,7 @@
 		<ns1:description>infusion, intravenous catheter, continuous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6752,7 +6771,7 @@
 		<ns1:description>infusion, intravenous catheter, intermittent</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6771,7 +6790,7 @@
 		<ns1:description>infusion, intravenous catheter, pca pump</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6790,7 +6809,7 @@
 		<ns1:description>infusion, intravascular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6809,7 +6828,7 @@
 		<ns1:description>injection, intravascular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6828,7 +6847,7 @@
 		<ns1:description>injection, intraventricular (heart)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6847,7 +6866,7 @@
 		<ns1:description>injection, intravesicle</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6866,7 +6885,7 @@
 		<ns1:description>flush, intravenous catheter</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6885,7 +6904,7 @@
 		<ns1:description>injection, intravenous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6904,7 +6923,7 @@
 		<ns1:description>injection, intravenous, bolus</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6923,7 +6942,7 @@
 		<ns1:description>injection, intravenous, push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6942,7 +6961,7 @@
 		<ns1:description>injection, intravenous, rapid push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6961,7 +6980,7 @@
 		<ns1:description>injection, intravenous, slow push</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6980,7 +6999,7 @@
 		<ns1:description>implantation, intravitreal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -6999,7 +7018,7 @@
 		<ns1:description>injection, intravitreal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7018,7 +7037,7 @@
 		<ns1:description>instillation, jejunostomy tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7037,7 +7056,7 @@
 		<ns1:description>instillation, laryngeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7056,7 +7075,7 @@
 		<ns1:description>topical application, laryngeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7075,7 +7094,7 @@
 		<ns1:description>insertion, lacrimal puncta</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7094,7 +7113,7 @@
 		<ns1:description>topical application, mucous membrane</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7113,7 +7132,7 @@
 		<ns1:description>topical application, nail</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7132,7 +7151,7 @@
 		<ns1:description>topical application, nasal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7151,7 +7170,7 @@
 		<ns1:description>instillation, nasal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7170,7 +7189,7 @@
 		<ns1:description>inhalation, nasal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7189,7 +7208,7 @@
 		<ns1:description>inhalation, nasal cannula</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7208,7 +7227,7 @@
 		<ns1:description>inhalation, nasal cannula</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7227,7 +7246,7 @@
 		<ns1:description>instillation, nasogastric</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7246,7 +7265,7 @@
 		<ns1:description>inhalation, nebulization</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7265,7 +7284,7 @@
 		<ns1:description>inhalation, nebulization, nasal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7284,7 +7303,7 @@
 		<ns1:description>inhalation, nebulization, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7303,7 +7322,7 @@
 		<ns1:description>instillation, nasogastric tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7322,7 +7341,7 @@
 		<ns1:description>instillation, nasotracheal tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7341,7 +7360,7 @@
 		<ns1:description>occlusive dressing technique</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7360,7 +7379,7 @@
 		<ns1:description>instillation, orogastric tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7379,7 +7398,7 @@
 		<ns1:description>instillation, orojejunum tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7398,7 +7417,7 @@
 		<ns1:description>topical application, ophthalmic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7417,7 +7436,7 @@
 		<ns1:description>topical application, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7425,7 +7444,7 @@
 			<ns1:concept>
 				<ns1:cielId>160240</ns1:cielId>
 				<ns1:name>Oral Administration</ns1:name>
-				<ns1:mapType>NARROWER-THAN</ns1:mapType>
+				<ns1:mapType>BROADER-THAN</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -7436,7 +7455,7 @@
 		<ns1:description>inhalation, respiratory</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7455,7 +7474,7 @@
 		<ns1:description>inhalation, oral intermittent flow</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7474,7 +7493,7 @@
 		<ns1:description>inhalation, oral rebreather mask</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7493,7 +7512,7 @@
 		<ns1:description>topical application, oromucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7512,7 +7531,7 @@
 		<ns1:description>topical application, oropharyngeal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7531,7 +7550,7 @@
 		<ns1:description>inse, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7550,7 +7569,7 @@
 		<ns1:description>instillation, otic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7569,7 +7588,7 @@
 		<ns1:description>injection, periarticular</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7588,7 +7607,7 @@
 		<ns1:description>injection, parenteral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7607,7 +7626,7 @@
 		<ns1:description>injection, periodontal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7626,7 +7645,7 @@
 		<ns1:description>topical application, periodontal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7645,7 +7664,7 @@
 		<ns1:description>injection, peritoneal dialysis port</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7664,7 +7683,7 @@
 		<ns1:description>instillation, peritoneal dialysis port</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7683,7 +7702,7 @@
 		<ns1:description>injection, peridural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7702,7 +7721,7 @@
 		<ns1:description>topical application, perianal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7721,7 +7740,7 @@
 		<ns1:description>topical application, perineal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7740,7 +7759,7 @@
 		<ns1:description>injection, perineural</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7759,7 +7778,7 @@
 		<ns1:description>injection, paranasal sinuses</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7778,7 +7797,7 @@
 		<ns1:description>instillation, paranasal sinuses</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7797,7 +7816,7 @@
 		<ns1:description>swallow, oral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7805,7 +7824,7 @@
 			<ns1:concept>
 				<ns1:cielId>160240</ns1:cielId>
 				<ns1:name>Oral Administration</ns1:name>
-				<ns1:mapType>BROADER-THAN</ns1:mapType>
+				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -7816,7 +7835,7 @@
 		<ns1:description>insertion, rectal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7835,7 +7854,7 @@
 		<ns1:description>injection, retrobulbar</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7854,7 +7873,7 @@
 		<ns1:description>instillation, rectal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7873,7 +7892,7 @@
 		<ns1:description>instillation, rectal tube</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7892,7 +7911,7 @@
 		<ns1:description>irrigation, rectal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7911,7 +7930,7 @@
 		<ns1:description>topical application, rectal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7930,7 +7949,7 @@
 		<ns1:description>enema, rectal retention</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7949,7 +7968,7 @@
 		<ns1:description>topical application, scalp</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7968,7 +7987,7 @@
 		<ns1:description>injection, subconjunctival</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -7987,7 +8006,7 @@
 		<ns1:description>shampoo</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8006,7 +8025,7 @@
 		<ns1:description>instillation, sinus, unspecified</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8025,7 +8044,7 @@
 		<ns1:description>topical application, skin</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8044,7 +8063,7 @@
 		<ns1:description>dissolve, sublingual</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8063,7 +8082,7 @@
 		<ns1:description>injection, sublesional</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8082,7 +8101,7 @@
 		<ns1:description>mucosal absorption, submucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8101,7 +8120,7 @@
 		<ns1:description>immersion (soak)</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8120,7 +8139,7 @@
 		<ns1:description>injection, soft tissue</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8139,7 +8158,7 @@
 		<ns1:description>instillation, soft tissue</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8158,7 +8177,7 @@
 		<ns1:description>injection, subcutaneous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8166,7 +8185,7 @@
 			<ns1:concept>
 				<ns1:cielId>160245</ns1:cielId>
 				<ns1:name>Subcutaneous administration</ns1:name>
-				<ns1:mapType>BROADER-THAN</ns1:mapType>
+				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>
@@ -8177,7 +8196,7 @@
 		<ns1:description>implantation, subcutaneous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8196,7 +8215,7 @@
 		<ns1:description>infusion, subcutaneous</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8215,7 +8234,7 @@
 		<ns1:description>insertion, subcutaneous, surgical</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8234,7 +8253,7 @@
 		<ns1:description>injection, subarachnoid</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8253,7 +8272,7 @@
 		<ns1:description>subconjunctival</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8272,7 +8291,7 @@
 		<ns1:description>injection, submucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8291,7 +8310,7 @@
 		<ns1:description>suck, oromucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8310,7 +8329,7 @@
 		<ns1:description>topical application, swab</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8329,7 +8348,7 @@
 		<ns1:description>swish and spit out, oromucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8348,7 +8367,7 @@
 		<ns1:description>swish and swallow, oromucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8367,7 +8386,7 @@
 		<ns1:description>topical application, transmucosal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8386,7 +8405,7 @@
 		<ns1:description>topical</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8405,7 +8424,7 @@
 		<ns1:description>inhalation, tracheostomy</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8424,7 +8443,7 @@
 		<ns1:description>instillation, tracheostomy</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8443,7 +8462,7 @@
 		<ns1:description>transdermal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8462,7 +8481,7 @@
 		<ns1:description>diffusion, transdermal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8481,7 +8500,7 @@
 		<ns1:description>translingual</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8500,7 +8519,7 @@
 		<ns1:description>injection, transplacental</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8519,7 +8538,7 @@
 		<ns1:description>injection, transtracheal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8538,7 +8557,7 @@
 		<ns1:description>instillation, transtympanic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8557,7 +8576,7 @@
 		<ns1:description>topical absorption, transtympanic</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8576,7 +8595,7 @@
 		<ns1:description>injection, urethral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8595,7 +8614,7 @@
 		<ns1:description>insertion, urethral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8614,7 +8633,7 @@
 		<ns1:description>instillation, urethral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8633,7 +8652,7 @@
 		<ns1:description>suppository, urethral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8652,7 +8671,7 @@
 		<ns1:description>injection, ureteral</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8671,7 +8690,7 @@
 		<ns1:description>topical application, vaginal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8690,7 +8709,7 @@
 		<ns1:description>insertion, vaginal</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8709,7 +8728,7 @@
 		<ns1:description>inhalation, ventilator</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8728,7 +8747,7 @@
 		<ns1:description>inhalation, ventimask</ns1:description>
 		<ns1:conceptType>N/A</ns1:conceptType>
 		<ns1:classification>Misc</ns1:classification>
-		<ns1:codeSystemName>Route of administration (HL7)</ns1:codeSystemName>
+		<ns1:codeSystemName>Route of administration (HL7v3)</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.5.112</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
@@ -8737,6 +8756,443 @@
 				<ns1:cielId>160241</ns1:cielId>
 				<ns1:name>Inhaled administration</ns1:name>
 				<ns1:mapType>BROADER-THAN</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>468</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c13</ns1:uuid>
+		<ns1:code>8348-5</ns1:code>
+		<ns1:description>Body weight Measured --pre pregnancy</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units>kg</ns1:units>
+		<ns1:setOf>163</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>469</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c14</ns1:uuid>
+		<ns1:code>18693-2</ns1:code>
+		<ns1:description>ED CONSULTATION PRACTITIONER</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c14</ns1:cielId>
+				<ns1:name>ED CONSULTATION PRACTITIONER (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>470</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c15</ns1:uuid>
+		<ns1:code>XX-IntakeAndOutput</ns1:code>
+		<ns1:description>Intake and Output</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>474</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c15</ns1:cielId>
+				<ns1:name>Intake and Output (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>471</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c16</ns1:uuid>
+		<ns1:code>38212-7</ns1:code>
+		<ns1:description>Pain Assessment Panel</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c16</ns1:cielId>
+				<ns1:name>Pain Assessment Panel (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>472</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c17</ns1:uuid>
+		<ns1:code>57079-6</ns1:code>
+		<ns1:description>Birth Plan</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c17</ns1:cielId>
+				<ns1:name>Birth Plan (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>473</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c18</ns1:uuid>
+		<ns1:code>52523-8</ns1:code>
+		<ns1:description>Discharge Status</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c18</ns1:cielId>
+				<ns1:name>Discharge Status (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>475</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c20</ns1:uuid>
+		<ns1:code>42545-4</ns1:code>
+		<ns1:description>EVENT OUTCOME</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>474</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c20</ns1:cielId>
+				<ns1:name>EVENT OUTCOME (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>476</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c21</ns1:uuid>
+		<ns1:code>57077-0</ns1:code>
+		<ns1:description>Newborn status at maternal discharge from newborn</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c21</ns1:cielId>
+				<ns1:name>Newborn status at maternal discharge from newborn (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>477</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c22</ns1:uuid>
+		<ns1:code>56836-0</ns1:code>
+		<ns1:description>History of blood transfusion</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c22</ns1:cielId>
+				<ns1:name>History of blood transfusion (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>478</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c23</ns1:uuid>
+		<ns1:code>8650-4</ns1:code>
+		<ns1:description>Hospital discharge disposition</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c23</ns1:cielId>
+				<ns1:name>Hospital discharge disposition (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>479</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c24</ns1:uuid>
+		<ns1:code>42344-2</ns1:code>
+		<ns1:description>DISCHARGE DIET</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c24</ns1:cielId>
+				<ns1:name>DISCHARGE DIET (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>480</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c25</ns1:uuid>
+		<ns1:code>8648-8</ns1:code>
+		<ns1:description>HOSPITAL COURSE</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c25</ns1:cielId>
+				<ns1:name>HOSPITAL COURSE (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>481</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c26</ns1:uuid>
+		<ns1:code>57078-8</ns1:code>
+		<ns1:description>ANTENATAL TESTING AND SURVEILLANCE</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c26</ns1:cielId>
+				<ns1:name>ANTENATAL TESTING AND SURVEILLANCE (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>482</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c27</ns1:uuid>
+		<ns1:code>XX-ANTENATALTESTINGBATTERY</ns1:code>
+		<ns1:description>ANTENATAL TESTING AND SURVEILLANCE BATTERY</ns1:description>
+		<ns1:conceptType>Text</ns1:conceptType>
+		<ns1:classification>ConvSet</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>483</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c28</ns1:uuid>
+		<ns1:code>11630-1</ns1:code>
+		<ns1:description>Biophysical profile.amniotic fluid volume</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>484</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c29</ns1:uuid>
+		<ns1:code>11631-9</ns1:code>
+		<ns1:description>Biophysical profile.body movement</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>485</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c30</ns1:uuid>
+		<ns1:code>11632-7</ns1:code>
+		<ns1:description>Biophysical profile.breathing movement</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>486</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c31</ns1:uuid>
+		<ns1:code>11633-5</ns1:code>
+		<ns1:description>Biophysical profile.heart rate reactivity</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>487</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c32</ns1:uuid>
+		<ns1:code>11635-0</ns1:code>
+		<ns1:description>Biophysical profile.tone</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>488</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c33</ns1:uuid>
+		<ns1:code>11634-3</ns1:code>
+		<ns1:description>Biophysical profile.sum</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>489</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c34</ns1:uuid>
+		<ns1:code>35096-7</ns1:code>
+		<ns1:description>Ultrasound morphologic</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>490</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c35</ns1:uuid>
+		<ns1:code>49086-2</ns1:code>
+		<ns1:description>Nuchal translucency screening</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>491</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c36</ns1:uuid>
+		<ns1:code>51659-1</ns1:code>
+		<ns1:description>Hbs1 Antigen</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>482</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>

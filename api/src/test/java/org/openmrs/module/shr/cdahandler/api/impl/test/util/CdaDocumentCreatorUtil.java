@@ -90,8 +90,9 @@ public class CdaDocumentCreatorUtil {
 		StructuredBody body = retVal.getComponent().getBodyChoiceIfStructuredBody();
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createEstimatedDeliveryDatesSection()));
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createVisitSummaryFlowsheetSection()));
-		/*body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createHistoryOfSurgicalProceduresSection()));
+		/*body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createHistoryOfSurgicalProceduresSection()));*/
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createCodedAntenatalTestingAndSurveillanceSection()));
+		/*
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createAllergiesAndOtherAdverseReactionsSection()));
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createMedicationsSection()));
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createCarePlanSection()));

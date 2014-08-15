@@ -1,5 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.section.impl.ihe.pcc;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
@@ -45,8 +46,7 @@ public class PhysicalExamSubSectionProcessor extends GenericLevel3SectionProcess
 	
 	@Override
 	protected List<String> getExpectedEntries(Section section) {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION);
 	}
 	
 }

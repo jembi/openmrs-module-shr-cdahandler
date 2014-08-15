@@ -97,10 +97,7 @@ public class CdaContentHandler implements ContentHandler {
 	 */
 	@Override
 	@Transactional
-	public Encounter saveContent(Patient patient, final Provider provider, final EncounterRole role, EncounterType encounterType, Content content) {
-		Map<EncounterRole, List<Provider>> providerRole = new HashMap<EncounterRole, List<Provider>>() {{
-			put(role, Arrays.asList(provider));
-		}};
+	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providerRole, EncounterType encounterType, Content content) {
 		
 		// TODO: Validate / add provider data to the header
 		CdaProcessor processor = CdaProcessor.getInstance();
@@ -120,7 +117,7 @@ public class CdaContentHandler implements ContentHandler {
         	// Validate that the patients match
         	if(!lastEncounter.getPatient().getId().equals(patient.getId()))
         		issues.error(String.format("Patient in meta-data doesn't match the patient in document. Expected %s but got %s", patient, lastEncounter.getPatient()));
-        	for(Map.Entry<EncounterRole, List<Provider>> providedProviderRole : providerRole.entrySet())
+        	for(Map.Entry<EncounterRole, Set<Provider>> providedProviderRole : providerRole.entrySet())
         	{
         		// Ensure the providers appear in the encounter provider list
 	        	for(Provider providedProvider : providedProviderRole.getValue())

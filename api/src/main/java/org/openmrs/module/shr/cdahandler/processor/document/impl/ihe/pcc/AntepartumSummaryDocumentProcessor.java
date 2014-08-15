@@ -25,13 +25,13 @@ public class AntepartumSummaryDocumentProcessor extends MedicalSummaryDocumentPr
 			List<String> retVal = new ArrayList<String>(super.getExpectedSections());
 			retVal.addAll(Arrays.asList(
 				CdaHandlerConstants.SCT_TEMPLATE_ESTIMATED_DELIVERY_DATES,
-				CdaHandlerConstants.SCT_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET,
+				CdaHandlerConstants.SCT_TEMPLATE_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET,
 				CdaHandlerConstants.SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES,
-				CdaHandlerConstants.SCT_CODED_ANTENATAL_TESTING_AND_SURVEILLANCE,
+				CdaHandlerConstants.SCT_TEMPLATE_CODED_ANTENATAL_TESTING_AND_SURVEILLANCE,
 				CdaHandlerConstants.SCT_TEMPLATE_ALLERGIES,
 				CdaHandlerConstants.SCT_TEMPLATE_MEDICATIONS,
-				CdaHandlerConstants.SCT_CARE_PLAN,
-				CdaHandlerConstants.SCT_ADVANCE_DIRECTIVES,
+				CdaHandlerConstants.SCT_TEMPLATE_CARE_PLAN,
+				CdaHandlerConstants.SCT_TEMPLATE_ADVANCE_DIRECTIVES,
 				CdaHandlerConstants.SCT_TEMPLATE_ACTIVE_PROBLEMS
 					));   
 			return retVal;

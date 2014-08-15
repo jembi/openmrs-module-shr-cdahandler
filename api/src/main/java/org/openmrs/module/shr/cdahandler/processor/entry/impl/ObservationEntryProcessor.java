@@ -5,8 +5,10 @@ import java.util.List;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
@@ -87,34 +89,24 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
 		// Void any existing obs that have the same id
 		Obs previousObs = null;
-		
-		// References to previous order
+
+		Context.getObsService().getObservationsByPerson(encounterInfo.getPatient());
+
+		// References to previous observation?
 		for(Reference reference : observation.getReference())
 			if(reference.getExternalActChoiceIfExternalAct() == null ||
-			!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
 				continue;
-			else
-				for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
-				{
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(currentObs.getAccessionNumber() != null
-						&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						{
-							previousObs = currentObs;
-							Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
-						}
-				}
+			else 
+				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
+
+		if(previousObs != null)
+			Context.getObsService().voidObs(previousObs, "Replaced");
 		
 		// Validate no duplicates on AN
-		if(observation.getId() != null)
-			for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
-			{
-				for(II id : observation.getId())
-					if(currentObs.getAccessionNumber() != null
-					&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						return currentObs; //throw new DocumentImportException(String.format("Duplicate obs %s", id));
-			}			
-
+		if(observation.getId() != null &&
+				this.m_dataUtil.findExistingObs(observation.getId(), encounterInfo.getPatient()) != null)
+			throw new DocumentImportException(String.format("Duplicate observation %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(observation.getId())));
 		
 		Obs res = new Obs();
 		res.setPreviousVersion(previousObs);
@@ -203,11 +195,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 					sectionContext = sectionContext.getParent();
 				
 				// Now find the text
-				//StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
-				//if(referencedNode != null)
-				//{
-				//	res.setComment(referencedNode.toString());
-				//}
+				StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
+				if(referencedNode != null)
+				{
+					res.setComment(referencedNode.toPlainString());
+				}
 			}
 		}
 		

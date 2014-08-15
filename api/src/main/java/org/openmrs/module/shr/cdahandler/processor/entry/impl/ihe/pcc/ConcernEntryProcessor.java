@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.NullFlavor;
+import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
@@ -66,25 +68,49 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		
 		// Get the encounter context
 		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
-
-		// Set base result properties
-		T res = this.getCurrentActiveListItem(clazz, act);
-		if(res == null || 
-				res instanceof Problem && !((Problem)res).getProblem().equals(obs.getValueCoded()) ||
-				res instanceof Allergy && !((Allergy)res).getAllergen().equals(obs.getValueCoded()))
-	        try {
-	            res = clazz.newInstance();
-            }
-            catch (Exception e) {
-            	throw new DocumentImportException("Could not create necessary class", e);
-            }
+		ActiveListItem previousItem = null;
+		
+		// IS this a replacement?
+		for(Reference reference : act.getReference())
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				continue;
+			else if(Allergy.class.isAssignableFrom(clazz)) 
+				previousItem = this.m_dataUtil.findExistingAllergy(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
+			else if(Problem.class.isAssignableFrom(clazz))
+				previousItem = this.m_dataUtil.findExistingProblem(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
+		
+		if(previousItem != null)
+			Context.getActiveListService().voidActiveListItem(previousItem, "Replaced");
+		
+		// Validate duplicates
+		if(act.getId() != null)
+		{
+			ActiveListItem existingItem = null;
+			if(Allergy.class.isAssignableFrom(clazz)) 
+				existingItem = this.m_dataUtil.findExistingAllergy(act.getId(), encounterInfo.getPatient());
+			else if(Problem.class.isAssignableFrom(clazz))
+				existingItem = this.m_dataUtil.findExistingProblem(act.getId(), encounterInfo.getPatient());
 			
+			if(existingItem != null)
+				throw new DocumentImportException(String.format("Duplicate list item %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
+		}
+		
+		// Set base result properties
+		T res = null;
+		try
+		{
+			res = clazz.newInstance();
+        }
+        catch (Exception e) {
+        	throw new DocumentImportException("Could not create necessary class", e);
+        }
+		
 		// Set created or updated time
 		if(res.getDateCreated() == null)
 			res.setDateCreated(encounterInfo.getDateCreated());
 		else
 			res.setDateChanged(encounterInfo.getDateCreated());
-
 		
 		// New?
 		ActStatus currentStatus = this.calculateCurrentStatus(res);
@@ -149,30 +175,6 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		return res;
     }
 	
-	/**
-	 * Gets the current list item based on the patient and type
-	 */
-	protected <T extends ActiveListItem> T getCurrentActiveListItem(Class<T> clazz, Act act)
-	{
-		// Get the encounter context
-		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
-		
-		// Already reported as a problem?
-		for(Reference reference : act.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null)
-				continue;
-			else
-				for(T prob : Context.getActiveListService().getActiveListItems(clazz, encounterInfo.getPatient(), null))
-				{
-					// First, does the UUID match? And also, is it an active problem?
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(prob.getStartObs().getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id))) // Is the ID mentioned in the comments?
-							return prob;
-				}
-		
-		return null;
-
-	}
 
 	/**
 	 * Get the expected entries .. there are none other than there should be more than one

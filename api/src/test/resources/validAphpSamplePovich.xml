@@ -6,7 +6,7 @@
 	<templateId root='1.3.6.1.4.1.19376.1.5.3.1.1.16.1.4' />
 	<templateId root='1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1' />
 
-	<id root='1.2.3.2.2.2.2' extension='1' />
+	<id root='1.2.3.2.2.2.2' extension='123423' />
 
 	<code code='34117-2' displayName='HISTORY AND PHYSICAL'
 		codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
@@ -123,7 +123,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1' />
 					<!-- Required Chief Complaint Section content -->
-					<id root='1' extension='2' />
+					<id root='1.1' extension='232' />
 					<code code='10154-3' displayName='CHIEF COMPLAINT' codeSystem='2.16.840.1.113883.6.1'
 						codeSystemName='LOINC' />
 					<text>
@@ -136,7 +136,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.4' />
 					<!-- Required History of Present Illness Section content -->
-					<id root='1' extension='2' />
+					<id root='1.2' extension='2234234234' />
 					<code code='10164-2' displayName='HISTORY OF PRESENT ILLNESS'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -149,7 +149,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.8' />
 					<!-- Required History of Past Illness Section content -->
-					<id root='1' extension='2' />
+					<id root='1.3' extension='2345345345' />
 					<code code='11348-0' displayName='HISTORY OF PAST ILLNESS'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -161,7 +161,7 @@
 			<component>
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.1.16.2.1.1' />
-					<id root='1' extension='2' />
+					<id root='1' extension='234534534534' />
 					<code code='XX-HistoryOfInfection' displayName='HISTORY OF INFECTION'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -175,7 +175,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.1.5.3.4' />
 					<!-- Required Pregnancy History Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='2234235423534' />
 					<code code='10162-6' displayName='HISTORY OF PREGNANCIES'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -187,7 +187,7 @@
 						<observation classCode="OBS" moodCode="EVN">
 							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
 							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
-							<id root='1' extension='2' />
+							<id root='1' extension='23423423422' />
 							<code code='49051-6' displayName='GESTATIONAL AGE'
 								codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 							<statusCode code='completed' />
@@ -202,7 +202,7 @@
 						<observation classCode="OBS" moodCode="EVN">
 							<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.13' />
 							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.5" />
-							<id root='1' extension='3' />
+							<id root='1' extension='334534543543' />
 							<code code='45371-2' displayName='MULTIPLE PREGNANCY' codeSystem='2.16.840.1.113883.6.1'
 								codeSystemName='LOINC' />
 							<statusCode code='completed' />
@@ -220,7 +220,7 @@
 					<templateId root='2.16.840.1.113883.10.20.1.15' />
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.16' />
 					<!-- Required Social History Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='234534543543' />
 					<code code='29762-2' displayName='SOCIAL HISTORY' codeSystem='2.16.840.1.113883.6.1'
 						codeSystemName='LOINC' />
 					<title>boink</title>
@@ -234,7 +234,7 @@
 				<section>
 					<templateId root='2.16.840.1.113883.10.20.1.4' />
 					<!-- Required Coded Family Medical History Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='23454354354353' />
 					<code code='10157-6' displayName='HISTORY OF FAMILY MEMBER DISEASES'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<title>boink</title>
@@ -248,7 +248,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.18' />
 					<!-- Required Review of Systems Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='234534543543' />
 					<code code='10187-3' displayName='REVIEW OF SYSTEMS'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -261,7 +261,7 @@
 				<section>
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.24' />
 					<!-- Required Physical Examination Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='23423423423423423' />
 					<code code='29545-1' displayName='PHYSICAL EXAMINATION'
 						codeSystem='2.16.840.1.113883.6.1' codeSystemName='LOINC' />
 					<text>
@@ -275,7 +275,7 @@
 					<templateId root='2.16.840.1.113883.10.20.1.16' />
 					<templateId root='1.3.6.1.4.1.19376.1.5.3.1.3.25' />
 					<!-- Conditional Vital Signs Section content -->
-					<id root='1' extension='2' />
+					<id root='1' extension='2534543543534' />
 					<code code='8716-3' displayName='VITAL SIGNS' codeSystem='2.16.840.1.113883.6.1'
 						codeSystemName='LOINC' />
 					<title>boink</title>

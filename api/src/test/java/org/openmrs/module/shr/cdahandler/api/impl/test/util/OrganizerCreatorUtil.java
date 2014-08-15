@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.CO;
+import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CD;
 import org.marc.everest.datatypes.generic.LIST;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActRelationshipHasComponent;
@@ -65,6 +67,24 @@ public final class OrganizerCreatorUtil {
 		// Pain
 		retVal.getComponent().add(new Component4(ActRelationshipHasComponent.HasComponent, BL.TRUE, ObservationCreatorUtil.createSimpleObservation("38208-5", CdaHandlerConstants.CODE_SYSTEM_LOINC, new CO(BigDecimal.valueOf(2)))));
 
+		
+		return retVal;
+    }
+
+	/**
+	 * Create an antenatal testing and surveillance battery entry
+	 */
+	public static Organizer createAntenatalTestingAndSurveillanceOrganizer() {
+		Organizer retVal = createOrganizer(x_ActClassDocumentEntryOrganizer.BATTERY, "XX-ANTENATALTESTINGBATTERY", CdaHandlerConstants.CODE_SYSTEM_LOINC, "1.3.6.1.4.1.19376.1.5.3.1.1.21.3.10");
+		
+		// Add observations
+		retVal.getComponent().add(new Component4(ActRelationshipHasComponent.HasComponent, BL.TRUE, ObservationCreatorUtil.createSimpleObservation("11630-1", CdaHandlerConstants.CODE_SYSTEM_LOINC, new ED("This is a string"))));
+		// Add observations
+		retVal.getComponent().add(new Component4(ActRelationshipHasComponent.HasComponent, BL.TRUE, ObservationCreatorUtil.createSimpleObservation("11631-9", CdaHandlerConstants.CODE_SYSTEM_LOINC, new ED("This is a string"))));
+		// Add observations
+		retVal.getComponent().add(new Component4(ActRelationshipHasComponent.HasComponent, BL.TRUE, ObservationCreatorUtil.createSimpleObservation("35096-7", CdaHandlerConstants.CODE_SYSTEM_LOINC, new ED("This is a string"))));
+		// Add observations
+		retVal.getComponent().add(new Component4(ActRelationshipHasComponent.HasComponent, BL.TRUE, ObservationCreatorUtil.createSimpleObservation("57659-1", CdaHandlerConstants.CODE_SYSTEM_LOINC, new ED("This is a string"))));
 		
 		return retVal;
     }

@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>shr-contenthandler-api</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.lpg</groupId>
@@ -71,22 +71,22 @@
 		<dependency>
 			<groupId>org.marc.everest</groupId>
 			<artifactId>everest-core</artifactId>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>org.marc.everest</groupId>
 			<artifactId>everest-formatters-xml-its1</artifactId>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>org.marc.everest</groupId>
 			<artifactId>everest-formatters-xml-dt-r1</artifactId>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>org.marc.everest</groupId>
 			<artifactId>everest-rmim-uv-cdar2</artifactId>
-			<version>1.0.14</version>
+			<version>1.0.15</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>org.eclipse</groupId> <artifactId>org.eclipse.emf.ecore.xmi</artifactId> 

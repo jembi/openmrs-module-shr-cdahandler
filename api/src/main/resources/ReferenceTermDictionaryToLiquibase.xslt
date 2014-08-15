@@ -24,7 +24,7 @@
       </xsl:comment>
       <!--<property name="now" value="now()"/>-->
 
-      <!-- Create sources for LOINC -->
+      <!-- Create concept sources -->
       <xsl:for-each select="//rd:referenceTerm[rd:codeSystem/text() and not(rd:codeSystem/text()=preceding::rd:referenceTerm/rd:codeSystem/text())]">
         <xsl:sort select="rd:codeSystemName"/>
         <changeSet  dbms="mysql" id="shr-cdahandler-{position() }" author="justin" runInTransaction="true">
@@ -48,6 +48,28 @@
         </changeSet>
       </xsl:for-each>
 
+      <!-- Create concept classes -->
+      <xsl:for-each select="//rd:referenceTerm[rd:classification/text() and not(rd:classification/text()=preceding::rd:referenceTerm/rd:classification/text())]">
+        <xsl:sort select="rd:classification"/>
+        <changeSet  dbms="mysql" id="shr-cdahandler-{position() + 70}" author="justin" runInTransaction="true">
+          <preConditions onError="HALT" onFail="MARK_RAN">
+            <and>
+              <tableExists tableName="concept_class"/>
+              <sqlCheck expectedResult="0">
+                select count(name) from concept_class where name='<xsl:value-of select="rd:classification"/>'
+              </sqlCheck>
+            </and>
+          </preConditions>
+          <insert tableName="concept_class">
+            <column name="name" value="{rd:classification}"/>
+            <column name="description" value="{rd:classification} Codes"/>
+            <column name="creator" valueNumeric="1"/>
+            <column name="date_created" valueComputed="now()"/>
+            <column name="uuid" valueComputed="uuid()"/>
+            <column name="retired" valueNumeric="0"/>
+          </insert>
+        </changeSet>
+      </xsl:for-each>
       <xsl:apply-templates />
 
     </databaseChangeLog>

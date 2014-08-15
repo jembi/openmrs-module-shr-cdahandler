@@ -25,6 +25,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Supply;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
@@ -90,8 +91,6 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 	
 	/**
 	 * Process this as an order
-	 * 
-	 * TODO: Make this an observation rather than order
 	 */
 	protected BaseOpenmrsData processAdministrationAsOrder(SubstanceAdministration administration) throws DocumentImportException {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
@@ -101,30 +100,20 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 
 		// References to previous order
 		for(Reference reference : administration.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null)
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
 				continue;
-			else
-				for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
-				{
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(currentOrder.getAccessionNumber() != null
-						&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						{
-							previousOrder = currentOrder;
-							Context.getOrderService().voidOrder(currentOrder, String.format("replaced in %s", encounterInfo));
-						}
-				}
+			else 
+				previousOrder = this.m_dataUtil.findExistingOrder(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
+
+		if(previousOrder != null)
+			Context.getOrderService().voidOrder(previousOrder, "Replaced");
 		
 		// Validate no duplicates on AN
-		if(administration.getId() != null)
-			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
-			{
-				for(II id : administration.getId())
-					if(currentOrder.getAccessionNumber() != null
-					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						return currentOrder;// No creating just 
-			}			
-		
+		if(administration.getId() != null &&
+				this.m_dataUtil.findExistingOrder(administration.getId(), encounterInfo.getPatient()) != null)
+			throw new DocumentImportException(String.format("Duplicate order %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(administration.getId())));
+
 		// Now we create a new order
 		DrugOrder res = new DrugOrder();
 
@@ -310,31 +299,22 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 		// Get current order and void if existing for an update
 		Obs previousHistoryObs = null;
 
-		// References to previous order
+		// References to previous observation?
 		for(Reference reference : administration.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null)
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
 				continue;
-			else
-				for(Obs currentObs : Context.getObsService().getObservationsByPerson(encounterInfo.getPatient()))
-				{
-					for(II id : reference.getExternalActChoiceIfExternalAct().getId())
-						if(currentObs.getAccessionNumber() != null
-						&& currentObs.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						{
-							previousHistoryObs = currentObs;
-							Context.getObsService().voidObs(currentObs, String.format("replaced in %s", encounterInfo));
-						}
-				}
+			else 
+				previousHistoryObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
+
+		if(previousHistoryObs != null)
+			Context.getObsService().voidObs(previousHistoryObs, "Replaced");
 		
 		// Validate no duplicates on AN
-		if(administration.getId() != null)
-			for(Order currentOrder : Context.getOrderService().getAllOrdersByPatient(encounterInfo.getPatient()))
-			{
-				for(II id : administration.getId())
-					if(currentOrder.getAccessionNumber() != null
-					&& currentOrder.getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-						return currentOrder;// No creating just 
-			}			
+		if(administration.getId() != null &&
+				this.m_dataUtil.findExistingObs(administration.getId(), encounterInfo.getPatient()) != null)
+			throw new DocumentImportException(String.format("Duplicate administration %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(administration.getId())));
+			
 
 		// Obs for the medication history entry
 		Obs medicationHistoryObs = new Obs();

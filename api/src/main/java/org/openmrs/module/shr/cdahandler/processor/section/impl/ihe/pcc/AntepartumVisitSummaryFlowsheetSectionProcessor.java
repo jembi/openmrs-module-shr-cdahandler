@@ -22,7 +22,7 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  * 
  * See: PCC TF Suppl: 6.3.3.9.3
  */
-@ProcessTemplates(templateIds = {CdaHandlerConstants.SCT_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET})
+@ProcessTemplates(templateIds = { CdaHandlerConstants.SCT_TEMPLATE_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET })
 public class AntepartumVisitSummaryFlowsheetSectionProcessor extends GenericLevel3SectionProcessor {
 	
 	/**

@@ -468,7 +468,6 @@ None of the following address elements are specifically required by HITSP C32, s
 									<templateId root="2.16.840.1.113883.10.20.1.28" assigningAuthorityName="HL7 CCD"/>
 									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" assigningAuthorityName="IHE PCC"/>
 									<!-- Problem observation template -->
-									<id/>
 									<code displayName="Condition" code="64572001" codeSystemName="SNOMED-CT" codeSystem="2.16.840.1.113883.6.96"/>
 									<text>
 										<reference value="#PROBSUMMARY_4"/>

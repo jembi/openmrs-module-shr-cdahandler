@@ -38,6 +38,14 @@ public final class SectionCreatorUtil {
 	}
 	
 	/**
+	 * Create an antepartum surveillance section
+	 */
+	public static Section createCodedAntenatalTestingAndSurveillanceSection() {
+		Section retVal = createSection("57078-8", "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5.1");
+		retVal.getEntry().add(new Entry(x_ActRelationshipEntry.HasComponent, BL.TRUE, OrganizerCreatorUtil.createAntenatalTestingAndSurveillanceOrganizer()));
+		return retVal;
+	}
+	/**
 	 * Create estimated delivery dates section
 	 * @return
 	 */

@@ -62,10 +62,12 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_HISTORY_OF_SURGICAL_PROCEDURES = "1.3.6.1.4.1.19376.1.5.3.1.1.16.2.2";
 	public static final String SCT_TEMPLATE_ACTIVE_PROBLEMS = "1.3.6.1.4.1.19376.1.5.3.1.3.6";
 	public static final String SCT_TEMPLATE_ESTIMATED_DELIVERY_DATES = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.2.1";
-	public static final String SCT_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.2.2";
-	public static final String SCT_CODED_ANTENATAL_TESTING_AND_SURVEILLANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5.1";
-	public static final String SCT_CARE_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.3.31";
-	public static final String SCT_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
+	public static final String SCT_TEMPLATE_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.2.2";
+	public static final String SCT_TEMPLATE_CODED_ANTENATAL_TESTING_AND_SURVEILLANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5.1";
+	public static final String SCT_TEMPLATE_ANTENATAL_TESTING_AND_SURVEILLANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5";
+	
+	public static final String SCT_TEMPLATE_CARE_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.3.31";
+	public static final String SCT_TEMPLATE_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
 	
 	// Entry templates
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
@@ -89,6 +91,7 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.1";
 	public static final String ENT_TEMPLATE_ANTEPARTUM_FLOWSHEET_PANEL = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.2";
 	public static final String ENT_TEMPLATE_MEDICATION_INSTRUCTIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.3";
+	public static final String ENT_TEMPLATE_ANTENATAL_TESTING_BATTERY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.3.10";
 	
 	// Section Templates
 	public static final String SCT_TEMPLATE_EXAM_GENERAL_APPEARANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.9.16";

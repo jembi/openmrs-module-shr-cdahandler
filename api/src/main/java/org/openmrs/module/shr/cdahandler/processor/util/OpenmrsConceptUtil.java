@@ -386,6 +386,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	public List<Concept> getConcepts(CV<?> code) throws DocumentImportException
 	{
 		log.debug("Enter: getConcepts");
+		log.warn(code.toString());
 		
 		// First, attempt to get the ConceptSource from the CodeSystem
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());

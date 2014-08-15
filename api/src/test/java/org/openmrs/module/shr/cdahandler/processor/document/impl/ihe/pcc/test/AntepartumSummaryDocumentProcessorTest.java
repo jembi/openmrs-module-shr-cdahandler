@@ -2,11 +2,20 @@ package org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component3;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component5;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Entry;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.openmrs.Encounter;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
@@ -44,11 +53,20 @@ public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSen
 		try {
 	        Visit visit = new AntepartumSummaryDocumentProcessor().process(documentUnderTest);
 	        assertEquals("Antepartum Summary", visit.getVisitType().getName());
+	        assertEquals(1, visit.getEncounters().size());
+	        
+	        Encounter mainEncounter = visit.getEncounters().iterator().next();
+	        // Assert there are the correct number of items
+	        int expectedObsCount = documentUnderTest.getComponent().getBodyChoiceIfStructuredBody().getComponent().size();
+	        assertEquals(expectedObsCount, mainEncounter.getObsAtTopLevel(true).size());
+	        
         }
-        catch (DocumentImportException e) {
+		catch(Exception e)
+		{
 	        log.error("Error generated", e);
         	fail(e.getMessage());
-        } 
+			
+		}
 	}
 	
 }

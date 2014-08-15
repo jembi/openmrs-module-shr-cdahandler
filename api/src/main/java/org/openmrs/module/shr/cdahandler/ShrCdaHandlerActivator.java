@@ -41,7 +41,7 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	// Format codes this handler supports
 	protected final Map<String, String> m_formatTypeCodes = new HashMap<String, String>()
 			{{
-				put("urn:ihe:pcc:xds-ms:2007", "");
+				put("urn:ihe:pcc:xds-ms:2007", "*");
 				put("urn:ihe:pcc:hp:2008", "34117-2");
 				put("urn:ihe:pcc:aphp:2008", "34117-2");
 				put("urn:ihe:pcc:aps:2007", "57055-6");

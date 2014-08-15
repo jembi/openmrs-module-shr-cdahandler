@@ -52,6 +52,9 @@ public final class CdaHandlerConfiguration {
     public static final String PROP_EPID_ROOT = "shr.cdahandler.id.epidRoot";
     // The root of ECIDs
 	private static final String PROP_ECID_ROOT = "shr.cdahandler.id.ecidRoot";
+    // The root of Objects in the SHR
+	private static final String PROP_SHR_ROOT = "shr.cdahandler.id.root";
+	
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr.cdahandler.updateExisting";
     private Boolean m_autoCreateProviders = true;
@@ -66,6 +69,7 @@ public final class CdaHandlerConfiguration {
     private Boolean m_updateExisting = true;
     private String m_epidRoot = "";
     private String m_ecidRoot = "";
+    private String m_shrRoot = "1.2.3.4.5";
     private Boolean m_autoCreateUsers = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
@@ -166,7 +170,55 @@ public final class CdaHandlerConfiguration {
 		return this.m_ecidRoot;
     }
 
+	/**
+	 * Get the root of SHR records
+	 */
+	public String getShrRoot() {
+		return this.m_shrRoot;
+	}
 	
+	/**
+	 * Get the root of Visits
+	 */
+	public String getVisitRoot() {
+		return this.m_shrRoot + ".1";
+	}
+	
+	/**
+	 * Get the root of encounters
+	 */
+	public String getEncounterRoot() {
+		return this.m_shrRoot + ".2";
+	}	
+
+	/**
+	 * Get the root of Obs
+	 */
+	public String getObsRoot() {
+		return this.m_shrRoot + ".3";
+	}	
+
+	/**
+	 * Get the root of orders
+	 */
+	public String getOrderRoot() {
+		return this.m_shrRoot + ".4";
+	}	
+
+	/**
+	 * Get the root of problems
+	 */
+	public String getProblemRoot() {
+		return this.m_shrRoot + ".5";
+	}	
+
+	/**
+	 * Get the root of allergies
+	 */
+	public String getAllergyRoot() {
+		return this.m_shrRoot + ".6";
+	}	
+
 	/**
      * Read a global property
      */
@@ -228,5 +280,6 @@ public final class CdaHandlerConfiguration {
 		this.m_autoCreateUsers = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_USERS,  this.m_autoCreateUsers);
 		this.m_epidRoot = this.getOrCreateGlobalProperty(PROP_EPID_ROOT, this.m_epidRoot);
 		this.m_ecidRoot = this.getOrCreateGlobalProperty(PROP_ECID_ROOT, this.m_ecidRoot);
+		this.m_shrRoot = this.getOrCreateGlobalProperty(PROP_SHR_ROOT, this.m_shrRoot);
 	}
 }
