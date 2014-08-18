@@ -25,7 +25,12 @@ public class MedicationsSectionProcessor extends GenericLevel3SectionProcessor {
 	 */
 	@Override
 	protected List<String> getExpectedEntries(Section section) {
-		return Arrays.asList(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS);
+		return Arrays.asList(
+			CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS,
+			CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_NORMAL_DOSING,
+			CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_TAPERED_DOSING,
+			CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_SPLIT_DOSING,
+			CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_COMBINATION_DOSING);
 	}
 
 	/**

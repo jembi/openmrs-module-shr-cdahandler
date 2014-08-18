@@ -61,7 +61,9 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			if(issues.hasErrors())
 				throw new DocumentValidationException(entry, issues);
 		}
-
+		else if(!entry.isPOCD_MT000040UVObservation())
+			throw new DocumentImportException("Expected entry to be an Observation");
+		
 		// Observation from entry
 		Observation observation = (Observation)entry;
 
@@ -89,8 +91,6 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
 		// Void any existing obs that have the same id
 		Obs previousObs = null;
-
-		Context.getObsService().getObservationsByPerson(encounterInfo.getPatient());
 
 		// References to previous observation?
 		for(Reference reference : observation.getReference())
@@ -210,7 +210,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Repeat number ... as an obs.. 
 		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
 		{
-			Obs repeatObs = this.m_dataUtil.getRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.repeatNumber"), observation.getEffectiveTime().getValue(), observation.getRepeatNumber().getValue());
+			Obs repeatObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.repeatNumber"), observation.getEffectiveTime().getValue(), observation.getRepeatNumber().getValue());
 			repeatObs.setPerson(res.getPerson());
 			repeatObs.setLocation(res.getLocation());
 			repeatObs.setEncounter(res.getEncounter());
@@ -223,7 +223,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		if(observation.getMethodCode() != null)
 			for(CE<String> methodCode : observation.getMethodCode())
 			{
-				Obs methodObs = this.m_dataUtil.getRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.methodCode"), observation.getEffectiveTime().getValue(), methodCode);
+				Obs methodObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.methodCode"), observation.getEffectiveTime().getValue(), methodCode);
 				methodObs.setPerson(res.getPerson());
 				methodObs.setLocation(res.getLocation());
 				methodObs.setEncounter(res.getEncounter());
@@ -236,7 +236,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		if(observation.getInterpretationCode() != null)
 			for(CE<ObservationInterpretation> interpretationCode : observation.getInterpretationCode())
 			{
-				Obs interpretationObs = this.m_dataUtil.getRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.interpretationCode"), observation.getEffectiveTime().getValue(), interpretationCode);
+				Obs interpretationObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.interpretationCode"), observation.getEffectiveTime().getValue(), interpretationCode);
 				interpretationObs.setPerson(res.getPerson());
 				interpretationObs.setLocation(res.getLocation());
 				interpretationObs.setEncounter(res.getEncounter());

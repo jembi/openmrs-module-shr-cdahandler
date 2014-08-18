@@ -4,9 +4,12 @@ import org.marc.everest.datatypes.ANY;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 
@@ -18,36 +21,36 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 	protected AssignedEntityProcessorUtil m_providerUtil = AssignedEntityProcessorUtil.getInstance();
 
 	/**
-	 * Adds the specified obs to the parentObs ensuring that the concept is a valid concept for the parent obs
-	 * @throws DocumentImportException 
+	 * Process
 	 */
-	protected Obs addMedicationObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
-		// Create the result
-		Obs res = new Obs(parentObs.getPerson(), 
-			obsConcept, 
-			parentObs.getObsDatetime(), 
-			parentObs.getLocation());
-		res.setEncounter(parentObs.getEncounter());
-		res.setDateCreated(parentObs.getDateCreated());
-		res.setCreator(parentObs.getCreator());
-		res.setLocation(parentObs.getLocation());
-		// Ensure obsConcept is a valid set member of parentObs.getConcept
-		this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
-
-		// Set the value
-		if(value instanceof ANY)
-			this.m_dataUtil.setObsValue(res, (ANY)value);
-		else if(value instanceof Concept)
-			res.setValueCoded((Concept)value);
-		else if(value instanceof String)
-			res.setValueText(value.toString());
+	@Override
+    public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+		if(this.m_configuration.getValidationEnabled())
+		{
+			ValidationIssueCollection issues = this.validate(entry);
+			if(issues.hasErrors())
+				throw new DocumentValidationException(entry, issues);
+		}
+		else if(!entry.isPOCD_MT000040UVSubstanceAdministration())
+			throw new DocumentImportException("Expected entry to be SubstanceAdministration");
 		
-		parentObs.addGroupMember(res);
-		//res.setObsGroup(parentObs);
-		//res = Context.getObsService().saveObs(res, null);
-		return res;
+		SubstanceAdministration sbadm = (SubstanceAdministration)entry;
+		if(sbadm.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Intent)) // Prescribe
+			return this.processAdministrationAsOrder(sbadm);
+		else
+			return this.processAdministrationAsObservation(sbadm);
     }
 
+	/**
+	 * Process the substance administration as an order
+	 */
+	protected abstract BaseOpenmrsData processAdministrationAsOrder(SubstanceAdministration administration) throws DocumentImportException;
+
+	/**
+	 * PRocess the substance administration as an observation
+	 */
+	protected abstract BaseOpenmrsData processAdministrationAsObservation(SubstanceAdministration administration) throws DocumentImportException;
+	
 	/**
 	 * Validate a substance administration can be processed
 	 * @see org.openmrs.module.shr.cdahandler.processor.entry.impl.EntryProcessorImpl#validate(org.marc.everest.interfaces.IGraphable)

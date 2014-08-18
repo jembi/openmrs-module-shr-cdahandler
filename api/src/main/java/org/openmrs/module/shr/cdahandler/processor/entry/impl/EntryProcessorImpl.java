@@ -238,6 +238,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		
 		// Cast to clinical statement
 		ClinicalStatement statement = (ClinicalStatement)object;
+		
 		// Get expected entries
 		List<String> expectedEntries = this.getExpectedEntryRelationships();
 		if(expectedEntries != null)

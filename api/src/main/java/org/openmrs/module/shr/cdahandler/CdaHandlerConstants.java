@@ -65,7 +65,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_ANTEPARTUM_TEMPLATE_VISIT_SUMMARY_FLOWSHEET = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.2.2";
 	public static final String SCT_TEMPLATE_CODED_ANTENATAL_TESTING_AND_SURVEILLANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5.1";
 	public static final String SCT_TEMPLATE_ANTENATAL_TESTING_AND_SURVEILLANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5";
-	
+	public static final String SCT_TEMPLATE_RESULTS = "1.3.6.1.4.1.19376.1.5.3.1.3.27";
 	public static final String SCT_TEMPLATE_CARE_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.3.31";
 	public static final String SCT_TEMPLATE_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
 	
@@ -86,13 +86,20 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_ALLERGY_AND_INTOLERANCE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.6";
 	public static final String ENT_TEMPLATE_SEVERITY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.1";
 	public static final String ENT_TEMPLATE_MEDICATIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.7";
+	public static final String ENT_TEMPLATE_MEDICATIONS_NORMAL_DOSING = "1.3.6.1.4.1.19376.1.5.3.1.4.7.1";
+	public static final String ENT_TEMPLATE_MEDICATIONS_TAPERED_DOSING = "1.3.6.1.4.1.19376.1.5.3.1.4.8";
+	public static final String ENT_TEMPLATE_MEDICATIONS_SPLIT_DOSING = "1.3.6.1.4.1.19376.1.5.3.1.4.9";
+	public static final String ENT_TEMPLATE_MEDICATIONS_COMBINATION_DOSING = "1.3.6.1.4.1.19376.1.5.3.1.4.11";
+	public static final String ENT_TEMPLATE_MEDICATIONS_CONDITIONAL_DOSING = "1.3.6.1.4.1.19376.1.5.3.1.4.10";
 	public static final String ENT_TEMPLATE_INTERNAL_REFERENCE = "1.3.6.1.4.1.19376.1.5.3.1.4.4.1";
 	public static final String ENT_TEMPLATE_SUPPLY = "1.3.6.1.4.1.19376.1.5.3.1.4.7.3";
 	public static final String ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.1";
 	public static final String ENT_TEMPLATE_ANTEPARTUM_FLOWSHEET_PANEL = "1.3.6.1.4.1.19376.1.5.3.1.1.11.2.3.2";
 	public static final String ENT_TEMPLATE_MEDICATION_INSTRUCTIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.3";
 	public static final String ENT_TEMPLATE_ANTENATAL_TESTING_BATTERY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.3.10";
-	
+	public static final String ENT_TEMPLATE_PROCEDURE_ENTRY = "1.3.6.1.4.1.19376.1.5.3.1.4.19";
+	public static final String ENT_TEMPLATE_EXTERNAL_REFERENCES_ENTRY = "1.3.6.1.4.1.19376.1.5.3.1.4.4";
+
 	// Section Templates
 	public static final String SCT_TEMPLATE_EXAM_GENERAL_APPEARANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.9.16";
 	public static final String SCT_TEMPLATE_EXAM_VISIBLE_IMPLANTED_DEVICES = "1.3.6.1.4.1.19376.1.5.3.1.1.9.48";
@@ -119,5 +126,8 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_EXAM_RECTUM = "1.3.6.1.4.1.19376.1.5.3.1.1.9.37";
 	public static final String SCT_TEMPLATE_EXAM_EXTREMITIES = "1.3.6.1.4.1.19376.1.5.3.1.1.16.2.1";
 	public static final String SCT_TEMPLATE_EXAM_PELVIS = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.10";
+
+	
+	
 	
 }

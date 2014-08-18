@@ -149,7 +149,9 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 			if(issues.hasErrors())
 				throw new DocumentValidationException(entry, issues);
 		}
-
+		else if(!entry.isPOCD_MT000040UVOrganizer())
+			throw new DocumentImportException("Expected entry to be an Organizer");
+		
 		// We want to process the organizer as an Obs
 		Organizer organizer = (Organizer)entry;
 		Obs organizerObs = this.parseOrganizer(organizer);

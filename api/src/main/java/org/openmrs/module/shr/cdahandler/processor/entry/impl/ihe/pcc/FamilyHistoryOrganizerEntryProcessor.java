@@ -87,38 +87,23 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 		// Set organizer type to "Patient's Family History List"
 		organizer.setCode(new CD<String>("160593", CdaHandlerConstants.CODE_SYSTEM_CIEL));
 		Obs organizerObs = super.parseOrganizer(organizer);
-		organizerObs.setValueText(null);
 		
 		// Process participant data
 		RelatedSubject subject = organizer.getSubject().getRelatedSubject();
 
-		// Family member relationship 
-		Obs familyMemberRelationObs = new Obs(organizerObs.getPerson(), 
-			Context.getConceptService().getConcept(1560), 
-			organizerObs.getObsDatetime(), 
-			organizerObs.getLocation());
-		familyMemberRelationObs.setValueCoded(this.m_conceptUtil.getConceptOrEquivalent(subject.getCode()));
-		organizerObs.addGroupMember(familyMemberRelationObs);
+		// Family member relationship
+		this.m_dataUtil.addSubObservationValue(organizerObs, Context.getConceptService().getConcept(1560), subject.getCode());
 		
 		// Id
-		Obs familyMemberId = new Obs(organizerObs.getPerson(), 
-			Context.getConceptService().getConcept(160752),
-			organizerObs.getObsDatetime(),
-			organizerObs.getLocation());
-		familyMemberId.setValueText("TODO: See how to get extended elements");
-		organizerObs.addGroupMember(familyMemberId);
+		// TODO: Upgrade to Everest 1.x for this
+		this.m_dataUtil.addSubObservationValue(organizerObs, Context.getConceptService().getConcept(160752), "TODO");
 		
 		// Name
 		if(subject.getSubject().getName() != null)
 		{
 			for(PN name : subject.getSubject().getName())
 			{
-				Obs familyMemberName = new Obs(organizerObs.getPerson(), 
-					Context.getConceptService().getConcept(160750),
-					organizerObs.getObsDatetime(),
-					organizerObs.getLocation());
-				familyMemberId.setValueText(name.toString());
-				organizerObs.addGroupMember(familyMemberName);
+				this.m_dataUtil.addSubObservationValue(organizerObs, Context.getConceptService().getConcept(160750), name.toString());
 			}
 		}
 				

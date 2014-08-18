@@ -17,6 +17,7 @@ import org.marc.everest.datatypes.MO;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.ST;
+import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CV;
@@ -90,7 +91,7 @@ public final class OpenmrsDataUtil {
 	 * @throws DocumentImportException 
 	 * @throws ParseException 
 	 */
-	public Obs getRmimValueObservation(String code, TS date, ANY value) throws DocumentImportException {
+	public Obs createRmimValueObservation(String code, TS date, ANY value) throws DocumentImportException {
 
 		Obs res = new Obs();
 		
@@ -153,11 +154,13 @@ public final class OpenmrsDataUtil {
 		}
 		else if(value instanceof RTO || value instanceof MO)
 			observation.setValueText(value.toString());
+		else if(value instanceof II)
+			observation.setValueText(this.m_datatypeUtil.formatIdentifier((II)value));
 		else if(value instanceof INT)
 			observation.setValueNumeric(((INT) value).toDouble());
 		else if(value instanceof TS)
 			observation.setValueDatetime(((TS) value).getDateValue().getTime());
-		else if(value instanceof ST)
+		else if(value instanceof ST || value instanceof TEL)
 			observation.setValueText(value.toString());
 		else if(value instanceof BL)
 			observation.setValueBoolean(((BL)value).toBoolean());
@@ -264,4 +267,35 @@ public final class OpenmrsDataUtil {
 		return (Problem)this.findExistingItem(ids, this.m_configuration.getAllergyRoot(), Context.getActiveListService().getActiveListItems(patient, Problem.ACTIVE_LIST_TYPE));
 	}
 
+
+	/**
+	 * Adds the specified obs to the parentObs ensuring that the concept is a valid concept for the parent obs
+	 * @throws DocumentImportException 
+	 */
+	public Obs addSubObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
+		// Create the result
+		Obs res = new Obs(parentObs.getPerson(), 
+			obsConcept, 
+			parentObs.getObsDatetime(), 
+			parentObs.getLocation());
+		res.setEncounter(parentObs.getEncounter());
+		res.setDateCreated(parentObs.getDateCreated());
+		res.setCreator(parentObs.getCreator());
+		res.setLocation(parentObs.getLocation());
+		// Ensure obsConcept is a valid set member of parentObs.getConcept
+		this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
+
+		// Set the value
+		if(value instanceof ANY)
+			this.setObsValue(res, (ANY)value);
+		else if(value instanceof Concept)
+			res.setValueCoded((Concept)value);
+		else if(value instanceof String)
+			res.setValueText(value.toString());
+		
+		parentObs.addGroupMember(res);
+		//res.setObsGroup(parentObs);
+		//res = Context.getObsService().saveObs(res, null);
+		return res;
+    }
 }

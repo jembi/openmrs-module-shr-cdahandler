@@ -15,11 +15,13 @@ import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.CO;
 import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.EN;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.MO;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.SD;
 import org.marc.everest.datatypes.ST;
+import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
@@ -343,7 +345,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
 		else if(value instanceof ST)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
-		else if(value instanceof ED || value instanceof SD)
+		else if(value instanceof ED || value instanceof SD || value instanceof II || value instanceof TEL)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.COMPLEX_UUID);
 		else if(value instanceof TS)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.DATE_UUID);
@@ -681,7 +683,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Gets a type specific concept
 	 * @throws DocumentImportException 
 	 */
-	public Concept getTypeSpecificConcept(CE<String> code, ANY value) throws DocumentImportException {
+	public Concept getTypeSpecificConcept(CE<?> code, ANY value) throws DocumentImportException {
 		
 		log.debug("Enter: getTypeSpecificConcept");
 
