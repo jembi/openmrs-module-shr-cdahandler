@@ -80,9 +80,6 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			else if(Problem.class.isAssignableFrom(clazz))
 				previousItem = this.m_dataUtil.findExistingProblem(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
 		
-		if(previousItem != null)
-			Context.getActiveListService().voidActiveListItem(previousItem, "Replaced");
-		
 		// Validate duplicates
 		if(act.getId() != null)
 		{
@@ -92,15 +89,21 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			else if(Problem.class.isAssignableFrom(clazz))
 				existingItem = this.m_dataUtil.findExistingProblem(act.getId(), encounterInfo.getPatient());
 			
-			if(existingItem != null)
+			// An replacement from the auto-replace
+			if(existingItem != null && this.m_configuration.getUpdateExisting())
+				previousItem = existingItem; 
+			else if(existingItem != null)
 				throw new DocumentImportException(String.format("Duplicate list item %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
 		}
 		
+		// Update the previous item
+		T res = (T)previousItem;
+
 		// Set base result properties
-		T res = null;
 		try
 		{
-			res = clazz.newInstance();
+			if(res == null)
+				res = clazz.newInstance();
         }
         catch (Exception e) {
         	throw new DocumentImportException("Could not create necessary class", e);
@@ -138,6 +141,12 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 				// Does this report it to be prior to the currently known start date?
 				if(res.getStartDate() == null || act.getEffectiveTime().getLow().getDateValue().getTime().compareTo(res.getStartDate()) < 0)
 				{
+					// Void and previous version
+					if(res.getStartObs() != null)
+					{
+						Context.getObsService().voidObs(res.getStartObs(), "Replaced");
+						obs.setPreviousVersion(res.getStartObs());
+					}
 					res.setStartObs(obs);
 					res.setStartDate(act.getEffectiveTime().getLow().getDateValue().getTime());
 				}
@@ -147,6 +156,12 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 				// Does this report it to be after the currently known end date?
 				if(res.getEndDate() == null || act.getEffectiveTime().getHigh().getDateValue().getTime().compareTo(res.getEndDate()) > 0)
 				{
+					// Void and previous version
+					if(res.getStopObs() != null)
+					{
+						Context.getObsService().voidObs(res.getStopObs(), "Replaced");
+						obs.setPreviousVersion(res.getStopObs());
+					}
 					res.setStopObs(obs);
 					res.setEndDate(act.getEffectiveTime().getHigh().getDateValue().getTime());
 				}
@@ -157,7 +172,6 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		else if(act.getStatusCode().getCode() != ActStatus.Completed)
 			throw new DocumentImportException("Missing effective time of the problem");
 
-		
 		// Void this?
 		if(act.getStatusCode().getCode() == ActStatus.Aborted || 
 				act.getStatusCode().getCode() == ActStatus.Suspended)

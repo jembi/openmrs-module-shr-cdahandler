@@ -2,6 +2,7 @@ package org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.test;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -48,17 +49,16 @@ public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSen
 	 */
 	@Test
 	public void shouldParseValidAps() {
-		ClinicalDocument documentUnderTest = CdaDocumentCreatorUtil.createApsDocument();
-		CdaDocumentCreatorUtil.logDocument(documentUnderTest);
+		InputStream inputStream = CdaDocumentCreatorUtil.createApsDocument();
+//		CdaDocumentCreatorUtil.logDocument(documentUnderTest);
 		try {
-	        Visit visit = new AntepartumSummaryDocumentProcessor().process(documentUnderTest);
+			CdaImportService service = Context.getService(CdaImportService.class);
+	        Visit visit = service.importDocument(inputStream);
 	        assertEquals("Antepartum Summary", visit.getVisitType().getName());
 	        assertEquals(1, visit.getEncounters().size());
 	        
-	        Encounter mainEncounter = visit.getEncounters().iterator().next();
-	        // Assert there are the correct number of items
-	        int expectedObsCount = documentUnderTest.getComponent().getBodyChoiceIfStructuredBody().getComponent().size();
-	        assertEquals(expectedObsCount, mainEncounter.getObsAtTopLevel(true).size());
+	        Encounter mainEncounter = Context.getEncounterService().getEncounter(visit.getEncounters().iterator().next().getId());
+	        
 	        
         }
 		catch(Exception e)

@@ -90,23 +90,8 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		// TODO: Get an existing obs and do an update to the obs? or void it because the new encounter supersedes it..
 		// Void any existing obs that have the same id
-		Obs previousObs = null;
+		Obs previousObs = super.voidOrThrowIfPreviousObsExists(observation.getReference(), encounterInfo.getPatient(), observation.getId());
 
-		// References to previous observation?
-		for(Reference reference : observation.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null ||
-				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
-				continue;
-			else 
-				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
-
-		if(previousObs != null)
-			Context.getObsService().voidObs(previousObs, "Replaced");
-		
-		// Validate no duplicates on AN
-		if(observation.getId() != null &&
-				this.m_dataUtil.findExistingObs(observation.getId(), encounterInfo.getPatient()) != null)
-			throw new DocumentImportException(String.format("Duplicate observation %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(observation.getId())));
 		
 		Obs res = new Obs();
 		res.setPreviousVersion(previousObs);

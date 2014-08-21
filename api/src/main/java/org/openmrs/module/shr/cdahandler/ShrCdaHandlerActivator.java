@@ -55,15 +55,14 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	 * @see ModuleActivator#contextRefreshed()
 	 */
 	public void contextRefreshed() {
+		this.registerContentHandler();
 		log.info("SHR CDA Handler Module refreshed");
 	}
 	
 	/**
-	 * @see ModuleActivator#started()
+	 * Register the content handler
 	 */
-	public void started() {
-		log.info("SHR CDA Handler Module started");
-		
+	private void registerContentHandler() {
 		// Register the format codes
 		ContentHandlerService contentHandler = Context.getService(ContentHandlerService.class);
 		for(Map.Entry<String, String> formatTypeCode : this.m_formatTypeCodes.entrySet())
@@ -71,7 +70,9 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "IHE Format Codes");
 			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), "LOINC");
 			try {
-	            contentHandler.registerContentHandler(formatCode, typeCode, CdaContentHandler.getInstance());
+				if(contentHandler.getContentHandler(typeCode, formatCode) == null)
+					contentHandler.registerContentHandler(typeCode, formatCode, CdaContentHandler.getInstance());
+	            
             }
             catch (AlreadyRegisteredException e) {
 	            log.error("Error generated", e);
@@ -80,6 +81,14 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	            log.error("Error generated", e);
             }
 		}
+    }
+
+	/**
+	 * @see ModuleActivator#started()
+	 */
+	public void started() {
+		this.registerContentHandler();
+		log.info("SHR CDA Handler Module started");
 		
 	}
 	

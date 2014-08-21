@@ -15,8 +15,10 @@ import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
+import org.openmrs.PersonAddress;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
+import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
@@ -76,109 +78,7 @@ public final class PatientRoleProcessorUtil {
 		
 		
 		Patient res = new Patient();
-		
-		// Now add other ids
-		for(II id : importPatient.getId())
-		{
-			PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(id.getRoot());
-			if(pit == null && this.m_configuration.getAutoCreatePatientIdType())
-			{
-				pit = new PatientIdentifierType();
-				pit.setName(id.getRoot());
-				pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", id.getAssigningAuthorityName() != null ? id.getAssigningAuthorityName() : id.getRoot()));
-				
-				pit = Context.getPatientService().savePatientIdentifierType(pit);
-			}
-			else if(pit == null && !this.m_configuration.getAutoCreatePatientIdType())
-				continue; // next
-			
-			PatientIdentifier pid = new PatientIdentifier();
-			pid.setIdentifierType(pit);
-			pid.setIdentifier(id.getExtension());
-			
-			// Provider organization
-			if(importPatient.getProviderOrganization() != null && importPatient.getProviderOrganization().getId() != null)
-				for(II provId : importPatient.getProviderOrganization().getId())
-					if(provId.getRoot().equals(id.getRoot()))
-						pid.setLocation(this.m_locationUtil.processOrganization(importPatient.getProviderOrganization()));
-			
-			// Get default location
-			if(pid.getLocation() == null)
-				pid.setLocation(Context.getLocationService().getDefaultLocation());
-			
-			pid.setPreferred(id.getRoot().equals(this.m_configuration.getEcidRoot()));
-			res.addIdentifier(pid);
-		}
-		
-		// Don't attempt to parse a null patient
-		if(importPatient.getPatient() != null)
-		{	
-			// Add names if they exist
-			if(importPatient.getPatient().getName() != null)
-				for(PN pn : importPatient.getPatient().getName())
-					if(!pn.isNull())
-						res.addName(this.m_datatypeUtil.parseEN(pn));
-			
-			// Set gender
-			if(importPatient.getPatient().getAdministrativeGenderCode().isNull())
-				res.setGender("U");
-			else
-				res.setGender(importPatient.getPatient().getAdministrativeGenderCode().getCode().getCode());
-			
-			//set patient birthdate
-			if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
-				res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
-			else
-				throw new DocumentImportException("Patient missing birthdate");
-			
-			// Marital status code
-			if(importPatient.getPatient().getMaritalStatusCode() != null &&
-					!importPatient.getPatient().getMaritalStatusCode().isNull())
-			{
-				PersonAttribute maritalStatus = new PersonAttribute();
-				PersonAttributeType maritalStatusType = this.m_metadataUtil.getOrCreatePersonMaritalStatusAttribute();
-				maritalStatus.setAttributeType(maritalStatusType);
-				// This is a coded value, so we need to find the code
-				Concept maritalStatusConcept = null;
-				if(maritalStatusType.getForeignKey() != null)
-					maritalStatusConcept = Context.getConceptService().getConcept(maritalStatusType.getForeignKey());
-
-				Concept	valueConcept = this.m_conceptUtil.getConcept(importPatient.getPatient().getMaritalStatusCode());
-				if(valueConcept == null)
-					valueConcept = this.m_conceptUtil.createConcept(importPatient.getPatient().getMaritalStatusCode());
-				
-				// Now we want to set the concept
-				if(maritalStatusConcept != null)
-					this.m_conceptUtil.addAnswerToConcept(maritalStatusConcept, valueConcept);
-				// Now set the values
-				maritalStatus.setPerson(res);
-				maritalStatus.setValue(valueConcept.getId().toString());
-				res.addAttribute(maritalStatus);
-			}
-		}
-		else
-			throw new DocumentImportException("Missing patient demographics information"); 
-
-		// Telecoms
-		if(importPatient.getTelecom() != null)
-			for(TEL tel : importPatient.getTelecom())
-			{
-				if(tel == null || tel.isNull()) continue;
-				
-				PersonAttribute telecomAttribute = new PersonAttribute();
-				telecomAttribute.setAttributeType(this.m_metadataUtil.getOrCreatePersonTelecomAttribute());
-				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
-				telecomAttribute.setPerson(res);
-				res.addAttribute(telecomAttribute);
-			}
-		
-		// Address
-		if(importPatient.getAddr() != null)
-			for(AD ad : importPatient.getAddr())
-				if(!ad.isNull())
-					res.addAddress(this.m_datatypeUtil.parseAD(ad));
-		
-
+		res = this.updatePatientInformation(res, importPatient);
 		
 		res = Context.getPatientService().savePatient(res);
 		
@@ -246,6 +146,13 @@ public final class PatientRoleProcessorUtil {
 			res = this.createPatient(patient);
 		} else if(!matches.isEmpty()){
 			res = matches.get(0);
+			
+			// Update data for patient
+			if(this.m_configuration.getAutoCreatePatients())
+			{
+				res = this.updatePatientInformation(res, patient);
+				res = Context.getPatientService().savePatient(res);
+			}
 		}
 		else 
 			throw new DocumentImportException(String.format("Patient %s not found", pid.getIdentifier()));
@@ -253,4 +160,163 @@ public final class PatientRoleProcessorUtil {
 		
 		return res;
 	}
+
+	/**
+	 * Update patient information based on new information from the CDA
+	 */
+	private Patient updatePatientInformation(Patient res, PatientRole importPatient) throws DocumentImportException {
+
+		// Now add other ids
+		for(II id : importPatient.getId())
+		{
+			PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(id.getRoot());
+			if(pit == null && this.m_configuration.getAutoCreatePatientIdType())
+			{
+				pit = new PatientIdentifierType();
+				pit.setName(id.getRoot());
+				pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", id.getAssigningAuthorityName() != null ? id.getAssigningAuthorityName() : id.getRoot()));
+				
+				pit = Context.getPatientService().savePatientIdentifierType(pit);
+			}
+			else if(pit == null && !this.m_configuration.getAutoCreatePatientIdType())
+				continue; // next
+			
+			PatientIdentifier pid = new PatientIdentifier();
+			pid.setIdentifierType(pit);
+			pid.setIdentifier(id.getExtension());
+
+			// Is there already an identifier with this type/extensions?
+			PatientIdentifier existingPid = res.getPatientIdentifier(pit);
+			if(existingPid != null && existingPid.getIdentifier().equals(pid.getIdentifier())) // Already have an ID
+				continue;
+			else if(existingPid != null)
+				throw new DocumentImportException("Patient can only have one ID assigned from one authority");
+			
+			// Provider organization
+			if(importPatient.getProviderOrganization() != null && importPatient.getProviderOrganization().getId() != null)
+				for(II provId : importPatient.getProviderOrganization().getId())
+					if(provId.getRoot().equals(id.getRoot()))
+						pid.setLocation(this.m_locationUtil.processOrganization(importPatient.getProviderOrganization()));
+			
+			// Get default location
+			if(pid.getLocation() == null)
+				pid.setLocation(Context.getLocationService().getDefaultLocation());
+			
+			pid.setPreferred(id.getRoot().equals(this.m_configuration.getEcidRoot()));
+			res.addIdentifier(pid);
+		}
+		
+		// Don't attempt to parse a null patient
+		if(importPatient.getPatient() != null)
+		{	
+			// Add names if they exist
+			if(importPatient.getPatient().getName() != null)
+				for(PN pn : importPatient.getPatient().getName())
+					if(!pn.isNull())
+					{
+						PersonName name = this.m_datatypeUtil.parseEN(pn);
+
+						// Does the patient already have this name?
+						boolean hasName = false;
+						for(PersonName existingName : res.getNames())
+							hasName |= existingName.equalsContent(existingName);
+						
+						if(!hasName)
+							res.addName(name);
+					}
+			
+			// Set gender if a current gender is unknown
+			if(res.getGender() == null)
+			{
+				if(importPatient.getPatient().getAdministrativeGenderCode().isNull())
+					res.setGender("U");
+				else
+					res.setGender(importPatient.getPatient().getAdministrativeGenderCode().getCode().getCode());
+			}
+			
+			//set patient birthdate if current is unknown
+			if(res.getBirthdate() == null)
+			{
+				if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
+					res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
+				else
+					throw new DocumentImportException("Patient missing birthdate");
+			}
+			
+			// Marital status code
+			if(importPatient.getPatient().getMaritalStatusCode() != null &&
+					!importPatient.getPatient().getMaritalStatusCode().isNull())
+			{
+				PersonAttribute maritalStatus = new PersonAttribute();
+				PersonAttributeType maritalStatusType = this.m_metadataUtil.getOrCreatePersonMaritalStatusAttribute();
+				maritalStatus.setAttributeType(maritalStatusType);
+				// This is a coded value, so we need to find the code
+				Concept maritalStatusConcept = null;
+				if(maritalStatusType.getForeignKey() != null)
+					maritalStatusConcept = Context.getConceptService().getConcept(maritalStatusType.getForeignKey());
+
+				Concept	valueConcept = this.m_conceptUtil.getConcept(importPatient.getPatient().getMaritalStatusCode());
+				if(valueConcept == null)
+					valueConcept = this.m_conceptUtil.createConcept(importPatient.getPatient().getMaritalStatusCode());
+				
+				// Now we want to set the concept
+				if(maritalStatusConcept != null)
+					this.m_conceptUtil.addAnswerToConcept(maritalStatusConcept, valueConcept);
+
+				// Now set the values
+				maritalStatus.setPerson(res);
+				maritalStatus.setValue(valueConcept.getId().toString());
+
+				PersonAttribute existingData = res.getAttribute(maritalStatusType); 
+				if(existingData != null)
+					res.removeAttribute(existingData);
+				res.addAttribute(maritalStatus);
+			}
+		}
+		else
+			throw new DocumentImportException("Missing patient demographics information"); 
+
+		// Telecoms
+		if(importPatient.getTelecom() != null)
+		{
+			// Remove telecoms
+			PersonAttributeType telecomAttributeType = this.m_metadataUtil.getOrCreatePersonTelecomAttribute();
+			PersonAttribute telecomAttribute = res.getAttribute(telecomAttributeType);
+			while(telecomAttribute != null)
+			{
+				res.removeAttribute(telecomAttribute);
+				telecomAttribute = res.getAttribute(telecomAttributeType);
+			}
+			
+			// Now add new
+			for(TEL tel : importPatient.getTelecom())
+			{
+				if(tel == null || tel.isNull()) continue;
+				
+				
+				telecomAttribute = new PersonAttribute();
+				telecomAttribute.setAttributeType(telecomAttributeType);
+				telecomAttribute.setValue(String.format("%s: %s", FormatterUtil.toWireFormat(tel.getUse()), tel.getValue()));
+				telecomAttribute.setPerson(res);
+				res.addAttribute(telecomAttribute);
+			}
+		}
+		
+		// Address
+		if(importPatient.getAddr() != null)
+		{
+			// Clear existing addresses and use this as a "last known address"
+			for(PersonAddress existingAddr : res.getAddresses())
+				res.removeAddress(existingAddr);
+			
+			// Now add
+			for(AD ad : importPatient.getAddr())
+				if(!ad.isNull())
+				{
+					PersonAddress address = this.m_datatypeUtil.parseAD(ad);
+					res.addAddress(address);
+				}
+		}
+		return res;
+    }
 }

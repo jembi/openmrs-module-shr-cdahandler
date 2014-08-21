@@ -70,23 +70,8 @@ public class ExternalReferencesEntryProcessor extends EntryProcessorImpl {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
 
-		Obs previousObs = null;
-		// References to previous observation?
-		for(Reference reference : act.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null ||
-				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
-				continue;
-			else 
-				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
-
-		if(previousObs != null)
-			Context.getObsService().voidObs(previousObs, "Replaced");
-		
-		// Validate no duplicates on AN
-		if(act.getId() != null &&
-				this.m_dataUtil.findExistingObs(act.getId(), encounterInfo.getPatient()) != null)
-			throw new DocumentImportException(String.format("Duplicate observation %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
-		
+		Obs previousObs = super.voidOrThrowIfPreviousObsExists(act.getReference(), encounterInfo.getPatient(), act.getId());
+				
 		// Create the observation for the reference
 		Obs res = new Obs();
 		res.setPreviousVersion(previousObs);

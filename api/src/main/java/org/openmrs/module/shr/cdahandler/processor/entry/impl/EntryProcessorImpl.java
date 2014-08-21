@@ -15,12 +15,18 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
+import org.openmrs.Obs;
+import org.openmrs.Order;
+import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -258,6 +264,79 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 			context = context.getParent();
 		return (Section)context.getRawObject();
     }
-	
+
+	/**
+	 * Void an existing obs or throw an exception if duplicate identifiers are not allowed
+	 * @throws DocumentImportException 
+	 */
+	protected Obs voidOrThrowIfPreviousObsExists(ArrayList<Reference> statementReferences, Patient patient, SET<II> statementIds) throws DocumentImportException {
+
+		Obs previousObs = null;
+		// References to previous observation?
+		for(Reference reference : statementReferences)
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				continue;
+			else 
+				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), patient);
+
+		if(previousObs != null)
+			Context.getObsService().voidObs(previousObs, "Replaced");
+		
+		// Validate no duplicates on AN
+		if(statementIds != null)
+		{
+			Obs existingObs = this.m_dataUtil.findExistingObs(statementIds, patient) ;
+			
+			// An replacement from the auto-replace
+			if(existingObs != null && this.m_configuration.getUpdateExisting())
+			{
+				Context.getObsService().voidObs(existingObs, "Auto-Replaced");
+				previousObs = existingObs;
+			}
+			else if(existingObs != null)
+				throw new DocumentImportException(String.format("Duplicate entry %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(statementIds)));
+		}
+		
+		return previousObs;
+	}
+
+
+	/**
+	 * Void an existing observation is applicable, otherwise throw
+	 * @throws DocumentImportException 
+	 */
+	protected Order voidOrThrowIfPreviousOrderExists(ArrayList<Reference> statementReferences, Patient patient, SET<II> statementIds) throws DocumentImportException {
+		
+		Order previousOrder = null;
+		
+		// References to previous order
+		for(Reference reference : statementReferences)
+			if(reference.getExternalActChoiceIfExternalAct() == null ||
+				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
+				continue;
+			else 
+				previousOrder = this.m_dataUtil.findExistingOrder(reference.getExternalActChoiceIfExternalAct().getId(), patient);
+
+		if(previousOrder != null)
+			Context.getOrderService().voidOrder(previousOrder, "Replaced");
+		
+		// Validate no duplicates on AN
+		if(statementIds != null)
+		{
+			Order existingOrder = this.m_dataUtil.findExistingOrder(statementIds, patient) ;
+			
+			// An replacement from the auto-replace
+			if(existingOrder != null && this.m_configuration.getUpdateExisting())
+			{
+				Context.getOrderService().voidOrder(existingOrder, "Auto-Replaced");
+				previousOrder = existingOrder;
+			}
+			else if(existingOrder != null)
+				throw new DocumentImportException(String.format("Duplicate entry %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(statementIds)));
+		}
+
+		return previousOrder;
+    }
 }
 

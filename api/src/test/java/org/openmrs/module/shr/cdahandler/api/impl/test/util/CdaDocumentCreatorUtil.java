@@ -1,6 +1,8 @@
 package org.openmrs.module.shr.cdahandler.api.impl.test.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -81,7 +83,7 @@ public class CdaDocumentCreatorUtil {
 	/**
 	 * Create an APS Document
 	 */
-	public final static ClinicalDocument createApsDocument()
+	public final static InputStream createApsDocument()
 	{
 
 		ClinicalDocument retVal = createDocumentHeader("57055-6", "1.3.6.1.4.1.19376.1.5.3.1.1.2", "1.3.6.1.4.1.19376.1.5.3.1.1.11.2");
@@ -98,15 +100,14 @@ public class CdaDocumentCreatorUtil {
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createCarePlanSection()));
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createAdvanceDirectivesSection()));
 		body.getComponent().add(new Component3(ActRelationshipHasComponent.HasComponent, BL.TRUE, SectionCreatorUtil.createProblemsSection()));*/
-
 		
-		return retVal;
+		return streamDocument(retVal);
 	}
 	
 	/**
 	 * Log document
 	 */
-	public final static void logDocument(ClinicalDocument doc)
+	public final static InputStream streamDocument(ClinicalDocument doc)
 	{
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		XmlIts1Formatter formatter = new XmlIts1Formatter();
@@ -114,6 +115,7 @@ public class CdaDocumentCreatorUtil {
 		formatter.setValidateConformance(false);
 		formatter.graph(outStream, doc);
 		log.error(outStream.toString());
+		return new ByteArrayInputStream(outStream.toByteArray());
 	}
 	
 }

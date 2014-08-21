@@ -10,6 +10,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
+import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
@@ -29,6 +30,7 @@ import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.Relationship;
 import org.openmrs.User;
@@ -132,22 +134,31 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		if(doc == null || doc.getNullFlavor() != null)
 			return null; // TODO: Should this be something more descriptive of what happened?
 
-		
-		Visit visitInformation = new Visit();
-
-		// Create a context for this parse operation
-		//DocumentProcessorContext parseContext = new DocumentProcessorContext(doc, visitInformation, this);
-
-		// Create an encounter for the of the document
-		Encounter visitEncounter = new Encounter();
-
 		// TODO: How to add an attribute which points to the CDA from which the visit was constructed
 		// Parse the header
 		if(doc.getRecordTarget().size() != 1)
 			throw new DocumentImportException("Can only handle documents with exactly one patient");
-		visitInformation.setPatient(this.m_patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole()));
+		Patient patient = this.m_patientRoleProcessorUtil.processPatient(doc.getRecordTarget().get(0).getPatientRole());
+		
+		// Look up the visit information
+		Visit visitInformation = this.m_openmrsDataUtil.getVisitById(doc.getId(), patient); 
+				
+		if(visitInformation == null)
+			visitInformation = new Visit();
+		else if(this.m_configuration.getUpdateExisting())
+		{
+			visitInformation.setDateChanged(doc.getEffectiveTime().getDateValue().getTime());
+		}
+		else
+			throw new DocumentImportException(String.format("Cannot persist a duplicate document %s!", doc.getId()));
 
-		// Are we replacing data?
+		// Create an encounter for the of the document
+		Encounter visitEncounter = new Encounter();
+
+		// Set patient of the visit
+		visitInformation.setPatient(patient);
+		
+		// Are we explicitly appending/replacing data?
 		for(RelatedDocument dr : doc.getRelatedDocument())
 		{
 			if(dr.getParentDocument() == null || dr.getParentDocument().getNullFlavor() != null)
@@ -162,29 +173,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 				log.warn(String.format("Can't find the visit identified as %s to be associated", FormatterUtil.toWireFormat(dr.getParentDocument().getId())));
 			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.RPLC)) // Replacement of
 			{
-				// Void the old visit with reason of replaced by this one
-				log.info(String.format("Voided %s", oldVisit));
-				String voidReason = this.m_datatypeProcessorUtil.formatIdentifier(dr.getParentDocument().getId().get(0));
-				Context.getVisitService().voidVisit(oldVisit, voidReason);
-
-				// Void the encounter and all observations 
-				for(Encounter enc : visitInformation.getEncounters())
-				{
-					log.info(String.format("Voided %s", enc));
-					Context.getEncounterService().voidEncounter(enc, voidReason);
-					for(Obs obs : enc.getObs())
-					{
-						log.info(String.format("Voided %s", obs));
-						Context.getObsService().voidObs(obs, voidReason);
-					}
-					for(Order ord : enc.getOrders())
-					{
-						log.info(String.format("Voided %s", ord));
-						Context.getOrderService().voidOrder(ord, voidReason);
-					}
-				}
-				// TODO: Void Allergies & Problems? How to do this?
-				
+				this.voidVisitData(oldVisit, doc.getId());
 			}
 			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.APND))
 			{
@@ -377,6 +366,36 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		return visitInformation;
 	}
+
+	/**
+	 * Void the visit
+	 * Auto generated method comment
+	 * 
+	 * @param oldVisit
+	 */
+	private void voidVisitData(Visit oldVisit, II newId) {
+		// Void the old visit with reason of replaced by this one
+		log.info(String.format("Voided %s", oldVisit));
+		String voidReason = this.m_datatypeProcessorUtil.formatIdentifier(newId);
+		Context.getVisitService().voidVisit(oldVisit, voidReason);
+
+		// Void the encounter and all observations 
+		for(Encounter enc : oldVisit.getEncounters())
+		{
+			log.info(String.format("Voided %s", enc));
+			Context.getEncounterService().voidEncounter(enc, voidReason);
+			for(Obs obs : enc.getObs())
+			{
+				log.info(String.format("Voided %s", obs));
+				Context.getObsService().voidObs(obs, voidReason);
+			}
+			for(Order ord : enc.getOrders())
+			{
+				log.info(String.format("Voided %s", ord));
+				Context.getOrderService().voidOrder(ord, voidReason);
+			}
+		}
+    }
 
 	/**
 	 * Process content when the body choice is non-xml content

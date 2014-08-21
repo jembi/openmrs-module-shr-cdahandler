@@ -66,7 +66,7 @@ public final class CdaHandlerConfiguration {
     private Boolean m_autoCreatePersons = true;
     private Boolean m_validateInstances = true;
     private Boolean m_validateConceptStructure = true;
-    private Boolean m_updateExisting = true;
+    private Boolean m_updateExisting = false;
     private String m_epidRoot = "";
     private String m_ecidRoot = "";
     private String m_shrRoot = "1.2.3.4.5";
@@ -236,6 +236,10 @@ public final class CdaHandlerConfiguration {
 
 	/**
 	 * Get the shr.cdahandler.updatedExisting value
+	 * 
+	 * This affects the way that the SHR will persist entries / documents with identical IDs. If set to true
+	 * then the SHR will simply perform an update. When false, all IDs must be unique or else a duplicate exception
+	 * is thrown
 	 * @return
 	 */
 	public boolean getUpdateExisting() {

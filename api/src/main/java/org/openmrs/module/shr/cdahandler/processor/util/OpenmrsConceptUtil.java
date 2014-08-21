@@ -337,15 +337,15 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(value instanceof PQ)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
 		else if(value instanceof RTO ||
-				value instanceof MO)
+				value instanceof MO )
 		{
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
 		}
 		else if(value instanceof INT)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
-		else if(value instanceof ST)
+		else if(value instanceof ST || value instanceof II || value instanceof TEL)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
-		else if(value instanceof ED || value instanceof SD || value instanceof II || value instanceof TEL)
+		else if(value instanceof ED || value instanceof SD )
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.COMPLEX_UUID);
 		else if(value instanceof TS)
 			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.DATE_UUID);

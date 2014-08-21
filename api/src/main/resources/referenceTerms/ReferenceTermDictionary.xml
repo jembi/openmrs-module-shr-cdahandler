@@ -1200,7 +1200,7 @@
 	<ns1:referenceTerm>
 		<ns1:id>113</ns1:id>
 		<ns1:uuid>933e444f-38a7-415b-ad2d-215189819480</ns1:uuid>
-		<ns1:code>30954-2</ns1:code>
+		<ns1:code>11348-0</ns1:code>
 		<ns1:description>HISTORY OF PAST ILLNESS </ns1:description>
 		<ns1:conceptType>Complex</ns1:conceptType>
 		<ns1:classification>CDA Section</ns1:classification>
@@ -9193,6 +9193,25 @@
 				<ns1:cielId/>
 				<ns1:name/>
 				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>492</ns1:id>
+		<ns1:uuid>a9eb8740-b4c2-46c9-b008-529c6a797c37</ns1:uuid>
+		<ns1:code>30954-2</ns1:code>
+		<ns1:description>Relevant diagnostic tests/laboratory data</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>CDA Section</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>a9eb8740-b4c2-46c9-b008-529c6a797c37</ns1:cielId>
+				<ns1:name>Relevant diagnostic tests/laboratory data (Text)</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
 			</ns1:concept>
 		</ns1:mapping>
 	</ns1:referenceTerm>

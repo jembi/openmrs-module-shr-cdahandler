@@ -6,31 +6,43 @@
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
-	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<package>${project.parent.groupId}.${project.parent.artifactId}
+	</package>
 	<author>hannes, surangak, justin</author>
 	<description>
 		${project.parent.description}
 	</description>
-	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf
+	</updateURL>
 	<require_version>1.10.0</require_version>
-	<!-- <require_version>${openMRSVersion}</require_version>-->
+	<!-- <require_version>${openMRSVersion}</require_version> -->
 	<!-- / Module Properties -->
 
-	
+
+
+
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.shr.cdahandler.ShrCdaHandlerActivator</activator>
-	
+	<activator>${project.parent.groupId}.shr.cdahandler.ShrCdaHandlerActivator
+	</activator>
+
 	<!-- Adds link to admin page -->
-    <extension>
-        <point>org.openmrs.admin.list</point>
-        <class>${project.parent.groupId}.shr.cdahandler.extension.html.AdminList</class>
-    </extension>
-	
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>${project.parent.groupId}.shr.cdahandler.extension.html.AdminList
+		</class>
+	</extension>
+
+	<!-- Required modules -->
+	<require_modules>
+		<require_module version="1.2.0">org.openmrs.module.shr-contenthandler
+		</require_module>
+	</require_modules>
+
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-				
+
 		cdaAntepartum.hbm.xml
-				
+
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -49,5 +61,94 @@
 	</messages>
 	<!-- /Internationalization -->
 
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.concepts</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that SHR should automatically create new concepts, concept answers, sets, etc. to match inbound CDA document</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.locations</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should automatically create locations from inbound CDA data</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.metaData</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should automatically create metaData (encounter types, visit types, attribute types, etc.) to match the inbound CDA document.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.patients.idtype</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should automatically create Patient Identifier Types</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.patients</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should automatically create new patients based on data in the inbound CDA document and should update any data for those patients based on data in the inbound CDA.</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.persons</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should automatically create new persons based on the data in the inbound CDA document</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.users</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates the SHR should automatically create users to be assigned to creator/updator roles for created data in the OpenMRS database</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.autocreate.providers</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates the SHR should automatically create providers based on data found in the inbound CDA document</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.id.format</property>
+		<defaultValue>%2$s^^^&amp;%1$s&amp;ISO</defaultValue>
+		<description>Identifies the string representation of instance identifier from the CDA document. %1$s = Root (or domain) and %2$s = Extension (or identifier)</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.validation.cda</property>
+		<defaultValue>true  
+		</defaultValue>
+		<description>When true, indicates the SHR should more strictly validate inbound CDA documents to conformance rules prior to processing</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.validation.conceptStructure</property>
+		<defaultValue>true
+		</defaultValue>
+		<description>When true, indicates that the SHR should validate that a sub-observation within the CDA is an allowed concept within its parent</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.id.epidRoot</property>
+		<defaultValue>1.2.3.4.5.6.7
+		</defaultValue>
+		<description>Identifies the root of jurisdictional identifiers to use when creating/looking for providers</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.id.ecidRoot</property>
+		<defaultValue>1.2.3.4.5.6.8
+		</defaultValue>
+		<description>Identifies the root of jurisdictional identifiers to use when creating/looking for patients</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.id.root</property>
+		<defaultValue>1.2.3.4.5.6.9
+		</defaultValue>
+		<description>Identifies the root which should be attached to all observations, orders, allergies, etc. in this SHR instance (used for detecting duplicates)</description>
+	</globalProperty>
+	<globalProperty>
+		<property>${project.parent.artifactId}.updateExisting</property>
+		<defaultValue>false
+		</defaultValue>
+		<description>When true, instructs the SHR to update any existing data carrying the same ID as the inbound CDA document. The default is false, meaning the SHR will return an error when duplicate statements are included in the document (see PCC TF-2 for the proper way to replace data)</description>
+	</globalProperty>
 </module>
 

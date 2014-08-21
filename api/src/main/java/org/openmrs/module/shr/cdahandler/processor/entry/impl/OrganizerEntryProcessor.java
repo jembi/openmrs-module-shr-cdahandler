@@ -65,24 +65,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		
 		// References to previous organizer?
-		Obs previousObs = null;
-		
-
-		// References to previous observation?
-		for(Reference reference : organizer.getReference())
-			if(reference.getExternalActChoiceIfExternalAct() == null ||
-				!reference.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.RPLC))
-				continue;
-			else 
-				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
-
-		if(previousObs != null)
-			Context.getObsService().voidObs(previousObs, "Replaced");
-		
-		// Validate no duplicates on AN
-		if(organizer.getId() != null &&
-				this.m_dataUtil.findExistingObs(organizer.getId(), encounterInfo.getPatient()) != null)
-			throw new DocumentImportException(String.format("Duplicate organizer %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(organizer.getId())));
+		Obs previousObs = this.voidOrThrowIfPreviousObsExists(organizer.getReference(), encounterInfo.getPatient(), organizer.getId());
 				
 		// Organizer obs
 		Obs organizerObs = new Obs(),

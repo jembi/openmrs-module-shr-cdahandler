@@ -11,6 +11,7 @@ import org.marc.everest.datatypes.ADXP;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.EN;
 import org.marc.everest.datatypes.ENXP;
+import org.marc.everest.datatypes.EntityNameUse;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.TS;
@@ -328,6 +329,8 @@ public final class DatatypeProcessorUtil {
 				break;
 			}
 	
+		if(en.getUse().contains(new CS<EntityNameUse>(EntityNameUse.Legal)))
+			name.setPreferred(true);
 		return name;
 	}
 
