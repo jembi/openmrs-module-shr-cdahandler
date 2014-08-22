@@ -31,7 +31,7 @@ import org.openmrs.util.OpenmrsConstants;
 
 public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSensitiveTest  {
 
-	private static final String ACTIVE_LIST_INITIAL_XML = "include/ActiveListTest.xml";
+	private static final String ACTIVE_LIST_INITIAL_XML = "include/CdaImportTest.xml";
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
 	@Before

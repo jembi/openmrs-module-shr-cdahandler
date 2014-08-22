@@ -127,7 +127,24 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_EXAM_EXTREMITIES = "1.3.6.1.4.1.19376.1.5.3.1.1.16.2.1";
 	public static final String SCT_TEMPLATE_EXAM_PELVIS = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.10";
 
+	// TODO: Turn these into Concept UUIDs
+	public static final String RMIM_CONCEPT_NAME_REASON = "Reason";
+	public static final String RMIM_CONCEPT_NAME_STATUS = "Status";
+	public static final String RMIM_CONCEPT_NAME_APPROACH_SITE = "Approach Site";
+	public static final String RMIM_CONCEPT_NAME_TARGET_SITE = "Target Site";
+	public static final String RMIM_CONCEPT_NAME_REFERENCE = "Reference";
+	public static final String RMIM_CONCEPT_NAME_ROUTE_OF_ADM = "Route of Administration";
+	public static final String RMIM_CONCEPT_NAME_MARITAL_STATUS = "Civil Status";
+	public static final String RMIM_CONCEPT_NAME_DOCUMENT_TEXT = "Text";
+	public static final String RMIM_CONCEPT_NAME_REPEAT = "Repeat";
+	public static final String RMIM_CONCEPT_NAME_METHOD = "Method";
+	public static final String RMIM_CONCEPT_NAME_INTERPRETATION = "Interpretation";
+	public static final String RMIM_CONCEPT_NAME_MOOD = "Mood";
 	
 	
-	
+	// UUIDs
+	public static final String UUID_ORDER_TYPE_PROCEDURE = "9506c6fe-d517-4707-a0c8-e72da23ff16d";
+	public static final String UUID_CONCEPT_CLS_DRUG_FORM = "b56429ef-1000-42d4-9a9f-01443455b9a6";
+	public static final String UUID_CONCEPT_CLS_AUTO = "4ccac411-eb8e-45d6-8ec1-f6e09602449f";
+	public static final String UUID_ORDER_TYPE_OBSERVATION = "7f14cf98-8452-42c0-acac-2ba96c8e66ce";
 }

@@ -1,5 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl.ihe.pcc;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,8 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Supply;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ActPriority;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
@@ -38,6 +41,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Order.Action;
+import org.openmrs.Order.Urgency;
 import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
@@ -45,6 +49,7 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.SubstanceAdministrationEntryProcessor;
@@ -59,6 +64,7 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.SubstanceAdministr
 		CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_COMBINATION_DOSING
 })
 public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProcessor {
+
 	
 	/**
 	 * Get the expected entry relationships
@@ -258,19 +264,26 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 			}
 
 		// Get orderer 
-		if(res.getOrderer() == null)
+		if(res.getOrderer() == null &&
+				administration.getAuthor().size() == 1)
+			res.setOrderer(this.m_providerUtil.processProvider(administration.getAuthor().get(0).getAssignedAuthor()));
+		else if(res.getOrderer() == null)
 			res.setOrderer(encounterInfo.getProvidersByRole(this.m_metadataUtil.getOrCreateEncounterRole(new CS<ParticipationAuthorOriginator>(ParticipationAuthorOriginator.Authororiginator))).iterator().next());
-		
+
+		// Priority
+		if(administration.getPriorityCode() != null)
+			this.m_dataUtil.setOrderPriority(res, administration.getPriorityCode().getCode());
+
 		res.setCareSetting(this.m_metadataUtil.getOrCreateInpatientCareSetting());
 		
 		// Save the order 
-		res = (DrugOrder)Context.getOrderService().saveOrder(res, null);
+		res = (DrugOrder)Context.getOrderService().saveOrder(res, orderContext);
 
 		// Is this an event? If so it happened in the past and isn't active so we have to discontinue it
-		if(administration.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Eventoccurrence))
+		if(discontinueDate != null)
 			try
 			{
-				res = (DrugOrder)Context.getOrderService().discontinueOrder(res, "MoodCode=EVN", discontinueDate, null, encounterInfo);
+				res = (DrugOrder)Context.getOrderService().discontinueOrder(res, administration.getStatusCode().getCode().getCode(), discontinueDate, null, encounterInfo);
 			}
 			catch(Exception e)
 			{
@@ -409,7 +422,7 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasReason))
 			{
 				ST reasonText = new ST(this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0)));
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, this.m_conceptUtil.getOrCreateRMIMConcept("Reason", reasonText), reasonText);
+				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REASON, reasonText), reasonText);
 			}
 
 		// Conditions, or dosing instructions

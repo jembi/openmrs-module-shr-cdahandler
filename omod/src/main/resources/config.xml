@@ -41,7 +41,7 @@
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 
-		cdaAntepartum.hbm.xml
+		ExtendedOrders.hbm.xml
 
 	</mappingFiles>
 

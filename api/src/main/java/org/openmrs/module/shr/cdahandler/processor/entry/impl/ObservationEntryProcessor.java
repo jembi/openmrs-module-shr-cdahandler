@@ -1,33 +1,61 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.transaction.NotSupportedException;
+
+import org.apache.commons.lang.NotImplementedException;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
+import org.marc.everest.datatypes.ED;
 import org.marc.everest.datatypes.II;
+import org.marc.everest.datatypes.INT;
+import org.marc.everest.datatypes.PQ;
+import org.marc.everest.datatypes.ST;
+import org.marc.everest.datatypes.TEL;
+import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
+import org.marc.everest.datatypes.generic.EIVL;
+import org.marc.everest.datatypes.generic.IVL;
+import org.marc.everest.datatypes.generic.PIVL;
+import org.marc.everest.datatypes.interfaces.ISetComponent;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActMoodDocumentObservation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptNumeric;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.TestOrder;
+import org.openmrs.Order.Action;
+import org.openmrs.TestOrder.Laterality;
+import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
+import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 
@@ -38,14 +66,15 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 	// Metadata util
 	protected final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
-			
+	
+	// Provider util
+	protected final AssignedEntityProcessorUtil m_providerUtil = AssignedEntityProcessorUtil.getInstance();
+	
 	/**
 	 * Gets the code expected to be on this observation (null if none specified)
 	 * @return
 	 */
 	protected abstract CE<String> getExpectedCode();
-
-
 
 	/**
 	 * Process the observation
@@ -69,12 +98,164 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 		// Only store EVN or " I DID OBSERVE " Observations, the other mood codes 
 		// if encountered should create more appropriate data
-		if(observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Eventoccurrence))
-			return this.processEventOccurance(observation);
+		if(observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Intent))
+			return this.processIntentOccurance(observation);
 		else
-			throw new DocumentImportException(String.format("Don't yet understand mood code '%s'", observation.getMoodCode().getCode()));
+			return this.processEventOccurance(observation);
 	}
 
+
+	/**
+	 * Process the observation as an order. Usually these are tests
+	 * @throws DocumentImportException 
+	 */
+	protected BaseOpenmrsData processIntentOccurance(Observation observation) throws DocumentImportException {
+		
+		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
+
+		// Get current order and void if existing for an update
+		Order previousOrder = super.voidOrThrowIfPreviousOrderExists(observation.getReference(), encounterInfo.getPatient(), observation.getId());
+
+		// Now we create a new order
+		ObservationOrder res = new ObservationOrder();
+		// The type of procedure or administration done
+		Concept orderConcept = null;
+		if(observation.getCode() != null && !observation.getCode().isNull())
+		{
+			orderConcept = null;
+			if(observation.getValue() != null)
+			{
+				orderConcept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
+				if(orderConcept == null)
+					this.m_conceptUtil.createConcept(observation.getCode(), observation.getValue());
+			}
+			else
+				orderConcept = this.m_conceptUtil.getOrCreateConceptAndEquivalents(observation.getCode());
+		}
+		else
+			throw new DocumentImportException("Observation must have a code");
+		
+		
+		res.setConcept(orderConcept);
+		res.setPreviousOrder(previousOrder);
+		res.setPatient(encounterInfo.getPatient());
+		res.setDateCreated(encounterInfo.getDateCreated());
+		res.setEncounter(encounterInfo);
+		
+		// Set the creator
+		super.setCreator(res, observation);
+		
+		// Is this a prescribe? 
+		if(previousOrder != null)
+			res.setAction(Action.REVISE);
+		else
+			res.setAction(Action.NEW);
+			
+		// Set the ID
+		if(observation.getId() != null && !observation.getId().isNull())
+			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(observation.getId().get(0)));
+		
+		// Effective time(s)
+		Date discontinueDate = null;
+		if(observation.getEffectiveTime() != null && !observation.getEffectiveTime().isNull())
+		{
+			if(observation.getEffectiveTime().getLow() != null && !observation.getEffectiveTime().getLow().isNull())
+			{
+				if(observation.getStatusCode().getCode().equals(ActStatus.New))
+					res.setScheduledDate(observation.getEffectiveTime().getLow().getDateValue().getTime());
+				else // Did occur
+				{
+					res.setDateActivated(observation.getEffectiveTime().getLow().getDateValue().getTime());
+					encounterInfo.setEncounterDatetime(res.getDateActivated());
+				}
+			}
+			if(observation.getEffectiveTime().getHigh() != null && !observation.getEffectiveTime().getHigh().isNull())
+			{
+				if(observation.getStatusCode().getCode().equals(ActStatus.Active)  ||
+						observation.getStatusCode().getCode().equals(ActStatus.New))
+					res.setAutoExpireDate(observation.getEffectiveTime().getHigh().getDateValue().getTime());
+				else
+					discontinueDate = observation.getEffectiveTime().getHigh().getDateValue().getTime();
+			}
+		}
+		
+		// Text?
+		if(observation.getText() != null && observation.getText().getReference() != null)
+		{
+			StructDocNode node = this.getSection().getText().findNodeById(observation.getText().getReference().getValue());
+			if(node != null)
+				res.setInstructions(node.toPlainString());
+		}
+
+		// Get orderer 
+		if(observation.getAuthor().size() == 1 &&
+				observation.getAuthor().get(0).getAssignedAuthor() != null
+				)
+			res.setOrderer(this.m_providerUtil.processProvider(observation.getAuthor().get(0).getAssignedAuthor()));
+		else 
+			res.setOrderer(encounterInfo.getProvidersByRole(this.m_metadataUtil.getOrCreateEncounterRole(new CS<ParticipationAuthorOriginator>(ParticipationAuthorOriginator.Authororiginator))).iterator().next());
+
+
+		// Method?
+		if(observation.getMethodCode() != null &&
+				observation.getMethodCode().size() == 1)
+		{
+			res.setMethod(this.m_conceptUtil.getOrCreateConceptAndEquivalents(observation.getMethodCode().get(0)));
+		}
+		else if(observation.getMethodCode() != null)
+			throw new NotImplementedException("Multiple method codes are not supported by this version of OpenSHR");
+
+		// site?
+		if(observation.getTargetSiteCode() != null &&
+				observation.getTargetSiteCode().size() == 1)
+		{
+			res.setTargetSite(this.m_conceptUtil.getOrCreateConceptAndEquivalents(observation.getTargetSiteCode().get(0)));
+		}
+		else if(observation.getTargetSiteCode() != null)
+			throw new NotImplementedException("Multiple targetSite codes are not supported by this version of OpenSHR");
+
+		// Goal value?
+		if(observation.getValue() instanceof CV)
+			res.setGoalCoded(this.m_conceptUtil.getOrCreateConcept((CV<?>)observation.getValue()));
+		else if(observation.getValue() instanceof PQ)
+		{
+			// Units?
+			PQ pqValue = (PQ)observation.getValue();
+			ConceptNumeric conceptNumeric = Context.getConceptService().getConceptNumeric(orderConcept.getId());
+			String conceptUnits = this.m_conceptUtil.getUcumUnitCode(conceptNumeric);
+			if(!conceptUnits.equals(pqValue.getUnit()))
+				pqValue = pqValue.convert(conceptUnits);
+			res.setGoalNumeric(pqValue.toDouble());
+		}
+		else if(observation.getValue() instanceof INT)
+			res.setGoalNumeric(((INT)observation.getValue()).toDouble());
+		else if(observation.getValue() instanceof ST || observation.getValue() instanceof TEL || observation.getValue() instanceof ED)
+			res.setGoalText(observation.getValue().toString());
+		res.setCareSetting(this.m_metadataUtil.getOrCreateInpatientCareSetting());
+
+		// Priority
+		if(observation.getPriorityCode() != null)
+			this.m_dataUtil.setOrderPriority(res, observation.getPriorityCode().getCode());
+
+		// Order context
+		OrderContext orderContext = new OrderContext();
+
+		// Save the order 
+		res = (ObservationOrder)Context.getOrderService().saveOrder(res, orderContext);
+
+		// Is this an event? If so it happened in the past and isn't active so we have to discontinue it
+		if(discontinueDate != null)
+			try
+			{
+				res = (ObservationOrder)Context.getOrderService().discontinueOrder(res, observation.getStatusCode().getCode().getCode(), discontinueDate, null, encounterInfo);
+			}
+			catch(Exception e)
+			{
+				throw new DocumentPersistenceException(e);
+			}
+
+		return res;
+    }
 
 
 
@@ -170,6 +351,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		if(res.getObsDatetime() == null)
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
 
+
 		// Comments?
 		if(observation.getText() != null)
 		{
@@ -191,43 +373,41 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Get entry value
 		res = this.m_dataUtil.setObsValue(res, value);
 		res = Context.getObsService().saveObs(res, null);
-		   
+		
+
+		// TODO: Move these sub-observations into proper Obs 
+		// values via an extended Obs (which I'm not sure how to do)
+		if(!observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Eventoccurrence))
+		{
+			Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_MOOD, observation.getMoodCode()), observation.getMoodCode());
+			sub.setObsGroup(res);
+			Context.getObsService().saveObs(sub, null);
+		}
+
 		// Repeat number ... as an obs.. 
 		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
 		{
-			Obs repeatObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.repeatNumber"), observation.getEffectiveTime().getValue(), observation.getRepeatNumber().getValue());
-			repeatObs.setPerson(res.getPerson());
-			repeatObs.setLocation(res.getLocation());
-			repeatObs.setEncounter(res.getEncounter());
-			repeatObs.setObsGroup(res);
-			repeatObs.setDateCreated(res.getDateCreated());
-			Context.getObsService().saveObs(repeatObs, null);
+			Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REPEAT, observation.getRepeatNumber().getValue()), observation.getRepeatNumber().getValue());
+			sub.setObsGroup(res);
+			Context.getObsService().saveObs(sub, null);
 		}
-		
+
 		// Method
 		if(observation.getMethodCode() != null)
 			for(CE<String> methodCode : observation.getMethodCode())
 			{
-				Obs methodObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.methodCode"), observation.getEffectiveTime().getValue(), methodCode);
-				methodObs.setPerson(res.getPerson());
-				methodObs.setLocation(res.getLocation());
-				methodObs.setEncounter(res.getEncounter());
-				methodObs.setDateCreated(res.getDateCreated());
-				methodObs.setObsGroup(res);
-				Context.getObsService().saveObs(methodObs, null);
+				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_METHOD, methodCode), methodCode);
+				sub.setObsGroup(res);
+				Context.getObsService().saveObs(sub, null);
 			}
 
 		// Interpretation
 		if(observation.getInterpretationCode() != null)
 			for(CE<ObservationInterpretation> interpretationCode : observation.getInterpretationCode())
 			{
-				Obs interpretationObs = this.m_dataUtil.createRmimValueObservation(this.m_conceptUtil.getLocalizedString("obs.interpretationCode"), observation.getEffectiveTime().getValue(), interpretationCode);
-				interpretationObs.setPerson(res.getPerson());
-				interpretationObs.setLocation(res.getLocation());
-				interpretationObs.setEncounter(res.getEncounter());
-				interpretationObs.setObsGroup(res);
-				interpretationObs.setDateCreated(res.getDateCreated());
-				Context.getObsService().saveObs(interpretationObs, null);
+				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_INTERPRETATION, interpretationCode), interpretationCode);
+				sub.setObsGroup(res);
+				Context.getObsService().saveObs(sub, null);
 			}
 
 		// Process any components

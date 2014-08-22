@@ -34,9 +34,6 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	// The processor for this service 
 	private CdaProcessor m_processor;
 
-
-	
-
 	/** 
 	 * TODO: This needs to be more thread/process safe.. 
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#importDocument(java.io.InputStream)
@@ -45,6 +42,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Transactional(readOnly = true)
 	public Visit importDocument(InputStream doc) throws DocumentImportException 
 	{
+		
 		if(this.m_processor == null)
 			this.m_processor = CdaProcessor.getInstance();
 		// TODO: Store incoming to a temporary table for CDAs (like the HL7 queue)

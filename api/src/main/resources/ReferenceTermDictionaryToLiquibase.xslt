@@ -11,7 +11,8 @@
 
   <xsl:template match="/rd:referenceTermDictionary">
     <databaseChangeLog xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-
+	  <include file="liquibase.orders.xml"/>
+	  <include file="liquibase.concepts.xml"/>
       <xsl:comment>
         <![CDATA[
 	        This change file has been automatically generated from a source file containing reference terms

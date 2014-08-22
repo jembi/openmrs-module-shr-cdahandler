@@ -49,7 +49,7 @@ import org.openmrs.util.OpenmrsConstants;
  */
 public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	
-	private static final String ACTIVE_LIST_INITIAL_XML = "include/ActiveListTest.xml";
+	private static final String ACTIVE_LIST_INITIAL_XML = "include/CdaImportTest.xml";
 	private static final String CIEL_LIST_INITIAL_XML = "include/CielList.xml";
 	
 	protected final Log log = LogFactory.getLog(this.getClass());

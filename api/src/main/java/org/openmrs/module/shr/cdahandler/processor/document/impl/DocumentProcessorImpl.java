@@ -37,6 +37,7 @@ import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -414,7 +415,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		// Process contents
 		Obs binaryContentObs = new Obs();
-		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(m_openmrsMetadataUtil.getLocalizedString("obs.document.text"), bodyChoiceIfNonXMLBody.getText()));
+		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_DOCUMENT_TEXT, bodyChoiceIfNonXMLBody.getText()));
 		binaryContentObs.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
 		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
 		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());

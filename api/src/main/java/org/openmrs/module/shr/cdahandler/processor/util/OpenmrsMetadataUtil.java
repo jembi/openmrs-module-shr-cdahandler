@@ -10,20 +10,25 @@ import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.openmrs.CareSetting;
+import org.openmrs.CareSetting.CareSettingType;
 import org.openmrs.Concept;
+import org.openmrs.ConceptClass;
 import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.OrderType;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.ProviderAttributeType;
 import org.openmrs.RelationshipType;
 import org.openmrs.VisitAttributeType;
 import org.openmrs.VisitType;
-import org.openmrs.CareSetting.CareSettingType;
 import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
+import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
 import org.openmrs.util.OpenmrsConstants;
 
 /**
@@ -280,7 +285,7 @@ public class OpenmrsMetadataUtil {
 				this.getLocalizedString("maritalStatus.description"));
 			Concept civilStatusConcept = Context.getConceptService().getConcept(OpenmrsConstants.CIVIL_STATUS_CONCEPT_ID);
 			if(civilStatusConcept == null)
-				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(this.getLocalizedString("maritalStatus"), new CD<String>());
+				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_MARITAL_STATUS, new CD<String>());
 			res.setForeignKey(civilStatusConcept.getId());
 			res = Context.getPersonService().savePersonAttributeType(res);
 		}
@@ -444,6 +449,36 @@ public class OpenmrsMetadataUtil {
 		return setting;
     }
 
+	/**
+	 * Get or create the order type for procedures
+	 * @throws DocumentImportException 
+	 */
+	public OrderType getOrCreateProcedureOrderType() {
+		OrderType res = Context.getOrderService().getOrderTypeByUuid(CdaHandlerConstants.UUID_ORDER_TYPE_PROCEDURE);
+		if(res == null && this.m_configuration.getAutoCreateMetaData())
+		{
+			res = new OrderType("Procedure Order", "Procedure Order", ProcedureOrder.class.getName());
+			res.setUuid(CdaHandlerConstants.UUID_ORDER_TYPE_PROCEDURE);
+			res.addConceptClass(Context.getConceptService().getConceptClassByUuid(ConceptClass.PROCEDURE_UUID));
+			res = Context.getOrderService().saveOrderType(res);
+		}
+		return res;
+    }
+
+	/**
+	 * Get or create observation order type
+	 */
+	public OrderType getOrCreateObservationOrderType() {
+		OrderType res = Context.getOrderService().getOrderTypeByUuid(CdaHandlerConstants.UUID_ORDER_TYPE_OBSERVATION);
+		if(res == null && this.m_configuration.getAutoCreateMetaData())
+		{
+			res = new OrderType("Observation Order", "Observation Order", ObservationOrder.class.getName());
+			res.setUuid(CdaHandlerConstants.UUID_ORDER_TYPE_OBSERVATION);
+			res.addConceptClass(Context.getConceptService().getConceptClassByUuid(ConceptClass.TEST_UUID));
+			res = Context.getOrderService().saveOrderType(res);
+		}
+		return res;
+    }
 
 	
 }

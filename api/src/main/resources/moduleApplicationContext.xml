@@ -34,7 +34,7 @@
 					<property name="target">
 						<bean class="${project.parent.groupId}.shr.cdahandler.api.impl.CdaImportServiceImpl">
 							<!-- <property name="dao">
-								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernatecdaAntepartumDAO">
+								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernateCdaImportDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>

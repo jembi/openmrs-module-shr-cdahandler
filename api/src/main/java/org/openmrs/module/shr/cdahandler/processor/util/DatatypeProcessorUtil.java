@@ -329,7 +329,7 @@ public final class DatatypeProcessorUtil {
 				break;
 			}
 	
-		if(en.getUse().contains(new CS<EntityNameUse>(EntityNameUse.Legal)))
+		if(en.getUse() != null && en.getUse().contains(new CS<EntityNameUse>(EntityNameUse.Legal)))
 			name.setPreferred(true);
 		return name;
 	}

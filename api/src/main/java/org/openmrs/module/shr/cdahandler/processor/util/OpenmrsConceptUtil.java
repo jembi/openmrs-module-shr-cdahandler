@@ -139,7 +139,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(!setConcept.isSet() && this.m_configuration.getAutoCreateConcepts())
 		{
 			setConcept.setSet(true);
-			setConcept.setConceptClass(this.m_conceptService.getConceptClassByName("ConvSet"));
+			setConcept.setConceptClass(this.m_conceptService.getConceptClassByUuid(ConceptClass.CONVSET_UUID));
 			needsSave = true;
 		}
 		else if(!setConcept.isSet())
@@ -194,17 +194,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		// Concept class for auto-created concepts
 		log.debug("Get Concept Class");
-		ConceptClass conceptClass = this.m_conceptService.getConceptClassByName(value == null ? "ConvSet" : "Auto");
-		if(conceptClass == null)
-		{
-			conceptClass = new ConceptClass();
-			conceptClass.setName("Auto");
-			conceptClass.setDescription(super.getLocalizedString("autocreated"));
-			synchronized (s_lockObject) {
-				this.m_conceptService.saveConceptClass(conceptClass);
-            }
-		}
-		
+		ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(value == null ? ConceptClass.CONVSET_UUID : CdaHandlerConstants.UUID_CONCEPT_CLS_AUTO);
 		String fullName = code.getDisplayName();
 		if(fullName == null)
 			fullName = code.getCode().toString();
@@ -628,7 +618,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(concept == null && this.m_configuration.getAutoCreateConcepts())
 		{
 			Log.warn(String.format("Creating CDA RMIM concept %s", rmimName));
-			ConceptClass conceptClass = this.m_conceptService.getConceptClassByName("Misc");
+			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.MISC_UUID);
 			
 			ConceptDatatype datatype = this.getConceptDatatype(valueToStore);
 					
@@ -880,11 +870,12 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		Concept concept = this.m_conceptService.getConceptByName(conceptName);
 		if(concept == null)
 		{
-			ConceptClass conceptClass = this.m_conceptService.getConceptClassByName("Frequency");
+			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.FREQUENCY_UUID);
 			if(conceptClass == null)
 			{
 				conceptClass = new ConceptClass();
 				conceptClass.setName("Frequency");
+				conceptClass.setUuid(ConceptClass.FREQUENCY_UUID);
 				conceptClass.setDescription(super.getLocalizedString("autocreated"));
 				synchronized (s_lockObject) {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
@@ -934,7 +925,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(concept == null)
 		{
 			concept = this.createConcept(administrationUnitCode);
-			ConceptClass conceptClass = this.m_conceptService.getConceptClassByName("Drug Form");
+			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(CdaHandlerConstants.UUID_CONCEPT_CLS_DRUG_FORM);
 			if(conceptClass == null)
 			{
 				conceptClass = new ConceptClass();
@@ -962,7 +953,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(concept == null)
 		{
 			concept = this.createConcept(drugCode);
-			ConceptClass conceptClass = this.m_conceptService.getConceptClassByName("Drug");
+			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.DRUG_UUID);
 			if(conceptClass == null)
 			{
 				conceptClass = new ConceptClass();
@@ -984,7 +975,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @throws DocumentImportException 
 	 */
 	public Concept getOrCreateDrugRouteConcept() throws DocumentImportException {
-		Concept rmimConcept = this.getOrCreateRMIMConcept("Drug Route of Administration", new CV<String>());
+		Concept rmimConcept = this.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_ROUTE_OF_ADM, new CV<String>());
 		
 		// Now, add as a set member to History of Medications
 		Concept historyOfMedications = this.m_conceptService.getConcept(160741),

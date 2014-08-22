@@ -20,14 +20,18 @@ import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
 import org.marc.everest.datatypes.generic.SET;
+import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ActPriority;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
+import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
@@ -37,6 +41,7 @@ import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
+import org.openmrs.Order.Urgency;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
@@ -177,10 +182,10 @@ public final class OpenmrsDataUtil {
 			ComplexData complexData = new ComplexData("observationdata", textStream);
 			observation.setComplexData(complexData);
 		}
-		else if(value instanceof CE || value instanceof CO)
+		else if(value instanceof CS || value instanceof CO)
 		{
 			
-			CE<String> codeValue = null;
+			CE<?> codeValue = null;
 			if(value instanceof CO)
 			{
 				if(((CO)value).getValue() != null)
@@ -189,8 +194,14 @@ public final class OpenmrsDataUtil {
 					codeValue = ((CO)value).getCode();
 			}
 			else
-				codeValue = (CE<String>)value;
-
+			{
+				CS<?> csValue = (CS<?>)value;
+				if(value.getDataType().equals(CS.class) && csValue.getCode() instanceof IEnumeratedVocabulary)
+					codeValue = new CE<String>(csValue.getCode().toString(), ((IEnumeratedVocabulary)csValue.getCode()).getCodeSystem());
+				else
+					codeValue = (CE<?>)value;
+			}
+			
 			// Coded 
 			if(codeValue != null)
 			{
@@ -297,5 +308,35 @@ public final class OpenmrsDataUtil {
 		//res.setObsGroup(parentObs);
 		//res = Context.getObsService().saveObs(res, null);
 		return res;
+    }
+
+
+	/**
+	 * Set properties on the order as described by the priority code
+	 * @throws DocumentImportException 
+	 */
+	public void setOrderPriority(Order order, ActPriority priorityCode) throws DocumentImportException {
+		if(priorityCode.equals(ActPriority.ASAP))
+		{
+			order.setUrgency(Urgency.STAT);
+			order.setCommentToFulfiller("ASAP");
+		}
+		else if(priorityCode.equals(ActPriority.AsNeeded) && order instanceof DrugOrder)
+			((DrugOrder)order).setAsNeeded(true);
+		else if(priorityCode.equals(ActPriority.CallbackForScheduling))
+			order.setInstructions("Callback for scheduling");
+		else if(priorityCode.equals(ActPriority.Stat))
+			order.setUrgency(Urgency.STAT);
+		else if(priorityCode.equals(ActPriority.TimingCritical))
+			order.setUrgency(Urgency.ON_SCHEDULED_DATE);
+		else if(priorityCode.equals(ActPriority.Routine))
+			order.setUrgency(Urgency.ROUTINE);
+		else if(priorityCode.equals(ActPriority.Emergency))
+		{
+			order.setCommentToFulfiller("Emergency");
+			order.setUrgency(Urgency.STAT);
+		}
+		else
+			throw new DocumentImportException(String.format("OpenSHR has no mechanism to represent priority code of %s", priorityCode.getCode()));
     }
 }
