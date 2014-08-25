@@ -219,7 +219,8 @@ public final class PatientRoleProcessorUtil {
 						// Does the patient already have this name?
 						boolean hasName = false;
 						for(PersonName existingName : res.getNames())
-							hasName |= existingName.equalsContent(existingName);
+							hasName |= existingName.getFamilyName().equals(name.getFamilyName()) &&
+								existingName.getGivenName().equals(name.getGivenName());
 						
 						if(!hasName)
 							res.addName(name);

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-auto" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept_class" />
+				<sqlCheck expectedResult="0">
+					select count(name) from concept_class where uuid='4ccac411-eb8e-45d6-8ec1-f6e09602449f'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept_class">
+			<column name="name" value="Auto" />
+			<column name="description" value="Autocreated Codes" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueComputed="now()" />
+			<column name="uuid" value="4ccac411-eb8e-45d6-8ec1-f6e09602449f" />
+			<column name="retired" valueNumeric="0" />
+		</insert>
+	</changeSet>
+
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-drug-form" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept_class" />
+				<sqlCheck expectedResult="0">
+					select count(name) from concept_class where uuid='b56429ef-1000-42d4-9a9f-01443455b9a6'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept_class">
+			<column name="name" value="Drug Form" />
+			<column name="description" value="Drug form codes" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueComputed="now()" />
+			<column name="uuid" value="b56429ef-1000-42d4-9a9f-01443455b9a6" />
+			<column name="retired" valueNumeric="0" />
+		</insert>
+	</changeSet>
+
+	<!--  RMIM Concepts -->
+</databaseChangeLog>

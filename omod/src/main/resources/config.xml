@@ -8,7 +8,7 @@
 	<version>${project.parent.version}</version>
 	<package>${project.parent.groupId}.${project.parent.artifactId}
 	</package>
-	<author>hannes, surangak, justin</author>
+	<author>OpenSHR Community</author>
 	<description>
 		${project.parent.description}
 	</description>

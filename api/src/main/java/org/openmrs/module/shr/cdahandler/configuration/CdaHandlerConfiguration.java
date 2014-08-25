@@ -27,36 +27,36 @@ public final class CdaHandlerConfiguration {
     	return s_instance;
     }
 	// Automatically create concepts
-    public static final String PROP_AUTOCREATE_CONCEPTS = "shr.cdahandler.autocreate.concepts";
+    public static final String PROP_AUTOCREATE_CONCEPTS = "shr-cdahandler.autocreate.concepts";
 	// Automatically create locations
-    public static final String PROP_AUTOCREATE_LOCATIONS = "shr.cdahandler.autocreate.locations";
+    public static final String PROP_AUTOCREATE_LOCATIONS = "shr-cdahandler.autocreate.locations";
 	// Property name controlling auto-creation of encounter roles
-    public static final String PROP_AUTOCREATE_METADATA = "shr.cdahandler.autocreate.metaData";
+    public static final String PROP_AUTOCREATE_METADATA = "shr-cdahandler.autocreate.metaData";
 	// Property name controlling the auto-creation of patient id types
-    public static final String PROP_AUTOCREATE_PATIENTIDTYPE = "shr.cdahandler.autocreate.patients.idtype";
+    public static final String PROP_AUTOCREATE_PATIENTIDTYPE = "shr-cdahandler.autocreate.patients.idtype";
 	// Property name controlling the auto-creation of patients
-    public static final String PROP_AUTOCREATE_PATIENTS = "shr.cdahandler.autocreate.patients";
+    public static final String PROP_AUTOCREATE_PATIENTS = "shr-cdahandler.autocreate.patients";
 	// Property name controlling the auto-creation of persons
-    public static final String PROP_AUTOCREATE_PERSONS = "shr.cdahandler.autocreate.persons";
+    public static final String PROP_AUTOCREATE_PERSONS = "shr-cdahandler.autocreate.persons";
 	// Property name controlling the auto-creation of users
-    public static final String PROP_AUTOCREATE_USERS = "shr.cdahandler.autocreate.users";
+    public static final String PROP_AUTOCREATE_USERS = "shr-cdahandler.autocreate.users";
 	// Property name controlling auto-creation of entities
-    public static final String PROP_AUTOCREATE_PROVIDERS = "shr.cdahandler.autocreate.providers";
+    public static final String PROP_AUTOCREATE_PROVIDERS = "shr-cdahandler.autocreate.providers";
     // Property controlling the format of complex identifiers
-    public static final String PROP_ID_FORMAT = "shr.cdahandler.id.format";
+    public static final String PROP_ID_FORMAT = "shr-cdahandler.id.format";
     // Strict validation
-    public static final String PROP_VALIDATE_STRUCTURE = "shr.cdahandler.validation.cda";
+    public static final String PROP_VALIDATE_STRUCTURE = "shr-cdahandler.validation.cda";
     // Strict validation
-    public static final String PROP_VALIDATE_CONCEPT_STRUCTURE = "shr.cdahandler.validation.conceptStructure";
+    public static final String PROP_VALIDATE_CONCEPT_STRUCTURE = "shr-cdahandler.validation.conceptStructure";
     // The root of EPIDs
-    public static final String PROP_EPID_ROOT = "shr.cdahandler.id.epidRoot";
+    public static final String PROP_EPID_ROOT = "shr-cdahandler.id.epidRoot";
     // The root of ECIDs
-	private static final String PROP_ECID_ROOT = "shr.cdahandler.id.ecidRoot";
+	private static final String PROP_ECID_ROOT = "shr-cdahandler.id.ecidRoot";
     // The root of Objects in the SHR
-	private static final String PROP_SHR_ROOT = "shr.cdahandler.id.root";
+	private static final String PROP_SHR_ROOT = "shr-cdahandler.id.root";
 	
     // Update existing
-    public static final String PROP_UPDATE_EXISTING = "shr.cdahandler.updateExisting";
+    public static final String PROP_UPDATE_EXISTING = "shr-cdahandler.updateExisting";
     private Boolean m_autoCreateProviders = true;
     private Boolean m_autoCreateLocations = true;
     private Boolean m_autoCreateConcepts = true;
@@ -87,7 +87,7 @@ public final class CdaHandlerConfiguration {
     }
 
     /**
-	 * Get the shr.cdahandler.autocreate.concepts value
+	 * Get the shr-cdahandler.autocreate.concepts value
 	 */
 	public boolean getAutoCreateConcepts()
 	{
@@ -95,7 +95,7 @@ public final class CdaHandlerConfiguration {
 	}
     
     /**
-	 * Get the shr.cdahandler.autocreate.locations value
+	 * Get the shr-cdahandler.autocreate.locations value
 	 */
 	public boolean getAutoCreateLocations()
 	{
@@ -103,7 +103,7 @@ public final class CdaHandlerConfiguration {
 	}
 
 	/**
-	 * Get the shr.cdahandler.autocreate.metadata value
+	 * Get the shr-cdahandler.autocreate.metadata value
 	 * @return
 	 */
 	public boolean getAutoCreateMetaData() {
@@ -111,7 +111,7 @@ public final class CdaHandlerConfiguration {
     }
 
 	/**
-	 * Get the shr.cdahandler.autocreate.patientidtype value
+	 * Get the shr-cdahandler.autocreate.patientidtype value
 	 */
 	public boolean getAutoCreatePatientIdType()
 	{
@@ -119,14 +119,14 @@ public final class CdaHandlerConfiguration {
 	}
 	
 	/**
-	 * Get the shr.cdahandler.autocreate.patients value
+	 * Get the shr-cdahandler.autocreate.patients value
 	 */
 	public boolean getAutoCreatePatients() {
 		return this.m_autoCreatePatients;
     }
 	
 	/**
-	 * Get the shr.cdahandler.autocreate.persons value
+	 * Get the shr-cdahandler.autocreate.persons value
 	 * @return
 	 */
 	public boolean getAutoCreatePersons() {
@@ -134,14 +134,14 @@ public final class CdaHandlerConfiguration {
     }
 
 	/**
-	 * Get the shr.cdahandler.autocreate.providers value
+	 * Get the shr-cdahandler.autocreate.providers value
 	 */
 	public boolean getAutoCreateProviders() {
 		return this.m_autoCreateProviders;
     }
 
 	/**
-	 * Get the shr.cdahandler.autocreate.users value
+	 * Get the shr-cdahandler.autocreate.users value
 	 * @return
 	 */
 	public boolean getAutoCreateUsers()	{
@@ -157,14 +157,14 @@ public final class CdaHandlerConfiguration {
 	}
 	
 	/**
-	 * Get the shr.cdahandler.idformat value
+	 * Get the shr-cdahandler.idformat value
 	 */
 	public String getIdFormat() {
 		return this.m_idFormat;
     }
 
 	/**
-	 * Get the shr.cdahandler.id.ecidRoot value
+	 * Get the shr-cdahandler.id.ecidRoot value
 	 */
 	public String getEcidRoot() {
 		return this.m_ecidRoot;
@@ -235,7 +235,7 @@ public final class CdaHandlerConfiguration {
     }
 
 	/**
-	 * Get the shr.cdahandler.updatedExisting value
+	 * Get the shr-cdahandler.updatedExisting value
 	 * 
 	 * This affects the way that the SHR will persist entries / documents with identical IDs. If set to true
 	 * then the SHR will simply perform an update. When false, all IDs must be unique or else a duplicate exception
@@ -247,14 +247,14 @@ public final class CdaHandlerConfiguration {
     }
 
 	/**
-	 * Get the shr.cdahandler.validate.concept value
+	 * Get the shr-cdahandler.validate.concept value
 	 */
 	public boolean getValidateConceptStructure() {
 		return this.m_validateConceptStructure;
     }
 
 	/**
-	 * Get the shr.cdahandler.validate.cda value
+	 * Get the shr-cdahandler.validate.cda value
 	 * @return
 	 */
 	public boolean getValidationEnabled() {
