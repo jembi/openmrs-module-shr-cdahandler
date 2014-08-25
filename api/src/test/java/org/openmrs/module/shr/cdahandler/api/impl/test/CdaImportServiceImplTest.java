@@ -63,6 +63,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
 		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
 		Context.getAdministrationService().setGlobalProperty("order.nextOrderNumberSeed", "1");
+		Context.getAdministrationService().setGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_FALSE_CONCEPT, "1066");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		initializeInMemoryDatabase();
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);

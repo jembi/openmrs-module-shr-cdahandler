@@ -6,6 +6,9 @@ package org.openmrs.module.shr.cdahandler;
  */
 public final class CdaHandlerConstants {
 	
+	// the sdtc namespace
+	public static final String NS_SDTC = "urn:hl7-org:sdtc";
+	
 	public static final String FMT_CODE_PCC_MS = "urn:ihe:pcc:xds-ms:2007"; 
 	public static final String FMT_CODE_PCC_HP = "urn:ihe:pcc:hp:2008";
 	public static final String FMT_CODE_PCC_APHP = "urn:ihe:pcc:aphp:2008";

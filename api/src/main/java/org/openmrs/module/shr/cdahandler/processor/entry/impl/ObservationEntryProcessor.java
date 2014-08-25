@@ -57,6 +57,7 @@ import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
+import org.openmrs.util.OpenmrsConstants;
 
 
 /**
@@ -307,10 +308,6 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				observation.getValue() instanceof CV || 
 				observation.getValue() instanceof BL)) // NA is an indicator .. We need to figure out what the question was?
 		{
-			// Is this really an indicator that is enabled?
-			if(BL.FALSE.equals(observation.getValue()))
-				return null; // Don't save this .. bail out!
-			
 			// Get potential question
 			List<Concept> questions = Context.getConceptService().getConceptsByAnswer(concept);
 			value = observation.getCode();
@@ -318,11 +315,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				concept = questions.get(0);
 			else // Create a question indicator
 				concept = this.m_conceptUtil.getOrCreateRMIMConcept(concept.getDisplayString() + " Indicator", value);
-			
-			
 		}
 		else if(!concept.getDatatype().equals(this.m_conceptUtil.getConceptDatatype(observation.getValue())))
 			throw new DocumentImportException(String.format("Cannot store data of type %s in a concept field assigned %s", this.m_conceptUtil.getConceptDatatype(observation.getValue()).getName(), concept.getDatatype().getName()));
+
 		
 		res.setConcept(concept);
 		
@@ -374,6 +370,15 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		res = this.m_dataUtil.setObsValue(res, value);
 		res = Context.getObsService().saveObs(res, null);
 		
+		// Is this really an indicator that is enabled?
+		if(BL.FALSE.equals(observation.getValue()) || BL.TRUE.equals(observation.getNegationInd()))
+		{
+			Obs sub = this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(1729), Context.getConceptService().getConcept(Integer.valueOf(Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_FALSE_CONCEPT))));
+			sub.setObsGroup(res);
+			Context.getObsService().saveObs(sub, null);
+		}
+		
+
 
 		// TODO: Move these sub-observations into proper Obs 
 		// values via an extended Obs (which I'm not sure how to do)

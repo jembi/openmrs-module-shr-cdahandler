@@ -14,6 +14,7 @@ import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.everest.EverestUtil;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -84,10 +85,8 @@ public final class CdaProcessor {
 	public Visit processCdaDocument(InputStream doc) throws DocumentImportException {
 
 		// Formatter
-		XmlIts1Formatter formatter = new XmlIts1Formatter();
-		formatter.addCachedClass(ClinicalDocument.class);
-		formatter.getGraphAides().add(new DatatypeFormatter(R1FormatterCompatibilityMode.Canadian));
-		formatter.setValidateConformance(false); // Don't validate to RMIM conformance
+		
+		XmlIts1Formatter formatter = EverestUtil.createFormatter();
 		
 		// Parse the document
 		log.debug("Starting processing of document");
