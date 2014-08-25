@@ -144,7 +144,7 @@ public final class CdaHandlerConstants {
 	
 	// UUIDs
 	public static final String UUID_ORDER_TYPE_PROCEDURE = "9506c6fe-d517-4707-a0c8-e72da23ff16d";
-	public static final String UUID_CONCEPT_CLS_DRUG_FORM = "b56429ef-1000-42d4-9a9f-01443455b9a6";
+	public static final String UUID_CONCEPT_CLS_DRUG_FORM = "de359f23-2bfc-4e8d-96d8-25b7526d6070";
 	public static final String UUID_CONCEPT_CLS_AUTO = "4ccac411-eb8e-45d6-8ec1-f6e09602449f";
 	public static final String UUID_ORDER_TYPE_OBSERVATION = "7f14cf98-8452-42c0-acac-2ba96c8e66ce";
 }
