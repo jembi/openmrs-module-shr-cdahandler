@@ -28,18 +28,18 @@ import org.springframework.transaction.annotation.Transactional;
  * meant to scoop up queued documents
  * 
  */
-public final class CdaProcessor {
+public final class CdaImporter {
 
 	/**
 	 * Get (and initialize) an instance of the CdaProcessor 
 	 */
-	public static CdaProcessor getInstance()
+	public static CdaImporter getInstance()
 	{
 		if(s_instance == null)
 			synchronized (s_lockObject) {
 				if(s_instance == null)
 				{
-					s_instance = new CdaProcessor();
+					s_instance = new CdaImporter();
 					s_instance.initialize();
 				}
             }
@@ -48,7 +48,7 @@ public final class CdaProcessor {
 	
 	// Log for this processor
 	protected final Log log = LogFactory.getLog(this.getClass());
-	private static CdaProcessor s_instance = null;
+	private static CdaImporter s_instance = null;
 	
 	private static Object s_lockObject = new Object();
 	
@@ -58,7 +58,7 @@ public final class CdaProcessor {
 	/**
 	 * CDA processor constructor
 	 */
-	protected CdaProcessor()
+	protected CdaImporter()
 	{
 	}
 	
@@ -82,38 +82,15 @@ public final class CdaProcessor {
 	 * @throws DocumentImportException 
 	 */
 	@Transactional(readOnly = true)
-	public Visit processCdaDocument(InputStream doc) throws DocumentImportException {
+	public Visit processCdaDocument(ClinicalDocument doc) throws DocumentImportException {
 
-		// Formatter
-		
-		XmlIts1Formatter formatter = EverestUtil.createFormatter();
-		
-		// Parse the document
-		log.debug("Starting processing of document");
-		IFormatterParseResult parseResult = formatter.parse(doc);
-		log.debug("Process document complete.");
-
-		// Validation messages?
-		ValidationIssueCollection parsingIssues = new ValidationIssueCollection();
-		for(IResultDetail dtl : parseResult.getDetails())
-		{
-			if(dtl.getType() == ResultDetailType.ERROR && !(dtl instanceof DatatypeValidationResultDetail))
-				parsingIssues.error(String.format("HL7v3 Validation: %s at %s", dtl.getMessage(), dtl.getLocation()));
-			else  
-				parsingIssues.warn(String.format("HL7v3 Validation: %s at %s", dtl.getMessage(), dtl.getLocation()));
-		}
-		// Any serious validation has errors or structure is null?
-		if(parsingIssues.hasErrors() && this.m_configuration.getValidationEnabled() || parseResult.getStructure() == null)
-			throw new DocumentValidationException(parseResult.getStructure(), parsingIssues);
-		
-		// Get the clinical document
-		ClinicalDocument clinicalDocument = (ClinicalDocument)parseResult.getStructure();
-
+	
 		// Get the document parser
 		DocumentProcessorFactory factory = DocumentProcessorFactory.getInstance();
-		DocumentProcessor processor = factory.createProcessor(clinicalDocument);
+		DocumentProcessor processor = factory.createProcessor(doc);
 
-		Visit visitInformation = processor.process(clinicalDocument);
+		Visit visitInformation = processor.process(doc);
+		
 		
 		// Copy the original
 		// TODO: Find out if we need this?

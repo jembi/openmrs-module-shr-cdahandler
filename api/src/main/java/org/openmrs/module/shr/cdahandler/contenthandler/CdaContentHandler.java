@@ -20,8 +20,10 @@ import org.openmrs.EncounterType;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.Visit;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
-import org.openmrs.module.shr.cdahandler.CdaProcessor;
+import org.openmrs.module.shr.cdahandler.CdaImporter;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -103,7 +105,7 @@ public class CdaContentHandler implements ContentHandler {
 	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providerRole, EncounterType encounterType, Content content) {
 		
 		// TODO: Validate / add provider data to the header
-		CdaProcessor processor = CdaProcessor.getInstance();
+		CdaImportService importService = Context.getService(CdaImportService.class);
 		try {
 
 			// HACK: Handle the BOM or Java String PRoblems
@@ -117,7 +119,7 @@ public class CdaContentHandler implements ContentHandler {
 				offset = 2;
 			log.info(new String(data, offset, data.length - offset));
 			// Process the visit
-	        Visit processedVisit = processor.processCdaDocument(new ByteArrayInputStream(data, offset, data.length - offset));
+	        Visit processedVisit = importService.importDocument(new ByteArrayInputStream(data, offset, data.length - offset));
 	        
 	        ValidationIssueCollection issues = new ValidationIssueCollection();
 	        Encounter lastEncounter = processedVisit.getEncounters().iterator().next(); // Assume the first encounter is the latest in the visit

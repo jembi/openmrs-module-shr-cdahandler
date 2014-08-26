@@ -69,7 +69,6 @@ public class ExternalReferencesEntryProcessor extends EntryProcessorImpl {
 		// Create concept and datatype services
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
-
 		Obs previousObs = super.voidOrThrowIfPreviousObsExists(act.getReference(), encounterInfo.getPatient(), act.getId());
 				
 		// Create the observation for the reference

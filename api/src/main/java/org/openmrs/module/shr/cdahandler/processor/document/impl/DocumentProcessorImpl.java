@@ -181,7 +181,6 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 				// Append, so that means we're updating the visit with a new encounter!
 				visitInformation = oldVisit; // TODO: See if this is the correct way to do this
 				visitInformation.setDateChanged(doc.getEffectiveTime().getDateValue().getTime());
-				
 			}
 			else
 				log.warn(String.format("Don't understand the relationship type %s", FormatterUtil.toWireFormat(dr.getTypeCode())));

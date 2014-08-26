@@ -33,6 +33,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface CdaImportService extends OpenmrsService {
      
+	/**
+	 * Import a document
+	 */
 	Visit importDocument(InputStream inputStream) throws DocumentImportException;
+
+	/**
+	 * Subscribe to the import operation
+	 * 
+	 * @param templateId The identifier of the template to subscribe to, or null for all
+	 */
+	void subscribeImport(String templateId, CdaImportSubscriber singletonImporter);
 	
 }

@@ -94,7 +94,7 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 	 * @return
 	 * @throws DocumentImportException 
 	 */
-	private BaseOpenmrsData processIntent(Procedure procedure) throws DocumentImportException {
+	protected BaseOpenmrsData processIntent(Procedure procedure) throws DocumentImportException {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 
 		// Get current order and void if existing for an update
