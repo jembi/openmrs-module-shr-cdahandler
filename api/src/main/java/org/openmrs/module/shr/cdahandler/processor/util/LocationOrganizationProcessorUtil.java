@@ -80,7 +80,7 @@ public final class LocationOrganizationProcessorUtil {
 		else
 			res.setName("unnamed location");
 		
-		res.setDescription(this.m_metaDataUtil.getLocalizedString("autocreated"));
+		res.setDescription("Automatically created");
 		
 		// Assign the telecom
 		if(organization.getAddr() != null && !organization.getAddr().isNull())

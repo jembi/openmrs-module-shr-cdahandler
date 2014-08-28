@@ -8,28 +8,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.List;
-
-import junit.framework.Assert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
-import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.PQ;
-import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.GlobalProperty;
-import org.openmrs.Relationship;
 import org.openmrs.Visit;
-import org.openmrs.activelist.Allergy;
-import org.openmrs.activelist.AllergySeverity;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;

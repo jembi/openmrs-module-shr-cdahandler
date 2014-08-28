@@ -150,4 +150,12 @@ public final class CdaHandlerConstants {
 	public static final String UUID_CONCEPT_CLS_DRUG_FORM = "de359f23-2bfc-4e8d-96d8-25b7526d6070";
 	public static final String UUID_CONCEPT_CLS_AUTO = "4ccac411-eb8e-45d6-8ec1-f6e09602449f";
 	public static final String UUID_ORDER_TYPE_OBSERVATION = "7f14cf98-8452-42c0-acac-2ba96c8e66ce";
+
+	// Attributes names
+	public static final String ATTRIBUTE_NAME_EXTERNAL_ID = "ExternalId";
+	public static final String ATTRIBUTE_NAME_TELECOM = "Telecom";
+	public static final String ATTRIBUTE_NAME_CIVIL_STATUS = "Civil Status";
+	public static final String ATTRIBUTE_NAME_ORGANIZATION = "Organization";
+	public static final String ATTRIBUTE_NAME_CONFIDENTIALITY = "Confidentiality";
+	public static final String ATTRIBUTE_NAME_ORIGINAL_COPY = "Original";
 }

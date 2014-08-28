@@ -158,17 +158,6 @@ public class OpenmrsMetadataUtil {
 		return res;
 	}
 
-	/**
-	 * Get an internationalized string
-	 * @param name The name of the string
-	 * @return
-	 */
-	public String getLocalizedString(String name)
-	{
-		
-		ResourceBundle bundle = ResourceBundle.getBundle("messages");
-		return bundle.getString(String.format("shr-cdahandler.%s", name));
-	}
 	
 	/**
 	 * Get an EncounterRole from the RoleCode
@@ -240,12 +229,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public LocationAttributeType getOrCreateLocationExternalIdAttributeType() throws DocumentImportException
 	{
-		LocationAttributeType res = this.getAttributeType(this.getLocalizedString("externalId"), LocationAttributeType.class);
+		LocationAttributeType res = this.getAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_EXTERNAL_ID, LocationAttributeType.class);
 		if(res == null)
 			res = this.createAttributeType(
-				this.getLocalizedString("externalId"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_EXTERNAL_ID, 
 				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("externalId.description"),
+				"External Identifiers",
 				0, 1,
 				LocationAttributeType.class);
 		return res;
@@ -258,12 +247,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public LocationAttributeType getOrCreateLocationTelecomAttribute() throws DocumentImportException
 	{
-		LocationAttributeType res = this.getAttributeType(this.getLocalizedString("telecom"), LocationAttributeType.class);
+		LocationAttributeType res = this.getAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_TELECOM, LocationAttributeType.class);
 		if(res == null)
 			res = this.createAttributeType(
-				this.getLocalizedString("telecom"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_TELECOM, 
 				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("telecom.description"),
+				"Telcom Address",
 				0, 5,
 				LocationAttributeType.class);
 		return res;
@@ -276,13 +265,13 @@ public class OpenmrsMetadataUtil {
 	 */
 	public PersonAttributeType getOrCreatePersonMaritalStatusAttribute() throws DocumentImportException
 	{
-		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("maritalStatus"));
+		PersonAttributeType res = this.getPersonAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_CIVIL_STATUS);
 		if(res == null)
 		{
 			res = this.createPersonAttributeType(
-				this.getLocalizedString("maritalStatus"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_CIVIL_STATUS, 
 				"org.openmrs.Location",
-				this.getLocalizedString("maritalStatus.description"));
+				"Civil Status");
 			Concept civilStatusConcept = Context.getConceptService().getConcept(OpenmrsConstants.CIVIL_STATUS_CONCEPT_ID);
 			if(civilStatusConcept == null)
 				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_MARITAL_STATUS, new CD<String>());
@@ -300,12 +289,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public PersonAttributeType getOrCreatePersonOrganizationAttribute() throws DocumentImportException
 	{
-		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("organization"));
+		PersonAttributeType res = this.getPersonAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_ORGANIZATION);
 		if(res == null)
 			res = this.createPersonAttributeType(
-				this.getLocalizedString("organization"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_ORGANIZATION, 
 				"org.openmrs.Location",
-				this.getLocalizedString("organization.description"));
+				"Related Organization");
 		return res;
 	}
 
@@ -316,12 +305,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public PersonAttributeType getOrCreatePersonTelecomAttribute() throws DocumentImportException
 	{
-		PersonAttributeType res = this.getPersonAttributeType(this.getLocalizedString("telecom"));
+		PersonAttributeType res = this.getPersonAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_TELECOM);
 		if(res == null)
 			res = this.createPersonAttributeType(
-				this.getLocalizedString("telecom"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_TELECOM, 
 				"java.lang.String",
-				this.getLocalizedString("telecom.description"));
+				"Telecom Address");
 		return res;
 	}
 
@@ -359,12 +348,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public VisitAttributeType getOrCreateVisitConfidentialityCodeAttributeType() throws DocumentImportException
 	{
-		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("confidentiality"), VisitAttributeType.class);
+		VisitAttributeType res = this.getAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_CONFIDENTIALITY, VisitAttributeType.class);
 		if(res == null)
 			res = this.createAttributeType(
-				this.getLocalizedString("confidentiality"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_CONFIDENTIALITY, 
 				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("confidentiality.description"),
+				"Confidentiality Code",
 				0, 1, 
 				VisitAttributeType.class);
 		return res;
@@ -378,12 +367,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public VisitAttributeType getOrCreateVisitExternalIdAttributeType() throws DocumentImportException
 	{
-		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("externalId"), VisitAttributeType.class);
+		VisitAttributeType res = this.getAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_EXTERNAL_ID, VisitAttributeType.class);
 		if(res == null)
 			res = this.createAttributeType(
-				this.getLocalizedString("externalId"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_EXTERNAL_ID, 
 				"org.openmrs.customdatatype.datatype.FreeTextDatatype",
-				this.getLocalizedString("externalId.description"),
+				"External Identifier",
 				0, 1,
 				VisitAttributeType.class);
 		return res;
@@ -396,12 +385,12 @@ public class OpenmrsMetadataUtil {
 	 */
 	public VisitAttributeType getOrCreateVisitOriginalCopyAttributeType() throws DocumentImportException
 	{
-		VisitAttributeType res = this.getAttributeType(this.getLocalizedString("original"), VisitAttributeType.class);
+		VisitAttributeType res = this.getAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_ORIGINAL_COPY, VisitAttributeType.class);
 		if(res == null)
 			res = this.createAttributeType(
-				this.getLocalizedString("original"), 
+				CdaHandlerConstants.ATTRIBUTE_NAME_ORIGINAL_COPY, 
 				"org.openmrs.customdatatype.datatype.LongFreeTextDatatype",
-				this.getLocalizedString("original.description"),
+				"Original Copy",
 				0, 1,
 				VisitAttributeType.class);
 		return res;
@@ -430,7 +419,7 @@ public class OpenmrsMetadataUtil {
 		{
 			visitType = new VisitType();
 			visitType.setName(visitTypeName);
-			visitType.setDescription(this.getLocalizedString("autocreated"));
+			visitType.setDescription("Auto Created");
 			visitType = Context.getVisitService().saveVisitType(visitType);
 		}
 		else if(visitType == null && !this.m_configuration.getAutoCreateMetaData())
@@ -445,7 +434,7 @@ public class OpenmrsMetadataUtil {
 	public CareSetting getOrCreateInpatientCareSetting() {
 		CareSetting setting = Context.getOrderService().getCareSettingByName("INPATIENT");
 		if(setting == null && this.m_configuration.getAutoCreateMetaData())
-			setting = new CareSetting("INPATIENT", this.getLocalizedString("autocreated"), CareSettingType.INPATIENT);
+			setting = new CareSetting("INPATIENT", "Auto Created", CareSettingType.INPATIENT);
 		return setting;
     }
 

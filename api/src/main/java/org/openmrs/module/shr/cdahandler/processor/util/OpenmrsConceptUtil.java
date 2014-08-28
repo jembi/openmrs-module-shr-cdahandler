@@ -876,7 +876,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				conceptClass = new ConceptClass();
 				conceptClass.setName("Frequency");
 				conceptClass.setUuid(ConceptClass.FREQUENCY_UUID);
-				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass.setDescription("Automatically created");
 				synchronized (s_lockObject) {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
                 }
@@ -930,7 +930,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			{
 				conceptClass = new ConceptClass();
 				conceptClass.setName("Drug Form");
-				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass.setDescription("Automatically created");
 				synchronized (s_lockObject) {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
                 }
@@ -958,7 +958,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			{
 				conceptClass = new ConceptClass();
 				conceptClass.setName("Drug");
-				conceptClass.setDescription(super.getLocalizedString("autocreated"));
+				conceptClass.setDescription("Automatically created");
 				synchronized (s_lockObject) {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
                 }

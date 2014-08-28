@@ -97,9 +97,19 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		if(retVal != null)
 		{
 			Stack<CdaImportSubscriber> toBeNotified = new Stack<CdaImportSubscriber>();
+			
+			// The generic ones for all 
+			Set<CdaImportSubscriber> candidates = this.m_subscribers.get("*");
+			if(candidates != null)
+				for(CdaImportSubscriber subscriber : candidates)
+					toBeNotified.push(subscriber);
+			
+			// Notify the default always
 			for(II templateId : clinicalDocument.getTemplateId())
 			{
-				Set<CdaImportSubscriber> candidates = this.m_subscribers.get(templateId.getRoot());
+				candidates = this.m_subscribers.get(templateId.getRoot());
+				if(candidates == null) continue; // no candidates
+				
 				for(CdaImportSubscriber subscriber : candidates)
 					if(!toBeNotified.contains(subscriber))
 						toBeNotified.push(subscriber);
@@ -128,7 +138,8 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 			this.m_subscribers.put(templateId, new HashSet<CdaImportSubscriber>());
 		
 		// Add
-		this.m_subscribers.get(templateId).add(singletonImporter);
+		if(!this.m_subscribers.get(templateId).contains(singletonImporter))
+			this.m_subscribers.get(templateId).add(singletonImporter);
     }
 	
 }
