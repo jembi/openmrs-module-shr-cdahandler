@@ -33,13 +33,13 @@
 					</property>
 					<property name="target">
 						<bean class="${project.parent.groupId}.shr.cdahandler.api.impl.CdaImportServiceImpl">
-							<!-- <property name="dao">
-								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernateCdaImportDAO">
+							<property name="dao">
+								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernateCdaImportServiceDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>
 								</bean>
-							</property>-->
+							</property>
 						</bean>
 					</property>
 					<property name="preInterceptors">

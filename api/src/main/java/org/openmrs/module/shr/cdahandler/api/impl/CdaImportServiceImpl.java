@@ -16,6 +16,7 @@ package org.openmrs.module.shr.cdahandler.api.impl;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -29,11 +30,16 @@ import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
+import org.openmrs.Concept;
+import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Visit;
+import org.openmrs.api.APIException;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.shr.cdahandler.CdaImporter;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.api.CdaImportSubscriber;
+import org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO;
 import org.openmrs.module.shr.cdahandler.everest.EverestUtil;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -49,6 +55,9 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	
 	// Processor
 	private CdaImporter m_processor = null;
+	
+	// The dao for the CdaImportService
+	private CdaImportServiceDAO dao;
 	
 	// Subscribers
 	protected final Map<String, Set<CdaImportSubscriber>> m_subscribers = new HashMap<String, Set<CdaImportSubscriber>>();
@@ -140,6 +149,43 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		// Add
 		if(!this.m_subscribers.get(templateId).contains(singletonImporter))
 			this.m_subscribers.get(templateId).add(singletonImporter);
+    }
+
+	/**
+	 * Get an active order by accession number
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getOrderByAccessionNumber(java.lang.String)
+	 */
+	@Override
+    public List<Order> getOrdersByAccessionNumber(String an) {
+		return this.dao.getOrdersByAccessionNumber(an, false);
+    }
+
+	/**
+	 * Save a concept quickly (without reindexing);
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#saveConceptQuick(org.openmrs.Concept)
+	 */
+	@Override
+    public Concept createConceptQuick(Concept concept) throws APIException {
+		if(concept.getId() != null)
+			throw new APIException("Can only call createConceptQuick on unsaved concepts");
+		return this.dao.saveConceptQuick(concept);
+    }
+
+	
+    /**
+     * @param dao the dao to set
+     */
+    public void setDao(CdaImportServiceDAO dao) {
+    	this.dao = dao;
+    }
+
+	/**
+	 * Get an obs by accession number
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getObsByAccessionNumber(java.lang.String)
+	 */
+	@Override
+    public List<Obs> getObsByAccessionNumber(String an) {
+		return this.dao.getObsByAccessionNumber(an, false);
     }
 	
 }

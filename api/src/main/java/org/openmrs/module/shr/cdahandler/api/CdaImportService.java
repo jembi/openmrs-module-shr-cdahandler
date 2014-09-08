@@ -14,7 +14,11 @@
 package org.openmrs.module.shr.cdahandler.api;
 
 import java.io.InputStream;
+import java.util.List;
 
+import org.openmrs.Concept;
+import org.openmrs.Obs;
+import org.openmrs.Order;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
@@ -44,5 +48,21 @@ public interface CdaImportService extends OpenmrsService {
 	 * @param templateId The identifier of the template to subscribe to, or null for all
 	 */
 	void subscribeImport(String templateId, CdaImportSubscriber singletonImporter);
+	
+	
+	/**
+	 * Get an order by AN
+	 */
+	List<Order> getOrdersByAccessionNumber(String an);
+	
+	/**
+	 * Saves a concept without indexing
+	 */
+	Concept createConceptQuick(Concept concept);
+	
+	/**
+	 * Get observation by accession number
+	 */
+	List<Obs> getObsByAccessionNumber(String an);
 	
 }

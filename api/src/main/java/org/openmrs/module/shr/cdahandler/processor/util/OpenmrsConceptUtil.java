@@ -46,6 +46,7 @@ import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.util.OpenmrsConstants;
@@ -265,7 +266,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		// Save concept
 		synchronized (s_lockObject) {
-			concept = this.m_conceptService.saveConcept(concept);
+			concept = Context.getService(CdaImportService.class).createConceptQuick(concept);
         }
 		
 		log.debug("Exit: createConcept");
