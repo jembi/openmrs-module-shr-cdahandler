@@ -168,6 +168,9 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				{
 					res.setDateActivated(observation.getEffectiveTime().getLow().getDateValue().getTime());
 					encounterInfo.setEncounterDatetime(res.getDateActivated());
+					if(encounterInfo.getEncounterDatetime().before(encounterInfo.getVisit().getStartDatetime()))
+						encounterInfo.getVisit().setStartDatetime(encounterInfo.getEncounterDatetime());
+					
 				}
 			}
 			if(observation.getEffectiveTime().getHigh() != null && !observation.getEffectiveTime().getHigh().isNull())
@@ -240,7 +243,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 
 		// Order context
 		OrderContext orderContext = new OrderContext();
-
+		
 		// Save the order 
 		res = (ObservationOrder)Context.getOrderService().saveOrder(res, orderContext);
 

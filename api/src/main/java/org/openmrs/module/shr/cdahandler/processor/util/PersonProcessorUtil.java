@@ -165,6 +165,8 @@ public final class PersonProcessorUtil {
 		rel.setRelationshipType(relationshipType);
 		rel = Context.getPersonService().saveRelationship(rel);
 		
+		
+		
 		return rel;
     }
 	

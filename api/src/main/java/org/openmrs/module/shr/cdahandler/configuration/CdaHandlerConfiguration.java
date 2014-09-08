@@ -220,6 +220,28 @@ public final class CdaHandlerConfiguration {
 	}	
 
 	/**
+	 * Get internal provider identifiers
+	 */
+	public String getProviderRoot() {
+		return this.m_shrRoot + ".7";
+    }
+
+	/**
+	 * Get internal location identifier root
+	 */
+	public String getLocationRoot() {
+		return this.m_shrRoot + ".8";
+    }
+
+	/**
+	 * Get internal patient root identifiers
+	 */
+	public String getPatientRoot() {
+		return this.m_shrRoot + ".9";
+    }
+
+	
+	/**
      * Read a global property
      */
     private <T> T getOrCreateGlobalProperty(String propertyName, T defaultValue)
@@ -286,4 +308,6 @@ public final class CdaHandlerConfiguration {
 		this.m_ecidRoot = this.getOrCreateGlobalProperty(PROP_ECID_ROOT, this.m_ecidRoot);
 		this.m_shrRoot = this.getOrCreateGlobalProperty(PROP_SHR_ROOT, this.m_shrRoot);
 	}
+
+
 }

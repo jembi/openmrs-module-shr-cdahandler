@@ -2,6 +2,7 @@ package org.openmrs.module.shr.cdahandler.api.db;
 
 import java.util.List;
 
+import org.openmrs.Concept;
 import org.openmrs.Patient;
 import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
@@ -21,4 +22,8 @@ public interface ExtendedOrdersDAO {
 	 */
 	List<ObservationOrder> getObservationOrdersForPatient(Patient patient);
 	
+	/**
+	 * Saves concepts in a manner which is faster than the default OpenMRS implementation
+	 */
+	Concept saveConcept(Concept concept);
 }

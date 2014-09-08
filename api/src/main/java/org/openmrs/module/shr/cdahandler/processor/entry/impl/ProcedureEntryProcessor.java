@@ -96,6 +96,7 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 	 */
 	protected BaseOpenmrsData processIntent(Procedure procedure) throws DocumentImportException {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
+		Obs parentObs = (Obs)this.getContext().getParsedObject();
 
 		// Get current order and void if existing for an update
 		Order previousOrder = super.voidOrThrowIfPreviousOrderExists(procedure.getReference(), encounterInfo.getPatient(), procedure.getId());
@@ -141,6 +142,8 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 				{
 					res.setDateActivated(procedure.getEffectiveTime().getLow().getDateValue().getTime());
 					encounterInfo.setEncounterDatetime(res.getDateActivated());
+					if(encounterInfo.getEncounterDatetime().before(encounterInfo.getVisit().getStartDatetime()))
+						encounterInfo.getVisit().setStartDatetime(encounterInfo.getEncounterDatetime());
 				}
 			}
 			if(procedure.getEffectiveTime().getHigh() != null && !procedure.getEffectiveTime().getHigh().isNull())

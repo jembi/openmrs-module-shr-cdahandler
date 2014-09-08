@@ -29,7 +29,8 @@ public final class CdaHandlerConstants {
 	public static final String CODE_SYSTEM_CIEL = "9.9.9.9.9.9.9"; // TODO: Get the actual OID for this
 	public static final String CODE_SYSTEM_UCUM = "2.16.840.1.113883.6.8";
 	public static final String CODE_SYSTEM_ROUTE_OF_ADMINISTRATION = "2.16.840.1.113883.5.112";
-			
+	public static final String CODE_SYSTEM_MARITAL_STATUS = "2.16.840.1.113883.5.2";
+	
 	// Document Template Medical Documents
 	public static final String DOC_TEMPLATE_MEDICAL_DOCUMENTS = "1.3.6.1.4.1.19376.1.5.3.1.1.1";
 	public static final String DOC_TEMPLATE_MEDICAL_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.2";
@@ -41,9 +42,25 @@ public final class CdaHandlerConstants {
 	public static final String DOC_TEMPLATE_ANTEPARTUM_EDUCATION = "1.3.6.1.4.1.19376.1.5.3.1.1.16.1.3";
 	public static final String DOC_TEMPLATE_LABOR_AND_DELIVERY_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.1.2";
 	public static final String DOC_TEMPLATE_MATERNAL_DISCHARGE_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.1.3";
-
+	public static final String DOC_TEMPLATE_CCD = "2.16.840.1.113883.10.20.1";
+	
 	// Section Templates
-	public static final String SCT_TEMPLATE_CCD_3_12 = "2.16.840.1.113883.10.20.1.16";
+	public static final String SCT_TEMPLATE_CCD_ADVNACE_DIRECTIVES = "2.16.840.1.113883.10.20.1.1";
+	public static final String SCT_TEMPLATE_CCD_ALERTS = "2.16.840.1.113883.10.20.1.2";
+	public static final String SCT_TEMPLATE_CCD_ENCOUNTERS = "2.16.840.1.113883.10.20.1.3";
+	public static final String SCT_TEMPLATE_CCD_FAMILY_HISTORY = "2.16.840.1.113883.10.20.1.4";
+	public static final String SCT_TEMPLATE_CCD_FUNCTIONAL_STATUS = "2.16.840.1.113883.10.20.1.5";
+	public static final String SCT_TEMPLATE_CCD_IMMUNIZATIONS = "2.16.840.1.113883.10.20.1.6";
+	public static final String SCT_TEMPLATE_CCD_MEDICAL_EQUIPMENT = "2.16.840.1.113883.10.20.1.7";
+	public static final String SCT_TEMPLATE_CCD_MEDICATIONS = "2.16.840.1.113883.10.20.1.8";
+	public static final String SCT_TEMPLATE_CCD_PAYERS = "2.16.840.1.113883.10.20.1.9";
+	public static final String SCT_TEMPLATE_CCD_PLAN_OF_CARE = "2.16.840.1.113883.10.20.1.10";
+	public static final String SCT_TEMPLATE_CCD_PROBLEM = "2.16.840.1.113883.10.20.1.11";
+	public static final String SCT_TEMPLATE_CCD_PROCEDURES = "2.16.840.1.113883.10.20.1.12";
+	public static final String SCT_TEMPLATE_CCD_PURPOSE = "2.16.840.1.113883.10.20.1.13";
+	public static final String SCT_TEMPLATE_CCD_RESULTS = "2.16.840.1.113883.10.20.1.14";
+	public static final String SCT_TEMPLATE_CCD_SOCIAL_HISTORY = "2.16.840.1.113883.10.20.1.15";
+	public static final String SCT_TEMPLATE_CCD_VITAL_SIGNS = "2.16.840.1.113883.10.20.1.16";
 	public static final String SCT_TEMPLATE_CODED_VITAL_SIGNS = "1.3.6.1.4.1.19376.1.5.3.1.1.5.3.2";
 	public static final String SCT_TEMPLATE_VITAL_SIGNS = "1.3.6.1.4.1.19376.1.5.3.1.3.25";
 	public static final String SCT_TEMPLATE_MEDICATIONS = "1.3.6.1.4.1.19376.1.5.3.1.3.19";
@@ -73,6 +90,22 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
 	
 	// Entry templates
+	public static final String ENT_TEMPLATE_CCD_ADVANCE_DIRECTIVE_OBSERVATION = "2.16.840.1.113883.10.20.1.17";
+	public static final String ENT_TEMPLATE_CCD_ALERT_OBSERVATION = "2.16.840.1.113883.10.20.1.18";
+	public static final String ENT_TEMPLATE_CCD_ENCOUNTER_ACTIVITY = "2.16.840.1.113883.10.20.1.21";
+	public static final String ENT_TEMPLATE_CCD_FAMILY_HISTORY_OBSERVATION = "2.16.840.1.113883.10.20.1.22";
+	public static final String ENT_TEMPLATE_CCD_FAMILY_HISTORY_ORGANIZER = "2.16.840.1.113883.10.20.1.23";
+	public static final String ENT_TEMPLATE_CCD_MEDICATION_ACTIVITY = "2.16.840.1.113883.10.20.1.24";
+	public static final String ENT_TEMPLATE_CCD_PLAN_OF_CARE_ACTIVITY = "2.16.840.1.113883.10.20.1.25";
+	public static final String ENT_TEMPLATE_CCD_PROBLEM_ACT = "2.16.840.1.113883.10.20.1.27";
+	public static final String ENT_TEMPLATE_CCD_PROBLEM_OBSERVATION = "2.16.840.1.113883.10.20.1.28";
+	public static final String ENT_TEMPLATE_CCD_PROCEDURE_ACTIVITY = "2.16.840.1.113883.10.20.1.29";
+	public static final String ENT_TEMPLATE_CCD_PURPOSE_ACTIVITY = "2.16.840.1.113883.10.20.1.30";
+	public static final String ENT_TEMPLATE_CCD_RESULT_OBSERVATION = "2.16.840.1.113883.10.20.1.31";
+	public static final String ENT_TEMPLATE_CCD_RESULT_ORGANIZER = "2.16.840.1.113883.10.20.1.32";
+	public static final String ENT_TEMPLATE_CCD_SOCIAL_HISTORY_OBSERVATION = "2.16.840.1.113883.10.20.1.33";
+	public static final String ENT_TEMPLATE_CCD_SUPPLY_ACTIVITY = "2.16.840.1.113883.10.20.1.34";
+	public static final String ENT_TEMPLATE_CCD_VITAL_SIGNS_ORGANIZER = "2.16.840.1.113883.10.20.1.35";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
@@ -158,4 +191,5 @@ public final class CdaHandlerConstants {
 	public static final String ATTRIBUTE_NAME_ORGANIZATION = "Organization";
 	public static final String ATTRIBUTE_NAME_CONFIDENTIALITY = "Confidentiality";
 	public static final String ATTRIBUTE_NAME_ORIGINAL_COPY = "Original";
+	public static final String ATTRIBUTE_NAME_OBS_GROUP = "orderObsGroup";
 }

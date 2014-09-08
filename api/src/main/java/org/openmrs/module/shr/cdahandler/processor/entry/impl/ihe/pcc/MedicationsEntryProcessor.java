@@ -142,6 +142,8 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 					{
 						res.setDateActivated(effectiveRange.getLow().getDateValue().getTime());
 						encounterInfo.setEncounterDatetime(res.getDateActivated());
+						if(encounterInfo.getEncounterDatetime().before(encounterInfo.getVisit().getStartDatetime()))
+							encounterInfo.getVisit().setStartDatetime(encounterInfo.getEncounterDatetime());
 					}
 				}
 				if(effectiveRange.getHigh() != null && !effectiveRange.getHigh().isNull())

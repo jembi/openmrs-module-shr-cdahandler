@@ -21,7 +21,7 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  */
 @ProcessTemplates(
 	templateIds = {
-			CdaHandlerConstants.SCT_TEMPLATE_CCD_3_12,
+			CdaHandlerConstants.SCT_TEMPLATE_CCD_VITAL_SIGNS,
 			CdaHandlerConstants.SCT_TEMPLATE_CODED_VITAL_SIGNS,
 			CdaHandlerConstants.SCT_TEMPLATE_VITAL_SIGNS
 	})

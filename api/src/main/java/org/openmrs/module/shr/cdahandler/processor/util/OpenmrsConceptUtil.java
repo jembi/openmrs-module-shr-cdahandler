@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.jfree.util.Log;
 import org.marc.everest.annotations.Structure;
@@ -77,6 +78,13 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	// singleton instance
 	private static OpenmrsConceptUtil s_instance;
 	private static Object s_lockObject = new Object();
+
+	// Maps between oids and code systems which may not have an hl7Code
+	private static final Map<String, String> s_conceptSourceNameMap = new HashMap<String, String>() {{
+		put("LOINC", CdaHandlerConstants.CODE_SYSTEM_LOINC);
+		put("SNOMED CT", CdaHandlerConstants.CODE_SYSTEM_SNOMED);
+		put("CIEL", CdaHandlerConstants.CODE_SYSTEM_CIEL);
+	}};
 	
 	// Map types
 	private ConceptMapType m_narrowerThan = null;
@@ -469,17 +477,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			String description, Class<?> enumeratedVocabularySource) throws DocumentImportException {
 	
 		log.debug("Enter: getOrCreateConceptSource");
-		if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_LOINC))
-			name = "LOINC";
-		else if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_SNOMED))
-			name = "SNOMED CT";
-		else if(hl7 != null && hl7.equals(CdaHandlerConstants.CODE_SYSTEM_CIEL))
-			name = "CIEL";
-
+		name = this.mapConceptSourceNameToOid(name);
 		// HL7 name
 		if(name == null)
 			name = hl7;
-		
 		
 		ConceptSource conceptSource = this.m_conceptService.getConceptSourceByName(name);
 		
@@ -518,6 +519,25 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		return conceptSource;
 	}
 	
+	/**
+	 * Map a concept source name (SNOMED CT) to an OID 
+	 */
+	public String mapConceptSourceNameToOid(String name) {
+		String oid = s_conceptSourceNameMap.get(name);
+		if(oid != null)
+			return oid;
+		return name;
+    }
+	
+	/**
+	 * Map a OID to a concept source name 
+	 */
+	public String mapOidToConceptSourceName(String oid) {
+		for(Entry<String,String> ent : s_conceptSourceNameMap.entrySet())
+			if(ent.getValue().equals(oid))
+				return ent.getKey();
+		return oid;
+    }
 	/**
 	 * Get a drug code from a concept
 	 * @throws DocumentImportException 

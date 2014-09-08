@@ -2,6 +2,7 @@ package org.openmrs.module.shr.cdahandler.processor.document.impl;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -282,11 +283,34 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			// Process the relationship
 			Relationship rel = this.m_personProcessorUtil.processAssociatedEntity(ptcpt.getAssociatedEntity(), visitInformation.getPatient());
 			
-			// Update the known time the relationship existed based on event time
-			if(rel.getStartDate() == null || visitInformation.getStartDatetime().compareTo(rel.getStartDate()) < 0)
-				rel.setStartDate(visitInformation.getStartDatetime());
-			if(rel.getEndDate() == null || visitInformation.getStopDatetime().compareTo(rel.getEndDate()) > 0)
-				rel.setEndDate(visitInformation.getStopDatetime());
+			// We want to get the time!
+			Date startTime = null,
+					endTime = null;
+			
+			// Explicit time provided
+			if(ptcpt.getTime() != null)
+			{
+				if(ptcpt.getTime().getValue() != null)
+					startTime = ptcpt.getTime().getValue().getDateValue().getTime();
+				if(ptcpt.getTime().getLow() != null && !ptcpt.getTime().getLow().isNull())
+					startTime = ptcpt.getTime().getLow().getDateValue().getTime();
+				if(ptcpt.getTime().getHigh() != null && !ptcpt.getTime().getHigh().isNull())
+					endTime = ptcpt.getTime().getHigh().getDateValue().getTime();
+			}
+
+			// Update the known time the relationship existed based on times provided
+			// Start time was provided, and either the start date occurs before the existing start
+			// date of the relationship on file (Extended the known time) or there is no start date
+			// on file
+			if(startTime != null && (rel.getStartDate() != null &&
+					startTime.before(rel.getStartDate())  
+					|| rel.getStartDate() == null))
+				rel.setStartDate(startTime);
+			// End time was provided and either the end date occurs after the current end date
+			// of the relationship (extending the known time) or there is no end date on file
+			if(endTime != null && (rel.getEndDate() != null &&
+					endTime.after(rel.getEndDate()) || rel.getEndDate() != null))
+				rel.setEndDate(endTime);
 			
 			Context.getPersonService().saveRelationship(rel);
 		}
