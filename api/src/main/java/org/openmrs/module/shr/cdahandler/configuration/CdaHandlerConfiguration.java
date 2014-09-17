@@ -240,6 +240,14 @@ public final class CdaHandlerConfiguration {
 		return this.m_shrRoot + ".9";
     }
 
+	/**
+	 * Get the root oid for Users
+	 */
+	public String getUserRoot() {
+		return this.m_shrRoot + ".10";
+    }
+
+
 	
 	/**
      * Read a global property

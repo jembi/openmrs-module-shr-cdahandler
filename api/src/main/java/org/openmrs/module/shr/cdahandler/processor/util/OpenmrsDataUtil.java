@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.io.ByteArrayInputStream;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
@@ -171,7 +172,8 @@ public final class OpenmrsDataUtil {
 			observation.setValueBoolean(((BL)value).toBoolean());
 		else if(value instanceof ED)
 		{
-			String title = UUID.randomUUID().toString() + ".bin";
+			// HACK: Find a better way of doing this
+			String title = UUID.randomUUID().toString() + " -- " + URLEncoder.encode(((ED)value).getMediaType()) + ".bin";
 			ByteArrayInputStream textStream = new ByteArrayInputStream(((ED)value).getData());
 			ComplexData complexData = new ComplexData(title, textStream);
 			observation.setComplexData(complexData);
