@@ -39,11 +39,16 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 		// Create our sample set
 		
 		// Create concept Source
-		this.m_loincSource = new ConceptSource();
-		this.m_loincSource.setName("LOINC");
-		this.m_loincSource.setHl7Code("LN");
-		Context.getConceptService().saveConceptSource(this.m_loincSource);
+		this.m_loincSource = Context.getConceptService().getConceptSourceByName("LOINC");
 
+		if(this.m_loincSource == null)
+		{
+			this.m_loincSource = new ConceptSource();
+			this.m_loincSource.setName("LOINC");
+			this.m_loincSource.setHl7Code("LN");
+			Context.getConceptService().saveConceptSource(this.m_loincSource);
+		}
+		
 		// Create reference term
 		this.m_weightTerm = new ConceptReferenceTerm();
 		this.m_weightTerm.setCode("3141-9");

@@ -74,30 +74,6 @@ public class CdaContentHandler implements ContentHandler {
 	}
 	
 	/**
-	 * Not supported yet
-	 */
-	@Override
-	public Content fetchContent(int arg0) {
-		throw new NotImplementedException();
-	}
-	
-	/**
-	 * Not supported yet
-	 */
-	@Override
-	public List<Content> queryEncounters(Patient arg0, Date arg1, Date arg2) {
-		throw new NotImplementedException();
-	}
-	
-	/**
-	 * Not supported yet
-	 */
-	@Override
-	public List<Content> queryEncounters(Patient arg0, List<EncounterType> arg1, Date arg2, Date arg3) {
-		throw new NotImplementedException();
-	}
-	
-	/**
 	 * Save content
 	 */
 	@Override

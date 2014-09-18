@@ -32,6 +32,8 @@ import org.openmrs.util.OpenmrsConstants;
 public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSensitiveTest  {
 
 	private static final String ACTIVE_LIST_INITIAL_XML = "include/CdaImportTest.xml";
+	private static final String CIEL_LIST_INITIAL_XML = "include/CielList.xml";
+
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
 	@Before
@@ -41,6 +43,8 @@ public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSen
 		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
+		executeDataSet(CIEL_LIST_INITIAL_XML);
+
 		// TODO: Set properties
 	}
 	

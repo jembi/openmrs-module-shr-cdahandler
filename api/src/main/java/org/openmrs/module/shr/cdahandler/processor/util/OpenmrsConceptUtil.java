@@ -144,6 +144,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		Boolean needsSave = false, 
 				hasMember = false; 
+		
 		// First is the setConcept already a set?
 		if(!setConcept.isSet() && this.m_configuration.getAutoCreateConcepts())
 		{
@@ -478,10 +479,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			String description, Class<?> enumeratedVocabularySource) throws DocumentImportException {
 	
 		log.debug("Enter: getOrCreateConceptSource");
-		name = this.mapConceptSourceNameToOid(name);
-		// HL7 name
-		if(name == null)
-			name = hl7;
+		name = this.mapOidToConceptSourceName(hl7);
+		
 		
 		ConceptSource conceptSource = this.m_conceptService.getConceptSourceByName(name);
 		
