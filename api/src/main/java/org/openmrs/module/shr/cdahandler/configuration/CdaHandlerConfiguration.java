@@ -57,20 +57,20 @@ public final class CdaHandlerConfiguration {
 	
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr-cdahandler.updateExisting";
-    private Boolean m_autoCreateProviders = true;
-    private Boolean m_autoCreateLocations = true;
-    private Boolean m_autoCreateConcepts = true;
-    private Boolean m_autoCreateMetadata = true;
-    private Boolean m_autoCreatePatients = true;
-    private Boolean m_autoCreatePatientIdType = true;
-    private Boolean m_autoCreatePersons = true;
-    private Boolean m_validateInstances = true;
-    private Boolean m_validateConceptStructure = true;
-    private Boolean m_updateExisting = false;
-    private String m_epidRoot = "";
-    private String m_ecidRoot = "";
-    private String m_shrRoot = "1.2.3.4.5";
-    private Boolean m_autoCreateUsers = true;
+    private final Boolean m_defaultAutoCreateProviders = true;
+    private final Boolean m_defaultAutoCreateLocations = true;
+    private final Boolean m_defaultAutoCreateConcepts = true;
+    private final Boolean m_defaultAutoCreateMetadata = true;
+    private final Boolean m_defaultAutoCreatePatients = true;
+    private final Boolean m_defaultAutoCreatePatientIdType = true;
+    private final Boolean m_defaultAutoCreatePersons = true;
+    private final Boolean m_defaultValidateInstances = true;
+    private final Boolean m_defaultValidateConceptStructure = true;
+    private final Boolean m_defaultUpdateExisting = false;
+    private final String m_defaultEpidRoot = "";
+    private final String m_defaultEcidRoot = "";
+    private final String m_defaultShrRoot = "1.2.3.4.5";
+    private final Boolean m_defaultAutoCreateUsers = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
     // Singleton instance
@@ -91,7 +91,7 @@ public final class CdaHandlerConfiguration {
 	 */
 	public boolean getAutoCreateConcepts()
 	{
-		return this.m_autoCreateConcepts;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_CONCEPTS, this.m_defaultAutoCreateConcepts);
 	}
     
     /**
@@ -99,7 +99,7 @@ public final class CdaHandlerConfiguration {
 	 */
 	public boolean getAutoCreateLocations()
 	{
-		return this.m_autoCreateLocations;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_LOCATIONS, this.m_defaultAutoCreateLocations);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public boolean getAutoCreateMetaData() {
-		return this.m_autoCreateMetadata;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_METADATA, this.m_defaultAutoCreateMetadata);
     }
 
 	/**
@@ -115,14 +115,14 @@ public final class CdaHandlerConfiguration {
 	 */
 	public boolean getAutoCreatePatientIdType()
 	{
-		return this.m_autoCreatePatientIdType;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PATIENTIDTYPE, this.m_defaultAutoCreatePatientIdType);
 	}
 	
 	/**
 	 * Get the shr-cdahandler.autocreate.patients value
 	 */
 	public boolean getAutoCreatePatients() {
-		return this.m_autoCreatePatients;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PATIENTS, this.m_defaultAutoCreatePatients);
     }
 	
 	/**
@@ -130,14 +130,14 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public boolean getAutoCreatePersons() {
-		return this.m_autoCreatePersons;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PERSONS, this.m_defaultAutoCreatePersons);
     }
 
 	/**
 	 * Get the shr-cdahandler.autocreate.providers value
 	 */
 	public boolean getAutoCreateProviders() {
-		return this.m_autoCreateProviders;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PROVIDERS, this.m_defaultAutoCreateProviders);
     }
 
 	/**
@@ -145,7 +145,8 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public boolean getAutoCreateUsers()	{
-		return this.m_autoCreateUsers;
+		return this.getOrCreateGlobalProperty(PROP_AUTOCREATE_USERS,  this.m_defaultAutoCreateUsers);
+		
 	}
 	
 	/**
@@ -153,98 +154,98 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public String getEpidRoot() {
-		return this.m_epidRoot;
+		return this.getOrCreateGlobalProperty(PROP_EPID_ROOT, this.m_defaultEpidRoot);
 	}
 	
 	/**
 	 * Get the shr-cdahandler.idformat value
 	 */
 	public String getIdFormat() {
-		return this.m_idFormat;
+		return this.getOrCreateGlobalProperty(PROP_ID_FORMAT, this.m_idFormat);
     }
 
 	/**
 	 * Get the shr-cdahandler.id.ecidRoot value
 	 */
 	public String getEcidRoot() {
-		return this.m_ecidRoot;
+		return this.getOrCreateGlobalProperty(PROP_ECID_ROOT, this.m_defaultEcidRoot);
     }
 
 	/**
 	 * Get the root of SHR records
 	 */
 	public String getShrRoot() {
-		return this.m_shrRoot;
+		return this.getOrCreateGlobalProperty(PROP_SHR_ROOT, this.m_defaultShrRoot);
 	}
 	
 	/**
 	 * Get the root of Visits
 	 */
 	public String getVisitRoot() {
-		return this.m_shrRoot + ".1";
+		return this.getShrRoot() + ".1";
 	}
 	
 	/**
 	 * Get the root of encounters
 	 */
 	public String getEncounterRoot() {
-		return this.m_shrRoot + ".2";
+		return this.getShrRoot() + ".2";
 	}	
 
 	/**
 	 * Get the root of Obs
 	 */
 	public String getObsRoot() {
-		return this.m_shrRoot + ".3";
+		return this.getShrRoot() + ".3";
 	}	
 
 	/**
 	 * Get the root of orders
 	 */
 	public String getOrderRoot() {
-		return this.m_shrRoot + ".4";
+		return this.getShrRoot() + ".4";
 	}	
 
 	/**
 	 * Get the root of problems
 	 */
 	public String getProblemRoot() {
-		return this.m_shrRoot + ".5";
+		return this.getShrRoot() + ".5";
 	}	
 
 	/**
 	 * Get the root of allergies
 	 */
 	public String getAllergyRoot() {
-		return this.m_shrRoot + ".6";
+		return this.getShrRoot() + ".6";
 	}	
 
 	/**
 	 * Get internal provider identifiers
 	 */
 	public String getProviderRoot() {
-		return this.m_shrRoot + ".7";
+		return this.getShrRoot() + ".7";
     }
 
 	/**
 	 * Get internal location identifier root
 	 */
 	public String getLocationRoot() {
-		return this.m_shrRoot + ".8";
+		return this.getShrRoot() + ".8";
     }
 
 	/**
 	 * Get internal patient root identifiers
 	 */
 	public String getPatientRoot() {
-		return this.m_shrRoot + ".9";
+		return this.getShrRoot() + ".9";
     }
 
 	/**
 	 * Get the root oid for Users
 	 */
 	public String getUserRoot() {
-		return this.m_shrRoot + ".10";
+		return this.getShrRoot() + ".10";
     }
 
 
@@ -273,14 +274,14 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public boolean getUpdateExisting() {
-		return this.m_updateExisting;
+		return this.getOrCreateGlobalProperty(PROP_UPDATE_EXISTING, this.m_defaultUpdateExisting);
     }
 
 	/**
 	 * Get the shr-cdahandler.validate.concept value
 	 */
 	public boolean getValidateConceptStructure() {
-		return this.m_validateConceptStructure;
+		return this.getOrCreateGlobalProperty(PROP_VALIDATE_CONCEPT_STRUCTURE, this.m_defaultValidateInstances);
     }
 
 	/**
@@ -288,7 +289,7 @@ public final class CdaHandlerConfiguration {
 	 * @return
 	 */
 	public boolean getValidationEnabled() {
-		return this.m_validateInstances;
+		return this.getOrCreateGlobalProperty(PROP_VALIDATE_STRUCTURE, this.m_defaultValidateInstances);
     }
 	
 	/**
@@ -299,22 +300,6 @@ public final class CdaHandlerConfiguration {
 		// Initialize PQ converters
 		PQ.getUnitConverters().add(new SimpleSiUnitConverter());
 
-
-		this.m_autoCreateProviders = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PROVIDERS, this.m_autoCreateProviders);
-		this.m_idFormat = this.getOrCreateGlobalProperty(PROP_ID_FORMAT, this.m_idFormat);
-		this.m_autoCreateLocations = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_LOCATIONS, this.m_autoCreateLocations);
-		this.m_autoCreatePersons = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PERSONS, this.m_autoCreatePersons);
-		this.m_autoCreatePatients = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PATIENTS, this.m_autoCreatePatients);
-		this.m_autoCreatePatientIdType = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_PATIENTIDTYPE, this.m_autoCreatePatientIdType);
-		this.m_autoCreateConcepts = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_CONCEPTS, this.m_autoCreateConcepts);
-		this.m_autoCreateMetadata = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_METADATA, this.m_autoCreateMetadata);
-		this.m_validateInstances = this.getOrCreateGlobalProperty(PROP_VALIDATE_STRUCTURE, this.m_validateInstances);
-		this.m_validateConceptStructure = this.getOrCreateGlobalProperty(PROP_VALIDATE_CONCEPT_STRUCTURE, this.m_validateInstances);
-		this.m_updateExisting = this.getOrCreateGlobalProperty(PROP_UPDATE_EXISTING, this.m_updateExisting);
-		this.m_autoCreateUsers = this.getOrCreateGlobalProperty(PROP_AUTOCREATE_USERS,  this.m_autoCreateUsers);
-		this.m_epidRoot = this.getOrCreateGlobalProperty(PROP_EPID_ROOT, this.m_epidRoot);
-		this.m_ecidRoot = this.getOrCreateGlobalProperty(PROP_ECID_ROOT, this.m_ecidRoot);
-		this.m_shrRoot = this.getOrCreateGlobalProperty(PROP_SHR_ROOT, this.m_shrRoot);
 	}
 
 

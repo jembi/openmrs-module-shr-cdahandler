@@ -173,13 +173,14 @@ public final class AssignedEntityProcessorUtil {
 		// ie. root becomes an attribute and the extension becomes the value
 		// Anyways, for now represent in the standard ITI guidance for II data type
 		String id = this.m_datatypeUtil.emptyIdString();
-		if(this.m_configuration.getEpidRoot().isEmpty())
+		if(this.m_configuration.getEpidRoot() == "" || this.m_configuration.getEpidRoot().isEmpty())
 			id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
-		else
+		else 
+		{
 			for(II autId : aut.getId())
 				if(autId.getRoot().equals(this.m_configuration.getEpidRoot()))
 					id = this.m_datatypeUtil.formatIdentifier(autId);
-		
+		}
 		Provider res = null;
 		
 		if (id.equals(this.m_datatypeUtil.emptyIdString())) 

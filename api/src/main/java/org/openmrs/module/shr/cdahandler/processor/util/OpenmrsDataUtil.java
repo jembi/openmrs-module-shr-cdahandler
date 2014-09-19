@@ -211,6 +211,7 @@ public final class OpenmrsDataUtil {
 				if(concept == null) // Maybe an inappropriate concept then?
 					concept = this.m_conceptUtil.getOrCreateConcept(codeValue);
 				
+				log.debug(String.format("Adding %s to %s", concept, observation.getConcept()));
 				this.m_conceptUtil.addAnswerToConcept(observation.getConcept(), concept);
 				observation.setValueCoded(concept);
 			}

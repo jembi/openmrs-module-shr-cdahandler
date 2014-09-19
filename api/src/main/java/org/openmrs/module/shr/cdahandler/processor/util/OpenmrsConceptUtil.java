@@ -99,7 +99,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 	// OpenMRS Services
 	private final ConceptService m_conceptService = Context.getConceptService();
-	
+	private final CdaImportService m_importService = Context.getService(CdaImportService.class);
 	/**
 	 * Private ctor
 	 */
@@ -116,12 +116,16 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		// Is the concept in the list of answers?
 		ConceptAnswer answer = null;
+		questionConcept = Context.getConceptService().getConcept(questionConcept.getConceptId());
 		for(ConceptAnswer ans : questionConcept.getAnswers())
-			if(ans.getId().equals(answerConcept.getId()))
+		{
+			log.debug(String.format("Existing Answer: %s for %s", ans.getId(), questionConcept));
+			if(ans.getConcept().getId().equals(answerConcept.getId()))
 			{
 				answer = ans;
 				break;
 			}
+		}
 		if(answer == null && this.m_configuration.getAutoCreateConcepts())
 		{
 			answer = new ConceptAnswer();
@@ -129,7 +133,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			answer.setConcept(questionConcept);
 			questionConcept.addAnswer(answer);
 			synchronized (s_lockObject) {
-				this.m_conceptService.saveConcept(questionConcept);
+				questionConcept = this.m_importService.saveConceptQuick(questionConcept);
             }
 		}
 		else if(answer == null)
@@ -173,7 +177,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		if(needsSave)
 			synchronized (s_lockObject) {
-				setConcept = this.m_conceptService.saveConcept(setConcept);
+				setConcept = this.m_importService.saveConceptQuick(setConcept);
             }
 		
     }
@@ -267,7 +271,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		// Save concept
 		synchronized (s_lockObject) {
-			concept = Context.getService(CdaImportService.class).createConceptQuick(concept);
+			concept = this.m_importService.saveConceptQuick(concept);
         }
 		
 		log.debug("Exit: createConcept");
@@ -459,7 +463,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 					conceptMap.setConcept(foundConcept);
 					foundConcept.addConceptMapping(conceptMap);
 					synchronized (s_lockObject) {
-						foundConcept = this.m_conceptService.saveConcept(foundConcept);
+						foundConcept = this.m_importService.saveConceptQuick(foundConcept);
                     }
 				}
 			}
@@ -615,7 +619,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			referenceTerm.setDescription(code.getDisplayName());
 			referenceTerm.setConceptSource(conceptSource);
 			synchronized (s_lockObject) {
-				referenceTerm = this.m_conceptService.saveConceptReferenceTerm(referenceTerm);
+				referenceTerm = this.m_importService.saveConceptReferenceTerm(referenceTerm);
             }
 		}
 		else if (referenceTerm == null && !this.m_configuration.getAutoCreateConcepts())
@@ -682,7 +686,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		{
 			drugDoses.addSetMember(concept);
 			synchronized (s_lockObject) {
-				drugDoses = this.m_conceptService.saveConcept(drugDoses);
+				drugDoses = this.m_importService.saveConceptQuick(drugDoses);
             }
 		}
 		
@@ -906,7 +910,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			concept.setPreferredName(concept.getName());
 			concept.setConceptClass(conceptClass);
 			synchronized (s_lockObject) {
-				concept = this.m_conceptService.saveConcept(concept);
+				concept = this.m_importService.saveConceptQuick(concept);
             }
 		}
 		return concept;
@@ -927,7 +931,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		{
 			routeCodes.addSetMember(concept);
 			synchronized (s_lockObject) {
-				routeCodes = this.m_conceptService.saveConcept(routeCodes);
+				routeCodes = this.m_importService.saveConceptQuick(routeCodes);
             }
 		}
 		
@@ -956,7 +960,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
                 }
 			}
 			synchronized (s_lockObject) {
-				concept = this.m_conceptService.saveConcept(concept);
+				concept = this.m_importService.saveConceptQuick(concept);
             }
 		}
 		
@@ -983,7 +987,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
                 }
 			}
-			concept = this.m_conceptService.saveConcept(concept);
+			concept = this.m_importService.saveConceptQuick(concept);
 		}
 		
 		return concept;

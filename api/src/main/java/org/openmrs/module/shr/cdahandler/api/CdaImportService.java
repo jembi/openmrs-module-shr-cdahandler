@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
@@ -34,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.openmrs.api.context.Context
  */
-@Transactional
+@Transactional(readOnly = true)
 public interface CdaImportService extends OpenmrsService {
      
 	/**
@@ -58,11 +59,16 @@ public interface CdaImportService extends OpenmrsService {
 	/**
 	 * Saves a concept without indexing
 	 */
-	Concept createConceptQuick(Concept concept);
+	Concept saveConceptQuick(Concept concept);
 	
 	/**
 	 * Get observation by accession number
 	 */
 	List<Obs> getObsByAccessionNumber(String an);
+
+	/**
+	 * Create a concept reference term without re-indexing
+	 */
+	ConceptReferenceTerm saveConceptReferenceTerm(ConceptReferenceTerm referenceTerm);
 	
 }

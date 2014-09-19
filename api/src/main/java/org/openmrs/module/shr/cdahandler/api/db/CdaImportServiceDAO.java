@@ -3,6 +3,7 @@ package org.openmrs.module.shr.cdahandler.api.db;
 import java.util.List;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 
@@ -25,5 +26,10 @@ public interface CdaImportServiceDAO {
 	 * Get an observation by accession number
 	 */
 	List<Obs> getObsByAccessionNumber(String an, boolean includeVoided);
+
+	/**
+	 * Create a reference term
+	 */
+	ConceptReferenceTerm saveReferenceTermQuick(ConceptReferenceTerm referenceTerm);
 	
 }

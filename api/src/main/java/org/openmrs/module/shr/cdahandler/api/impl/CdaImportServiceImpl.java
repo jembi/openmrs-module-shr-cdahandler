@@ -31,6 +31,7 @@ import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Concept;
+import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
@@ -165,9 +166,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#saveConceptQuick(org.openmrs.Concept)
 	 */
 	@Override
-    public Concept createConceptQuick(Concept concept) throws APIException {
-		if(concept.getId() != null)
-			throw new APIException("Can only call createConceptQuick on unsaved concepts");
+    public Concept saveConceptQuick(Concept concept) throws APIException {
 		return this.dao.saveConceptQuick(concept);
     }
 
@@ -186,6 +185,11 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Override
     public List<Obs> getObsByAccessionNumber(String an) {
 		return this.dao.getObsByAccessionNumber(an, false);
+    }
+
+	@Override
+    public ConceptReferenceTerm saveConceptReferenceTerm(ConceptReferenceTerm referenceTerm) {
+		return this.dao.saveReferenceTermQuick(referenceTerm);
     }
 	
 }

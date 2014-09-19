@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Concept;
+import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.api.db.hibernate.HibernateConceptDAO;
@@ -54,5 +55,12 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 				crit.add(Restrictions.eq("voided", includeVoided));
 		return (List<Obs>)crit.list();
 	}
+
+	@Override
+    public ConceptReferenceTerm saveReferenceTermQuick(ConceptReferenceTerm referenceTerm) {
+		HibernateConceptDAO wrappedDao = new HibernateConceptDAO();
+		wrappedDao.setSessionFactory(this.m_sessionFactory);
+		return wrappedDao.saveConceptReferenceTerm(referenceTerm);
+    }
 	
 }
