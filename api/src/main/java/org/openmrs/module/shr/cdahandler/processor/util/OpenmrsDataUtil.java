@@ -25,6 +25,7 @@ import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
 import org.marc.everest.datatypes.generic.SET;
+import org.marc.everest.formatters.xml.datatypes.r1.util.PQFormatter;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
@@ -287,26 +288,8 @@ public final class OpenmrsDataUtil {
 	 * @throws DocumentImportException 
 	 */
 	public Obs addSubObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
-		// Create the result
-		Obs res = new Obs(parentObs.getPerson(), 
-			obsConcept, 
-			parentObs.getObsDatetime(), 
-			parentObs.getLocation());
-		res.setEncounter(parentObs.getEncounter());
-		res.setDateCreated(parentObs.getDateCreated());
-		res.setCreator(parentObs.getCreator());
-		res.setLocation(parentObs.getLocation());
-		// Ensure obsConcept is a valid set member of parentObs.getConcept
-		this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
-
-		// Set the value
-		if(value instanceof ANY)
-			this.setObsValue(res, (ANY)value);
-		else if(value instanceof Concept)
-			res.setValueCoded((Concept)value);
-		else if(value instanceof String)
-			res.setValueText(value.toString());
 		
+		Obs res = this.createSubObservationValue(parentObs, obsConcept, value);
 		parentObs.addGroupMember(res);
 		//res.setObsGroup(parentObs);
 		//res = Context.getObsService().saveObs(res, null);
@@ -342,4 +325,29 @@ public final class OpenmrsDataUtil {
 		else
 			throw new DocumentImportException(String.format("OpenSHR has no mechanism to represent priority code of %s", priorityCode.getCode()));
     }
+
+
+	public Obs createSubObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
+		// Create the result
+		Obs res = new Obs(parentObs.getPerson(), 
+			obsConcept, 
+			parentObs.getObsDatetime(), 
+			parentObs.getLocation());
+		res.setEncounter(parentObs.getEncounter());
+		res.setDateCreated(parentObs.getDateCreated());
+		res.setCreator(parentObs.getCreator());
+		res.setLocation(parentObs.getLocation());
+		
+		// Ensure obsConcept is a valid set member of parentObs.getConcept
+		this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), obsConcept);
+
+		// Set the value
+		if(value instanceof ANY)
+			this.setObsValue(res, (ANY)value);
+		else if(value instanceof Concept)
+			res.setValueCoded((Concept)value);
+		else if(value instanceof String)
+			res.setValueText(value.toString());
+		return res;
+		}
 }

@@ -43,6 +43,7 @@ public final class CdaHandlerConstants {
 	public static final String DOC_TEMPLATE_LABOR_AND_DELIVERY_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.1.2";
 	public static final String DOC_TEMPLATE_MATERNAL_DISCHARGE_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.1.3";
 	public static final String DOC_TEMPLATE_CCD = "2.16.840.1.113883.10.20.1";
+	public static final String DOC_TEMPLATE_CDA4CDT = "2.16.840.1.113883.10.20.3";
 	
 	// Section Templates
 	public static final String SCT_TEMPLATE_CCD_ADVNACE_DIRECTIVES = "2.16.840.1.113883.10.20.1.1";
@@ -106,11 +107,13 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_CCD_SOCIAL_HISTORY_OBSERVATION = "2.16.840.1.113883.10.20.1.33";
 	public static final String ENT_TEMPLATE_CCD_SUPPLY_ACTIVITY = "2.16.840.1.113883.10.20.1.34";
 	public static final String ENT_TEMPLATE_CCD_VITAL_SIGNS_ORGANIZER = "2.16.840.1.113883.10.20.1.35";
+	public static final String ENT_TEMPLATE_CCD_AGE_OBSERVATION = "2.16.840.1.113883.10.20.1.38";
+	public static final String ENT_TEMPLATE_CCD_DEATH_OBSERVATION = "2.16.840.1.113883.10.20.1.42";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
 	public static final String ENT_TEMPLATE_FAMILY_HISTORY_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.15";
-	public static final String ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION = "1.3.6.1.4.19376.1.5.3.1.4.13.3";
+	public static final String ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.3";
 	public static final String ENT_TEMPLATE_SOCIAL_HISTORY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.4";
 	public static final String ENT_TEMPLATE_PREGNANCY_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.5";
 	public static final String ENT_TEMPLATE_PREGNANCY_HISTORY_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.5.1";
@@ -172,10 +175,7 @@ public final class CdaHandlerConstants {
 	public static final String RMIM_CONCEPT_NAME_ROUTE_OF_ADM = "Route of Administration";
 	public static final String RMIM_CONCEPT_NAME_MARITAL_STATUS = "Civil Status";
 	public static final String RMIM_CONCEPT_NAME_DOCUMENT_TEXT = "Text";
-	public static final String RMIM_CONCEPT_NAME_REPEAT = "Repeat";
 	public static final String RMIM_CONCEPT_NAME_METHOD = "Method";
-	public static final String RMIM_CONCEPT_NAME_INTERPRETATION = "Interpretation";
-	public static final String RMIM_CONCEPT_NAME_MOOD = "Mood";
 	
 	
 	// UUIDs
@@ -192,4 +192,5 @@ public final class CdaHandlerConstants {
 	public static final String ATTRIBUTE_NAME_CONFIDENTIALITY = "Confidentiality";
 	public static final String ATTRIBUTE_NAME_ORIGINAL_COPY = "Original";
 	public static final String ATTRIBUTE_NAME_OBS_GROUP = "orderObsGroup";
+
 }

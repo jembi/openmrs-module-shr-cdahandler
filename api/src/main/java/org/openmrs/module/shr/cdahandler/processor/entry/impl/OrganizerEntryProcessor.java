@@ -5,12 +5,14 @@ import java.util.List;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Component4;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
+import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
@@ -21,6 +23,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
@@ -68,8 +71,8 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		Obs previousObs = this.voidOrThrowIfPreviousObsExists(organizer.getReference(), encounterInfo.getPatient(), organizer.getId());
 				
 		// Organizer obs
-		Obs organizerObs = new Obs(),
-				parentObs = (Obs)this.getContext().getParsedObject();
+		ExtendedObs organizerObs = new ExtendedObs();
+		Obs parentObs = (Obs)this.getContext().getParsedObject();
 		
 		// The value will be a classifier of the type of organizer
 		ST value = new ST(organizer.getClassCode().getCode().getCode());
@@ -81,28 +84,51 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		super.setCreator(organizerObs, organizer);
 
 		// Concept
-		Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());
-		if(concept == null && organizer.getCode() != null)
+		if(organizer.getCode() != null)
 		{
-			concept = this.m_conceptUtil.createConcept(organizer.getCode(), value);
-			// Try to add this concept as a valid set member of the context
-			this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), concept);
+			Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());
+			if(concept == null && organizer.getCode() != null)
+			{
+				concept = this.m_conceptUtil.createConcept(organizer.getCode(), value);
+				// Try to add this concept as a valid set member of the context
+				this.m_conceptUtil.addConceptToSet(parentObs.getConcept(), concept);
+			}
+			else if(concept == null)
+				throw new DocumentImportException("Cannot reliably establish the type of organizer concept to create");
+			organizerObs.setConcept(concept);
 		}
-		else if(concept == null)
-			throw new DocumentImportException("Cannot reliably establish the type of organizer concept to create");
-		organizerObs.setConcept(concept);
-		
-		// Time?
+
+		// status
+		if(organizer.getStatusCode() != null)
+			organizerObs.setObsStatus(this.m_conceptUtil.getOrCreateConcept(new CV<ActStatus>(organizer.getStatusCode().getCode())));
+
+		// Effective time is value
 		if(organizer.getEffectiveTime() != null)
 		{
-			if(organizer.getEffectiveTime().getValue() != null && !organizer.getEffectiveTime().getValue().isNull())
+			// Date precisions least descriptive
+			if(organizer.getEffectiveTime().getValue() != null )
+			{
 				organizerObs.setObsDatetime(organizer.getEffectiveTime().getValue().getDateValue().getTime());
-			else
-				organizerObs.setObsDatetime(null);
+				organizerObs.setObsDatePrecision(organizer.getEffectiveTime().getValue().getDateValuePrecision());
+			}
+			// Low/high
+			if(organizer.getEffectiveTime().getLow() != null && !organizer.getEffectiveTime().getLow().isNull())
+			{
+				organizerObs.setObsStartDate(organizer.getEffectiveTime().getLow().getDateValue().getTime());
+				if(organizerObs.getObsDatePrecision() > organizer.getEffectiveTime().getLow().getDateValuePrecision())
+					organizerObs.setObsDatePrecision(organizer.getEffectiveTime().getLow().getDateValuePrecision());
+			}
+			if(organizer.getEffectiveTime().getHigh() != null && !organizer.getEffectiveTime().getHigh().isNull())
+			{
+				organizerObs.setObsEndDate(organizer.getEffectiveTime().getHigh().getDateValue().getTime());
+				if(organizerObs.getObsDatePrecision() > organizer.getEffectiveTime().getHigh().getDateValuePrecision())
+					organizerObs.setObsDatePrecision(organizer.getEffectiveTime().getHigh().getDateValuePrecision());
+			}
+			
 		}
 		else
 			organizerObs.setObsDatetime(encounterInfo.getEncounterDatetime());
-
+		
 		// Accession (ID) number
 		if(organizer.getId() != null)
 			organizerObs.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(organizer.getId().get(0)));
@@ -196,7 +222,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		else if(expectedCode != null && organizer.getCode().getDisplayName() == null)
 			organizer.getCode().setDisplayName(expectedCode.getDisplayName());
 		else if(organizer.getCode() == null)
-			validationIssues.error("All Organizers must carry a code");
+			validationIssues.warn("All Organizers should carry a code");
 		
 		// Get expected components
 		List<String> expectedComponents = this.getExpectedComponents();

@@ -1,5 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,10 +50,12 @@ import org.openmrs.TestOrder.Laterality;
 import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
@@ -269,6 +272,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 	 * @throws DocumentImportException 
 	 */
 	protected BaseOpenmrsData processEventOccurance(Observation observation) throws DocumentImportException {
+
 		// Create concept and datatype services
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
@@ -278,7 +282,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		Obs previousObs = super.voidOrThrowIfPreviousObsExists(observation.getReference(), encounterInfo.getPatient(), observation.getId());
 
 		
-		Obs res = new Obs();
+		ExtendedObs res = new ExtendedObs();
 		res.setPreviousVersion(previousObs);
 		res.setObsGroup(parentObs);
 		// Now ... Get the encounter and copy cascade what can be cascaded
@@ -296,6 +300,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		
 		// Value may be changed
 		ANY value = observation.getValue();
+		
 		// Code 
 		Concept concept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
 		if(concept == null && observation.getValue() != null && this.m_configuration.getAutoCreateConcepts())
@@ -321,28 +326,35 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		}
 		else if(!concept.getDatatype().equals(this.m_conceptUtil.getConceptDatatype(observation.getValue())))
 			throw new DocumentImportException(String.format("Cannot store data of type %s in a concept field assigned %s", this.m_conceptUtil.getConceptDatatype(observation.getValue()).getName(), concept.getDatatype().getName()));
-
-		
 		res.setConcept(concept);
+		
+		// status
+		if(observation.getStatusCode() != null)
+			res.setObsStatus(this.m_conceptUtil.getOrCreateConcept(new CV<ActStatus>(observation.getStatusCode().getCode())));
 		
 		// Effective time is value
 		if(observation.getEffectiveTime() != null)
 		{
-			if(observation.getEffectiveTime().getValue() != null && !observation.getEffectiveTime().getValue().isNull())
-				res.setObsDatetime(observation.getEffectiveTime().getValue().getDateValue().getTime());
-			else if(observation.getEffectiveTime().getLow() != null)
+			// Date precisions least descriptive
+			if(observation.getEffectiveTime().getValue() != null )
 			{
-				String comment = "";
-				// TODO: How to more elegantly handle this?
-				if(observation.getEffectiveTime().getLow() != null && !observation.getEffectiveTime().getLow().isNull())
-				{
-					res.setObsDatetime(observation.getEffectiveTime().getLow().getDateValue().getTime());
-					comment += String.format("From %s ", observation.getEffectiveTime().getLow().getDateValue().getTime());
-				}
-				if(observation.getEffectiveTime().getHigh() != null && !observation.getEffectiveTime().getHigh().isNull())
-					comment += String.format("Until %s ", observation.getEffectiveTime().getHigh().getDateValue().getTime());
-				res.setComment(comment);
+				res.setObsDatetime(observation.getEffectiveTime().getValue().getDateValue().getTime());
+				res.setObsDatePrecision(observation.getEffectiveTime().getValue().getDateValuePrecision());
 			}
+			// Low/high
+			if(observation.getEffectiveTime().getLow() != null && !observation.getEffectiveTime().getLow().isNull())
+			{
+				res.setObsStartDate(observation.getEffectiveTime().getLow().getDateValue().getTime());
+				if(res.getObsDatePrecision() > observation.getEffectiveTime().getLow().getDateValuePrecision())
+					res.setObsDatePrecision(observation.getEffectiveTime().getLow().getDateValuePrecision());
+			}
+			if(observation.getEffectiveTime().getHigh() != null && !observation.getEffectiveTime().getHigh().isNull())
+			{
+				res.setObsEndDate(observation.getEffectiveTime().getHigh().getDateValue().getTime());
+				if(res.getObsDatePrecision() > observation.getEffectiveTime().getHigh().getDateValuePrecision())
+					res.setObsDatePrecision(observation.getEffectiveTime().getHigh().getDateValuePrecision());
+			}
+			
 		}
 		else
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
@@ -368,11 +380,28 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				}
 			}
 		}
-		
+
+		// TODO: Move these sub-observations into proper Obs 
+		// values via an extended Obs (which I'm not sure how to do)
+		if(!observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Eventoccurrence))
+			res.setObsMood(this.m_conceptUtil.getOrCreateConcept(new CE<x_ActMoodDocumentObservation>(observation.getMoodCode().getCode())));
+
+		// Interpretation
+		if(observation.getInterpretationCode() != null)
+			for(CE<ObservationInterpretation> interpretationCode : observation.getInterpretationCode())
+			{
+				res.setObsInterpretation(this.m_conceptUtil.getOrCreateConcept(interpretationCode));
+				break;
+			}
+				
+		// Repeat number ... as an obs.. 
+		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
+			res.setObsRepeatNumber(observation.getRepeatNumber().getValue().toInteger());
+
 		// Get entry value
-		res = this.m_dataUtil.setObsValue(res, value);
-		res = Context.getObsService().saveObs(res, null);
-		
+		res = (ExtendedObs)this.m_dataUtil.setObsValue(res, value);
+		Context.getObsService().saveObs(res, null);
+				
 		// Is this really an indicator that is enabled?
 		if(BL.FALSE.equals(observation.getValue()) || BL.TRUE.equals(observation.getNegationInd()))
 		{
@@ -381,25 +410,6 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			Context.getObsService().saveObs(sub, null);
 		}
 		
-
-
-		// TODO: Move these sub-observations into proper Obs 
-		// values via an extended Obs (which I'm not sure how to do)
-		if(!observation.getMoodCode().getCode().equals(x_ActMoodDocumentObservation.Eventoccurrence))
-		{
-			Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_MOOD, observation.getMoodCode()), observation.getMoodCode());
-			sub.setObsGroup(res);
-			Context.getObsService().saveObs(sub, null);
-		}
-
-		// Repeat number ... as an obs.. 
-		if(observation.getRepeatNumber() != null && observation.getRepeatNumber().getValue() != null)
-		{
-			Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REPEAT, observation.getRepeatNumber().getValue()), observation.getRepeatNumber().getValue());
-			sub.setObsGroup(res);
-			Context.getObsService().saveObs(sub, null);
-		}
-
 		// Method
 		if(observation.getMethodCode() != null)
 			for(CE<String> methodCode : observation.getMethodCode())
@@ -409,15 +419,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 				Context.getObsService().saveObs(sub, null);
 			}
 
-		// Interpretation
-		if(observation.getInterpretationCode() != null)
-			for(CE<ObservationInterpretation> interpretationCode : observation.getInterpretationCode())
-			{
-				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_INTERPRETATION, interpretationCode), interpretationCode);
-				sub.setObsGroup(res);
-				Context.getObsService().saveObs(sub, null);
-			}
-
+		
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(observation, res, this);
 		super.processEntryRelationships(observation, childContext);

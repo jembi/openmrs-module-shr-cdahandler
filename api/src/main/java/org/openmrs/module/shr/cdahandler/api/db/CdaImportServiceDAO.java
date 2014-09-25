@@ -6,6 +6,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 
 /**
  * Represents a DAO for extended CDA properties
@@ -31,5 +32,10 @@ public interface CdaImportServiceDAO {
 	 * Create a reference term
 	 */
 	ConceptReferenceTerm saveReferenceTermQuick(ConceptReferenceTerm referenceTerm);
+
+	/**
+	 * Get extended obs data by id
+	 */
+	ExtendedObs getExtendedObs(Integer id);
 	
 }

@@ -17,8 +17,11 @@ import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.AllergySeverity;
 import org.openmrs.activelist.AllergyType;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
@@ -65,7 +68,7 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 			return null;
 
 		// Get Some information that assists in processing
-		Obs obs = (Obs)processedData;
+		ExtendedObs obs = Context.getService(CdaImportService.class).getExtendedObs(processedData.getId());
 		Observation observation = (Observation)statement;
 		
 		// We don't track the allergy to an obs if we can help it..

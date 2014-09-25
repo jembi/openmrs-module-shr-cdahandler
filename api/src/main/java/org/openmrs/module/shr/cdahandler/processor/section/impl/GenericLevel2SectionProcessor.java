@@ -78,7 +78,6 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 				concept = this.m_openmrsConceptUtil.createConcept(section.getCode(), section.getText());
 			obsGrouper.setConcept(concept);
 		}
-		
 		// Patient from visit
 		obsGrouper.setPerson(encounterInfo.getPatient());
 
@@ -105,6 +104,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 			ByteArrayInputStream textStream = new ByteArrayInputStream(sectionText.getBytes());
 			ComplexData complexData = new ComplexData(title, textStream);
 			obsGrouper.setComplexData(complexData);
+			
 		}
 		
 		// Add the obs

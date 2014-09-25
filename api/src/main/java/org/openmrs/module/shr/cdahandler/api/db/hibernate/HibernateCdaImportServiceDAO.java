@@ -11,6 +11,7 @@ import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.api.db.hibernate.HibernateConceptDAO;
 import org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 
 /**
  * Hibernate DAO for CDA import service
@@ -61,6 +62,15 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 		HibernateConceptDAO wrappedDao = new HibernateConceptDAO();
 		wrappedDao.setSessionFactory(this.m_sessionFactory);
 		return wrappedDao.saveConceptReferenceTerm(referenceTerm);
+    }
+
+	/**
+	 * Get an extended obs
+	 * @see org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO#getExtendedObs(java.lang.Integer)
+	 */
+	@Override
+    public ExtendedObs getExtendedObs(Integer id) {
+		return (ExtendedObs)this.m_sessionFactory.getCurrentSession().get(ExtendedObs.class, id);
     }
 	
 }

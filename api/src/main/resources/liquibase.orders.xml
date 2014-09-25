@@ -66,4 +66,27 @@
    	</insert>
    </changeSet>
    
+   <changeSet dbms="mysql" id="shr-cdahandler-obs-extended-create" author="justin">
+	   	<preConditions>
+		   	<not>
+	   			<tableExists tableName="shr_obs"/>
+	   		</not>
+	 	</preConditions>
+	 	<createTable tableName="shr_obs">
+	 		<column name="obs_id" type="int">
+	 			<constraints primaryKey="true"/>
+	 		</column>
+	 		<column name="obs_datetime_precision" type="int"/>
+	 		<column name="obs_start_datetime" type="datetime"/>
+	 		<column name="obs_end_datetime" type="datetime"/>
+	 		<column name="obs_repeat_number" type="int"/>
+	 		<column name="interpretation" type="int"/>
+	 		<column name="mood" type="int"/>
+	 		<column name="status" type="int"/>
+	 	</createTable>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_obs_id_fk" referencedTableName="obs" baseColumnNames="obs_id" baseTableName="shr_obs" referencedColumnNames="obs_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_interpretation_fk" referencedTableName="concept" baseColumnNames="interpretation" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_mood_fk" referencedTableName="concept" baseColumnNames="mood" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_status_fk" referencedTableName="concept" baseColumnNames="status" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+   </changeSet>
 </databaseChangeLog>

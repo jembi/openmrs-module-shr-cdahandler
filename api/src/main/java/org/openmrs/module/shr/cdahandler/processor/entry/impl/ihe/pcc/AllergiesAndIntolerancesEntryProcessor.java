@@ -70,6 +70,7 @@ public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEnt
 	 */
 	@Override
     public BaseOpenmrsData process(ClinicalStatement entry) throws DocumentImportException {
+		
 	    return super.process(entry);
     }
 

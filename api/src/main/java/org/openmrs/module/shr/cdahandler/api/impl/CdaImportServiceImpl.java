@@ -14,6 +14,7 @@
 package org.openmrs.module.shr.cdahandler.api.impl;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,11 +32,14 @@ import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Concept;
+import org.openmrs.ConceptMap;
+import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
 import org.openmrs.api.APIException;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.shr.cdahandler.CdaImporter;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
@@ -45,6 +49,7 @@ import org.openmrs.module.shr.cdahandler.everest.EverestUtil;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -68,7 +73,6 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#importDocument(java.io.InputStream)
 	 */
 	@Override
-	@Transactional(readOnly = true)
 	public Visit importDocument(InputStream doc) throws DocumentImportException 
 	{
 		
@@ -89,10 +93,17 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		for(IResultDetail dtl : parseResult.getDetails())
 		{
 			if(dtl.getType() == ResultDetailType.ERROR && !(dtl instanceof DatatypeValidationResultDetail))
+			{
 				parsingIssues.error(String.format("HL7v3 Validation: %s at %s", dtl.getMessage(), dtl.getLocation()));
+				if(dtl.getException() != null)
+				{
+					log.error("Error", dtl.getException());
+				}
+			}
 			else  
 				parsingIssues.warn(String.format("HL7v3 Validation: %s at %s", dtl.getMessage(), dtl.getLocation()));
 		}
+		
 		// Any serious validation has errors or structure is null?
 		if(parsingIssues.hasErrors() || parseResult.getStructure() == null)
 			throw new DocumentValidationException(parseResult.getStructure(), parsingIssues);
@@ -157,6 +168,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getOrderByAccessionNumber(java.lang.String)
 	 */
 	@Override
+	@Transactional(readOnly = true)
     public List<Order> getOrdersByAccessionNumber(String an) {
 		return this.dao.getOrdersByAccessionNumber(an, false);
     }
@@ -166,7 +178,21 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#saveConceptQuick(org.openmrs.Concept)
 	 */
 	@Override
-    public Concept saveConceptQuick(Concept concept) throws APIException {
+    public Concept saveConcept(Concept concept) throws APIException {
+		ConceptMapType defaultConceptMapType = null;
+		for (ConceptMap map : concept.getConceptMappings()) {
+			if (map.getConceptMapType() == null) {
+				if (defaultConceptMapType == null) {
+					defaultConceptMapType = Context.getConceptService().getDefaultConceptMapType();
+				}
+				map.setConceptMapType(defaultConceptMapType);
+			}
+		}
+
+		concept.setDateChanged(new Date());
+		concept.setChangedBy(Context.getAuthenticatedUser());
+		
+		// add/remove entries in the concept_word table (used for searching)
 		return this.dao.saveConceptQuick(concept);
     }
 
@@ -183,6 +209,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getObsByAccessionNumber(java.lang.String)
 	 */
 	@Override
+	@Transactional(readOnly = true)
     public List<Obs> getObsByAccessionNumber(String an) {
 		return this.dao.getObsByAccessionNumber(an, false);
     }
@@ -191,5 +218,15 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
     public ConceptReferenceTerm saveConceptReferenceTerm(ConceptReferenceTerm referenceTerm) {
 		return this.dao.saveReferenceTermQuick(referenceTerm);
     }
+
+	/**
+	 * Get extended obs data by id
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getExtendedObs(java.lang.Integer)
+	 */
+	@Override
+    public ExtendedObs getExtendedObs(Integer id) {
+		return this.dao.getExtendedObs(id);
+    }
+
 	
 }

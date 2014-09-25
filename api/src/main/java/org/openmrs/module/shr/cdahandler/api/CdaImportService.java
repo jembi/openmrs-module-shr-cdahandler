@@ -23,6 +23,7 @@ import org.openmrs.Order;
 import org.openmrs.Visit;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @see org.openmrs.api.context.Context
  */
-@Transactional(readOnly = true)
+@Transactional
 public interface CdaImportService extends OpenmrsService {
      
 	/**
@@ -59,7 +60,7 @@ public interface CdaImportService extends OpenmrsService {
 	/**
 	 * Saves a concept without indexing
 	 */
-	Concept saveConceptQuick(Concept concept);
+	Concept saveConcept(Concept concept);
 	
 	/**
 	 * Get observation by accession number
@@ -70,5 +71,10 @@ public interface CdaImportService extends OpenmrsService {
 	 * Create a concept reference term without re-indexing
 	 */
 	ConceptReferenceTerm saveConceptReferenceTerm(ConceptReferenceTerm referenceTerm);
-	
+
+	/**
+	 * Retrieves an extended observation 
+	 */
+	ExtendedObs getExtendedObs(Integer id);
+
 }

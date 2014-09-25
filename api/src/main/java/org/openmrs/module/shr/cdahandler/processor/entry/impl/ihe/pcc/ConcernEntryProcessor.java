@@ -23,6 +23,7 @@ import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ActEntryProcessor;
 
@@ -40,7 +41,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	/**
 	 * Calculate the current status
 	 */
-	public ActStatus calculateCurrentStatus(ActiveListItem res) {
+	public static ActStatus calculateCurrentStatus(ActiveListItem res) {
 		if(res.getStartDate() == null && res.getEndDate() == null)
 			return ActStatus.New;
 		else if(res.getStartDate() != null && res.getEndDate() == null)
@@ -64,7 +65,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	 * @return
 	 * @throws DocumentImportException 
 	 */
-	public <T extends ActiveListItem> T createActiveListItem(Act act, Obs obs, Class<T> clazz) throws DocumentImportException {
+	public <T extends ActiveListItem> T createActiveListItem(Act act, ExtendedObs obs, Class<T> clazz) throws DocumentImportException {
 		
 		// Get the encounter context
 		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
@@ -116,7 +117,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			res.setDateChanged(encounterInfo.getDateCreated());
 		
 		// New?
-		ActStatus currentStatus = this.calculateCurrentStatus(res);
+		ActStatus currentStatus = ConcernEntryProcessor.calculateCurrentStatus(res);
 
 		// What state are we entering? Valid transitions are
 		// 	New -> *
@@ -131,7 +132,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			throw new IllegalStateException("Cannot re-activate a completed or aborted problem. Please create a new one"); 
 		else if(currentStatus == ActStatus.Aborted)
 			throw new IllegalStateException("Cannot update an aborted problem entry. Please create a new one");
-		
+
 		// Effective time?
 		if(act.getEffectiveTime() != null)
 		{
@@ -166,12 +167,21 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 					res.setEndDate(act.getEffectiveTime().getHigh().getDateValue().getTime());
 				}
 			}
-			if(res.getStartDate() == null && obs.getObsDatetime() != null)
-				res.setStartDate(obs.getObsDatetime());
 		}
 		else if(act.getStatusCode().getCode() != ActStatus.Completed)
 			throw new DocumentImportException("Missing effective time of the problem");
 
+		// we have to assign a start or else OMRS will assign one for us!
+		if(obs.getObsStartDate() != null && res.getStartDate() == null) 
+		{
+			res.setStartObs(obs);
+			res.setStartDate(obs.getObsStartDate());
+		}
+		if(obs.getObsEndDate() != null && res.getEndDate() == null)
+		{
+			res.setEndDate(obs.getObsEndDate());
+			res.setStopObs(obs);
+		}
 		// Void this?
 		if(act.getStatusCode().getCode() == ActStatus.Aborted || 
 				act.getStatusCode().getCode() == ActStatus.Suspended)
