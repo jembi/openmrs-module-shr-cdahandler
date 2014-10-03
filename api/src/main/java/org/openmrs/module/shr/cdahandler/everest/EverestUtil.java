@@ -3,6 +3,7 @@ package org.openmrs.module.shr.cdahandler.everest;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.marc.everest.datatypes.generic.SXCM;
 import org.marc.everest.formatters.interfaces.IStructureFormatter;
 import org.marc.everest.formatters.xml.datatypes.r1.DatatypeFormatter;
 import org.marc.everest.formatters.xml.datatypes.r1.R1FormatterCompatibilityMode;
@@ -23,6 +24,7 @@ public class EverestUtil {
 			{{
 				put("POCD_MT000040UV.PlayingEntity", SdtcPlayingEntity.class);
 				put("POCD_MT000040UV.SubjectPerson", SdtcSubjectPerson.class);
+				put("org.marc.everest.datatypes.interfaces.ISetComponent", SXCM.class);
 			}};
 	
 	/**

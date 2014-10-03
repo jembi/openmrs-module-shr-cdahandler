@@ -1,6 +1,8 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -17,6 +19,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Encounter;
@@ -129,7 +132,15 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	 * @throws DocumentImportException 
 	 */
 	protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext) throws DocumentImportException {
+		this.processEntryRelationships(entry, childContext, ClinicalStatement.class);
+    }
 
+	/**
+	 * Process entry relationship of the specified types
+	 * @throws DocumentImportException 
+	 */
+	protected void processEntryRelationships(ClinicalStatement entry, ProcessorContext childContext,
+                                          Class<? extends ClinicalStatement> filterType) throws DocumentImportException {
 		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();
 		for(EntryRelationship relationship : entry.getEntryRelationship())
 		{
@@ -137,12 +148,15 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 					relationship.getClinicalStatement().getNullFlavor() != null)
 				continue;
 			
-			this.m_datatypeUtil.cascade(entry, relationship.getClinicalStatement(), "effectiveTime");
-			EntryProcessor processor = factory.createProcessor(relationship.getClinicalStatement());
-			if(processor != null)
+			if(filterType.isAssignableFrom(relationship.getClinicalStatement().getClass()))
 			{
-				processor.setContext(childContext);
-				processor.process(relationship.getClinicalStatement());
+				this.m_datatypeUtil.cascade(entry, relationship.getClinicalStatement(), "effectiveTime");
+				EntryProcessor processor = factory.createProcessor(relationship.getClinicalStatement());
+				if(processor != null)
+				{
+					processor.setContext(childContext);
+					processor.process(relationship.getClinicalStatement());
+				}
 			}
 		}
     }
@@ -288,9 +302,13 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		{
 			Obs existingObs = this.m_dataUtil.findExistingObs(statementIds, patient) ;
 			
-			// An replacement from the auto-replace
+			//    An replacement from the auto-replace
 			if(existingObs != null && this.m_configuration.getUpdateExisting())
 			{
+				log.debug(String.format("Voiding existing obs %s", existingObs));
+				existingObs.setDateVoided(new Date());
+				existingObs.setVoided(true);
+				existingObs.setVoidedBy(Context.getAuthenticatedUser());
 				Context.getObsService().voidObs(existingObs, "Auto-Replaced");
 				previousObs = existingObs;
 			}

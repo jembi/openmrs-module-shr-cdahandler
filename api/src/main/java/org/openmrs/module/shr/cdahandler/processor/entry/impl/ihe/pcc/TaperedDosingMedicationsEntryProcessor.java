@@ -80,7 +80,7 @@ public class TaperedDosingMedicationsEntryProcessor extends MedicationsEntryProc
 				if(operator.equals(SetOperator.Inclusive) || operator == null)
 				{
 					currentAdmin = new SubstanceAdministration();
-					this.m_datatypeUtil.cascade(administration, currentAdmin, "code", "text", "statusCode", "routeCode", "doseQuantity", "approachSiteCode", "administrationUnitCode", "rateQuantity", "consumable", "entryRelationship", "precondition");
+					//this.m_datatypeUtil.cascade(administration, currentAdmin, "code", "text", "statusCode", "routeCode", "doseQuantity", "approachSiteCode", "administrationUnitCode", "rateQuantity", "consumable", "entryRelationship", "precondition");
 					currentAdmin.setTemplateId(LIST.createLIST(new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS)));
 					administrationsQueue.add(currentAdmin);
 				}

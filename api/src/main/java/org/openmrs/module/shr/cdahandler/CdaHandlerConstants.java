@@ -1,5 +1,7 @@
 package org.openmrs.module.shr.cdahandler;
 
+import java.util.UUID;
+
 
 /**
  * A constant list of OIDs
@@ -19,6 +21,31 @@ public final class CdaHandlerConstants {
 	public static final String FMT_CODE_PCC_LDS = "urn:ihe:pcc:lds:2009";
 	public static final String FMT_CODE_PCC_MDS = "urn:ihe:pcc:mds:2009";
 
+	// Medication concept id
+	public static final int CONCEPT_ID_MEDICATION_HISTORY = 160741;
+	public static final int CONCEPT_ID_MEDICATION_DRUG = 1282;
+	public static final int CONCEPT_ID_MEDICATION_STRENGTH = 1444;
+	public static final int CONCEPT_ID_MEDICATION_QUANTITY = 160856;
+	public static final int CONCEPT_ID_MEDICATION_FREQUENCY = 160855;
+	public static final int CONCEPT_ID_MEDICATION_START_DATE = 1190;
+	public static final int CONCEPT_ID_MEDICATION_STOP_DATE = 1191;
+	public static final int CONCEPT_ID_MEDICATION_INDICATION = 160742;
+	public static final int CONCEPT_ID_MEDICATION_TEXT = 160632;
+	public static final int CONCEPT_ID_MEDICATION_DURATION = 159368;
+	public static final int CONCEPT_ID_IMMUNIZATION_SEQUENCE = 1418;
+	public static final int CONCEPT_ID_IMMUNIZATION_DATE = 1410;
+	public static final int CONCEPT_ID_IMMUNIZATION_DRUG = 984;
+	public static final int CONCEPT_ID_MEDICATION_FORM = 1519;
+	public static final int CONCEPT_ID_IMMUNIZATION_HISTORY = 1421;
+	public static final int CONCEPT_ID_SIGN_SYMPTOM_PRESENT = 1729;
+	public static final int CONCEPT_ID_SUPPLY = 1442;
+	public static final int CONCEPT_ID_SUPPLY_ORDERED_QTY = 1621;
+	public static final int CONCEPT_ID_MEDICATION_TREATMENT_NUMBER = 1639;
+	public static final int CONCEPT_ID_MEDICATION_DISPENSED = 1443;
+	public static final int CONCEPT_ID_PROVIDER_NAME = 1473;
+	public static final int CONCEPT_ID_DATE_OF_EVENT = 160753;
+	public static final int CONCEPT_ID_PROCEDURE = 1651;
+	public static final int CONCEPT_ID_UNSPECIFIED = 161548;
 	// Loinc
 	public static final String CODE_SYSTEM_LOINC = "2.16.840.1.113883.6.1";
 	public static final String CODE_SYSTEM_NAME_LOINC = "LOINC";
@@ -30,6 +57,10 @@ public final class CdaHandlerConstants {
 	public static final String CODE_SYSTEM_UCUM = "2.16.840.1.113883.6.8";
 	public static final String CODE_SYSTEM_ROUTE_OF_ADMINISTRATION = "2.16.840.1.113883.5.112";
 	public static final String CODE_SYSTEM_MARITAL_STATUS = "2.16.840.1.113883.5.2";
+	public static final String CODE_SYSTEM_CVX = "2.16.840.1.113883.6.59";
+	public static final String CODE_SYSTEM_RXNORM = "2.16.840.1.113883.6.88";
+	public static final String CODE_SYSTEM_IHE_ACT_CODE = "1.3.6.1.4.1.19376.1.5.3.2";
+	public static final String CODE_SYSTEM_CPT4 = "2.16.840.1.113883.6.12";
 	
 	// Document Template Medical Documents
 	public static final String DOC_TEMPLATE_MEDICAL_DOCUMENTS = "1.3.6.1.4.1.19376.1.5.3.1.1.1";
@@ -44,6 +75,7 @@ public final class CdaHandlerConstants {
 	public static final String DOC_TEMPLATE_MATERNAL_DISCHARGE_SUMMARY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.1.3";
 	public static final String DOC_TEMPLATE_CCD = "2.16.840.1.113883.10.20.1";
 	public static final String DOC_TEMPLATE_CDA4CDT = "2.16.840.1.113883.10.20.3";
+	public static final String DOC_TEMPLATE_IMMUNIZATION_CONTENT = "1.3.6.1.4.1.19376.1.5.3.1.1.18.1.2";
 	
 	// Section Templates
 	public static final String SCT_TEMPLATE_CCD_ADVNACE_DIRECTIVES = "2.16.840.1.113883.10.20.1.1";
@@ -89,6 +121,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_RESULTS = "1.3.6.1.4.1.19376.1.5.3.1.3.27";
 	public static final String SCT_TEMPLATE_CARE_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.3.31";
 	public static final String SCT_TEMPLATE_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
+	public static final String SCT_TEMPLATE_IMMUNIZATIONS = "1.3.6.1.4.1.19376.1.5.3.1.3.23";
 	
 	// Entry templates
 	public static final String ENT_TEMPLATE_CCD_ADVANCE_DIRECTIVE_OBSERVATION = "2.16.840.1.113883.10.20.1.17";
@@ -109,6 +142,7 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_CCD_VITAL_SIGNS_ORGANIZER = "2.16.840.1.113883.10.20.1.35";
 	public static final String ENT_TEMPLATE_CCD_AGE_OBSERVATION = "2.16.840.1.113883.10.20.1.38";
 	public static final String ENT_TEMPLATE_CCD_DEATH_OBSERVATION = "2.16.840.1.113883.10.20.1.42";
+	public static final String ENT_TEMPLATE_CCD_INSTRUCTIONS = "2.16.840.1.113883.10.20.1.49";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
@@ -138,6 +172,10 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_ANTENATAL_TESTING_BATTERY = "1.3.6.1.4.1.19376.1.5.3.1.1.21.3.10";
 	public static final String ENT_TEMPLATE_PROCEDURE_ENTRY = "1.3.6.1.4.1.19376.1.5.3.1.4.19";
 	public static final String ENT_TEMPLATE_EXTERNAL_REFERENCES_ENTRY = "1.3.6.1.4.1.19376.1.5.3.1.4.4";
+	public static final String ENT_TEMPLATE_IMMUNIZATIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.12";
+	public static final String ENT_TEMPLATE_IMMUNIZATION_SERIES = "2.16.840.1.113883.10.20.1.46";
+	public static final String ENT_TEMPLATE_CCD_MEDICATION_PRODUCT = "2.16.840.1.113883.10.20.1.53";
+	public static final String ENT_TEMPLATE_PRODCUT = "1.3.6.1.4.1.19376.1.5.3.1.4.7.2";
 
 	// Section Templates
 	public static final String SCT_TEMPLATE_EXAM_GENERAL_APPEARANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.9.16";
@@ -192,5 +230,32 @@ public final class CdaHandlerConstants {
 	public static final String ATTRIBUTE_NAME_CONFIDENTIALITY = "Confidentiality";
 	public static final String ATTRIBUTE_NAME_ORIGINAL_COPY = "Original";
 	public static final String ATTRIBUTE_NAME_OBS_GROUP = "orderObsGroup";
+
+	public static final int MEDICATION_FREQUENCY_24_HOURS = 162252;
+	public static final int MEDICATION_FREQUENCY_12_HOURS = 162251;
+	public static final int MEDICATION_FREQUENCY_8_HOURS = 162250;
+	public static final int MEDICATION_FREQUENCY_36_HOURS = 162254;
+	public static final int MEDICATION_FREQUENCY_48_HOURS = 162253;
+	public static final int MEDICATION_FREQUENCY_72_HOURS = 162255;
+	public static final int MEDICATION_FREQUENCY_30_MINS = 162243;
+	public static final int MEDICATION_FREQUENCY_AT_BEDTIME = 160863;
+	public static final int MEDICATION_FREQUENCY_TWICE_DAILY_AFTER_MEALS = 160860;
+	public static final int MEDICATION_FREQUENCY_THRICE_DAILY_AFTER_MEALS = 160867;
+	public static final int MEDICATION_FREQUENCY_FOUR_TIMES_DAILY_AFTER_MEALS = 160871;
+	public static final int MEDICATION_FREQUENCY_THRICE_DAILY_BEFORE_MEALS = 160868;
+	public static final int MEDICATION_FREQUENCY_TWICE_DAILY_BEFORE_MEALS = 160859;
+	public static final int MEDICATION_FREQUENCY_FOUR_TIMES_DAILY_BEFORE_MEALS = 160872;
+	public static final int MEDICATION_FREQUENCY_ONCE_DAILY_MORNING = 160865;
+	public static final int MEDICATION_FREQUENCY_ONCE_DAILY_EVENING = 160864;
+	public static final int MEDICATION_FREQUENCY_ONCE_DAILY = 160862;
+	public static final int MEDICATION_FREQUENCY_ONCE = 162135;
+
+
+
+
+	
+	
+	
+	
 
 }

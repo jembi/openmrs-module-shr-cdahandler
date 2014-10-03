@@ -307,7 +307,7 @@
 							<consumable>
 								<manufacturedProduct>
 									<manufacturedLabeledDrug>
-										<code>
+										<code nullFlavor="OTH">
 											<originalText>
 												<reference
 													value="#ref_8882b001721b45cca952e3cdfee688f6_phrMed_Name_1" />

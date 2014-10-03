@@ -150,6 +150,8 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 				else
 					familyHistoryObs.setObsDatetime(encounterInfo.getEncounterDatetime());
 			}
+			else
+				familyHistoryObs.setObsDatePrecision(0);
 			
 			// Interpretation
 			if(componentObservation.getInterpretationCode() != null && !componentObservation.getInterpretationCode().isEmpty())

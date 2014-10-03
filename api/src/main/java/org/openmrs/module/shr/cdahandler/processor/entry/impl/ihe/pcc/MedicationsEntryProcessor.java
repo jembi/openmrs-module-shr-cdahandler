@@ -14,6 +14,7 @@ import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.EIVL;
 import org.marc.everest.datatypes.generic.IVL;
 import org.marc.everest.datatypes.generic.PIVL;
+import org.marc.everest.datatypes.generic.SXCM;
 import org.marc.everest.datatypes.interfaces.ISetComponent;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
@@ -49,6 +50,7 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -154,9 +156,12 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 						res.setAutoExpireDate(effectiveRange.getHigh().getDateValue().getTime());
 				}
 			}
-			else if(eft instanceof PIVL || eft instanceof EIVL || eft instanceof TS) // period
+			else if(eft instanceof PIVL || eft instanceof EIVL || eft instanceof TS || eft instanceof SXCM) // period
 			{
-				res.setFrequency(this.m_datatypeUtil.getOrCreateOrderFrequency((ANY)eft));
+				ANY freq = (ANY)eft;
+				if(eft.getClass().equals(SXCM.class))
+					freq = ((SXCM<TS>)eft).getValue();
+				res.setFrequency(this.m_datatypeUtil.getOrCreateOrderFrequency(freq));
 			}
 			else
 				throw new DocumentPersistenceException(String.format("Cannot represent administration frequency of %s", FormatterUtil.createXsiTypeName(eft)));
@@ -306,149 +311,70 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 	@Override
 	protected BaseOpenmrsData processAdministrationAsObservation(SubstanceAdministration administration) throws DocumentImportException
 	{
-		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
-		Obs parentObs = (Obs)this.getContext().getParsedObject();
-		
-		// Get current order and void if existing for an update
-		Obs previousHistoryObs = super.voidOrThrowIfPreviousObsExists(administration.getReference(), encounterInfo.getPatient(), administration.getId());
-
-		// Obs for the medication history entry
-		Obs medicationHistoryObs = new Obs();
-		medicationHistoryObs.setObsGroup(parentObs);
-		medicationHistoryObs.setPreviousVersion(previousHistoryObs);
-		medicationHistoryObs.setConcept(Context.getConceptService().getConcept(160741));
-		medicationHistoryObs.setPerson(encounterInfo.getPatient());
-		medicationHistoryObs.setLocation(encounterInfo.getLocation());
-		medicationHistoryObs.setObsDatetime(encounterInfo.getEncounterDatetime());
-		medicationHistoryObs.setEncounter(encounterInfo);
-		medicationHistoryObs.setDateCreated(encounterInfo.getDateCreated());
-		super.setCreator(medicationHistoryObs, administration);				
-		
-		// Prescription (supply) entry relationship?
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_SUPPLY))
-			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.REFR))
-			{
-				
-				Order ord = (Order)this.processAdministrationAsOrder(administration);
-				medicationHistoryObs.setOrder(ord);
-			}
+		ExtendedObs medicationHistoryObs = super.createSubstanceAdministrationObs(administration, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_HISTORY), Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_DRUG));
 		
 		// Effective time(s)
-		for(ISetComponent<TS> eft : administration.getEffectiveTime())
+		for(Object eft : administration.getEffectiveTime())
 		{
 
 			// TODO: Is there a better way to represent these frequencies in oMRS than as serializations of the data types? Like a coded list?
 			if(eft instanceof IVL) // The effective range time
 			{
+
+				IVL<TS> eftIvl = (IVL<TS>)eft;
 				
-				IVL<TS> effectiveRange = ((IVL<TS>)eft).toBoundIvl();
+				// Set the original start/stop with precision on obs
+				if(eftIvl.getValue() != null && !eftIvl.getValue().isNull())
+				{
+					medicationHistoryObs.setObsDatetime(eftIvl.getValue().getDateValue().getTime());
+					medicationHistoryObs.setObsDatePrecision(eftIvl.getValue().getDateValuePrecision());
+				}
+				else if(eftIvl.isNull()) // Unknown date?
+					medicationHistoryObs.setObsDatePrecision(0);
+				else
+				{
+					if(eftIvl.getLow() != null && !eftIvl.getLow().isNull())
+					{
+						medicationHistoryObs.setObsStartDate(eftIvl.getLow().getDateValue().getTime());
+						if(medicationHistoryObs.getObsDatePrecision() > eftIvl.getLow().getDateValuePrecision())
+							medicationHistoryObs.setObsDatePrecision(eftIvl.getLow().getDateValuePrecision());
+					}
+					if(eftIvl.getHigh() != null && !eftIvl.getHigh().isNull())
+					{
+						medicationHistoryObs.setObsEndDate(eftIvl.getHigh().getDateValue().getTime());
+						if(medicationHistoryObs.getObsDatePrecision() > eftIvl.getHigh().getDateValuePrecision())
+							medicationHistoryObs.setObsDatePrecision(eftIvl.getHigh().getDateValuePrecision());
+					}
+				}
+				
+				// Start / stop via a bound ivl
+				IVL<TS> effectiveRange = eftIvl.toBoundIvl();
 				if(effectiveRange.getLow() != null && !effectiveRange.getLow().isNull())
-					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1190), effectiveRange.getLow());
+				{
+					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_START_DATE), effectiveRange.getLow());
+				}
 				if(effectiveRange.getHigh() != null && !effectiveRange.getHigh().isNull())
-					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1191), effectiveRange.getHigh());
+					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_STOP_DATE), effectiveRange.getHigh());
 			}
-			else if(eft instanceof PIVL || eft instanceof EIVL || eft instanceof TS) // period
+			else if(eft instanceof PIVL || eft instanceof EIVL || eft instanceof TS || eft.getClass().equals(SXCM.class)) // period
 			{
-				Concept frequency = this.m_conceptUtil.getOrCreateFrequencyConcept((ANY)eft);
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(160855), frequency);
+				ANY timeValue = (ANY)eft;
+				if(eft.getClass().equals(SXCM.class))
+					timeValue = ((SXCM<TS>)eft).getValue();
+				Concept frequency = this.m_conceptUtil.getOrCreateFrequencyConcept((ANY)timeValue);
+				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_FREQUENCY), frequency);
 			}
 			else
 				throw new DocumentPersistenceException(String.format("Cannot represent administration frequency of %s", FormatterUtil.createXsiTypeName(eft)));
 		}
 		
-		// Dosage? 
-		if(administration.getDoseQuantity() != null)
-			this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1444), administration.getDoseQuantity().toString());
-			
-		// Now form
-		if(administration.getAdministrationUnitCode() != null && !administration.getAdministrationUnitCode().isNull())
-		{
-			Concept formCode = this.m_conceptUtil.getOrCreateDrugAdministrationFormConcept(administration.getAdministrationUnitCode());
-			this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1519), formCode);
-		}
-		
-		// Now route
-		if(administration.getRouteCode() != null && !administration.getRouteCode().isNull())
-		{
-			Concept routeCodeConcept = this.m_conceptUtil.getOrCreateDrugRouteConcept();
-			this.m_dataUtil.addSubObservationValue(medicationHistoryObs, routeCodeConcept, administration.getRouteCode());
-		}
-
-		// Get the section text
-		Section parentSection = super.getSection();
-
-		// Instructions
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_MEDICATION_INSTRUCTIONS))
-		{
-			// Get the text
-			Act instructionAct = er.getClinicalStatementIfAct();
-			if(instructionAct == null || instructionAct.getText() == null) continue;
-			// Get instruction
-			medicationHistoryObs.setComment(String.format("Instructions: %s", parentSection.getText().findNodeById(instructionAct.getText().getReference().getValue()).toPlainString()));
-			break;
-		}		
-
-		// Drug time ... 
-		if(administration.getConsumable() != null && administration.getConsumable().getNullFlavor() == null &&
-				administration.getConsumable().getManufacturedProduct() != null && administration.getConsumable().getManufacturedProduct().getNullFlavor() == null)
-		{
-			ManufacturedProduct product = administration.getConsumable().getManufacturedProduct();
-			if(product.getManufacturedDrugOrOtherMaterialIfManufacturedLabeledDrug() != null) // A labelled drug
-				;
-			else
-			{
-				Material drugMaterial =  product.getManufacturedDrugOrOtherMaterialIfManufacturedMaterial();
-				
-				if(drugMaterial.getCode() != null)
-				{
-					
-					Drug drug = this.m_conceptUtil.getOrCreateDrugFromConcept(drugMaterial.getCode(), drugMaterial.getName(), administration.getAdministrationUnitCode());
-					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(1282), drug.getConcept());
-				}
-				else
-					throw new DocumentImportException("Drug must carry a coded identifier for the product administered");
-			}
-		}
-		
-		// Prescription (supply) entry relationship?
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_SUPPLY))
-			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.REFR))
-			{
-				Order ord = (Order)this.processAdministrationAsOrder(administration);
-				medicationHistoryObs.setOrder(ord);
-			}
-		
-		// reasoning will link to another obs
-		// TODO: Map this to 160742 concept by walking down the CDA tree
-		for(EntryRelationship er : this.findEntryRelationship(administration, CdaHandlerConstants.ENT_TEMPLATE_INTERNAL_REFERENCE))
-			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasReason))
-			{
-				ST reasonText = new ST(this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0)));
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REASON, reasonText), reasonText);
-			}
-
-		// Conditions, or dosing instructions
-		for(Precondition condition : administration.getPrecondition())
-		{
-			if(condition.getNullFlavor() != null || condition.getCriterion() == null ||
-					condition.getCriterion().getNullFlavor() != null ||
-					condition.getCriterion().getText() == null ||
-					condition.getCriterion().getText().getReference() == null)
-				continue;
-			
-			// Add instructions
-			StructDocNode instructionsNode = this.getSection().getText().findNodeById(condition.getCriterion().getText().getReference().getValue());
-			if(instructionsNode != null)
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(160632), instructionsNode.toPlainString());
-		}
-
-		// Medication history observation
-		medicationHistoryObs = Context.getObsService().saveObs(medicationHistoryObs, null);
+		// Medication history obs
+		medicationHistoryObs = (ExtendedObs)Context.getObsService().saveObs(medicationHistoryObs, null);
 
 		// Process entry relationships (these should be substance administrations) 
 		// Representing them as a flat heirarchy
 		ProcessorContext childContext = new ProcessorContext(administration, medicationHistoryObs, this);
-		super.processEntryRelationships(administration, childContext);
+		super.processEntryRelationships(administration, childContext, SubstanceAdministration.class);
 		
 		return medicationHistoryObs;		
 	}
@@ -464,20 +390,30 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 		
 		// Now validate the explicit requirements
 		SubstanceAdministration sbadm = (SubstanceAdministration)object;
-		if(sbadm.getEffectiveTime().size() < 2)
-			validationIssues.error("Medications section shall have at minimum two effectiveTime elements representing the date and frequency of administration");
-		if(sbadm.getDoseQuantity() == null || sbadm.getDoseQuantity().isNull())
-			validationIssues.error("Medications section shall have a dose quantity");
-		if(sbadm.getConsumable() == null || sbadm.getConsumable().getNullFlavor() != null)
-			validationIssues.error("Medications section must have a consumable");
-		else if(sbadm.getConsumable().getManufacturedProduct() == null || sbadm.getConsumable().getManufacturedProduct().getNullFlavor() != null)
-			validationIssues.error("Consumable must have a manufacturedProduct node");
-		
-		// If route of administration is provided must be RouteOfAdministration code set
-		if(sbadm.getRouteCode() != null && !sbadm.getRouteCode().isNull() && 
-				!CdaHandlerConstants.CODE_SYSTEM_ROUTE_OF_ADMINISTRATION.equals(sbadm.getRouteCode().getCodeSystem()))
-			validationIssues.error("If the route is known, the routeCode must be populated using the HL7 RouteOfAdministration valueset");
+		// Is the context inside another substance administration? If yes then we relax the rules a little
+		if(this.getContext().getParent().getRawObject() instanceof SubstanceAdministration)
+		{
+
+			// TODO: Validation of this condition... 
+		}
+		else
+		{
+			if(sbadm.getEffectiveTime().size() < 2)
+				validationIssues.error("Medications section shall have at minimum two effectiveTime elements representing the date and frequency of administration");
+			if(sbadm.getDoseQuantity() == null || sbadm.getDoseQuantity().isNull())
+				validationIssues.error("Medications section shall have a dose quantity");
+			if(sbadm.getConsumable() == null || sbadm.getConsumable().getNullFlavor() != null)
+				validationIssues.error("Medications section must have a consumable");
+			else if(sbadm.getConsumable().getManufacturedProduct() == null || sbadm.getConsumable().getManufacturedProduct().getNullFlavor() != null)
+				validationIssues.error("Consumable must have a manufacturedProduct node");
+			
+			// If route of administration is provided must be RouteOfAdministration code set
+			if(sbadm.getRouteCode() != null && !sbadm.getRouteCode().isNull() && 
+					!CdaHandlerConstants.CODE_SYSTEM_ROUTE_OF_ADMINISTRATION.equals(sbadm.getRouteCode().getCodeSystem()))
+				validationIssues.error("If the route is known, the routeCode must be populated using the HL7 RouteOfAdministration valueset");
+		}
 		return validationIssues;
+		
     }
 	
 	

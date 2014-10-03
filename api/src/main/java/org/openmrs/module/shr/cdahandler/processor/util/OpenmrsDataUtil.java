@@ -1,6 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.marc.everest.rmim.uv.cdar2.vocabulary.ActPriority;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
+import org.openmrs.Drug;
 import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
@@ -48,9 +50,13 @@ import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.InvalidCustomValueException;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.obs.ComplexData;
+import org.openmrs.validator.ObsValidator;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 
 /**
  * Data utilities for OpenMRS
@@ -223,38 +229,32 @@ public final class OpenmrsDataUtil {
 		return observation;
 	}
 
-
-	/**
-	 * Find an obs by the set of ids
-	 */
-	public <T extends BaseOpenmrsData> T findExistingItem(SET<II> ids, String shrRoot, List<T> existingCollection) {
-
-		T retVal = null;
-		
-		for(T itm : existingCollection)
-			for(II id : ids)
-				if(this.m_datatypeUtil.formatIdentifier(id).equals(this.m_datatypeUtil.emptyIdString()))
-					continue; // no id ... typically this is <id/> elements which aren't valid but we'll process them anyways
-				else if(id.getRoot().equals(shrRoot) && itm.getId().toString().equals(id.getExtension()))
-					return itm;
-				else if(itm instanceof Obs &&
-						((Obs)itm).getAccessionNumber() != null &&
-						((Obs)itm).getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-					return itm;
-				else if(itm instanceof Order &&
-						((Order)itm).getAccessionNumber() != null &&
-						((Order)itm).getAccessionNumber().equals(this.m_datatypeUtil.formatIdentifier(id)))
-					return itm;
-				
-		return null;
-    }
-
 	/**
 	 * Find an existing obs 
 	 */
 	public Obs findExistingObs(SET<II> ids, Patient patient)
 	{
-		return this.findExistingItem(ids, this.m_configuration.getObsRoot(), Context.getObsService().getObservationsByPerson(patient));
+		//return this.findExistingItem(ids, this.m_configuration.getObsRoot(), Context.getObsService().getObservationsByPerson(patient));
+		try
+		{
+			for(II id : ids)
+			{
+				if(this.m_configuration.getObsRoot().equals(id.getRoot())) // Then try to get the ID
+					return Context.getObsService().getObs(Integer.parseInt(id.getExtension()));
+				else {
+					List<Obs> candidate = Context.getService(CdaImportService.class).getObsByAccessionNumber(this.m_datatypeUtil.formatIdentifier(id));
+					log.debug(String.format("Foun d %s existing obs", candidate.size()));
+					if(candidate.size() > 0)
+						return candidate.get(0);
+				}
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			log.error("Could not find existing obs", e);
+			return  null;
+		}
 	}
 
 	/**
@@ -262,7 +262,26 @@ public final class OpenmrsDataUtil {
 	 */
 	public Order findExistingOrder(SET<II> ids, Patient patient)
 	{
-		return this.findExistingItem(ids, this.m_configuration.getOrderRoot(), Context.getOrderService().getAllOrdersByPatient(patient));
+		//return this.findExistingItem(ids, this.m_configuration.getObsRoot(), Context.getObsService().getObservationsByPerson(patient));
+		try
+		{
+			for(II id : ids)
+			{
+				if(this.m_configuration.getOrderRoot().equals(id.getRoot())) // Then try to get the ID
+					return Context.getOrderService().getOrder(Integer.parseInt(id.getExtension()));
+				else {
+					List<Order> candidate = Context.getService(CdaImportService.class).getOrdersByAccessionNumber(this.m_datatypeUtil.formatIdentifier(id));
+					if(candidate.size() > 0)
+						return candidate.get(0);
+				}
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			log.error("Could not find existing order", e);
+			return  null;
+		}
 	}
 
 	/**
@@ -270,7 +289,24 @@ public final class OpenmrsDataUtil {
 	 */
 	public Allergy findExistingAllergy(SET<II> ids, Patient patient)
 	{
-		return (Allergy)this.findExistingItem(ids, this.m_configuration.getAllergyRoot(), Context.getActiveListService().getActiveListItems(patient, Allergy.ACTIVE_LIST_TYPE));
+		try
+		{
+			for(II id : ids)
+			{
+				if(this.m_configuration.getAllergyRoot().equals(id.getRoot())) // Then try to get the ID
+				{
+					Allergy candidate = Context.getActiveListService().getActiveListItem(Allergy.class, Integer.parseInt(id.getExtension()));
+					if(candidate != null)
+						return candidate;
+				}
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			log.error("Could not find existing order", e);
+			return  null;
+		}
 	}
 
 
@@ -279,7 +315,24 @@ public final class OpenmrsDataUtil {
 	 */
 	public Problem findExistingProblem(SET<II> ids, Patient patient)
 	{
-		return (Problem)this.findExistingItem(ids, this.m_configuration.getAllergyRoot(), Context.getActiveListService().getActiveListItems(patient, Problem.ACTIVE_LIST_TYPE));
+		try
+		{
+			for(II id : ids)
+			{
+				if(this.m_configuration.getProblemRoot().equals(id.getRoot())) // Then try to get the ID
+				{
+					Problem candidate = Context.getActiveListService().getActiveListItem(Problem.class, Integer.parseInt(id.getExtension()));
+					if(candidate != null)
+						return candidate;
+				}
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			log.error("Could not find existing order", e);
+			return  null;
+		}
 	}
 
 
@@ -344,10 +397,17 @@ public final class OpenmrsDataUtil {
 		// Set the value
 		if(value instanceof ANY)
 			this.setObsValue(res, (ANY)value);
+		else if(value instanceof Drug)
+		{
+			res.setValueCoded(((Drug)value).getConcept());
+			res.setValueDrug((Drug)value);
+		}
 		else if(value instanceof Concept)
 			res.setValueCoded((Concept)value);
 		else if(value instanceof String)
 			res.setValueText(value.toString());
+		else if(value instanceof BigDecimal)
+			res.setValueNumeric(((BigDecimal) value).doubleValue());
 		return res;
 		}
 }

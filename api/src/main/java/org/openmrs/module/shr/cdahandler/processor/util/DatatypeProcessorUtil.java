@@ -28,6 +28,7 @@ import org.openmrs.OrderFrequency;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
@@ -179,10 +180,17 @@ public final class DatatypeProcessorUtil {
 	public OrderFrequency getOrCreateOrderFrequency(ANY frequency) throws DocumentImportException {
 		
 		// Frequency name
-		Concept frequencyConcept = this.m_conceptUtil.getOrCreateFrequencyConcept(frequency); 
+		Concept frequencyConcept = this.m_conceptUtil.getOrCreateFrequencyConcept(frequency);
+		if(frequencyConcept == null)
+			frequencyConcept = Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_UNSPECIFIED);
+		
 		OrderFrequency candidateFrequency = Context.getOrderService().getOrderFrequencyByConcept(frequencyConcept);
 		if(candidateFrequency != null)
 			return candidateFrequency;
+		else if(frequencyConcept.getId().equals(CdaHandlerConstants.CONCEPT_ID_UNSPECIFIED))
+		{
+			return null;
+		}
 		else if(frequencyConcept != null && frequency instanceof PIVL)
 		{
 			// Convert units to days (example 6h => 0.25 d)
@@ -197,6 +205,16 @@ public final class DatatypeProcessorUtil {
 			candidateFrequency.setName(frequencyConcept.getPreferredName(Context.getLocale()).getName());
 			candidateFrequency = Context.getOrderService().saveOrderFrequency(candidateFrequency);
 			return candidateFrequency;
+		}
+		else if(frequencyConcept != null && frequency instanceof TS)
+		{
+			candidateFrequency = new OrderFrequency();
+			candidateFrequency.setConcept(frequencyConcept);
+			candidateFrequency.setFrequencyPerDay(0.0);
+			candidateFrequency.setName("Exactly Once");
+			candidateFrequency = Context.getOrderService().saveOrderFrequency(candidateFrequency);
+			return candidateFrequency;
+			
 		}
 		else
 			throw new DocumentImportException(String.format("Cannot represent frequency %s", frequency));

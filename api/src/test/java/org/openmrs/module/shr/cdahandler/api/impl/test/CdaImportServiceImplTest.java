@@ -19,6 +19,7 @@ import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.GlobalProperty;
+import org.openmrs.Obs;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
@@ -123,6 +124,20 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	}
 
 	@Test
+	public void shouldReplaceExistingObs()
+	{
+		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_UPDATE_EXISTING, "true");
+		String id = this.doParseCda("/validCdaLevel3Sample.xml");
+		id = this.doParseCda("/validCdaLevel3Sample.xml");
+		int nvc = 0;
+		for(Obs ob : Context.getObsService().getObservationsByPersonAndConcept(Context.getPatientService().getPatients("FirstName").get(0), Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_IMMUNIZATION_HISTORY)))
+			if(!ob.getVoided())
+				nvc++;
+		assertEquals(4, nvc);
+	
+	}
+	
+	@Test
 	public void shouldParseValidAphpPovichTest2() {
 		String id = this.doParseCda("/validAphpSamplePovich.xml");
 		assertTrue(id != null);
@@ -151,10 +166,10 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	}
 	
 	@Test
-	public void shouldParseValidLevel3Test2() {
+	public void shouldNotParseInValidLevel3Test2() {
 		String id = this.doParseCda("/validCdaLevel3Sample2.xml");
-		assertTrue(id != null);
-		assertEquals(new MedicalSummaryDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
+		// The previous document should not have been imported as its medication section is invalid
+		assertTrue(id == null);
 	}
 
 	@Test

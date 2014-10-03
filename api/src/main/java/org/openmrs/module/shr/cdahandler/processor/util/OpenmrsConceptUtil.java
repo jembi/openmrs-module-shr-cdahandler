@@ -86,6 +86,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		put("LOINC", CdaHandlerConstants.CODE_SYSTEM_LOINC);
 		put("SNOMED CT", CdaHandlerConstants.CODE_SYSTEM_SNOMED);
 		put("CIEL", CdaHandlerConstants.CODE_SYSTEM_CIEL);
+		put("HL-7 CVX", CdaHandlerConstants.CODE_SYSTEM_CVX);
+		put("RxNORM", CdaHandlerConstants.CODE_SYSTEM_RXNORM);
 	}};
 	
 	// Map types
@@ -134,6 +136,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			answer.setConcept(questionConcept);
 			questionConcept.addAnswer(answer);
 			synchronized (s_lockObject) {
+				log.debug(String.format("Added answer %s to set %s", answerConcept, questionConcept));
+
 				questionConcept = this.m_importService.saveConcept(questionConcept);
             }
 		}
@@ -178,6 +182,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		if(needsSave)
 			synchronized (s_lockObject) {
+				log.debug(String.format("Adding concept %s to set %s", concept, setConcept));
+
 				setConcept = this.m_importService.saveConcept(setConcept);
             }
 		
@@ -206,7 +212,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		log.debug("Enter: createConcept");
 		
 		ConceptReferenceTerm referenceTerm = this.getOrCreateReferenceTerm(code);
-		
+		if(referenceTerm == null)
+			return null;
 		// Concept class for auto-created concepts
 		log.debug("Get Concept Class");
 		ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(value == null ? ConceptClass.CONVSET_UUID : CdaHandlerConstants.UUID_CONCEPT_CLS_AUTO);
@@ -272,6 +279,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		// Save concept
 		synchronized (s_lockObject) {
+			log.debug(String.format("Creating Concept %s, reference term %s, concept source %s", concept, referenceTerm, referenceTerm.getConceptSource()));
 			concept = this.m_importService.saveConcept(concept);
         }
 		
@@ -377,7 +385,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public Concept getConceptOrEquivalent(CE<?> code) throws DocumentImportException
 	{
-		Concept concept = this.getConcept(code);
+		
+		Concept concept = null;
+		if(!code.isNull())
+			concept = this.getConcept(code);
 		if(concept == null && code.getTranslation() != null)
 			for(CE<?> translation : code.getTranslation())
 			{
@@ -393,12 +404,16 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	public List<Concept> getConcepts(CV<?> code) throws DocumentImportException
 	{
 		log.debug("Enter: getConcepts");
-		log.warn(code.toString());
-		
+
+		List<Concept> concept = new ArrayList<Concept>();
 		// First, attempt to get the ConceptSource from the CodeSystem
-		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
-		// Now attempt to get the concept by its mapping to the OpenMRS term
-		List<Concept> concept = this.m_conceptService.getConceptsByMapping(code.getCode().toString(), conceptSource.getName());
+		if(code.getCodeSystem() != null)
+		{
+			ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
+			
+			if(code.getCode() != null)
+				concept = this.m_conceptService.getConceptsByMapping(code.getCode().toString(), conceptSource.getName());
+		}
 		
 		log.debug("Exit : getConcepts");
 		
@@ -435,12 +450,23 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	{
 		log.debug("Enter: getOrCreateConceptAndEquivalents");
 
-		Concept foundConcept = this.getConcept(code);
+		Concept foundConcept = this.getConceptOrEquivalent(code);
+
+		if(!code.isNull())
+		{
+			if(foundConcept == null && this.m_configuration.getAutoCreateConcepts())
+				foundConcept = this.createConcept(code);
+			else if(foundConcept == null && !this.m_configuration.getAutoCreateConcepts())
+				throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find concept %s in source %s", code.getCode(), code.getCodeSystem()));
+		}
 		
-		if(foundConcept == null && this.m_configuration.getAutoCreateConcepts())
-			foundConcept = this.createConcept(code);
-		else if(foundConcept == null && !this.m_configuration.getAutoCreateConcepts())
-			throw new DocumentImportException(String.format("Cannot find concept %s in source %s", code.getCode(), code.getCodeSystem()));
+		// Was there a concept found? If no, then find one!
+		if(foundConcept == null && code.getTranslation() != null)
+			for(CE<?> translation : code.getTranslation())
+			{
+				foundConcept = this.getConcept(translation);
+				if(foundConcept != null) break;
+			}
 		
 		// Now create / map equivalents
 		if(code.getTranslation() != null && this.m_configuration.getAutoCreateConcepts())
@@ -451,6 +477,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 				// Map already exists?
 				ConceptMap conceptMap = null; 
+
+				// A found concept at all?
+				if(foundConcept == null)
+				{
+					if(this.m_configuration.getAutoCreateConcepts())
+						foundConcept = this.createConcept(translation);
+					else
+						throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find concept %s in source %s", code.getCode(), code.getCodeSystem()));
+				}
+					
+				// Map
 				for(ConceptMap map : foundConcept.getConceptMappings())
 					if(map.getConceptReferenceTerm().equals(term))
 					{
@@ -458,6 +495,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 						break;
 					}
 
+				// Create a map if not exists
 				if(conceptMap == null)
 				{
 					conceptMap = new ConceptMap(term, this.m_conceptService.getConceptMapTypeByName("SAME-AS"));
@@ -510,6 +548,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			conceptSource.setDescription(description);
 			
 			synchronized (s_lockObject) {
+				log.debug(String.format("Saving Concept Source %s", conceptSource));
 				conceptSource = this.m_conceptService.saveConceptSource(conceptSource);
             }
 
@@ -518,7 +557,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			
 		}
 		else if(conceptSource == null && !this.m_configuration.getAutoCreateConcepts())
-			throw new DocumentImportException("Cannot create concept source");
+			throw new DocumentImportException(String.format("MISSING SOURCE: Cannot create concept source %s", hl7));
 		
 		log.debug("Exit : getOrCreateConceptSource");
 		
@@ -552,16 +591,41 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 
 		// First, is there a concept matching the type?
-		Concept drugConcept = this.getOrCreateDrugConcept(drugCode);
+		Concept drugConcept = null;
+		drugConcept = this.getOrCreateDrugConcept(drugCode);
 		
+		if(drugConcept == null) // Find by a name? Maybe?
+			drugConcept = this.m_conceptService.getConcept(name.toString());
+		
+		// HACK: Fallback
+		if(this.m_configuration.getAutoCreateConcepts() && drugConcept == null)
+		{
+			// Create the concept and set properties
+			drugConcept = new Concept();
+			Locale locale = Context.getLocale();// new Locale("en");
+			drugConcept.setFullySpecifiedName(new ConceptName(name.toString(), locale));
+			drugConcept.addName(drugConcept.getFullySpecifiedName(locale));
+			drugConcept.setPreferredName(drugConcept.getFullySpecifiedName(locale));
+			drugConcept.setConceptClass(this.m_conceptService.getConceptClassByUuid(ConceptClass.DRUG_UUID));
+			// Assign the datatype
+			drugConcept.setDatatype(this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID));
+			drugConcept = this.m_importService.saveConcept(drugConcept);
+		}
+			
 		// The the form (table, puffer, etc)
-		Concept formCode = this.getOrCreateDrugAdministrationFormConcept(administrationUnitCode);
+		Concept formCode = null;
+		if(administrationUnitCode != null)
+			formCode = this.getOrCreateDrugAdministrationFormConcept(administrationUnitCode);
 
 		// CAndidate drugs with the concept of the product
 		List<Drug> candidateDrugs = this.m_conceptService.getDrugsByConcept(drugConcept);
 		Drug candidateDrugWithMatchingForm = null;
 		for(Drug candidate : candidateDrugs)
-			if(formCode != null && formCode.equals(candidate.getDosageForm()))
+			// Name and form match
+			if(name != null && name.toString().equals(candidate.getName()) &&
+					(formCode != null && formCode.equals(candidate.getDosageForm()) || formCode == candidate.getDosageForm()))
+				return candidate; // Found a drug with the same name!
+			else if(formCode != null && formCode.equals(candidate.getDosageForm()))
 				candidateDrugWithMatchingForm = candidate;
 			else if(formCode == null && candidate.getDosageForm() == null)
 				candidateDrugWithMatchingForm = candidate;
@@ -590,6 +654,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				throw new IllegalStateException("Cannot create concepts according to configuration policy");
 			
 			synchronized (s_lockObject) {
+				log.debug(String.format("Saving drug %s", retVal));
+
 				retVal = this.m_conceptService.saveDrug(retVal);
             }
 			
@@ -609,6 +675,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		log.debug("Enter: getOrCreateReferenceTerm");
 
 		// First, attempt to get the ConceptSource from the CodeSystem
+		if(code.getCode() == null) 
+			return null;
+		
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
 		
 		// Reference term exists? We create a reference a term if not 
@@ -621,11 +690,12 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			referenceTerm.setDescription(code.getDisplayName());
 			referenceTerm.setConceptSource(conceptSource);
 			synchronized (s_lockObject) {
+				log.debug(String.format("Saving Reference term %s", referenceTerm));
 				referenceTerm = this.m_importService.saveConceptReferenceTerm(referenceTerm);
             }
 		}
 		else if (referenceTerm == null && !this.m_configuration.getAutoCreateConcepts())
-			throw new DocumentImportException(String.format("Cannot find specified code %s in concept source %s", code.getCode(), code.getCodeSystem()));
+			throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find specified code %s in concept source %s", code.getCode(), code.getCodeSystem()));
 
 		log.debug("Exit: getOrCreateReferenceTerm");
 
@@ -661,11 +731,12 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			concept.setConceptClass(conceptClass);
 			concept.setDatatype(datatype);
 			synchronized (s_lockObject) {
+				log.debug(String.format("Saving RMIM Concept %s", concept));
 				concept = this.m_conceptService.saveConcept(concept);
             }
 		}
 		else if(concept == null && !this.m_configuration.getAutoCreateConcepts())
-			throw new DocumentImportException(String.format("Cannot find conept %s in database", rmimName));
+			throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find conept %s in database", rmimName));
 		
 		return this.m_conceptService.getConcept(concept.getConceptId());
 	}
@@ -777,8 +848,12 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @throws DocumentImportException 
 	 */
 	public Concept getOrCreateFrequencyConcept(ANY frequency) throws DocumentImportException {
-		if(frequency instanceof TS)
-			return this.m_conceptService.getConcept(162135);
+		if(frequency == null || frequency.isNull())
+		{
+			return this.m_conceptService.getConcept(CdaHandlerConstants.CONCEPT_ID_UNSPECIFIED);
+		}
+		else if(frequency instanceof TS)
+			return this.m_conceptService.getConcept(CdaHandlerConstants.MEDICATION_FREQUENCY_ONCE);
 		else if(frequency instanceof PIVL)
 		{
 			PIVL<TS> pivlValue = (PIVL<TS>)frequency;
@@ -792,29 +867,32 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				switch(dailyFreq.getValue().intValue())
 				{
 					case 24:
-						cid = 162252;
+						if(pivlValue.getPeriod().getUnit().equals("d")) // originally once per day
+							cid = CdaHandlerConstants.MEDICATION_FREQUENCY_ONCE_DAILY;
+						else
+							cid = CdaHandlerConstants.MEDICATION_FREQUENCY_24_HOURS;
 						break;
 					case 12:
-						cid = 162251;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_12_HOURS;
 						break;
 					case 8:
-						cid = 162250;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_8_HOURS;
 						break;
 					case 36:
-						cid = 162254;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_36_HOURS;
 						break;
 					case 48:
-						cid = 162253;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_48_HOURS;
 						break;
 					case 72:
-						cid = 162255;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_72_HOURS;
 						break;
 					default:
 						int dailyFreqInt = dailyFreq.getValue().intValue();
 						if(dailyFreqInt >= 1 && dailyFreqInt <= 6)
-							cid = 162243 + dailyFreqInt;
+							cid = CdaHandlerConstants.MEDICATION_FREQUENCY_30_MINS + dailyFreqInt;
 						else if(pivlValue.getPeriod().convert("min").getValue().intValue() == 30) // 30 mins
-							cid = 162243;
+							cid = CdaHandlerConstants.MEDICATION_FREQUENCY_30_MINS;
 						else
 							cid = this.createFrequencyConcept(dailyFreq).getId();
 				} // switch
@@ -838,42 +916,37 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			switch(event.getEvent().getCode())
 			{
 				case HourOfSleep:
-					cid = 160863;
+					cid = CdaHandlerConstants.MEDICATION_FREQUENCY_AT_BEDTIME;
 					break;
 				case AfterMeal:
 					if(dailyFreq == null)
-						cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, "After Meals", null)).getId();
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_THRICE_DAILY_AFTER_MEALS;
 					else if(dailyFreq.getValue().intValue() == 12)
-						cid = 160860;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_TWICE_DAILY_AFTER_MEALS;
 					else if(dailyFreq.getValue().intValue() == 8)
-						cid = 160867;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_THRICE_DAILY_AFTER_MEALS;
 					else if(dailyFreq.getValue().intValue() == 6)
-						cid = 160871;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_FOUR_TIMES_DAILY_AFTER_MEALS;
 					else
 						throw new DocumentImportException("Can't determine how to represent frequency");
 					break;
 				case BeforeMeal:
 					if(dailyFreq == null)
-						cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, "Before Meals", null)).getId();
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_THRICE_DAILY_BEFORE_MEALS;
 					else if(dailyFreq.getValue().intValue() == 12)
-						cid = 160859;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_TWICE_DAILY_BEFORE_MEALS;
 					else if(dailyFreq.getValue().intValue() == 8)
-						cid = 160868;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_THRICE_DAILY_BEFORE_MEALS;
 					else if(dailyFreq.getValue().intValue() == 6)
-						cid = 160872;
+						cid = CdaHandlerConstants.MEDICATION_FREQUENCY_FOUR_TIMES_DAILY_BEFORE_MEALS;
 					else
 						throw new DocumentImportException("Can't determine how to represent frequency");
 					break;
 				case BeforeBreakfast:
-				case AfterBreakfast:
-				case BetweenBreakfastAndLunch:
-					cid = 160865;
+					cid = CdaHandlerConstants.MEDICATION_FREQUENCY_ONCE_DAILY_MORNING;;
 					break;
-				case AfterDinner:
-				case BeforeDinner:
 				case BetweenDinnerAndSleep:
-				case BetweenLunchAndDinner:
-					cid = 160864;
+					cid = CdaHandlerConstants.MEDICATION_FREQUENCY_ONCE_DAILY_EVENING;
 					break;
 				default:
 					cid = this.getOrCreateConcept(new CV<String>(event.getEvent().getCode().getCode(), event.getEvent().getCode().getCodeSystem(), null, null, event.getEvent().getCode().getCode(), null)).getId();
@@ -978,18 +1051,24 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 
 		if(concept == null)
 		{
-			concept = this.createConcept(drugCode);
+			concept = this.getOrCreateConceptAndEquivalents(drugCode);
 			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.DRUG_UUID);
 			if(conceptClass == null)
 			{
 				conceptClass = new ConceptClass();
 				conceptClass.setName("Drug");
+				conceptClass.setUuid(ConceptClass.DRUG_UUID);
 				conceptClass.setDescription("Automatically created");
 				synchronized (s_lockObject) {
 					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
                 }
 			}
-			concept = this.m_importService.saveConcept(concept);
+			// Make this a drug
+			if(concept != null && !concept.getConceptClass().equals(conceptClass))
+			{
+				concept.setConceptClass(conceptClass);
+				concept = this.m_importService.saveConcept(concept);
+			}
 		}
 		
 		return concept;
@@ -1004,12 +1083,13 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		Concept rmimConcept = this.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_ROUTE_OF_ADM, new CV<String>());
 		
 		// Now, add as a set member to History of Medications
-		Concept historyOfMedications = this.m_conceptService.getConcept(160741),
-				medicationOrders = this.m_conceptService.getConcept(1282);
+		Concept historyOfMedications = this.m_conceptService.getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_HISTORY),
+				historyOfIz = this.m_conceptService.getConcept(CdaHandlerConstants.CONCEPT_ID_IMMUNIZATION_HISTORY);
+		
 		if(historyOfMedications != null)
 			this.addConceptToSet(historyOfMedications, rmimConcept);
-		if(medicationOrders != null)
-			this.addConceptToSet(medicationOrders, rmimConcept);
+		if(historyOfIz != null)
+			this.addConceptToSet(historyOfIz, rmimConcept);
 		
 		return rmimConcept;
 
