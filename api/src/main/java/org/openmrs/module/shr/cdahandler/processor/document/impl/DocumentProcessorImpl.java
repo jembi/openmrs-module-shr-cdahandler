@@ -438,7 +438,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		
 		// Process contents
 		Obs binaryContentObs = new Obs();
-		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_DOCUMENT_TEXT, bodyChoiceIfNonXMLBody.getText()));
+		binaryContentObs.setConcept(this.m_openmrsConceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_DOCUMENT_TEXT, bodyChoiceIfNonXMLBody.getText()));
 		binaryContentObs.setAccessionNumber(this.m_datatypeProcessorUtil.formatIdentifier(doc.getId()));
 		binaryContentObs.setDateCreated(binaryContentEncounter.getDateCreated());
 		binaryContentObs.setObsDatetime(visitInformation.getStartDatetime());

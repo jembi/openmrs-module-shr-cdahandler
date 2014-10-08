@@ -61,6 +61,7 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 		// Get processor factory
 		EntryProcessor processor = EntryProcessorFactory.getInstance().createProcessor(statement);
 		processor.setContext(this.getContext());
+		
 		BaseOpenmrsData processedData = processor.process(statement);
 
 		// Not an allergy so process like normal
@@ -72,7 +73,7 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 		Observation observation = (Observation)statement;
 		
 		// We don't track the allergy to an obs if we can help it..
-		Allergy res = super.createActiveListItem(act, obs, Allergy.class);
+		Allergy res = super.createActiveListItem(act, statement, obs, Allergy.class);
 		res.setActiveListType(Allergy.ACTIVE_LIST_TYPE);
 		
 		// Populate allergy contents ... What is the allergy type?
@@ -92,7 +93,12 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 			res.setAllergyType(AllergyType.OTHER);
 		
 		// Now we have to dive into the allergen a little bit
-		if(obs.getValueCoded() != null)
+		if(observation.getParticipant().size() == 1 &&
+				observation.getParticipant().get(0).getParticipantRole() != null &&
+				observation.getParticipant().get(0).getParticipantRole().getPlayingEntityChoiceIfPlayingEntity() != null &&
+				observation.getParticipant().get(0).getParticipantRole().getPlayingEntityChoiceIfPlayingEntity().getCode() != null)
+			res.setAllergen(this.m_conceptUtil.getOrCreateConcept(observation.getParticipant().get(0).getParticipantRole().getPlayingEntityChoiceIfPlayingEntity().getCode()));
+		else if(obs.getValueCoded() != null)
 			res.setAllergen(obs.getValueCoded());
 		else
 			throw new DocumentImportException("Allergen must be of type CD");
@@ -117,7 +123,7 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 			res.setSeverity(AllergySeverity.UNKNOWN);
 		
 		// Are there manifestations (reactions)?
-		List<EntryRelationship> manifestationRelationship = this.findEntryRelationship(observation, "1.3.6.1.4.1.19376.1.5.3.1.4.6.1");
+		List<EntryRelationship> manifestationRelationship = this.findEntryRelationship(observation, CdaHandlerConstants.ENT_TEMPLATE_MANIFESTATION_RELATION);
 		if(manifestationRelationship.size() == 1) // Only if there is one
 		{
 			Observation manifestationObservation = manifestationRelationship.get(0).getClinicalStatementIfObservation();
@@ -125,6 +131,9 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 			Concept reaction = this.m_conceptUtil.getOrCreateConcept((CV)manifestationObservation.getValue());
 			res.setReaction(reaction);
 		}
+		else if(manifestationRelationship.size() > 1)
+			throw new DocumentImportException("Allergy importer only supports one manifestation relationship");
+		
 		
 		return res;
     }

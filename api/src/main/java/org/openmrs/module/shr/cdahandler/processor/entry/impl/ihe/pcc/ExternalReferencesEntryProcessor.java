@@ -79,7 +79,7 @@ public class ExternalReferencesEntryProcessor extends EntryProcessorImpl {
 		res.setLocation(encounterInfo.getLocation());
 		res.setDateCreated(encounterInfo.getDateCreated());
 		res.setEncounter(encounterInfo);
-		res.setConcept(this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REFERENCE, null));
+		res.setConcept(this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REFERENCE, null));
 		
 		if(act.getId() != null && !act.getId().isNull())
 			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(act.getId().get(0)));

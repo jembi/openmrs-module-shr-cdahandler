@@ -46,6 +46,7 @@ import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.Order.Urgency;
+import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
@@ -299,6 +300,13 @@ public final class OpenmrsDataUtil {
 					if(candidate != null)
 						return candidate;
 				}
+				else
+				{
+					List<Allergy> candidate = Context.getService(CdaImportService.class).getActiveListItemByAccessionNumber(this.m_datatypeUtil.formatIdentifier(id), Allergy.class);
+					if(candidate.size() > 0)
+						return candidate.get(0);
+				}
+					
 			}
 			return null;
 		}
@@ -324,6 +332,12 @@ public final class OpenmrsDataUtil {
 					Problem candidate = Context.getActiveListService().getActiveListItem(Problem.class, Integer.parseInt(id.getExtension()));
 					if(candidate != null)
 						return candidate;
+				}
+				else
+				{
+					List<Problem> candidate = Context.getService(CdaImportService.class).getActiveListItemByAccessionNumber(this.m_datatypeUtil.formatIdentifier(id), Problem.class);
+					if(candidate.size() > 0)
+						return candidate.get(0);
 				}
 			}
 			return null;

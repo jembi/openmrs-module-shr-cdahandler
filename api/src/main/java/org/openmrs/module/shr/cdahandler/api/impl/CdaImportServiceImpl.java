@@ -38,6 +38,7 @@ import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
+import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
@@ -226,6 +227,14 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Override
     public ExtendedObs getExtendedObs(Integer id) {
 		return this.dao.getExtendedObs(id);
+    }
+
+	/**
+	 * Get active list item by the accession number of their start/stop obs
+	 */
+	@Override
+    public <T extends ActiveListItem> List<T> getActiveListItemByAccessionNumber(String accessionNumber, Class<T> clazz) {
+	    return this.dao.getActiveListItemByAccessionNumber(accessionNumber, clazz);
     }
 
 	

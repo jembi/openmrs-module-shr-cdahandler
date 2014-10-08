@@ -60,6 +60,8 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 
 		EntryProcessor processor = EntryProcessorFactory.getInstance().createProcessor(statement);
 		processor.setContext(this.getContext());
+
+		
 		BaseOpenmrsData processed = processor.process(statement);
 		
 		// Not a problem observation so don't create a problem
@@ -69,7 +71,7 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 		ExtendedObs obs = (ExtendedObs)processed;
 		
 		// Correct the act based on the effective time of the entry relationship?
-		Problem res = super.createActiveListItem(act, obs, Problem.class);
+		Problem res = super.createActiveListItem(act, statement, obs, Problem.class);
 			
 		// Problem
 		if(obs.getValueCoded() == null)

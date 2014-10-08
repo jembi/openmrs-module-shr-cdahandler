@@ -2,6 +2,8 @@ package org.openmrs.module.shr.cdahandler;
 
 import java.util.UUID;
 
+import org.marc.everest.datatypes.II;
+
 
 /**
  * A constant list of OIDs
@@ -46,6 +48,10 @@ public final class CdaHandlerConstants {
 	public static final int CONCEPT_ID_DATE_OF_EVENT = 160753;
 	public static final int CONCEPT_ID_PROCEDURE = 1651;
 	public static final int CONCEPT_ID_UNSPECIFIED = 161548;
+	public static final int CONCEPT_ID_PROCEDURE_HISTORY = 160714;
+	public static final int CONCEPT_ID_PROCEDURE_DATE = 160715;
+	public static final int CONCEPT_ID_PROCEDURE_TEXT = 160716;
+
 	// Loinc
 	public static final String CODE_SYSTEM_LOINC = "2.16.840.1.113883.6.1";
 	public static final String CODE_SYSTEM_NAME_LOINC = "LOINC";
@@ -122,6 +128,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_CARE_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.3.31";
 	public static final String SCT_TEMPLATE_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.34";	
 	public static final String SCT_TEMPLATE_IMMUNIZATIONS = "1.3.6.1.4.1.19376.1.5.3.1.3.23";
+	public static final String SCT_TEMPLATE_CODED_ADVANCE_DIRECTIVES = "1.3.6.1.4.1.19376.1.5.3.1.3.35";
 	
 	// Entry templates
 	public static final String ENT_TEMPLATE_CCD_ADVANCE_DIRECTIVE_OBSERVATION = "2.16.840.1.113883.10.20.1.17";
@@ -143,6 +150,7 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_CCD_AGE_OBSERVATION = "2.16.840.1.113883.10.20.1.38";
 	public static final String ENT_TEMPLATE_CCD_DEATH_OBSERVATION = "2.16.840.1.113883.10.20.1.42";
 	public static final String ENT_TEMPLATE_CCD_INSTRUCTIONS = "2.16.840.1.113883.10.20.1.49";
+	public static final String ENT_TEMPLATE_CCD_REACTION_OBSERVATION = "2.16.840.1.113883.10.20.1.54";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
@@ -176,6 +184,8 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_IMMUNIZATION_SERIES = "2.16.840.1.113883.10.20.1.46";
 	public static final String ENT_TEMPLATE_CCD_MEDICATION_PRODUCT = "2.16.840.1.113883.10.20.1.53";
 	public static final String ENT_TEMPLATE_PRODCUT = "1.3.6.1.4.1.19376.1.5.3.1.4.7.2";
+	public static final String ENT_TEMPLATE_MANIFESTATION_RELATION = "1.3.6.1.4.1.19376.1.5.3.1.4.6.1";
+	public static final String ENT_TEMPLATE_ADVANCE_DIRECTIVE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.7";
 
 	// Section Templates
 	public static final String SCT_TEMPLATE_EXAM_GENERAL_APPEARANCE = "1.3.6.1.4.1.19376.1.5.3.1.1.9.16";
@@ -205,21 +215,21 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_EXAM_PELVIS = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.10";
 
 	// TODO: Turn these into Concept UUIDs
-	public static final String RMIM_CONCEPT_NAME_REASON = "Reason";
-	public static final String RMIM_CONCEPT_NAME_STATUS = "Status";
-	public static final String RMIM_CONCEPT_NAME_APPROACH_SITE = "Approach Site";
-	public static final String RMIM_CONCEPT_NAME_TARGET_SITE = "Target Site";
-	public static final String RMIM_CONCEPT_NAME_REFERENCE = "Reference";
-	public static final String RMIM_CONCEPT_NAME_ROUTE_OF_ADM = "Route of Administration";
-	public static final String RMIM_CONCEPT_NAME_MARITAL_STATUS = "Civil Status";
-	public static final String RMIM_CONCEPT_NAME_DOCUMENT_TEXT = "Text";
-	public static final String RMIM_CONCEPT_NAME_METHOD = "Method";
-	
+	public static final String RMIM_CONCEPT_UUID_REASON = "c79b75a0-9648-4133-b20c-7d244a5f691d";
+//	public static final String RMIM_CONCEPT_UUID_STATUS = "2301ed92-8308-4082-99c4-b99f58a814dc";
+	public static final String RMIM_CONCEPT_UUID_APPROACH_SITE = "e3a6097c-50f0-4e89-a3ac-a73dd9219296";
+	public static final String RMIM_CONCEPT_UUID_TARGET_SITE = "fc1c315b-e1c7-47df-af7d-db6300684cec";
+	public static final String RMIM_CONCEPT_UUID_REFERENCE = "185123e2-3e42-44fc-8a80-f1f58cbd4b22";
+	public static final String RMIM_CONCEPT_UUID_ROUTE_OF_ADM = "d57c5d67-9d0a-4333-96b5-ef6ca7fe3900";
+	public static final String RMIM_CONCEPT_UUID_MARITAL_STATUS = "e936260e-38db-495e-b024-55c843450528";
+	public static final String RMIM_CONCEPT_UUID_DOCUMENT_TEXT = "caeed6f3-3625-451b-984e-d7ca3b7cafe3";
+	public static final String RMIM_CONCEPT_UUID_METHOD = "335c3b3a-98d9-4956-9ef0-f2bdc12cd744";
 	
 	// UUIDs
 	public static final String UUID_ORDER_TYPE_PROCEDURE = "9506c6fe-d517-4707-a0c8-e72da23ff16d";
 	public static final String UUID_CONCEPT_CLS_DRUG_FORM = "de359f23-2bfc-4e8d-96d8-25b7526d6070";
 	public static final String UUID_CONCEPT_CLS_AUTO = "4ccac411-eb8e-45d6-8ec1-f6e09602449f";
+	public static final String UUID_CONCEPT_CLS_CDA = "895cf59a-3c14-43a1-8207-f13d20740c33";
 	public static final String UUID_ORDER_TYPE_OBSERVATION = "7f14cf98-8452-42c0-acac-2ba96c8e66ce";
 
 	// Attributes names
@@ -250,12 +260,7 @@ public final class CdaHandlerConstants {
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY = 160862;
 	public static final int MEDICATION_FREQUENCY_ONCE = 162135;
 
+	
 
-
-
-	
-	
-	
-	
 
 }

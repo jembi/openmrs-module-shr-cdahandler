@@ -368,6 +368,18 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 				throw new DocumentPersistenceException(String.format("Cannot represent administration frequency of %s", FormatterUtil.createXsiTypeName(eft)));
 		}
 		
+		// Types of dosing?
+		if(this.m_datatypeUtil.hasTemplateId(administration, new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_SPLIT_DOSING)))
+			medicationHistoryObs.setComment("Split Dosing");
+		else if(this.m_datatypeUtil.hasTemplateId(administration, new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_CONDITIONAL_DOSING)))
+			medicationHistoryObs.setComment("Conditional Dosing");
+		else if(this.m_datatypeUtil.hasTemplateId(administration, new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_COMBINATION_DOSING)))
+			medicationHistoryObs.setComment("Combination Dosing");
+		else if(this.m_datatypeUtil.hasTemplateId(administration, new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_NORMAL_DOSING)))
+			medicationHistoryObs.setComment("Normal");
+		else if(this.m_datatypeUtil.hasTemplateId(administration, new II(CdaHandlerConstants.ENT_TEMPLATE_MEDICATIONS_TAPERED_DOSING)))
+			medicationHistoryObs.setComment("Tapered Dosing");
+		
 		// Medication history obs
 		medicationHistoryObs = (ExtendedObs)Context.getObsService().saveObs(medicationHistoryObs, null);
 

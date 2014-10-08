@@ -9,6 +9,7 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Act;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
@@ -65,7 +66,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 	 * @return
 	 * @throws DocumentImportException 
 	 */
-	public <T extends ActiveListItem> T createActiveListItem(Act act, ExtendedObs obs, Class<T> clazz) throws DocumentImportException {
+	public <T extends ActiveListItem> T createActiveListItem(Act act, ClinicalStatement statement, ExtendedObs obs, Class<T> clazz) throws DocumentImportException {
 		
 		// Get the encounter context
 		Encounter encounterInfo = (Encounter)super.getEncounterContext().getParsedObject();
@@ -83,6 +84,22 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		
 		// Validate duplicates
 		if(act.getId() != null)
+		{
+			ActiveListItem existingItem = null;
+			if(Allergy.class.isAssignableFrom(clazz)) 
+				existingItem = this.m_dataUtil.findExistingAllergy(act.getId(), encounterInfo.getPatient());
+			else if(Problem.class.isAssignableFrom(clazz))
+				existingItem = this.m_dataUtil.findExistingProblem(act.getId(), encounterInfo.getPatient());
+			
+			// An replacement from the auto-replace
+			if(existingItem != null && this.m_configuration.getUpdateExisting())
+				previousItem = existingItem; 
+			else if(existingItem != null)
+				throw new DocumentImportException(String.format("Duplicate list item %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
+		}
+
+		// Statement needs to replace something?
+		if(statement.isPOCD_MT000040UVObservation() && ((Observation)statement).getId() != null)
 		{
 			ActiveListItem existingItem = null;
 			if(Allergy.class.isAssignableFrom(clazz)) 
@@ -182,6 +199,10 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			res.setEndDate(obs.getObsEndDate());
 			res.setStopObs(obs);
 		}
+		// We don't know when it started or stopped
+		if(res.getStartDate() == null && res.getEndDate() == null && obs.getObsDatePrecision() == 0)
+			res.setStartObs(obs);
+		
 		// Void this?
 		if(act.getStatusCode().getCode() == ActStatus.Aborted || 
 				act.getStatusCode().getCode() == ActStatus.Suspended)

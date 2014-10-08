@@ -1,30 +1,20 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.transaction.NotSupportedException;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ED;
-import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.INT;
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.TEL;
-import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
-import org.marc.everest.datatypes.generic.EIVL;
-import org.marc.everest.datatypes.generic.IVL;
-import org.marc.everest.datatypes.generic.PIVL;
-import org.marc.everest.datatypes.interfaces.ISetComponent;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
@@ -35,22 +25,17 @@ import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActMoodDocumentObservation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentSubstanceMood;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptDatatype;
 import org.openmrs.ConceptNumeric;
-import org.openmrs.DrugOrder;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
-import org.openmrs.TestOrder;
 import org.openmrs.Order.Action;
-import org.openmrs.TestOrder.Laterality;
 import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
-import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -359,9 +344,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		else
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
 
+		if(res.getObsDatetime() == null && res.getObsStartDate() == null && res.getObsEndDate() == null)
+			res.setObsDatePrecision(0);
 		if(res.getObsDatetime() == null)
 			res.setObsDatetime(encounterInfo.getEncounterDatetime());
-
 
 		// Comments?
 		if(observation.getText() != null)
@@ -414,12 +400,22 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		if(observation.getMethodCode() != null)
 			for(CE<String> methodCode : observation.getMethodCode())
 			{
-				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_METHOD, methodCode), methodCode);
+				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_METHOD, methodCode), methodCode);
 				sub.setObsGroup(res);
 				Context.getObsService().saveObs(sub, null);
 			}
 
-		
+		// References
+		for(Reference ref : observation.getReference())
+		{
+			if(ref.getTypeCode().getCode().equals(x_ActRelationshipExternalReference.REFR))
+			{
+				if(ref.getExternalActChoiceIfExternalDocument() != null &&
+						ref.getExternalActChoiceIfExternalDocument().getId() != null &&
+						!ref.getExternalActChoiceIfExternalDocument().getId().isEmpty())
+					this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REFERENCE, new ST()), this.m_datatypeUtil.formatIdentifier(ref.getExternalActChoiceIfExternalDocument().getId().get(0)));
+			}
+		}
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(observation, res, this);
 		super.processEntryRelationships(observation, childContext);

@@ -131,9 +131,12 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		id = this.doParseCda("/validCdaLevel3Sample.xml");
 		int nvc = 0;
 		for(Obs ob : Context.getObsService().getObservationsByPersonAndConcept(Context.getPatientService().getPatients("FirstName").get(0), Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_IMMUNIZATION_HISTORY)))
+		{
+			Obs realObs = Context.getObsService().getObs(ob.getId());
 			if(!ob.getVoided())
 				nvc++;
-		assertEquals(4, nvc);
+		}
+		assertEquals(8, nvc);
 	
 	}
 	

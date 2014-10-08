@@ -197,7 +197,7 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 		{
 			StructDocNode textNode = parentSection.getText().findNodeById(administration.getText().getReference().getValue());
 			if(textNode != null)
-				medicationHistoryObs.setComment(textNode.toPlainString());
+				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_TEXT), textNode.toPlainString());
 		}
 		
 		// Instructions as a sub-observation
@@ -313,7 +313,7 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasReason))
 			{
 				ST reasonText = new ST(this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0)));
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REASON, reasonText), reasonText);
+				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REASON, reasonText), reasonText);
 			}
 		
 		// Conditions, or dosing instructions

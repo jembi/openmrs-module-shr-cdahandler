@@ -9,7 +9,7 @@
 			<and>
 				<tableExists tableName="concept_class" />
 				<sqlCheck expectedResult="0">
-					select count(name) from concept_class where uuid='4ccac411-eb8e-45d6-8ec1-f6e09602449f'
+					select count(*) from concept_class where uuid='4ccac411-eb8e-45d6-8ec1-f6e09602449f'
 				</sqlCheck>
 			</and>
 		</preConditions>
@@ -23,13 +23,34 @@
 		</insert>
 	</changeSet>
 
+	<!--  RMIM Concepts -->
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-cda" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept_class" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept_class">
+			<column name="name" value="Auto" />
+			<column name="description" value="CDAr2 Concepts" />
+			<column name="creator" valueNumeric="1" />
+			<column name="date_created" valueComputed="now()" />
+			<column name="uuid" value="895cf59a-3c14-43a1-8207-f13d20740c33" />
+			<column name="retired" valueNumeric="0" />
+		</insert>
+	</changeSet>
+	
 	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-drug-form" author="justin"
 		runInTransaction="true">
 		<preConditions onError="HALT" onFail="MARK_RAN">
 			<and>
 				<tableExists tableName="concept_class" />
 				<sqlCheck expectedResult="0">
-					select count(name) from concept_class where uuid='b56429ef-1000-42d4-9a9f-01443455b9a6'
+					select count(*) from concept_class where uuid='b56429ef-1000-42d4-9a9f-01443455b9a6'
 				</sqlCheck>
 			</and>
 		</preConditions>
@@ -44,4 +65,272 @@
 	</changeSet>
 
 	<!--  RMIM Concepts -->
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-reason" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='c79b75a0-9648-4133-b20c-7d244a5f691d'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="c79b75a0-9648-4133-b20c-7d244a5f691d"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="Reason"/>
+			<column name="description" value="Reason an observation exists"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'ST')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'c79b75a0-9648-4133-b20c-7d244a5f691d')"/>
+			<column name="name" value="Reason for observation"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="uuid" valueComputed="uuid()"/>
+		</insert>
+	</changeSet>
+	
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-approachsite" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='e3a6097c-50f0-4e89-a3ac-a73dd9219296'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="e3a6097c-50f0-4e89-a3ac-a73dd9219296"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="ApproachSite"/>
+			<column name="description" value="Approach site"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'CWE')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'e3a6097c-50f0-4e89-a3ac-a73dd9219296')"/>
+			<column name="name" value="Approach Site"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+						<column name="uuid" valueComputed="uuid()"/>
+			
+		</insert>
+	</changeSet>
+
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-target" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='fc1c315b-e1c7-47df-af7d-db6300684cec'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="fc1c315b-e1c7-47df-af7d-db6300684cec"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="TargetSite"/>
+			<column name="description" value="Target site code"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'CWE')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'fc1c315b-e1c7-47df-af7d-db6300684cec')"/>
+			<column name="name" value="Target Site"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
+	
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-reference" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='185123e2-3e42-44fc-8a80-f1f58cbd4b22'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="185123e2-3e42-44fc-8a80-f1f58cbd4b22"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="Reference"/>
+			<column name="description" value="Value of the observation references another observation"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'ST')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = '185123e2-3e42-44fc-8a80-f1f58cbd4b22')"/>
+			<column name="name" value="Reference"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
+
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-route" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='d57c5d67-9d0a-4333-96b5-ef6ca7fe3900'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="d57c5d67-9d0a-4333-96b5-ef6ca7fe3900"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="RouteOfAdministration"/>
+			<column name="description" value="The route in which a substance was administered"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'CWE')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'd57c5d67-9d0a-4333-96b5-ef6ca7fe3900')"/>
+			<column name="name" value="Route of Administration"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="concept_name_type" value="FULLY_SPECIFIED"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
+
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-maritalsts" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='e936260e-38db-495e-b024-55c843450528'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="e936260e-38db-495e-b024-55c843450528"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="CivilStates"/>
+			<column name="description" value="Identifies codes allowed for use in marital status"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'CWE')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'e936260e-38db-495e-b024-55c843450528')"/>
+			<column name="name" value="Marital Status Codes"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="concept_name_type" value="FULLY_SPECIFIED"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
+	
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-document-text" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='caeed6f3-3625-451b-984e-d7ca3b7cafe3'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="caeed6f3-3625-451b-984e-d7ca3b7cafe3"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="DocumentText"/>
+			<column name="description" value="Identifies the observation stores the contents of the document"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'ED')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = 'caeed6f3-3625-451b-984e-d7ca3b7cafe3')"/>
+			<column name="name" value="Document Text"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="concept_name_type" value="FULLY_SPECIFIED"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
+	
+		
+	<changeSet dbms="mysql" id="shr-cdahandler-conceptclass-rmim-method" author="justin"
+		runInTransaction="true">
+		<preConditions onError="HALT" onFail="MARK_RAN">
+			<and>
+				<tableExists tableName="concept" />
+				<sqlCheck expectedResult="0">
+					select count(*) from concept where uuid='335c3b3a-98d9-4956-9ef0-f2bdc12cd744'
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<insert tableName="concept">
+			<column name="uuid" value="335c3b3a-98d9-4956-9ef0-f2bdc12cd744"/>
+			<column name="retired" valueNumeric="0"/>
+			<column name="short_name" value="Method"/>
+			<column name="description" value="Identifies the method in which an observation was made"/>
+			<column name="datatype_id" valueComputed="(select concept_datatype_id from concept_datatype where hl7_abbreviation = 'CWE')"/>
+			<column name="class_id" valueComputed="(select concept_class_id from concept_class where uuid='895cf59a-3c14-43a1-8207-f13d20740c33')"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			
+		</insert>
+		<insert tableName="concept_name">
+			<column name="concept_id" valueComputed="(select concept_id from concept where uuid = '335c3b3a-98d9-4956-9ef0-f2bdc12cd744')"/>
+			<column name="name" value="Method of Observation"/>
+			<column name="locale" value="en-GB"/>
+			<column name="creator" valueNumeric="1"/>
+			<column name="date_created" valueComputed="now()"/>
+			<column name="voided" valueNumeric="0"/>
+			<column name="locale_preferred" valueNumeric="1"/>
+			<column name="concept_name_type" value="FULLY_SPECIFIED"/>
+			<column name="uuid" valueComputed="uuid()"/>
+
+		</insert>
+	</changeSet>
 </databaseChangeLog>

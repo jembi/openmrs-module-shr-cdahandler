@@ -17,6 +17,7 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Performer2;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Procedure;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
@@ -33,6 +34,7 @@ import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.Provider;
 import org.openmrs.TestOrder;
 import org.openmrs.Order.Action;
 import org.openmrs.api.OrderContext;
@@ -42,6 +44,7 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -235,7 +238,7 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 		Obs previousObs = super.voidOrThrowIfPreviousObsExists(procedure.getReference(), encounterInfo.getPatient(), procedure.getId());
 		
 		// Create the observation
-		Obs res = new Obs();
+		ExtendedObs res = new ExtendedObs();
 		res.setPreviousVersion(previousObs);
 		res.setObsGroup(parentObs);
 		
@@ -245,6 +248,10 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 		res.setDateCreated(encounterInfo.getDateCreated());
 		res.setEncounter(encounterInfo);
 		
+		// Mood code in-case it is PRMS, RQO, or some other non EVN code
+		if(procedure.getMoodCode() != null)
+			res.setObsMood(this.m_conceptUtil.getOrCreateConcept(new CV<String>(procedure.getMoodCode().getCode().getCode(), procedure.getMoodCode().getCode().getCodeSystem())));
+		
 		// Set the accession number
 		if(procedure.getId() != null && !procedure.getId().isNull())
 			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(procedure.getId().get(0)));
@@ -253,23 +260,42 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 		super.setCreator(res, procedure);
 		
 		// The concept for the procedure is "Procedure History"
-		res.setConcept(Context.getConceptService().getConcept(160714));
+		res.setConcept(Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_PROCEDURE_HISTORY));
 
 		// The procedure performed is a sub-observation
 		if(procedure.getCode() != null && procedure.getCode().isNull())
-			this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(1651), procedure.getCode());
+			this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_PROCEDURE), procedure.getCode());
 		
 		// The procedure date/time
 		if(procedure.getEffectiveTime() != null && !procedure.getEffectiveTime().isNull())
 		{
 			if(procedure.getEffectiveTime().getValue() != null)
-				this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(160715), procedure.getEffectiveTime().getValue());
-			else 
 			{
-				if(procedure.getEffectiveTime().getLow() != null && !procedure.getEffectiveTime().getLow().isNull())
-					this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(160715), procedure.getEffectiveTime().getLow());
-				if(procedure.getEffectiveTime().getHigh() != null && !procedure.getEffectiveTime().getHigh().isNull())
-					this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(160715), procedure.getEffectiveTime().getHigh());
+				this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_PROCEDURE_DATE), procedure.getEffectiveTime().getValue());
+				res.setObsDatetime(procedure.getEffectiveTime().getValue().getDateValue().getTime());
+				res.setObsDatePrecision(procedure.getEffectiveTime().getValue().getDateValuePrecision());
+			}
+			if(procedure.getEffectiveTime().getLow() != null && !procedure.getEffectiveTime().getLow().isNull())
+			{
+				res.setObsStartDate(procedure.getEffectiveTime().getLow().getDateValue().getTime());
+				if(procedure.getEffectiveTime().getLow().getDateValuePrecision() < res.getObsDatePrecision())
+					res.setObsDatePrecision(procedure.getEffectiveTime().getLow().getDateValuePrecision());
+			}
+			if(procedure.getEffectiveTime().getHigh() != null && !procedure.getEffectiveTime().getHigh().isNull())
+			{
+				res.setObsEndDate(procedure.getEffectiveTime().getHigh().getDateValue().getTime());
+				if(procedure.getEffectiveTime().getHigh().getDateValuePrecision() < res.getObsDatePrecision())
+					res.setObsDatePrecision(procedure.getEffectiveTime().getHigh().getDateValuePrecision());
+			}
+		}
+
+		// Get the performer
+		for(Performer2 prf : procedure.getPerformer())
+		{
+			if(prf.getAssignedEntity() != null)
+			{
+				Provider pvdr = this.m_assignedEntityUtil.processProvider(prf.getAssignedEntity());
+				this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_PROVIDER_NAME), pvdr.getIdentifier());
 			}
 		}
 		
@@ -278,41 +304,49 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 		{
 			StructDocNode node = this.getSection().getText().findNodeById(procedure.getText().getReference().getValue());
 			if(node != null)
-				this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(160716), node.toPlainString());
+				res.setComment(node.toPlainString());
 		}
 		
 		// Status of the procedure
 		if(procedure.getStatusCode() != null && !procedure.getStatusCode().isNull())
 		{
 			CV<ActStatus> statusCode = new CV<ActStatus>(procedure.getStatusCode().getCode());
-			this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_STATUS, statusCode), statusCode);
+			res.setObsStatus(this.m_conceptUtil.getOrCreateConcept(statusCode));
 		}
 		else
 		{
 			CV<ActStatus> completeCode = new CV<ActStatus>(ActStatus.Completed);
-			this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_STATUS, completeCode), completeCode);
+			res.setObsStatus(this.m_conceptUtil.getOrCreateConcept(completeCode));
 		}
+		
 		
 		// Approach site
 		if(procedure.getApproachSiteCode() != null && !procedure.getApproachSiteCode().isNull())
 			for(CD<String> code : procedure.getApproachSiteCode())
-				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_APPROACH_SITE, code), code);
+				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_APPROACH_SITE, code), code);
 
 		// Target site
 		if(procedure.getTargetSiteCode() != null && !procedure.getTargetSiteCode().isNull())
 			for(CD<String> code : procedure.getTargetSiteCode())
-				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_TARGET_SITE, code), code);
+				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_TARGET_SITE, code), code);
 
 		// reasoning will link to another obs and indicates the reason for the procedure
 		for(EntryRelationship er : this.findEntryRelationship(procedure, CdaHandlerConstants.ENT_TEMPLATE_INTERNAL_REFERENCE))
 			if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasReason))
 			{
 				ST reasonText = new ST(this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0)));
-				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_REASON, reasonText), reasonText);
+				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REASON, reasonText), reasonText);
+			}
+			else if(er.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.HasComponent) && BL.TRUE.equals(er.getInversionInd())) 
+			{
+				ST referenceText = new ST(this.m_datatypeUtil.formatIdentifier(er.getClinicalStatementIfAct().getId().get(0)));
+				this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REFERENCE, referenceText), referenceText);
 			}
 		
+			
+		
 		// Save
-		res = Context.getObsService().saveObs(res, null);
+		res = (ExtendedObs)Context.getObsService().saveObs(res, null);
 		
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(procedure, res, this);

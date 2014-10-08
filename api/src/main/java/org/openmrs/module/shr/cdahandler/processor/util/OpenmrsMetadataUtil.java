@@ -265,16 +265,17 @@ public class OpenmrsMetadataUtil {
 	 */
 	public PersonAttributeType getOrCreatePersonMaritalStatusAttribute() throws DocumentImportException
 	{
+		
 		PersonAttributeType res = this.getPersonAttributeType(CdaHandlerConstants.ATTRIBUTE_NAME_CIVIL_STATUS);
 		if(res == null)
 		{
 			res = this.createPersonAttributeType(
 				CdaHandlerConstants.ATTRIBUTE_NAME_CIVIL_STATUS, 
-				"org.openmrs.Location",
+				"org.openmrs.Concept",
 				"Civil Status");
 			Concept civilStatusConcept = Context.getConceptService().getConcept(OpenmrsConstants.CIVIL_STATUS_CONCEPT_ID);
 			if(civilStatusConcept == null)
-				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_MARITAL_STATUS, new CD<String>());
+				civilStatusConcept = OpenmrsConceptUtil.getInstance().getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_MARITAL_STATUS, new CD<String>());
 			res.setForeignKey(civilStatusConcept.getId());
 			res = Context.getPersonService().savePersonAttributeType(res);
 		}

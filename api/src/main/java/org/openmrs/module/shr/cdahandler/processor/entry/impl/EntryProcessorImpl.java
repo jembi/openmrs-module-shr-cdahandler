@@ -22,6 +22,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
+import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
@@ -295,7 +296,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), patient);
 
 		if(previousObs != null)
-			Context.getObsService().voidObs(previousObs, "Replaced");
+			previousObs = Context.getObsService().voidObs(previousObs, "Replaced");
 		
 		// Validate no duplicates on AN
 		if(statementIds != null)
@@ -309,7 +310,8 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				existingObs.setDateVoided(new Date());
 				existingObs.setVoided(true);
 				existingObs.setVoidedBy(Context.getAuthenticatedUser());
-				Context.getObsService().voidObs(existingObs, "Auto-Replaced");
+				existingObs.setVoidReason("Auto-Replaced");
+				existingObs = Context.getObsService().voidObs(existingObs, "Auto-Replaced");
 				previousObs = existingObs;
 			}
 			else if(existingObs != null)

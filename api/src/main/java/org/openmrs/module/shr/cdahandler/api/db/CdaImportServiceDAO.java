@@ -6,6 +6,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 
 /**
@@ -38,4 +39,8 @@ public interface CdaImportServiceDAO {
 	 */
 	ExtendedObs getExtendedObs(Integer id);
 	
+	/**
+	 * Get ActiveListItem by the accession number of the start or stop obs
+	 */
+	<T extends ActiveListItem> List<T> getActiveListItemByAccessionNumber(String accessionNumber, Class<T> clazz);
 }

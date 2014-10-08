@@ -706,14 +706,14 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * Create a concept representing an RMIM (not really a code) value
 	 * @throws DocumentImportException 
 	 */
-	public Concept getOrCreateRMIMConcept(String rmimName, ANY valueToStore) throws DocumentImportException
+	public Concept getOrCreateRMIMConcept(String rmimUuid, ANY valueToStore) throws DocumentImportException
 	{
 		
-		Concept concept = this.m_conceptService.getConceptByName(rmimName);
+		Concept concept = this.m_conceptService.getConceptByUuid(rmimUuid);
 		
 		if(concept == null && this.m_configuration.getAutoCreateConcepts())
 		{
-			Log.warn(String.format("Creating CDA RMIM concept %s", rmimName));
+			Log.warn(String.format("Creating CDA RMIM concept %s", rmimUuid));
 			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.MISC_UUID);
 			
 			ConceptDatatype datatype = this.getConceptDatatype(valueToStore);
@@ -726,7 +726,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			else
 				concept = new Concept();
 			
-			concept.setFullySpecifiedName(new ConceptName(rmimName, Context.getLocale()));
+			concept.setFullySpecifiedName(new ConceptName(rmimUuid, Context.getLocale()));
+			concept.setUuid(rmimUuid);
 			concept.setVersion("CDAr2");
 			concept.setConceptClass(conceptClass);
 			concept.setDatatype(datatype);
@@ -736,8 +737,15 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
             }
 		}
 		else if(concept == null && !this.m_configuration.getAutoCreateConcepts())
-			throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find conept %s in database", rmimName));
-		
+			throw new DocumentImportException(String.format("MISSING CONCEPT: Cannot find conept %s in database", rmimUuid));
+		else if(concept.getNames().size() == 0)
+		{
+			concept.setFullySpecifiedName(new ConceptName(rmimUuid, Context.getLocale()));
+			synchronized (s_lockObject) {
+				log.debug(String.format("Saving RMIM Concept %s", concept));
+				concept = this.m_conceptService.saveConcept(concept);
+            }
+		}
 		return this.m_conceptService.getConcept(concept.getConceptId());
 	}
 	
@@ -1080,7 +1088,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @throws DocumentImportException 
 	 */
 	public Concept getOrCreateDrugRouteConcept() throws DocumentImportException {
-		Concept rmimConcept = this.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_NAME_ROUTE_OF_ADM, new CV<String>());
+		Concept rmimConcept = this.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_ROUTE_OF_ADM, new CV<String>());
 		
 		// Now, add as a set member to History of Medications
 		Concept historyOfMedications = this.m_conceptService.getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_HISTORY),
