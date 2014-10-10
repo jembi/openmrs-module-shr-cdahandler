@@ -43,4 +43,9 @@ public interface CdaImportServiceDAO {
 	 * Get ActiveListItem by the accession number of the start or stop obs
 	 */
 	<T extends ActiveListItem> List<T> getActiveListItemByAccessionNumber(String accessionNumber, Class<T> clazz);
+	
+	/**
+	 * Get active list item by obs
+	 */
+	<T extends ActiveListItem> List<T> getActiveListItemByObs(Obs obs, Class<T> clazz);
 }

@@ -151,6 +151,9 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_CCD_DEATH_OBSERVATION = "2.16.840.1.113883.10.20.1.42";
 	public static final String ENT_TEMPLATE_CCD_INSTRUCTIONS = "2.16.840.1.113883.10.20.1.49";
 	public static final String ENT_TEMPLATE_CCD_REACTION_OBSERVATION = "2.16.840.1.113883.10.20.1.54";
+	public static final String ENT_TEMPLATE_CCD_SEVERITY_OBSERVATION = "2.16.840.1.113883.10.20.1.55";
+	public static final String ENT_TEMPLATE_CCD_ADVANCE_DIRECTIVE_STATUS = "2.16.840.1.113883.10.20.1.37";
+	public static final String ENT_TEMPLATE_CCD_STATUS_OBSERVATION = "2.16.840.1.113883.10.20.1.57";
 	public static final String ENT_TEMPLATE_SIMPLE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_ORGANIZER = "1.3.6.1.4.1.19376.1.5.3.1.4.13.1";
 	public static final String ENT_TEMPLATE_VITAL_SIGNS_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.2";
@@ -183,7 +186,7 @@ public final class CdaHandlerConstants {
 	public static final String ENT_TEMPLATE_IMMUNIZATIONS = "1.3.6.1.4.1.19376.1.5.3.1.4.12";
 	public static final String ENT_TEMPLATE_IMMUNIZATION_SERIES = "2.16.840.1.113883.10.20.1.46";
 	public static final String ENT_TEMPLATE_CCD_MEDICATION_PRODUCT = "2.16.840.1.113883.10.20.1.53";
-	public static final String ENT_TEMPLATE_PRODCUT = "1.3.6.1.4.1.19376.1.5.3.1.4.7.2";
+	public static final String ENT_TEMPLATE_PRODUCT = "1.3.6.1.4.1.19376.1.5.3.1.4.7.2";
 	public static final String ENT_TEMPLATE_MANIFESTATION_RELATION = "1.3.6.1.4.1.19376.1.5.3.1.4.6.1";
 	public static final String ENT_TEMPLATE_ADVANCE_DIRECTIVE_OBSERVATION = "1.3.6.1.4.1.19376.1.5.3.1.4.13.7";
 
@@ -259,6 +262,7 @@ public final class CdaHandlerConstants {
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY_EVENING = 160864;
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY = 160862;
 	public static final int MEDICATION_FREQUENCY_ONCE = 162135;
+
 
 	
 

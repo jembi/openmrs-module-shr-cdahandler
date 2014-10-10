@@ -45,6 +45,7 @@ import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
+import org.openmrs.VisitAttributeType;
 import org.openmrs.Order.Urgency;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.activelist.Allergy;
@@ -137,10 +138,11 @@ public final class OpenmrsDataUtil {
 	 * @throws InvalidCustomValueException 
 	 */
 	public Visit getVisitById(II id, Patient patient) throws InvalidCustomValueException, DocumentImportException {
+		VisitAttributeType vat = this.m_conceptUtil.getOrCreateVisitExternalIdAttributeType();
 		for(Visit visit : Context.getVisitService().getActiveVisitsByPatient(patient))
 		{
 			for(VisitAttribute attr : visit.getAttributes())
-				if(attr.getAttributeType().equals(this.m_conceptUtil.getOrCreateVisitExternalIdAttributeType()) &&
+				if(attr.getAttributeType().equals(vat) &&
 					attr.getValue().equals(this.m_datatypeUtil.formatIdentifier(id)))
 					return visit;
 		}
@@ -181,7 +183,12 @@ public final class OpenmrsDataUtil {
 		else if(value instanceof ED)
 		{
 			// HACK: Find a better way of doing this
-			String title = UUID.randomUUID().toString() + " -- " + URLEncoder.encode(((ED)value).getMediaType()) + ".bin";
+			
+			String title = "";
+			if(((ED)value).getMediaType() != null)
+				title = UUID.randomUUID().toString() + " -- " + URLEncoder.encode(((ED)value).getMediaType()) + ".bin";
+			else
+				title = UUID.randomUUID().toString() + ".bin";
 			ByteArrayInputStream textStream = new ByteArrayInputStream(((ED)value).getData());
 			ComplexData complexData = new ComplexData(title, textStream);
 			observation.setComplexData(complexData);

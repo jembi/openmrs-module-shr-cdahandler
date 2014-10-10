@@ -8,6 +8,7 @@ import org.marc.everest.datatypes.AD;
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PN;
 import org.marc.everest.datatypes.TEL;
+import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.COLL;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.PatientRole;
@@ -239,7 +240,10 @@ public final class PatientRoleProcessorUtil {
 			if(res.getBirthdate() == null)
 			{
 				if(importPatient.getPatient().getBirthTime() != null && !importPatient.getPatient().getBirthTime().isNull())
+				{
+					res.setBirthdateEstimated(importPatient.getPatient().getBirthTime().getDateValuePrecision() <= TS.MONTH);
 					res.setBirthdate(importPatient.getPatient().getBirthTime().getDateValue().getTime());
+				}
 				else
 					throw new DocumentImportException("Patient missing birthdate");
 			}
@@ -292,7 +296,7 @@ public final class PatientRoleProcessorUtil {
 			// Now add new
 			for(TEL tel : importPatient.getTelecom())
 			{
-				if(tel == null || tel.isNull()) continue;
+				if(tel == null || tel.isNull() || tel.getValue() == null) continue;
 				
 				
 				telecomAttribute = new PersonAttribute();

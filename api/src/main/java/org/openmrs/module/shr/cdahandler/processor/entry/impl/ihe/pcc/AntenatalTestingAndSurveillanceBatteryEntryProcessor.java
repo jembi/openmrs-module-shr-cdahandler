@@ -8,11 +8,13 @@ import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
 
 /**
  * Entry processor for Antenatal Testing & Surveillance Battery
  */
+@ProcessTemplates(templateIds = {CdaHandlerConstants.ENT_TEMPLATE_ANTENATAL_TESTING_BATTERY})
 public class AntenatalTestingAndSurveillanceBatteryEntryProcessor extends OrganizerEntryProcessor {
 	
 	/**

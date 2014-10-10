@@ -237,5 +237,14 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	    return this.dao.getActiveListItemByAccessionNumber(accessionNumber, clazz);
     }
 
+	/**
+	 * Get active list item by obs
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getActiveListItemByObs(org.openmrs.Obs, java.lang.Class)
+	 */
+	@Override
+    public <T extends ActiveListItem> List<T> getActiveListItemByObs(Obs obs, Class<T> clazz) {
+		return this.dao.getActiveListItemByObs(obs, clazz);
+    }
+
 	
 }

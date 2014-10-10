@@ -95,4 +95,17 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 		}
 		return new ArrayList<T>();
 	}
+
+	/**
+	 * Get active list item by obs
+	 * @see org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO#getActiveListItemByObs(org.openmrs.Obs, java.lang.Class)
+	 */
+	@Override
+    public <T extends ActiveListItem> List<T> getActiveListItemByObs(Obs obs, Class<T> clazz) {
+		Criterion startObs = Restrictions.eq("startObs", obs),
+				stopObs = Restrictions.eq("stopObs", obs);
+		Criteria activeListCrit = this.m_sessionFactory.getCurrentSession().createCriteria(clazz)
+				.add(Restrictions.or(startObs, stopObs));
+		return (List<T>)activeListCrit.list();
+    }
 }

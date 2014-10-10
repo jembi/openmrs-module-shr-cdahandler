@@ -192,10 +192,11 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 					}
 				
 				
-				if(person.getBirthTime() != null)
+				if(person.getBirthTime() != null && !person.getBirthTime().isNull())
 				{
 					Obs dobObs = this.m_dataUtil.createSubObservationValue(familyHistoryObs, Context.getConceptService().getConcept(160751), person.getBirthTime());
 					dobObs.setObsGroup(familyHistoryObs);
+					dobObs.setComment(person.getBirthTime().getDateValuePrecision().toString());
 					Context.getObsService().saveObs(dobObs, null);
 				}
 					

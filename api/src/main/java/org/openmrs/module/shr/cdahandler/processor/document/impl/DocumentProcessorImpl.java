@@ -37,8 +37,11 @@ import org.openmrs.Relationship;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
+import org.openmrs.activelist.Allergy;
+import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
@@ -169,22 +172,24 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			// Old visit found?
 			Visit oldVisit = null;
 			for(int i = 0; i < dr.getParentDocument().getId().size() && oldVisit == null; i++)
+			{
 				oldVisit = this.m_openmrsDataUtil.getVisitById(dr.getParentDocument().getId().get(i), visitInformation.getPatient());
 
-			if(oldVisit == null)
-				log.warn(String.format("Can't find the visit identified as %s to be associated", FormatterUtil.toWireFormat(dr.getParentDocument().getId())));
-			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.RPLC)) // Replacement of
-			{
-				this.voidVisitData(oldVisit, doc.getId());
+				if(oldVisit == null)
+					log.warn(String.format("Can't find the visit identified as %s to be associated", FormatterUtil.toWireFormat(dr.getParentDocument().getId())));
+				else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.RPLC)) // Replacement of
+				{
+					this.voidVisitData(oldVisit, doc.getId());
+				}
+				else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.APND))
+				{
+					// Append, so that means we're updating the visit with a new encounter!
+					visitInformation = oldVisit; // TODO: See if this is the correct way to do this
+					visitInformation.setDateChanged(doc.getEffectiveTime().getDateValue().getTime());
+				}
+				else
+					log.warn(String.format("Don't understand the relationship type %s", FormatterUtil.toWireFormat(dr.getTypeCode())));
 			}
-			else if(dr.getTypeCode().getCode().equals(x_ActRelationshipDocument.APND))
-			{
-				// Append, so that means we're updating the visit with a new encounter!
-				visitInformation = oldVisit; // TODO: See if this is the correct way to do this
-				visitInformation.setDateChanged(doc.getEffectiveTime().getDateValue().getTime());
-			}
-			else
-				log.warn(String.format("Don't understand the relationship type %s", FormatterUtil.toWireFormat(dr.getTypeCode())));
 		}
 				
 		// Parse the authors of this document
@@ -412,6 +417,15 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			{
 				log.info(String.format("Voided %s", obs));
 				Context.getObsService().voidObs(obs, voidReason);
+				if(obs.getAccessionNumber() != null)
+				{
+					// TODO: Validate this is the correct behavior?
+					for(Problem p : Context.getService(CdaImportService.class).getActiveListItemByObs(obs, Problem.class))
+						Context.getActiveListService().voidActiveListItem(p, voidReason);
+					for(Allergy a : Context.getService(CdaImportService.class).getActiveListItemByObs(obs, Allergy.class))
+						Context.getActiveListService().voidActiveListItem(a, voidReason);
+					//					Context.getActiveListService().voidActiveListItem(p, voidReason);
+				}
 			}
 			for(Order ord : enc.getOrders())
 			{
