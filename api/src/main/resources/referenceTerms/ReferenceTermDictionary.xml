@@ -9695,8 +9695,8 @@
 		<ns1:uuid>02152d9f-e92e-4048-8b6b-9102c2c7627c</ns1:uuid>
 		<ns1:code>998</ns1:code>
 		<ns1:description>no vaccine administered</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9714,8 +9714,8 @@
 		<ns1:uuid>f533c8f9-572f-4ebb-8c1f-fcc0b6e8e06b</ns1:uuid>
 		<ns1:code>99</ns1:code>
 		<ns1:description>RESERVED - do not use</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9733,8 +9733,8 @@
 		<ns1:uuid>19e2a611-92e7-40c9-a8f6-9a314497daa2</ns1:uuid>
 		<ns1:code>999</ns1:code>
 		<ns1:description>unknown</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9752,8 +9752,8 @@
 		<ns1:uuid>c0ef30a4-dbce-4e3e-98d8-ae2cc87ceeba</ns1:uuid>
 		<ns1:code>143</ns1:code>
 		<ns1:description>Adenovirus types 4 and 7</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9771,8 +9771,8 @@
 		<ns1:uuid>cedd9053-c716-450c-a00f-2aff08c89e07</ns1:uuid>
 		<ns1:code>54</ns1:code>
 		<ns1:description>adenovirus, type 4</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9790,8 +9790,8 @@
 		<ns1:uuid>ca706c26-d5f3-4652-969d-47ab94f50ba5</ns1:uuid>
 		<ns1:code>55</ns1:code>
 		<ns1:description>adenovirus, type 7</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9809,8 +9809,8 @@
 		<ns1:uuid>fcf4f562-d2f4-4438-8052-0b2ea083d60f</ns1:uuid>
 		<ns1:code>82</ns1:code>
 		<ns1:description>adenovirus, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9828,8 +9828,8 @@
 		<ns1:uuid>dc580921-873e-474b-a913-1bff29501877</ns1:uuid>
 		<ns1:code>24</ns1:code>
 		<ns1:description>anthrax</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9847,8 +9847,8 @@
 		<ns1:uuid>d101b9e7-6673-4b0b-9335-536d649a37a7</ns1:uuid>
 		<ns1:code>801</ns1:code>
 		<ns1:description>AS03 Adjuvant</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9866,8 +9866,8 @@
 		<ns1:uuid>d3fbf484-c560-44f0-8809-8f38cada5499</ns1:uuid>
 		<ns1:code>19</ns1:code>
 		<ns1:description>BCG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9885,8 +9885,8 @@
 		<ns1:uuid>608c26d5-42f4-43d5-af03-b7cc75ff543f</ns1:uuid>
 		<ns1:code>27</ns1:code>
 		<ns1:description>botulinum antitoxin</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9904,8 +9904,8 @@
 		<ns1:uuid>0970c6a6-3889-4b3e-a4e8-0ca913f76b29</ns1:uuid>
 		<ns1:code>26</ns1:code>
 		<ns1:description>cholera</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9923,8 +9923,8 @@
 		<ns1:uuid>24b88845-5165-4ec1-8021-053c54b00ba2</ns1:uuid>
 		<ns1:code>29</ns1:code>
 		<ns1:description>CMVIG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9942,8 +9942,8 @@
 		<ns1:uuid>d3a8570e-7184-4713-b3de-9e398cfaff9a</ns1:uuid>
 		<ns1:code>56</ns1:code>
 		<ns1:description>dengue fever</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9961,8 +9961,8 @@
 		<ns1:uuid>e5c73697-e900-419e-88bd-a02f7016fd3d</ns1:uuid>
 		<ns1:code>12</ns1:code>
 		<ns1:description>diphtheria antitoxin</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9980,8 +9980,8 @@
 		<ns1:uuid>89695725-06bd-4bb4-98c7-fed0e93c4984</ns1:uuid>
 		<ns1:code>28</ns1:code>
 		<ns1:description>DT (pediatric)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -9999,8 +9999,8 @@
 		<ns1:uuid>93757dc4-c18b-494d-91e1-f4c09998d893</ns1:uuid>
 		<ns1:code>20</ns1:code>
 		<ns1:description>DTaP</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10018,8 +10018,8 @@
 		<ns1:uuid>06413c10-38ae-4197-ae92-6d580d532646</ns1:uuid>
 		<ns1:code>106</ns1:code>
 		<ns1:description>DTaP, 5 pertussis antigens</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10037,8 +10037,8 @@
 		<ns1:uuid>35965789-557a-438e-ad14-73ef80faafc5</ns1:uuid>
 		<ns1:code>107</ns1:code>
 		<ns1:description>DTaP, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10056,8 +10056,8 @@
 		<ns1:uuid>7bb9bd8f-9ff7-4f4d-9717-cfc5b6912bab</ns1:uuid>
 		<ns1:code>146</ns1:code>
 		<ns1:description>DTaP,IPV,Hib,HepB</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10075,8 +10075,8 @@
 		<ns1:uuid>6e0f4671-b731-466a-9076-11214fab50ce</ns1:uuid>
 		<ns1:code>102</ns1:code>
 		<ns1:description>DTaP/DTP-Hib-Hep B</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10094,8 +10094,8 @@
 		<ns1:uuid>cb110671-f4a4-4ced-9df3-f36e13a13970</ns1:uuid>
 		<ns1:code>110</ns1:code>
 		<ns1:description>DTaP-Hep B-IPV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10113,8 +10113,8 @@
 		<ns1:uuid>26da3edf-be17-480b-bd09-a8f39fe8809a</ns1:uuid>
 		<ns1:code>50</ns1:code>
 		<ns1:description>DTaP-Hib</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10132,8 +10132,8 @@
 		<ns1:uuid>09705019-816b-44bb-9a89-c0b0be47316b</ns1:uuid>
 		<ns1:code>120</ns1:code>
 		<ns1:description>DTaP-Hib-IPV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10151,8 +10151,8 @@
 		<ns1:uuid>43aef31a-b0b6-48f6-92be-2c793f1ea764</ns1:uuid>
 		<ns1:code>130</ns1:code>
 		<ns1:description>DTaP-IPV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10170,8 +10170,8 @@
 		<ns1:uuid>2b3b83f5-5e68-4d85-b846-4e1682de61e1</ns1:uuid>
 		<ns1:code>132</ns1:code>
 		<ns1:description>DTaP-IPV-HIB-HEP B, historical</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10189,8 +10189,8 @@
 		<ns1:uuid>6a9fdc32-57e6-497b-8fd5-b106316e90d4</ns1:uuid>
 		<ns1:code>01</ns1:code>
 		<ns1:description>DTP</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10208,8 +10208,8 @@
 		<ns1:uuid>74bfba87-ff63-46e0-81b5-bd3d61343bec</ns1:uuid>
 		<ns1:code>22</ns1:code>
 		<ns1:description>DTP-Hib</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10227,8 +10227,8 @@
 		<ns1:uuid>4bbf0510-30ad-42b9-81d4-2b333a4694ec</ns1:uuid>
 		<ns1:code>57</ns1:code>
 		<ns1:description>hantavirus</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10246,8 +10246,8 @@
 		<ns1:uuid>72f5271f-21bc-4c70-bc73-dbef634bd9b3</ns1:uuid>
 		<ns1:code>30</ns1:code>
 		<ns1:description>HBIG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10265,8 +10265,8 @@
 		<ns1:uuid>47739236-e68d-4689-a39c-89e5673bdd1e</ns1:uuid>
 		<ns1:code>52</ns1:code>
 		<ns1:description>Hep A, adult</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10284,8 +10284,8 @@
 		<ns1:uuid>dd65743d-e39f-4f93-86e8-90018a2e65bb</ns1:uuid>
 		<ns1:code>154</ns1:code>
 		<ns1:description>Hep A, IG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10303,8 +10303,8 @@
 		<ns1:uuid>5ac109f9-dd94-4e93-b68b-52dffbf26455</ns1:uuid>
 		<ns1:code>83</ns1:code>
 		<ns1:description>Hep A, ped/adol, 2 dose</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10322,8 +10322,8 @@
 		<ns1:uuid>c0248edd-bd88-43d8-9304-a67834535add</ns1:uuid>
 		<ns1:code>84</ns1:code>
 		<ns1:description>Hep A, ped/adol, 3 dose</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10341,8 +10341,8 @@
 		<ns1:uuid>e929a2a8-73a1-4a9b-abc3-93b91f1a9f7b</ns1:uuid>
 		<ns1:code>31</ns1:code>
 		<ns1:description>Hep A, pediatric, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10360,8 +10360,8 @@
 		<ns1:uuid>b0c68a8d-ca7a-4303-98fb-ae5c58f02136</ns1:uuid>
 		<ns1:code>85</ns1:code>
 		<ns1:description>Hep A, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10379,8 +10379,8 @@
 		<ns1:uuid>25caa06a-6567-4364-87b6-bb65bf8a487d</ns1:uuid>
 		<ns1:code>104</ns1:code>
 		<ns1:description>Hep A-Hep B</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10398,8 +10398,8 @@
 		<ns1:uuid>8f427e60-4d80-48fa-a631-30c8ca4a680e</ns1:uuid>
 		<ns1:code>08</ns1:code>
 		<ns1:description>Hep B, adolescent or pediatric</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10417,8 +10417,8 @@
 		<ns1:uuid>eb691ab0-f652-423d-af63-142dccfb73fd</ns1:uuid>
 		<ns1:code>42</ns1:code>
 		<ns1:description>Hep B, adolescent/high risk infant</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10436,8 +10436,8 @@
 		<ns1:uuid>a82b1b73-a3fe-49af-be8d-c5da187062f6</ns1:uuid>
 		<ns1:code>43</ns1:code>
 		<ns1:description>Hep B, adult</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10455,8 +10455,8 @@
 		<ns1:uuid>d3fcdfba-103f-4867-9a38-e3fbaaaf42e4</ns1:uuid>
 		<ns1:code>44</ns1:code>
 		<ns1:description>Hep B, dialysis</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10474,8 +10474,8 @@
 		<ns1:uuid>e1b937c5-f7a9-41a3-85db-b610990b6f8c</ns1:uuid>
 		<ns1:code>45</ns1:code>
 		<ns1:description>Hep B, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10493,8 +10493,8 @@
 		<ns1:uuid>97da8ac4-9bfe-403c-a1fd-b20a2ec94cae</ns1:uuid>
 		<ns1:code>58</ns1:code>
 		<ns1:description>Hep C</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10512,8 +10512,8 @@
 		<ns1:uuid>244fab43-f0d1-4edd-a4fa-bf5decc22eec</ns1:uuid>
 		<ns1:code>59</ns1:code>
 		<ns1:description>Hep E</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10531,8 +10531,8 @@
 		<ns1:uuid>6493d20e-9295-4165-8be9-401c9bc826d7</ns1:uuid>
 		<ns1:code>60</ns1:code>
 		<ns1:description>herpes simplex 2</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10550,8 +10550,8 @@
 		<ns1:uuid>7803530c-ef40-4035-b1bb-c9c8d3ac2d15</ns1:uuid>
 		<ns1:code>47</ns1:code>
 		<ns1:description>Hib (HbOC)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10569,8 +10569,8 @@
 		<ns1:uuid>4b131339-cd4f-4ed7-bd32-eea5a066cc0f</ns1:uuid>
 		<ns1:code>46</ns1:code>
 		<ns1:description>Hib (PRP-D)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10588,8 +10588,8 @@
 		<ns1:uuid>3964d5c5-94bb-42fb-8f00-5a70cc3781b0</ns1:uuid>
 		<ns1:code>49</ns1:code>
 		<ns1:description>Hib (PRP-OMP)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10607,8 +10607,8 @@
 		<ns1:uuid>f4cdc8a4-10b6-450f-b09d-69f61505c3fc</ns1:uuid>
 		<ns1:code>48</ns1:code>
 		<ns1:description>Hib (PRP-T)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10626,8 +10626,8 @@
 		<ns1:uuid>e3d810ca-66f4-42f2-8711-7cfbdc56e031</ns1:uuid>
 		<ns1:code>17</ns1:code>
 		<ns1:description>Hib, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10645,8 +10645,8 @@
 		<ns1:uuid>5bb9bc00-c634-495f-8c56-1a05dee76237</ns1:uuid>
 		<ns1:code>51</ns1:code>
 		<ns1:description>Hib-Hep B</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10664,8 +10664,8 @@
 		<ns1:uuid>7f623ff1-2000-45c2-93ea-be62a0b5fae3</ns1:uuid>
 		<ns1:code>61</ns1:code>
 		<ns1:description>HIV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10683,8 +10683,8 @@
 		<ns1:uuid>19855101-2fe5-4036-8b3c-24dc99e9af3b</ns1:uuid>
 		<ns1:code>118</ns1:code>
 		<ns1:description>HPV, bivalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10702,8 +10702,8 @@
 		<ns1:uuid>bffb1ad4-6470-48b7-8d38-41abc47316c8</ns1:uuid>
 		<ns1:code>62</ns1:code>
 		<ns1:description>HPV, quadrivalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10721,8 +10721,8 @@
 		<ns1:uuid>b7642b6a-52db-4d60-872d-e845ef4177aa</ns1:uuid>
 		<ns1:code>137</ns1:code>
 		<ns1:description>HPV, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10740,8 +10740,8 @@
 		<ns1:uuid>c6551e48-db39-4a40-8706-33d1effa3880</ns1:uuid>
 		<ns1:code>86</ns1:code>
 		<ns1:description>IG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10759,8 +10759,8 @@
 		<ns1:uuid>328abd93-cd83-4bd5-88ea-bf8cb537bd00</ns1:uuid>
 		<ns1:code>14</ns1:code>
 		<ns1:description>IG, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10778,8 +10778,8 @@
 		<ns1:uuid>da4463ec-1325-4221-82dc-a932aacb9556</ns1:uuid>
 		<ns1:code>87</ns1:code>
 		<ns1:description>IGIV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10797,8 +10797,8 @@
 		<ns1:uuid>7585de83-a8ec-4934-836c-bac879d3b018</ns1:uuid>
 		<ns1:code>160</ns1:code>
 		<ns1:description>Influenza A monovalent (H5N1), ADJUVANTED-2013</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10816,8 +10816,8 @@
 		<ns1:uuid>486f8f1e-f689-4231-9a91-192fdf506654</ns1:uuid>
 		<ns1:code>151</ns1:code>
 		<ns1:description>influenza nasal, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10835,8 +10835,8 @@
 		<ns1:uuid>8cdbc46c-26de-4f5b-85f8-e8ad47f8494c</ns1:uuid>
 		<ns1:code>123</ns1:code>
 		<ns1:description>influenza, H5N1-1203</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10854,8 +10854,8 @@
 		<ns1:uuid>baf131cf-a883-4dee-985d-6781997328b2</ns1:uuid>
 		<ns1:code>135</ns1:code>
 		<ns1:description>Influenza, high dose seasonal</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10873,8 +10873,8 @@
 		<ns1:uuid>e8e5fb3b-dafd-4582-b1ff-3b48b4ccd8a1</ns1:uuid>
 		<ns1:code>153</ns1:code>
 		<ns1:description>Influenza, injectable, MDCK, preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10892,8 +10892,8 @@
 		<ns1:uuid>8180b462-f697-478a-90eb-aa614c7f7edf</ns1:uuid>
 		<ns1:code>158</ns1:code>
 		<ns1:description>influenza, injectable, quadrivalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10911,8 +10911,8 @@
 		<ns1:uuid>1b7223ab-5795-40a4-bc3d-6f5920f28977</ns1:uuid>
 		<ns1:code>150</ns1:code>
 		<ns1:description>influenza, injectable, quadrivalent, preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10930,8 +10930,8 @@
 		<ns1:uuid>948d89fd-b46b-4741-ab9b-756529b9b594</ns1:uuid>
 		<ns1:code>161</ns1:code>
 		<ns1:description>Influenza, injectable,quadrivalent, preservative free, pediatric</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10949,8 +10949,8 @@
 		<ns1:uuid>d4e66e13-6d15-4bb1-a95a-da7363c763aa</ns1:uuid>
 		<ns1:code>111</ns1:code>
 		<ns1:description>influenza, live, intranasal</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10968,8 +10968,8 @@
 		<ns1:uuid>ab4e1a02-9b15-40f5-9f11-891621652404</ns1:uuid>
 		<ns1:code>149</ns1:code>
 		<ns1:description>influenza, live, intranasal, quadrivalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -10987,8 +10987,8 @@
 		<ns1:uuid>1752e565-9ee3-442f-8360-9562d17f793b</ns1:uuid>
 		<ns1:code>155</ns1:code>
 		<ns1:description>influenza, recombinant, injectable, preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11006,8 +11006,8 @@
 		<ns1:uuid>7708e40b-d05c-46a4-8d51-2e1f83952861</ns1:uuid>
 		<ns1:code>141</ns1:code>
 		<ns1:description>Influenza, seasonal, injectable</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11025,8 +11025,8 @@
 		<ns1:uuid>62b01ff0-5ea9-43b8-88cf-d5cc2cdd70c5</ns1:uuid>
 		<ns1:code>140</ns1:code>
 		<ns1:description>Influenza, seasonal, injectable, preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11044,8 +11044,8 @@
 		<ns1:uuid>1d4a9e15-346c-4c86-8c4a-61f56334a2d4</ns1:uuid>
 		<ns1:code>144</ns1:code>
 		<ns1:description>influenza, seasonal, intradermal, preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11063,8 +11063,8 @@
 		<ns1:uuid>fcec4333-2f24-4708-995c-ac857b029b51</ns1:uuid>
 		<ns1:code>15</ns1:code>
 		<ns1:description>influenza, split (incl. purified surface antigen)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11082,8 +11082,8 @@
 		<ns1:uuid>c0c08107-f7c1-4548-8b32-e275e180960e</ns1:uuid>
 		<ns1:code>88</ns1:code>
 		<ns1:description>influenza, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11101,8 +11101,8 @@
 		<ns1:uuid>a323b0f2-5653-41ca-9062-5da819b8eb27</ns1:uuid>
 		<ns1:code>16</ns1:code>
 		<ns1:description>influenza, whole</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11120,8 +11120,8 @@
 		<ns1:uuid>6949c3b3-92e8-4a0d-9cd3-89ef20a4c037</ns1:uuid>
 		<ns1:code>10</ns1:code>
 		<ns1:description>IPV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11139,8 +11139,8 @@
 		<ns1:uuid>3f2e326c-1d4e-4e8a-98c1-1f53477ba135</ns1:uuid>
 		<ns1:code>134</ns1:code>
 		<ns1:description>Japanese Encephalitis IM</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11158,8 +11158,8 @@
 		<ns1:uuid>da9e3c03-dbe4-4865-8c0e-d36f976975f1</ns1:uuid>
 		<ns1:code>39</ns1:code>
 		<ns1:description>Japanese encephalitis SC</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11177,8 +11177,8 @@
 		<ns1:uuid>08b710b8-706b-4b3e-8e3d-232ddd64f90c</ns1:uuid>
 		<ns1:code>129</ns1:code>
 		<ns1:description>Japanese Encephalitis, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11196,8 +11196,8 @@
 		<ns1:uuid>5fb17125-544c-4ab6-8c02-d6bf79a84043</ns1:uuid>
 		<ns1:code>63</ns1:code>
 		<ns1:description>Junin virus</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11215,8 +11215,8 @@
 		<ns1:uuid>23d89e19-b38a-4e25-bb5f-543503a95d16</ns1:uuid>
 		<ns1:code>64</ns1:code>
 		<ns1:description>leishmaniasis</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11234,8 +11234,8 @@
 		<ns1:uuid>60237fb4-5c7c-4694-b1ee-e327f7ffaecb</ns1:uuid>
 		<ns1:code>65</ns1:code>
 		<ns1:description>leprosy</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11253,8 +11253,8 @@
 		<ns1:uuid>60bf9e95-2a8e-4dc9-b7a5-00ee596cfb69</ns1:uuid>
 		<ns1:code>66</ns1:code>
 		<ns1:description>Lyme disease</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11272,8 +11272,8 @@
 		<ns1:uuid>cae427ac-389e-41a7-90e7-f6574cdc552e</ns1:uuid>
 		<ns1:code>04</ns1:code>
 		<ns1:description>M/R</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11291,8 +11291,8 @@
 		<ns1:uuid>1ceadedf-c95d-4a49-be49-29a4e0b15a13</ns1:uuid>
 		<ns1:code>67</ns1:code>
 		<ns1:description>malaria</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11310,8 +11310,8 @@
 		<ns1:uuid>95abf0d3-73b9-4b70-a557-e8e2eb2d071c</ns1:uuid>
 		<ns1:code>05</ns1:code>
 		<ns1:description>measles</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11329,8 +11329,8 @@
 		<ns1:uuid>b47f8ae9-edb9-4f0a-8d2d-90deab3560c3</ns1:uuid>
 		<ns1:code>68</ns1:code>
 		<ns1:description>melanoma</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11348,8 +11348,8 @@
 		<ns1:uuid>a5c0b0b7-366c-4f3e-b599-e347e487712e</ns1:uuid>
 		<ns1:code>103</ns1:code>
 		<ns1:description>meningococcal C conjugate</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11367,8 +11367,8 @@
 		<ns1:uuid>11e2b1f7-1243-40b8-a873-5e3c57f4f681</ns1:uuid>
 		<ns1:code>148</ns1:code>
 		<ns1:description>Meningococcal C/Y-HIB PRP</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11386,8 +11386,8 @@
 		<ns1:uuid>6857609d-4e0f-4ea7-a82e-0801d2660860</ns1:uuid>
 		<ns1:code>147</ns1:code>
 		<ns1:description>meningococcal MCV4, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11405,8 +11405,8 @@
 		<ns1:uuid>ca0f6f68-4c41-4755-8235-921ce21b7928</ns1:uuid>
 		<ns1:code>136</ns1:code>
 		<ns1:description>Meningococcal MCV4O</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11424,8 +11424,8 @@
 		<ns1:uuid>0415ff36-4b8d-4510-99f5-de36666d5113</ns1:uuid>
 		<ns1:code>114</ns1:code>
 		<ns1:description>meningococcal MCV4P</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11443,8 +11443,8 @@
 		<ns1:uuid>12120166-6d0a-4312-b8ca-e749b37ba814</ns1:uuid>
 		<ns1:code>32</ns1:code>
 		<ns1:description>meningococcal MPSV4</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11462,8 +11462,8 @@
 		<ns1:uuid>1fd9fbd9-54c1-467f-ab98-fce9124c94bb</ns1:uuid>
 		<ns1:code>108</ns1:code>
 		<ns1:description>meningococcal, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11481,8 +11481,8 @@
 		<ns1:uuid>35535bcf-748a-4020-bba7-a220e43fbfa5</ns1:uuid>
 		<ns1:code>03</ns1:code>
 		<ns1:description>MMR</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11500,8 +11500,8 @@
 		<ns1:uuid>d19328dd-e961-433e-8dc5-4ded689fc649</ns1:uuid>
 		<ns1:code>94</ns1:code>
 		<ns1:description>MMRV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11519,8 +11519,8 @@
 		<ns1:uuid>572f0470-3307-4b99-8d5c-4a897a260b95</ns1:uuid>
 		<ns1:code>07</ns1:code>
 		<ns1:description>mumps</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11538,8 +11538,8 @@
 		<ns1:uuid>7ebbc654-3ebc-4453-9131-461ceae98532</ns1:uuid>
 		<ns1:code>127</ns1:code>
 		<ns1:description>Novel influenza-H1N1-09</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11557,8 +11557,8 @@
 		<ns1:uuid>75c105ec-c753-4f4d-932e-f44b5861f7b2</ns1:uuid>
 		<ns1:code>128</ns1:code>
 		<ns1:description>Novel Influenza-H1N1-09, all formulations</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11576,8 +11576,8 @@
 		<ns1:uuid>5b0bf9fc-d33b-449a-a7c7-c15552296d03</ns1:uuid>
 		<ns1:code>125</ns1:code>
 		<ns1:description>Novel Influenza-H1N1-09, nasal</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11595,8 +11595,8 @@
 		<ns1:uuid>2a735e7a-4bfe-4257-8d22-cd15a76130c3</ns1:uuid>
 		<ns1:code>126</ns1:code>
 		<ns1:description>Novel influenza-H1N1-09, preservative-free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11614,8 +11614,8 @@
 		<ns1:uuid>8d868d3e-4818-4c15-b667-195d43bcb992</ns1:uuid>
 		<ns1:code>02</ns1:code>
 		<ns1:description>OPV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11633,8 +11633,8 @@
 		<ns1:uuid>cf6c2e42-977c-4859-8fd8-37e6073c1ff1</ns1:uuid>
 		<ns1:code>69</ns1:code>
 		<ns1:description>parainfluenza-3</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11652,8 +11652,8 @@
 		<ns1:uuid>e676518c-9954-4ab4-b81c-48eb524e09d5</ns1:uuid>
 		<ns1:code>11</ns1:code>
 		<ns1:description>pertussis</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11671,8 +11671,8 @@
 		<ns1:uuid>3c4af528-6622-4155-9484-b18bd02f7178</ns1:uuid>
 		<ns1:code>23</ns1:code>
 		<ns1:description>plague</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11690,8 +11690,8 @@
 		<ns1:uuid>aa2e3efa-fd38-40e1-a0b4-a492d4e71de6</ns1:uuid>
 		<ns1:code>133</ns1:code>
 		<ns1:description>Pneumococcal conjugate PCV 13</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11709,8 +11709,8 @@
 		<ns1:uuid>b6b41ef8-53d1-4bcd-9382-08c0bac22fc2</ns1:uuid>
 		<ns1:code>100</ns1:code>
 		<ns1:description>pneumococcal conjugate PCV 7</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11728,8 +11728,8 @@
 		<ns1:uuid>9ccbd60b-c5af-4e72-9514-ce4f74cb38ba</ns1:uuid>
 		<ns1:code>152</ns1:code>
 		<ns1:description>Pneumococcal Conjugate, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11747,8 +11747,8 @@
 		<ns1:uuid>0b9bda22-94ee-489c-ad0b-4da279cb65bd</ns1:uuid>
 		<ns1:code>33</ns1:code>
 		<ns1:description>pneumococcal polysaccharide PPV23</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11766,8 +11766,8 @@
 		<ns1:uuid>3daa34dc-9c00-456d-b0b4-4e85ed34caaa</ns1:uuid>
 		<ns1:code>109</ns1:code>
 		<ns1:description>pneumococcal, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11785,8 +11785,8 @@
 		<ns1:uuid>b8421f90-8615-4384-a240-75b6d5850047</ns1:uuid>
 		<ns1:code>89</ns1:code>
 		<ns1:description>polio, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11804,8 +11804,8 @@
 		<ns1:uuid>87a41198-f66c-46d8-8e82-817a78ea61e4</ns1:uuid>
 		<ns1:code>70</ns1:code>
 		<ns1:description>Q fever</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11823,8 +11823,8 @@
 		<ns1:uuid>365d0d8c-e8c4-41d0-a75e-38675b137584</ns1:uuid>
 		<ns1:code>40</ns1:code>
 		<ns1:description>rabies, intradermal injection</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11842,8 +11842,8 @@
 		<ns1:uuid>22520458-6869-4e95-9120-c43a3e7243db</ns1:uuid>
 		<ns1:code>18</ns1:code>
 		<ns1:description>rabies, intramuscular injection</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11861,8 +11861,8 @@
 		<ns1:uuid>e07fa907-fce2-4a3d-a1a9-f26237a2ea24</ns1:uuid>
 		<ns1:code>90</ns1:code>
 		<ns1:description>rabies, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11880,8 +11880,8 @@
 		<ns1:uuid>fd98d715-0285-4d4c-bb44-0b3d0c3707a6</ns1:uuid>
 		<ns1:code>72</ns1:code>
 		<ns1:description>rheumatic fever</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11899,8 +11899,8 @@
 		<ns1:uuid>00c534c5-3b0b-41e8-991c-62663fe19bf2</ns1:uuid>
 		<ns1:code>159</ns1:code>
 		<ns1:description>Rho(D) - Unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11918,8 +11918,8 @@
 		<ns1:uuid>d191cf62-861d-476a-945f-b92f39a9665d</ns1:uuid>
 		<ns1:code>157</ns1:code>
 		<ns1:description>Rho(D) -IG IM</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11937,8 +11937,8 @@
 		<ns1:uuid>c10aeefa-b307-40e3-8258-a7fb97340e03</ns1:uuid>
 		<ns1:code>156</ns1:code>
 		<ns1:description>Rho(D)-IG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11956,8 +11956,8 @@
 		<ns1:uuid>5afd2201-5531-4802-8634-cbd81a1cf273</ns1:uuid>
 		<ns1:code>73</ns1:code>
 		<ns1:description>Rift Valley fever</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11975,8 +11975,8 @@
 		<ns1:uuid>4aebefde-8bc9-4b50-a758-43e49f1f81e7</ns1:uuid>
 		<ns1:code>34</ns1:code>
 		<ns1:description>RIG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -11994,8 +11994,8 @@
 		<ns1:uuid>381b8385-6332-496c-977f-20464c0dcdcf</ns1:uuid>
 		<ns1:code>119</ns1:code>
 		<ns1:description>rotavirus, monovalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12013,8 +12013,8 @@
 		<ns1:uuid>151f39de-1616-4304-9e43-9ce3246e27ec</ns1:uuid>
 		<ns1:code>116</ns1:code>
 		<ns1:description>rotavirus, pentavalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12032,8 +12032,8 @@
 		<ns1:uuid>fcc2134e-6176-4dfa-98bd-65ff87da3fd2</ns1:uuid>
 		<ns1:code>74</ns1:code>
 		<ns1:description>rotavirus, tetravalent</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12051,8 +12051,8 @@
 		<ns1:uuid>b8a325e8-e6d1-417e-966d-3fc4f4b370c2</ns1:uuid>
 		<ns1:code>122</ns1:code>
 		<ns1:description>rotavirus, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12070,8 +12070,8 @@
 		<ns1:uuid>fef09a4c-61b3-4add-bf8b-5fb7e08c5591</ns1:uuid>
 		<ns1:code>71</ns1:code>
 		<ns1:description>RSV-IGIV</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12089,8 +12089,8 @@
 		<ns1:uuid>475999e0-7b7d-448a-bb44-538e1775ac66</ns1:uuid>
 		<ns1:code>93</ns1:code>
 		<ns1:description>RSV-MAb</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12108,8 +12108,8 @@
 		<ns1:uuid>5bed6d9c-c487-4e1e-a069-8708b98d1200</ns1:uuid>
 		<ns1:code>145</ns1:code>
 		<ns1:description>RSV-MAb (new)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12127,8 +12127,8 @@
 		<ns1:uuid>f6c6de42-b95a-4e53-a6bd-6fa688ab7ed6</ns1:uuid>
 		<ns1:code>06</ns1:code>
 		<ns1:description>rubella</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12146,8 +12146,8 @@
 		<ns1:uuid>11143ed5-fdac-4141-9c3c-1862076c6f3c</ns1:uuid>
 		<ns1:code>38</ns1:code>
 		<ns1:description>rubella/mumps</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12165,8 +12165,8 @@
 		<ns1:uuid>b4da3fa3-9f01-4f41-9d9b-1848e08144bb</ns1:uuid>
 		<ns1:code>76</ns1:code>
 		<ns1:description>Staphylococcus bacterio lysate</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12184,8 +12184,8 @@
 		<ns1:uuid>40fde928-77b0-43e9-9bee-30d19afb1032</ns1:uuid>
 		<ns1:code>138</ns1:code>
 		<ns1:description>Td (adult)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12203,8 +12203,8 @@
 		<ns1:uuid>511ce319-6478-4daa-aa25-3880e3b6dff5</ns1:uuid>
 		<ns1:code>113</ns1:code>
 		<ns1:description>Td (adult) preservative free</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12222,8 +12222,8 @@
 		<ns1:uuid>c418abf1-ae14-4797-b8f7-31c5d75b8ffc</ns1:uuid>
 		<ns1:code>09</ns1:code>
 		<ns1:description>Td (adult), adsorbed</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12241,8 +12241,8 @@
 		<ns1:uuid>8996d64d-fc16-49ce-a6a8-a059169c89fa</ns1:uuid>
 		<ns1:code>139</ns1:code>
 		<ns1:description>Td(adult) unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12260,8 +12260,8 @@
 		<ns1:uuid>6168d986-19bf-4e44-a4f5-a07e805b8886</ns1:uuid>
 		<ns1:code>115</ns1:code>
 		<ns1:description>Tdap</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12279,8 +12279,8 @@
 		<ns1:uuid>73ae1e92-0339-4221-b9b9-141c34190983</ns1:uuid>
 		<ns1:code>35</ns1:code>
 		<ns1:description>tetanus toxoid, adsorbed</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12298,8 +12298,8 @@
 		<ns1:uuid>1e3d52d4-0223-48c2-9e09-5e703c8a4b96</ns1:uuid>
 		<ns1:code>142</ns1:code>
 		<ns1:description>tetanus toxoid, not adsorbed</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12317,8 +12317,8 @@
 		<ns1:uuid>3cc96fd0-9da5-47ad-9827-3a6793aa566e</ns1:uuid>
 		<ns1:code>112</ns1:code>
 		<ns1:description>tetanus toxoid, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12336,8 +12336,8 @@
 		<ns1:uuid>ae06f4f4-5266-4a8c-aa3d-148b5016283b</ns1:uuid>
 		<ns1:code>77</ns1:code>
 		<ns1:description>tick-borne encephalitis</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12355,8 +12355,8 @@
 		<ns1:uuid>e8ab50f1-6203-4ce6-bb63-ba4e8d86cf85</ns1:uuid>
 		<ns1:code>13</ns1:code>
 		<ns1:description>TIG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12374,8 +12374,8 @@
 		<ns1:uuid>f3310013-2332-4bb2-8af9-b3db5197f0d8</ns1:uuid>
 		<ns1:code>98</ns1:code>
 		<ns1:description>TST, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12393,8 +12393,8 @@
 		<ns1:uuid>273fac71-afde-45a6-9298-7f1807ed3545</ns1:uuid>
 		<ns1:code>95</ns1:code>
 		<ns1:description>TST-OT tine test</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12412,8 +12412,8 @@
 		<ns1:uuid>97a11321-3151-4da5-8725-f26ddd5824c8</ns1:uuid>
 		<ns1:code>96</ns1:code>
 		<ns1:description>TST-PPD intradermal</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12431,8 +12431,8 @@
 		<ns1:uuid>da122558-22a2-4ab8-a051-36adf6d362bb</ns1:uuid>
 		<ns1:code>97</ns1:code>
 		<ns1:description>TST-PPD tine test</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12450,8 +12450,8 @@
 		<ns1:uuid>ef6920d9-9ec9-4017-8caf-0bc6ddde4513</ns1:uuid>
 		<ns1:code>78</ns1:code>
 		<ns1:description>tularemia vaccine</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12469,8 +12469,8 @@
 		<ns1:uuid>779579e6-9c2f-46ff-9937-8e585dc8042a</ns1:uuid>
 		<ns1:code>25</ns1:code>
 		<ns1:description>typhoid, oral</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12488,8 +12488,8 @@
 		<ns1:uuid>08c27c2b-627c-4eff-aba5-392276fb0101</ns1:uuid>
 		<ns1:code>41</ns1:code>
 		<ns1:description>typhoid, parenteral</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12507,8 +12507,8 @@
 		<ns1:uuid>adb9cb71-0dd4-458f-a5ef-9b65bcb3232c</ns1:uuid>
 		<ns1:code>53</ns1:code>
 		<ns1:description>typhoid, parenteral, AKD (U.S. military)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12526,8 +12526,8 @@
 		<ns1:uuid>8a8d45b4-c993-4f34-8627-1d3a23d6e735</ns1:uuid>
 		<ns1:code>91</ns1:code>
 		<ns1:description>typhoid, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12545,8 +12545,8 @@
 		<ns1:uuid>f70045db-843a-458f-af5e-3a0bb8945157</ns1:uuid>
 		<ns1:code>101</ns1:code>
 		<ns1:description>typhoid, ViCPs</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12564,8 +12564,8 @@
 		<ns1:uuid>ffa5b5d8-4349-4761-9d22-478c6c7127e4</ns1:uuid>
 		<ns1:code>131</ns1:code>
 		<ns1:description>typhus, historical</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12583,8 +12583,8 @@
 		<ns1:uuid>09ab08ab-9fa8-485a-9362-ed5ac5bc8378</ns1:uuid>
 		<ns1:code>75</ns1:code>
 		<ns1:description>vaccinia (smallpox)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12602,8 +12602,8 @@
 		<ns1:uuid>45f229f3-f359-4acd-9aa2-6a2180012655</ns1:uuid>
 		<ns1:code>105</ns1:code>
 		<ns1:description>vaccinia (smallpox) diluted</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12621,8 +12621,8 @@
 		<ns1:uuid>3c5cf378-3f75-4c4c-b1de-3514acd2073f</ns1:uuid>
 		<ns1:code>79</ns1:code>
 		<ns1:description>vaccinia immune globulin</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12640,8 +12640,8 @@
 		<ns1:uuid>f04495ff-eb93-40db-89b7-62f5e1bde698</ns1:uuid>
 		<ns1:code>21</ns1:code>
 		<ns1:description>varicella</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12659,8 +12659,8 @@
 		<ns1:uuid>f44e3716-6be1-4ab8-b56a-b092fa27c26b</ns1:uuid>
 		<ns1:code>81</ns1:code>
 		<ns1:description>VEE, inactivated</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12678,8 +12678,8 @@
 		<ns1:uuid>dabbc32d-f4cb-4673-a6b5-cf1faba3e425</ns1:uuid>
 		<ns1:code>80</ns1:code>
 		<ns1:description>VEE, live</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12697,8 +12697,8 @@
 		<ns1:uuid>157f04ef-e1b1-4f5b-9a14-43a4a233da9e</ns1:uuid>
 		<ns1:code>92</ns1:code>
 		<ns1:description>VEE, unspecified formulation</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12716,8 +12716,8 @@
 		<ns1:uuid>9e8afd3c-65d3-4d06-ae24-fd88e07c6865</ns1:uuid>
 		<ns1:code>36</ns1:code>
 		<ns1:description>VZIG</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12735,8 +12735,8 @@
 		<ns1:uuid>166a52f1-b318-4f94-a177-0ab108fbfe10</ns1:uuid>
 		<ns1:code>117</ns1:code>
 		<ns1:description>VZIG (IND)</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12754,8 +12754,8 @@
 		<ns1:uuid>9cf8570f-7568-42ee-bc8c-46b6515ac21e</ns1:uuid>
 		<ns1:code>37</ns1:code>
 		<ns1:description>yellow fever</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
@@ -12773,12 +12773,468 @@
 		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae0</ns1:uuid>
 		<ns1:code>121</ns1:code>
 		<ns1:description>zoster</ns1:description>
-		<ns1:conceptType/>
-		<ns1:classification/>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Drug</ns1:classification>
 		<ns1:codeSystemName>HL-7 CVX</ns1:codeSystemName>
 		<ns1:codeSystem>2.16.840.1.113883.6.59</ns1:codeSystem>
 		<ns1:units/>
 		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>681</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae1</ns1:uuid>
+		<ns1:code>304251008</ns1:code>
+		<ns1:description>Resuscitation</ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>682</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae2</ns1:uuid>
+		<ns1:code>52765003</ns1:code>
+		<ns1:description>Intubation </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>683</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae3</ns1:uuid>
+		<ns1:code>225204009</ns1:code>
+		<ns1:description>IV Fluid and Support </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>684</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae4</ns1:uuid>
+		<ns1:code>89666000</ns1:code>
+		<ns1:description>CPR </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>685</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae5</ns1:uuid>
+		<ns1:code>281789004</ns1:code>
+		<ns1:description>Antibiotics </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>686</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae6</ns1:uuid>
+		<ns1:code>78823007</ns1:code>
+		<ns1:description>Life Support </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>687</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae7</ns1:uuid>
+		<ns1:code>61420007</ns1:code>
+		<ns1:description>Tube Feedings </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>688</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae8</ns1:uuid>
+		<ns1:code>116859006</ns1:code>
+		<ns1:description>Transfusion of blood product </ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1063</ns1:cielId>
+				<ns1:name>BLOOD TRANSFUSION</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>689</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7ae9</ns1:uuid>
+		<ns1:code>71388002</ns1:code>
+		<ns1:description>Other Directive</ns1:description>
+		<ns1:conceptType>Text</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>690</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a10</ns1:uuid>
+		<ns1:code>xx-bld-transf-ok</ns1:code>
+		<ns1:description>Blood Tranfusion Ok</ns1:description>
+		<ns1:conceptType>Boolean</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>164</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>1063</ns1:cielId>
+				<ns1:name>BLOOD TRANSFUSION</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>691</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a11</ns1:uuid>
+		<ns1:code>425392003</ns1:code>
+		<ns1:description>Current and Verified </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>692</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a12</ns1:uuid>
+		<ns1:code>425394002</ns1:code>
+		<ns1:description>Supported By Healthcare Will </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>693</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a13</ns1:uuid>
+		<ns1:code>425393008</ns1:code>
+		<ns1:description>Supported By Durable Power of Attorney for Healthcare </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>694</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a14</ns1:uuid>
+		<ns1:code>425396000</ns1:code>
+		<ns1:description>Verified With Family Only </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>695</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a15</ns1:uuid>
+		<ns1:code>310305009</ns1:code>
+		<ns1:description>Verified By Medical Record Only </ns1:description>
+		<ns1:conceptType>N/A</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>696</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a16</ns1:uuid>
+		<ns1:code>33999-4</ns1:code>
+		<ns1:description>Status</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>LOINC</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.1</ns1:codeSystem>
+		<ns1:units>691 692 693 694 695</ns1:units>
+		<ns1:setOf/>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>48eb646b-db68-4450-9789-211e242b7a16</ns1:cielId>
+				<ns1:name>DIRECTIVE STATUS</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>697</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a17</ns1:uuid>
+		<ns1:code>229819007</ns1:code>
+		<ns1:description>Smoking</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>{pack}/wk</ns1:units>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>48eb646b-db68-4450-9789-211e242b7a17</ns1:cielId>
+				<ns1:name>Cigarette packs per week smoking</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>698</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a18</ns1:uuid>
+		<ns1:code>256235009</ns1:code>
+		<ns1:description>Exercise</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>{times}/wk</ns1:units>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>161261</ns1:cielId>
+				<ns1:name>Days per week moderate exercise</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>699</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a19</ns1:uuid>
+		<ns1:code>160573003</ns1:code>
+		<ns1:description>ETOH (Alcohol) Use</ns1:description>
+		<ns1:conceptType>Numeric</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units>{drink}/wk</ns1:units>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId>48eb646b-db68-4450-9789-211e242b7a19</ns1:cielId>
+				<ns1:name>Drinks per week alcohol use</ns1:name>
+				<ns1:mapType>SAME-AS</ns1:mapType>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>700</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a20</ns1:uuid>
+		<ns1:code>364393001</ns1:code>
+		<ns1:description>Diet</ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>701</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a21</ns1:uuid>
+		<ns1:code>364703007</ns1:code>
+		<ns1:description>Employment </ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>702</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a22</ns1:uuid>
+		<ns1:code>425400000</ns1:code>
+		<ns1:description>Toxic Exposure </ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>703</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a23</ns1:uuid>
+		<ns1:code>363908000</ns1:code>
+		<ns1:description>Drug Use </ns1:description>
+		<ns1:conceptType>Coded</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>063</ns1:setOf>
+		<ns1:mapping>
+			<ns1:concept>
+				<ns1:cielId/>
+				<ns1:name/>
+				<ns1:mapType/>
+			</ns1:concept>
+		</ns1:mapping>
+	</ns1:referenceTerm>
+	<ns1:referenceTerm>
+		<ns1:id>704</ns1:id>
+		<ns1:uuid>48eb646b-db68-4450-9789-211e242b7a24</ns1:uuid>
+		<ns1:code>228272008</ns1:code>
+		<ns1:description>Other Social History</ns1:description>
+		<ns1:conceptType>Complex</ns1:conceptType>
+		<ns1:classification>Finding</ns1:classification>
+		<ns1:codeSystemName>SNOMED CT</ns1:codeSystemName>
+		<ns1:codeSystem>2.16.840.1.113883.6.96</ns1:codeSystem>
+		<ns1:units/>
+		<ns1:setOf>063</ns1:setOf>
 		<ns1:mapping>
 			<ns1:concept>
 				<ns1:cielId/>

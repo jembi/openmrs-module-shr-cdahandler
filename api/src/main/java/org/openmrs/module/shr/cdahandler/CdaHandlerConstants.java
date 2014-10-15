@@ -262,8 +262,6 @@ public final class CdaHandlerConstants {
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY_EVENING = 160864;
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY = 160862;
 	public static final int MEDICATION_FREQUENCY_ONCE = 162135;
-
-
 	
 
 
