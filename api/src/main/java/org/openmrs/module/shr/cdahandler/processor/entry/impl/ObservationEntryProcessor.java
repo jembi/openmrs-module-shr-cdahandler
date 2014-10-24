@@ -474,7 +474,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 	public void validateConceptWithContainer(CE<String> parentCode, Observation observation,
                                              ValidationIssueCollection validationIssues) {
 		try {
-	        Concept conceptGroup = this.m_conceptUtil.getConcept(parentCode),
+	        Concept conceptGroup = this.m_conceptUtil.getConcept(parentCode, observation.getValue()),
 	        		codedObservationConcept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
         // If we're not validating concept structure...
         

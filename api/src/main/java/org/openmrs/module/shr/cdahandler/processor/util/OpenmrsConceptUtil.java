@@ -324,14 +324,22 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 * @return
 	 * @throws DocumentImportException 
 	 */
-	public Concept getConcept(CV<?> code) throws DocumentImportException
+	public Concept getConcept(CV<?> code, ANY valueToStore) throws DocumentImportException
 	{
 
 		log.debug("Enter: getConcept");
 		
 		List<Concept> concepts = this.getConcepts(code);
 		if(concepts.size() > 1)
+		{
+			ConceptDatatype cdt = this.getConceptDatatype(valueToStore);
+			for(Concept c : concepts)
+			{
+				if(cdt.getId().equals(c.getDatatype().getId()))
+					return c;
+			}
 			throw new DocumentImportException(String.format("More than one potential concept exists for %s. Unsure which one to select", code));
+		}
 		
 		log.debug("Exit: getConcept");
 		
@@ -388,11 +396,11 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		Concept concept = null;
 		if(!code.isNull())
-			concept = this.getConcept(code);
+			concept = this.getConcept(code, null);
 		if(concept == null && code.getTranslation() != null)
 			for(CE<?> translation : code.getTranslation())
 			{
-				concept = this.getConcept(translation);
+				concept = this.getConcept(translation, null);
 				if(concept != null) break;
 			}
 		return concept;
@@ -429,10 +437,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	{
 		log.debug("Enter: getOrCreateConcept");
 		
-		Concept concept = this.getConcept(code);
+		Concept concept = this.getConcept(code, null);
 		// Was the concept found?
 		if(concept == null && this.m_configuration.getAutoCreateConcepts())
-			concept = this.createConcept(code);
+			concept = this.createConcept(code, null);
 		
 		log.debug("Exit: getOrCreateConcept");
 		
@@ -464,7 +472,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		if(foundConcept == null && code.getTranslation() != null)
 			for(CE<?> translation : code.getTranslation())
 			{
-				foundConcept = this.getConcept(translation);
+				foundConcept = this.getConcept(translation, null);
 				if(foundConcept != null) break;
 			}
 		

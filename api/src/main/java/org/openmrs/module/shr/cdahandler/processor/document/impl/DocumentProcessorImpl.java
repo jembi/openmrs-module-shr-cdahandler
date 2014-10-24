@@ -488,7 +488,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 		DocumentProcessorContext rootContext = new DocumentProcessorContext(doc, visitInformation, this);
 		// Add encounter to context
 		ProcessorContext childContext = new ProcessorContext(structuredBody, visitEncounter, this, rootContext);
-		
+				
 		// Iterate through sections saving them
 		for(Component3 comp : structuredBody.getComponent())
 		{
@@ -505,9 +505,11 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 			// TODO: Now process section
 			SectionProcessor processor = factory.createProcessor(section);
 			processor.setContext(childContext);
+			
 			processor.process(section);
 			
 		}
+		
 		
 		return visitInformation;
     }

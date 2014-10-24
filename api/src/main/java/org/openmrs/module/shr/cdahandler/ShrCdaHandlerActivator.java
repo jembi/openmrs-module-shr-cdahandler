@@ -14,9 +14,7 @@
 package org.openmrs.module.shr.cdahandler;
 
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -24,8 +22,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.shr.cdahandler.contenthandler.CdaContentHandler;
-import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
-import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumSummaryDocumentProcessor;
 import org.openmrs.module.shr.contenthandler.api.AlreadyRegisteredException;
 import org.openmrs.module.shr.contenthandler.api.CodedValue;
 import org.openmrs.module.shr.contenthandler.api.ContentHandlerService;

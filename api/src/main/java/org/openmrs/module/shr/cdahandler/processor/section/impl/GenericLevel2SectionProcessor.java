@@ -73,7 +73,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 		// Process encounter type
 		if (section.getCode() != null && !section.getCode().isNull())
 		{
-			Concept concept = this.m_openmrsConceptUtil.getConceptOrEquivalent(section.getCode());
+			Concept concept = this.m_openmrsConceptUtil.getConcept(section.getCode(), section.getText());
 			if(concept == null)
 				concept = this.m_openmrsConceptUtil.createConcept(section.getCode(), section.getText());
 			obsGrouper.setConcept(concept);

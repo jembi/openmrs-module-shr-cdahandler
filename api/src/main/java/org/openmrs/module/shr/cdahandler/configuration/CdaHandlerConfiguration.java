@@ -54,6 +54,8 @@ public final class CdaHandlerConfiguration {
 	private static final String PROP_ECID_ROOT = "shr-cdahandler.id.ecidRoot";
     // The root of Objects in the SHR
 	private static final String PROP_SHR_ROOT = "shr-cdahandler.id.root";
+    // Property controlling the format of complex identifiers
+    public static final String PROP_MT_IMPORT = "shr-cdahandler.useThreadpool";
 	
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr-cdahandler.updateExisting";
@@ -71,6 +73,7 @@ public final class CdaHandlerConfiguration {
     private final String m_defaultEcidRoot = "";
     private final String m_defaultShrRoot = "1.2.3.4.5";
     private final Boolean m_defaultAutoCreateUsers = true;
+    private final Boolean m_useMultiThreadImport = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
     // Singleton instance
@@ -86,6 +89,14 @@ public final class CdaHandlerConfiguration {
     	
     }
 
+    /**
+	 * Get the shr-cdahandler.useThreading value
+	 */
+	public boolean getUseMultiThreadedImport()
+	{
+		return this.getOrCreateGlobalProperty(PROP_MT_IMPORT, this.m_useMultiThreadImport);
+	}
+    
     /**
 	 * Get the shr-cdahandler.autocreate.concepts value
 	 */

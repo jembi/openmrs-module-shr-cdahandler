@@ -23,6 +23,7 @@ public class DocumentProcessorContext extends ProcessorContext {
 	private Map<EncounterRole, Set<Provider>> m_providers;
 	// The data enterer
 	private Provider m_dataEnterer;
+
 	
 	/**
 	 * Constructs the document processor context
@@ -34,6 +35,7 @@ public class DocumentProcessorContext extends ProcessorContext {
 			Visit parsedObject, DocumentProcessor processor) {
 		super(rawObject, parsedObject, processor);
 		this.m_providers = new HashMap<EncounterRole, Set<Provider>>();
+
 	}
 
 	/**

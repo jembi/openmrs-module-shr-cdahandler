@@ -86,7 +86,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		// Concept
 		if(organizer.getCode() != null)
 		{
-			Concept concept = this.m_conceptUtil.getConcept(organizer.getCode());
+			Concept concept = this.m_conceptUtil.getConcept(organizer.getCode(), value);
 			if(concept == null && organizer.getCode() != null)
 			{
 				concept = this.m_conceptUtil.createConcept(organizer.getCode(), value);

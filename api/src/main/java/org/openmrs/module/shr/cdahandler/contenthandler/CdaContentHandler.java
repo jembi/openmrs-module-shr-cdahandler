@@ -110,19 +110,7 @@ public class CdaContentHandler implements ContentHandler {
         	// Validate that the patients match
         	if(!lastEncounter.getPatient().getId().equals(patient.getId()))
         		issues.error(String.format("Patient in meta-data doesn't match the patient in document. Expected %s but got %s", patient, lastEncounter.getPatient()));
-        	for(Map.Entry<EncounterRole, Set<Provider>> providedProviderRole : providerRole.entrySet())
-        	{
-        		// Ensure the providers appear in the encounter provider list
-	        	for(Provider providedProvider : providedProviderRole.getValue())
-	        	{
-	        		Boolean isProviderInRole = false;
-		        	for(Map.Entry<EncounterRole, Set<Provider>> encounterProviderRoles : lastEncounter.getProvidersByRoles().entrySet())
-		        		isProviderInRole |= encounterProviderRoles.getValue().contains(providedProvider);
-		        	if(!isProviderInRole)
-		        		issues.error(String.format("Provider %s is not identified in any roles within the CDA document", providedProvider));
-	        	}
-        		
-        	}
+
 
 	        // There are errors!
 	        if(issues.hasErrors())

@@ -98,7 +98,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	@Test
 	public void testGetConcept() {
 		try {
-	        assertEquals(this.m_weightConcept, this.m_conceptUtil.getConcept(m_loincWeightTerm));
+	        assertEquals(this.m_weightConcept, this.m_conceptUtil.getConcept(m_loincWeightTerm, null));
         }
         catch (DocumentImportException e) {
 	        log.error(e);

@@ -9,6 +9,7 @@ import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.PN;
 import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.TS;
+import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.COLL;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.PatientRole;
@@ -260,7 +261,7 @@ public final class PatientRoleProcessorUtil {
 				if(maritalStatusType.getForeignKey() != null)
 					maritalStatusConcept = Context.getConceptService().getConcept(maritalStatusType.getForeignKey());
 
-				Concept	valueConcept = this.m_conceptUtil.getConcept(importPatient.getPatient().getMaritalStatusCode());
+				Concept	valueConcept = this.m_conceptUtil.getConcept(importPatient.getPatient().getMaritalStatusCode(), new CE<String>());
 				if(valueConcept == null)
 					valueConcept = this.m_conceptUtil.createConcept(importPatient.getPatient().getMaritalStatusCode());
 				
