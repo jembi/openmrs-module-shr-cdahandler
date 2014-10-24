@@ -49,13 +49,11 @@ public final class CdaHandlerConfiguration {
     // Strict validation
     public static final String PROP_VALIDATE_CONCEPT_STRUCTURE = "shr-cdahandler.validation.conceptStructure";
     // The root of EPIDs
-    public static final String PROP_EPID_ROOT = "shr-cdahandler.id.epidRoot";
+    public static final String PROP_EPID_ROOT = "shr.id.epidRoot";
     // The root of ECIDs
-	private static final String PROP_ECID_ROOT = "shr-cdahandler.id.ecidRoot";
+	private static final String PROP_ECID_ROOT = "shr.id.ecidRoot";
     // The root of Objects in the SHR
-	private static final String PROP_SHR_ROOT = "shr-cdahandler.id.root";
-    // Property controlling the format of complex identifiers
-    public static final String PROP_MT_IMPORT = "shr-cdahandler.useThreadpool";
+	private static final String PROP_SHR_ROOT = "shr.id.root";
 	
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr-cdahandler.updateExisting";
@@ -89,14 +87,6 @@ public final class CdaHandlerConfiguration {
     	
     }
 
-    /**
-	 * Get the shr-cdahandler.useThreading value
-	 */
-	public boolean getUseMultiThreadedImport()
-	{
-		return this.getOrCreateGlobalProperty(PROP_MT_IMPORT, this.m_useMultiThreadImport);
-	}
-    
     /**
 	 * Get the shr-cdahandler.autocreate.concepts value
 	 */

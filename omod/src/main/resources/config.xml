@@ -127,19 +127,19 @@
 		<description>When true, indicates that the SHR should validate that a sub-observation within the CDA is an allowed concept within its parent</description>
 	</globalProperty>
 	<globalProperty>
-		<property>${project.parent.artifactId}.id.epidRoot</property>
+		<property>shr.id.epidRoot</property>
 		<defaultValue>1.2.3.4.5.6.7
 		</defaultValue>
 		<description>Identifies the root of jurisdictional identifiers to use when creating/looking for providers</description>
 	</globalProperty>
 	<globalProperty>
-		<property>${project.parent.artifactId}.id.ecidRoot</property>
+		<property>shr.id.ecidRoot</property>
 		<defaultValue>1.2.3.4.5.6.8
 		</defaultValue>
 		<description>Identifies the root of jurisdictional identifiers to use when creating/looking for patients</description>
 	</globalProperty>
 	<globalProperty>
-		<property>${project.parent.artifactId}.id.root</property>
+		<property>shr.id.root</property>
 		<defaultValue>1.2.3.4.5.6.9
 		</defaultValue>
 		<description>Identifies the root which should be attached to all observations, orders, allergies, etc. in this SHR instance (used for detecting duplicates)</description>
