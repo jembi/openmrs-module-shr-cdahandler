@@ -35,6 +35,7 @@ import org.openmrs.Concept;
 import org.openmrs.ConceptMap;
 import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
+import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
@@ -244,6 +245,15 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Override
     public <T extends ActiveListItem> List<T> getActiveListItemByObs(Obs obs, Class<T> clazz) {
 		return this.dao.getActiveListItemByObs(obs, clazz);
+    }
+
+	/**
+	 * Get concept source by HL7
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getConceptSourceByHl7(java.lang.String)
+	 */
+	@Override
+    public ConceptSource getConceptSourceByHl7(String hl7) {
+		return this.dao.getConceptSourceByHl7(hl7);
     }
 
 	

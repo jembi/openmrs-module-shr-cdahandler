@@ -56,8 +56,6 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 	 */
 	@Override
     protected ActiveListItem parseActContents(Act act, ClinicalStatement statement) throws DocumentImportException {
-		
-
 		EntryProcessor processor = EntryProcessorFactory.getInstance().createProcessor(statement);
 		processor.setContext(this.getContext());
 
@@ -65,6 +63,7 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 		BaseOpenmrsData processed = processor.process(statement);
 		
 		// Not a problem observation so don't create a problem
+		
 		if(!statement.getTemplateId().contains(new II(CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION)))
 			return null;
 		

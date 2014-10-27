@@ -103,6 +103,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	// OpenMRS Services
 	private final ConceptService m_conceptService = Context.getConceptService();
 	private final CdaImportService m_importService =  Context.getService(CdaImportService.class);
+	
+	// Concept datatypes
+	private final ConceptDatatype N_A_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID);
+	private final ConceptDatatype NUMERIC_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+	private final ConceptDatatype CODED_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+	private final ConceptDatatype COMPLEX_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.COMPLEX_UUID);
+	private final ConceptDatatype DATE_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.DATE_UUID);
+	private final ConceptDatatype TEXT_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
+	private final ConceptDatatype BOOLEAN_DATATYPE = this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.BOOLEAN_UUID);
+	
+	
 	/**
 	 * Private ctor
 	 */
@@ -263,7 +274,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		concept.setDatatype(dataType);
 
 		// Does a concept exist with the exact same name?
-		Concept existingConcept = this.m_conceptService.getConcept(fullName);
+		Concept existingConcept = this.m_conceptService.getConceptByName(fullName);
 		if(existingConcept != null)
 		{
 			log.debug("Duplicate concept name found, renaming");
@@ -354,35 +365,34 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public ConceptDatatype getConceptDatatype(ANY value)
 	{
-		
 		if(value instanceof PQ)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+			return this.NUMERIC_DATATYPE;
 		else if(value instanceof RTO ||
 				value instanceof MO )
 		{
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
+			return this.TEXT_DATATYPE;
 		}
 		else if(value instanceof INT)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+			return this.NUMERIC_DATATYPE;
 		else if(value instanceof ST || value instanceof II || value instanceof TEL)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID);
+			return this.TEXT_DATATYPE;
 		else if(value instanceof ED || value instanceof SD )
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.COMPLEX_UUID);
+			return this.COMPLEX_DATATYPE;
 		else if(value instanceof TS)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.DATE_UUID);
+			return this.DATE_DATATYPE;
 		else if(value instanceof CS)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+			return this.CODED_DATATYPE;
 		else if(value instanceof BL)
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.BOOLEAN_UUID);
-		else if (value instanceof CO)
+			return this.BOOLEAN_DATATYPE;
+		else if(value instanceof CO) // will change based on data (can't be cached)
 		{
 			if(((CO)value).getValue() != null)
-				return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.NUMERIC_UUID);
+				return this.NUMERIC_DATATYPE;
 			else
-				return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.CODED_UUID);
+				return this.CODED_DATATYPE;
 		}
 		else
-			return this.m_conceptService.getConceptDatatypeByUuid(ConceptDatatype.N_A_UUID);
+			return this.N_A_DATATYPE;
 	}
 	
 	/**
@@ -534,16 +544,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		
 		ConceptSource conceptSource = this.m_conceptService.getConceptSourceByName(name);
-		Concept concept = Context.getConceptService().getConcept(162396),
-				other = this.m_conceptService.getConcept(162396);
 		if(conceptSource == null)
-			for(ConceptSource source : this.m_conceptService.getAllConceptSources())
-				if(source.getHl7Code() != null && source.getHl7Code().equals(hl7) ||
-						source.getName().equals(name))
-				{
-					conceptSource = source;
-					break;
-				}
+			conceptSource = this.m_importService.getConceptSourceByHl7(hl7);
 		
 		// Create a new concept source?
 		if(conceptSource == null && this.m_configuration.getAutoCreateConcepts())

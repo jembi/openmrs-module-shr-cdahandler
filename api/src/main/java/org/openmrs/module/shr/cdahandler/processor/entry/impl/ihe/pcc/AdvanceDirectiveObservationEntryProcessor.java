@@ -14,7 +14,9 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryPr
 /**
  * Advance directive observation entry processor
  */
-@ProcessTemplates(templateIds = { CdaHandlerConstants.ENT_TEMPLATE_ADVANCE_DIRECTIVE_OBSERVATION })
+@ProcessTemplates(templateIds = { 
+		CdaHandlerConstants.ENT_TEMPLATE_ADVANCE_DIRECTIVE_OBSERVATION
+	})
 public class AdvanceDirectiveObservationEntryProcessor extends SimpleObservationEntryProcessor {
 
 	/**

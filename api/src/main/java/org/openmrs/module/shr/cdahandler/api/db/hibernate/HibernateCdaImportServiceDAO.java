@@ -9,6 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.Concept;
 import org.openmrs.ConceptReferenceTerm;
+import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.activelist.ActiveListItem;
@@ -108,4 +109,16 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 				.add(Restrictions.or(startObs, stopObs));
 		return (List<T>)activeListCrit.list();
     }
+
+	/**
+	 * Get concept source by name
+	 * @see org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO#getConceptSourceByHl7(java.lang.String)
+	 */
+	@Override
+    public ConceptSource getConceptSourceByHl7(String hl7) {
+
+		Criteria crit = this.m_sessionFactory.getCurrentSession().createCriteria(ConceptSource.class)
+				.add(Restrictions.eq("hl7Code", hl7));
+		return (ConceptSource)crit.uniqueResult();
+	}
 }

@@ -18,7 +18,8 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryPr
 @ProcessTemplates (
 	templateIds = {
 			CdaHandlerConstants.ENT_TEMPLATE_SIMPLE_OBSERVATION,
-			CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION
+			CdaHandlerConstants.ENT_TEMPLATE_PROBLEM_OBSERVATION,
+			CdaHandlerConstants.ENT_TEMPLATE_SOCIAL_HISTORY_OBSERVATION
 	})
 public class SimpleObservationEntryProcessor extends ObservationEntryProcessor {
 	

@@ -13,6 +13,7 @@ import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelations
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryProcessor;
@@ -20,6 +21,7 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ObservationEntryPr
 /**
  * Estimated delivery date observation entry
  */
+@ProcessTemplates(templateIds = { CdaHandlerConstants.ENT_TEMPLATE_DELIVERY_DATE_OBSERVATION })
 public class EstimatedDeliveryDateObservationEntryProcessor extends SimpleObservationEntryProcessor {
 
 	

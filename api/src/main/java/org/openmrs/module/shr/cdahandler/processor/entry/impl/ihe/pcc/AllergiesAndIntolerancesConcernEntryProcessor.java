@@ -31,7 +31,9 @@ import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFa
  * 
  * See: PCC TF-2: 6.3.4.13
  */
-@ProcessTemplates(templateIds = { CdaHandlerConstants.ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN })
+@ProcessTemplates(templateIds = {
+		CdaHandlerConstants.ENT_TEMPLATE_ALLERGIES_AND_INTOLERANCES_CONCERN
+})
 public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryProcessor {
 			
 	/**

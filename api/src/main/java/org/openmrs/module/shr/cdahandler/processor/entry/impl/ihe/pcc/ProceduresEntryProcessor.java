@@ -15,7 +15,9 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.ProcedureEntryProc
 /**
  * Processor for IHE PCC Procedures Entry
  */
-@ProcessTemplates(templateIds = { CdaHandlerConstants.ENT_TEMPLATE_PROCEDURE_ENTRY })
+@ProcessTemplates(templateIds = { 
+		CdaHandlerConstants.ENT_TEMPLATE_PROCEDURE_ENTRY
+	})
 public class ProceduresEntryProcessor extends ProcedureEntryProcessor {
 
 	// Allowed status codes

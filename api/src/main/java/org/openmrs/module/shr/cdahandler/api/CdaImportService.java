@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.openmrs.Concept;
 import org.openmrs.ConceptReferenceTerm;
+import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
@@ -89,5 +90,10 @@ public interface CdaImportService extends OpenmrsService {
 	 * Get active list items to which the Obs is associted
 	 */
 	<T extends ActiveListItem> List<T> getActiveListItemByObs(Obs obs, Class<T> clazz);
+
+	/**
+	 * Get concept source by hl7
+	 */
+	ConceptSource getConceptSourceByHl7(String hl7);
 
 }

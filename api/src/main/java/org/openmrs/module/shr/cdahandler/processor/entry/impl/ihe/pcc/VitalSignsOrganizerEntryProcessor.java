@@ -53,7 +53,7 @@ public class VitalSignsOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	 */
 	@Override
 	public String getTemplateName() {
-		return "Vital Signs Organizer";
+		return "Vital Signs / Results Organizer";
 	}
 
 	

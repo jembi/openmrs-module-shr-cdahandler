@@ -18,7 +18,10 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  * 
  * See: PCC TF-2: 6.3.3.6.6
  */
-@ProcessTemplates(templateIds = { CdaHandlerConstants.SCT_TEMPLATE_ADVANCE_DIRECTIVES, CdaHandlerConstants.SCT_TEMPLATE_CODED_ADVANCE_DIRECTIVES })
+@ProcessTemplates(templateIds = { 
+		CdaHandlerConstants.SCT_TEMPLATE_ADVANCE_DIRECTIVES, 
+		CdaHandlerConstants.SCT_TEMPLATE_CODED_ADVANCE_DIRECTIVES
+		})
 public class AdvanceDirectivesSectionProcessor extends GenericLevel3SectionProcessor {
 
 	/**

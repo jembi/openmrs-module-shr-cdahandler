@@ -43,7 +43,9 @@ import org.openmrs.util.OpenmrsConstants;
  *  See: PCC TF-2: 6.3.4.23
  */
 @ProcessTemplates(
-	templateIds = { CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_ORGANIZER }
+	templateIds = { 
+			CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_ORGANIZER
+			}
 	)
 public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcessor {
 	
@@ -105,7 +107,9 @@ public class FamilyHistoryOrganizerEntryProcessor extends OrganizerEntryProcesso
 		{
 			Observation componentObservation = component.getClinicalStatementIfObservation();
 			// Don't process
-			if(componentObservation == null || !this.m_datatypeUtil.hasTemplateId(componentObservation, new II(CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION)))
+			if(componentObservation == null ||
+					!(this.m_datatypeUtil.hasTemplateId(componentObservation, new II(CdaHandlerConstants.ENT_TEMPLATE_FAMILY_HISTORY_OBSERVATION))
+							|| this.m_datatypeUtil.hasTemplateId(componentObservation, new II(CdaHandlerConstants.ENT_TEMPLATE_CCD_FAMILY_HISTORY_OBSERVATION))))
 			{
 				log.warn("Cannot process family history component");
 				continue;

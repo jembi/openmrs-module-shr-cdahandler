@@ -102,7 +102,6 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		String id = this.doParseCda("/validAphpSample.xml");
 		assertTrue(id != null);
 		assertEquals(new AntepartumHistoryAndPhysicalDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
-
 	}
 
 	@Test

@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.marc.everest.datatypes.II;
 import org.marc.everest.datatypes.generic.CE;
+import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3SectionProcessor;
 
@@ -20,7 +22,8 @@ import org.openmrs.module.shr.cdahandler.processor.section.impl.GenericLevel3Sec
  */
 @ProcessTemplates(templateIds = {
 		CdaHandlerConstants.SCT_TEMPLATE_RESULTS,
-		CdaHandlerConstants.SCT_TEMPLATE_CODED_RESULTS
+		CdaHandlerConstants.SCT_TEMPLATE_CODED_RESULTS,
+		CdaHandlerConstants.SCT_TEMPLATE_CCD_RESULTS
 })
 public class CodedResultsSectionProcessor extends GenericLevel3SectionProcessor {
 	
@@ -56,7 +59,6 @@ public class CodedResultsSectionProcessor extends GenericLevel3SectionProcessor 
     public String getTemplateName() {
 		return "Results";
     }
-	
 	
 	
 }

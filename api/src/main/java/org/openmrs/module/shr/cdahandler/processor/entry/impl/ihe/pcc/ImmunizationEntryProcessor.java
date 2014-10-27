@@ -24,7 +24,9 @@ import org.openmrs.module.shr.cdahandler.processor.entry.impl.SubstanceAdministr
 /**
  * Entry processor for an immunization entry
  */
-@ProcessTemplates(templateIds = {CdaHandlerConstants.ENT_TEMPLATE_IMMUNIZATIONS })
+@ProcessTemplates(templateIds = {
+		CdaHandlerConstants.ENT_TEMPLATE_IMMUNIZATIONS		
+})
 public class ImmunizationEntryProcessor extends SubstanceAdministrationEntryProcessor {
 
 	/**

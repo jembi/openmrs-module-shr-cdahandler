@@ -1,5 +1,8 @@
 package org.openmrs.module.shr.cdahandler.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.marc.everest.datatypes.PQ;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.util.SimpleSiUnitConverter;
@@ -26,6 +29,7 @@ public final class CdaHandlerConfiguration {
             }
     	return s_instance;
     }
+    
 	// Automatically create concepts
     public static final String PROP_AUTOCREATE_CONCEPTS = "shr-cdahandler.autocreate.concepts";
 	// Automatically create locations
@@ -57,6 +61,7 @@ public final class CdaHandlerConfiguration {
 	
     // Update existing
     public static final String PROP_UPDATE_EXISTING = "shr-cdahandler.updateExisting";
+    
     private final Boolean m_defaultAutoCreateProviders = true;
     private final Boolean m_defaultAutoCreateLocations = true;
     private final Boolean m_defaultAutoCreateConcepts = true;
@@ -65,15 +70,15 @@ public final class CdaHandlerConfiguration {
     private final Boolean m_defaultAutoCreatePatientIdType = true;
     private final Boolean m_defaultAutoCreatePersons = true;
     private final Boolean m_defaultValidateInstances = true;
-    private final Boolean m_defaultValidateConceptStructure = true;
     private final Boolean m_defaultUpdateExisting = false;
     private final String m_defaultEpidRoot = "";
     private final String m_defaultEcidRoot = "";
     private final String m_defaultShrRoot = "1.2.3.4.5";
     private final Boolean m_defaultAutoCreateUsers = true;
-    private final Boolean m_useMultiThreadImport = true;
     
     private String m_idFormat = "%2$s^^^&%1$s&ISO";
+    
+    private Map<String, Object> m_cachedProperties = new HashMap<String, Object>();
     // Singleton instance
     private static CdaHandlerConfiguration s_instance = null;
     
@@ -256,13 +261,29 @@ public final class CdaHandlerConfiguration {
      */
     private <T> T getOrCreateGlobalProperty(String propertyName, T defaultValue)
     {
-		String propertyValue = Context.getAdministrationService().getGlobalProperty(propertyName);
-		if(propertyValue != null && !propertyValue.isEmpty())
-			return (T)FormatterUtil.fromWireFormat(propertyValue, defaultValue.getClass());
-		else
+		Object retVal = this.m_cachedProperties.get(propertyName);
+		
+		if(retVal != null)
+			return (T)retVal;
+		else 
 		{
-			Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(propertyName, defaultValue.toString()));
-			return defaultValue;
+			String propertyValue = Context.getAdministrationService().getGlobalProperty(propertyName);
+			if(propertyValue != null && !propertyValue.isEmpty())
+			{
+				T value = (T)FormatterUtil.fromWireFormat(propertyValue, defaultValue.getClass()); 
+				synchronized (s_lockObject) {
+					this.m_cachedProperties.put(propertyName, value);
+                }
+				return value;
+			}
+			else
+			{
+				Context.getAdministrationService().saveGlobalProperty(new GlobalProperty(propertyName, defaultValue.toString()));
+				synchronized (s_lockObject) {
+					this.m_cachedProperties.put(propertyName, defaultValue);
+                }
+				return defaultValue;
+			}
 		}
     }
 
