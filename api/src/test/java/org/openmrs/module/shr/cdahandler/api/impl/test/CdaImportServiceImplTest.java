@@ -54,7 +54,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
 		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
 		Context.getAdministrationService().setGlobalProperty("order.nextOrderNumberSeed", "1");
-		Context.getAdministrationService().setGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_FALSE_CONCEPT, "1066");
+		Context.getAdministrationService().setGlobalProperty("order.nextOrderNumberSeed", "1");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		initializeInMemoryDatabase();
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
@@ -114,6 +114,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 
 	@Test
 	public void shouldParseValidAphpFullTest() throws DocumentImportException {
+		
 		OpenmrsConceptUtil.getInstance().createConcept(new CV<String>("49051-6", CdaHandlerConstants.CODE_SYSTEM_LOINC), new PQ(BigDecimal.ONE, "wks"));
 		OpenmrsConceptUtil.getInstance().createConcept(new CV<String>("45371-2", CdaHandlerConstants.CODE_SYSTEM_LOINC), null);
 		String id = this.doParseCda("/validAphpSampleFullSections.xml");

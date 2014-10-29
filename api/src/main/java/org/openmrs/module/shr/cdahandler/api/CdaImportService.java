@@ -16,6 +16,7 @@ package org.openmrs.module.shr.cdahandler.api;
 import java.io.InputStream;
 import java.util.List;
 
+import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Concept;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
@@ -47,6 +48,11 @@ public interface CdaImportService extends OpenmrsService {
 	 * Import a document
 	 */
 	Visit importDocument(InputStream inputStream) throws DocumentImportException;
+
+	/**
+	 * Import a document
+	 */
+	Visit importDocument(ClinicalDocument inputStream) throws DocumentImportException;
 
 	/**
 	 * Subscribe to the import operation

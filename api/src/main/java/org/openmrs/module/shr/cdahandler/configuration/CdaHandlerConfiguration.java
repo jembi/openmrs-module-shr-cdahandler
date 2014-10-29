@@ -55,7 +55,7 @@ public final class CdaHandlerConfiguration {
     // The root of EPIDs
     public static final String PROP_EPID_ROOT = "shr.id.epidRoot";
     // The root of ECIDs
-	private static final String PROP_ECID_ROOT = "shr.id.ecidRoot";
+	public static final String PROP_ECID_ROOT = "shr.id.ecidRoot";
     // The root of Objects in the SHR
 	private static final String PROP_SHR_ROOT = "shr.id.root";
 	

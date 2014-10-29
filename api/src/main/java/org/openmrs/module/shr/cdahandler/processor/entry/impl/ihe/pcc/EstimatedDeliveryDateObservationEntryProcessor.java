@@ -86,9 +86,9 @@ public class EstimatedDeliveryDateObservationEntryProcessor extends SimpleObserv
 	    		for(EntryRelationship er2 : firstNestedSupport.getEntryRelationship())
 	    		{
 	    			Observation secondNestedSupport = er2.getClinicalStatementIfObservation();
-	    	    	if(!er2.getTypeCode().getCode().equals(new x_ActRelationshipEntryRelationship("DRIV", x_ActRelationshipEntryRelationship.CAUS.getCodeSystem())) || 
+	    	    	if(!er2.getTypeCode().getCode().equals(x_ActRelationshipEntryRelationship.SPRT) || 
 	    	    			secondNestedSupport == null)
-	    	    		validationIssues.error("EDD supporting observations shall carry type code of DRIV");
+	    	    		validationIssues.error("EDD supporting observations shall carry type code of SPRT");
 	    	    	else
 	    	    		this.validateNestedObservation(firstNestedSupport.getCode(), secondNestedSupport, validationIssues);
 	    	    		
@@ -113,7 +113,7 @@ public class EstimatedDeliveryDateObservationEntryProcessor extends SimpleObserv
 	private void validateNestedObservation(CV<String> contextCode, Observation obs, ValidationIssueCollection validationIssues)
 	{
 		// Validate the entry can be used in the code
-		super.validateConceptWithContainer(obs.getCode(), obs, validationIssues);
+		super.validateConceptWithContainer(contextCode, obs, validationIssues);
 		
 		if(obs.getRepeatNumber() != null || 
 				obs.getInterpretationCode() != null ||

@@ -252,6 +252,20 @@
     </xsl:variable>
     <xsl:for-each select="$memberOfSets">
       <xsl:sort select="id"/>
+      <xsl:variable name="setUuid">
+	      <xsl:choose>
+	        <xsl:when test="not(rd:mapping/rd:concept/rd:cielId/text())">
+	          <xsl:value-of select="rd:uuid"/>
+	        </xsl:when>
+	        <xsl:otherwise>
+	          <xsl:call-template name="postpend-pad">
+	            <xsl:with-param name="length" select="'36'"/>
+	            <xsl:with-param name="padChar" select="'A'"/>
+	            <xsl:with-param name="padVar" select="rd:mapping/rd:concept/rd:cielId"/>
+	          </xsl:call-template>
+	        </xsl:otherwise>
+	      </xsl:choose>
+      </xsl:variable>
       <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$taskId + position() + 1}" runInTransaction="true">
         <preConditions onError="HALT" onFail="MARK_RAN">
           <and>
@@ -264,13 +278,13 @@
             </sqlCheck>
             <!-- Check that the set concept exists -->
             <sqlCheck expectedResult="1">
-              select count(uuid) from concept where uuid='<xsl:value-of select="rd:uuid"/>'
+              select count(uuid) from concept where uuid='<xsl:value-of select="$setUuid"/>'
             </sqlCheck>
             <sqlCheck expectedResult="0">
               select count(concept_set_id) from concept_set inner join concept as memberConcept on (concept_set.concept_id = memberConcept.concept_id)
               inner join concept as setmemberConcept on (setmemberConcept.concept_id = concept_set.concept_set)
               where memberConcept.uuid = '<xsl:value-of select="$memberUuid"/>'
-              and setmemberConcept.uuid = '<xsl:value-of select="rd:uuid"/>'
+              and setmemberConcept.uuid = '<xsl:value-of select="$setUuid"/>'
             </sqlCheck>
           </and>
         </preConditions>
@@ -280,7 +294,7 @@
         <insert tableName="concept_set">
           <column name="concept_set_id" autoIncrement="true"/>
           <column name="concept_id" valueComputed="(select concept_id from concept where uuid= '{$memberUuid}')"/>
-          <column name="concept_set" valueComputed="(select concept_id from concept where uuid = '{rd:uuid}')"/>
+          <column name="concept_set" valueComputed="(select concept_id from concept where uuid = '{$setUuid}')"/>
           <column name="creator" valueNumeric="1"/>
           <column name="uuid" valueComputed="uuid()"/>
           <column name="date_created" valueComputed="now()"/>

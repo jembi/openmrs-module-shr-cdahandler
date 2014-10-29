@@ -82,6 +82,7 @@ public final class CdaHandlerConstants {
 	public static final String DOC_TEMPLATE_CCD = "2.16.840.1.113883.10.20.1";
 	public static final String DOC_TEMPLATE_CDA4CDT = "2.16.840.1.113883.10.20.3";
 	public static final String DOC_TEMPLATE_IMMUNIZATION_CONTENT = "1.3.6.1.4.1.19376.1.5.3.1.1.18.1.2";
+	public static final String DOC_TEMPLATE_CCD_PLUS = "9.9.9.9.9.9.8";
 	
 	// Section Templates
 	public static final String SCT_TEMPLATE_CCD_ADVNACE_DIRECTIVES = "2.16.840.1.113883.10.20.1.1";
@@ -262,6 +263,12 @@ public final class CdaHandlerConstants {
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY_EVENING = 160864;
 	public static final int MEDICATION_FREQUENCY_ONCE_DAILY = 160862;
 	public static final int MEDICATION_FREQUENCY_ONCE = 162135;
+
+	// Birth plan
+	public static final String SCT_TEMPLATE_BIRTH_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.1";
+	public static final String SCT_TEMPLATE_FUNCTIONAL_STATUS = "1.3.6.1.4.1.19376.1.5.3.1.3.17";
+	public static final String SCT_TEMPLATE_HISTORY_OF_BLOOD_TRANSFUSIONS = "1.3.6.1.4.1.19376.1.5.3.1.1.9.12";
+
 	
 
 

@@ -78,10 +78,6 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	public Visit importDocument(InputStream doc) throws DocumentImportException 
 	{
 		
-		if(this.m_processor == null)
-			this.m_processor = CdaImporter.getInstance();
-	
-		
 		// Formatter
 		XmlIts1Formatter formatter = EverestUtil.createFormatter();
 		
@@ -111,8 +107,24 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 			throw new DocumentValidationException(parseResult.getStructure(), parsingIssues);
 		
 		// Get the clinical document
-		ClinicalDocument clinicalDocument = (ClinicalDocument)parseResult.getStructure();
+		return this.importDocument((ClinicalDocument)parseResult.getStructure());
 
+	}
+	
+	/**
+	 * Import the parsed clinical document
+	 * Auto generated method comment
+	 * 
+	 * @param clinicalDocument
+	 * @return
+	 * @throws DocumentImportException
+	 */
+	@Override
+	public Visit importDocument(ClinicalDocument clinicalDocument) throws DocumentImportException
+	{
+		if(this.m_processor == null)
+			this.m_processor = CdaImporter.getInstance();
+	
 		// TODO: Store incoming to a temporary table for CDAs (like the HL7 queue)
 		Visit retVal = this.m_processor.processCdaDocument(clinicalDocument);
 

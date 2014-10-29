@@ -802,6 +802,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 				
 				// Try to get as a numeric
 				ConceptNumeric numericConcept = this.m_conceptService.getConceptNumericByUuid(concept.getUuid());
+				if(numericConcept == null)
+					continue;
 				// Does this unit need to be mapped to ucum so PQ can compare ?
 				String mappedUnit = this.getUcumUnitCode(numericConcept);
 				if(numericConcept != null && ((PQ)value).isUnitComparable(mappedUnit))

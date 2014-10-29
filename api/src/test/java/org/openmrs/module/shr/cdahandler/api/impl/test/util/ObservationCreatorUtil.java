@@ -62,7 +62,7 @@ public class ObservationCreatorUtil {
 		erSupport.setClinicalStatement(support);
 		
 		// Support 2 
-		EntryRelationship erSupport2 = new EntryRelationship(x_ActRelationshipEntryRelationship.CAUS, BL.TRUE);
+		EntryRelationship erSupport2 = new EntryRelationship(x_ActRelationshipEntryRelationship.SPRT, BL.TRUE);
 		Observation support2 = createSimpleObservation("11888-5", CdaHandlerConstants.CODE_SYSTEM_LOINC, new PQ(BigDecimal.valueOf(20), "wk"));
 		support2.setInterpretationCode(null);
 		erSupport2.setClinicalStatement(support2);

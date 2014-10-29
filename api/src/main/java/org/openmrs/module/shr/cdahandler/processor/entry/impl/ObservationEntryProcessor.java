@@ -471,7 +471,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 	 * Validates that the provided observation can be used in the 
 	 * parentCode adding validation messages to validationIssues if necessary
 	 */
-	public void validateConceptWithContainer(CE<String> parentCode, Observation observation,
+	public void validateConceptWithContainer(CV<String> parentCode, Observation observation,
                                              ValidationIssueCollection validationIssues) {
 		try {
 	        Concept conceptGroup = this.m_conceptUtil.getConcept(parentCode, observation.getValue()),
