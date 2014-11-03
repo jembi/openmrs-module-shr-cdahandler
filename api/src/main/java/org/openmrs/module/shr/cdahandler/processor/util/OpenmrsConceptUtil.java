@@ -88,6 +88,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		put("CIEL", CdaHandlerConstants.CODE_SYSTEM_CIEL);
 		put("HL-7 CVX", CdaHandlerConstants.CODE_SYSTEM_CVX);
 		put("RxNORM", CdaHandlerConstants.CODE_SYSTEM_RXNORM);
+		put("ICD-10-WHO", CdaHandlerConstants.CODE_SYSTEM_ICD_10);
 	}};
 	
 	// Map types

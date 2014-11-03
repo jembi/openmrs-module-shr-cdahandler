@@ -21,6 +21,8 @@ import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
+import org.openmrs.module.shr.cdahandler.CdaImporter;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -82,7 +84,7 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 			else if(Problem.class.isAssignableFrom(clazz))
 				previousItem = this.m_dataUtil.findExistingProblem(reference.getExternalActChoiceIfExternalAct().getId(), encounterInfo.getPatient());
 		
-		// Validate duplicates
+		// Validate duplicates? This will work by AN and ID
 		if(act.getId() != null)
 		{
 			ActiveListItem existingItem = null;
@@ -98,22 +100,14 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 				throw new DocumentImportException(String.format("Duplicate list item %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
 		}
 
-		// Statement needs to replace something?
-		if(statement.isPOCD_MT000040UVObservation() && ((Observation)statement).getId() != null)
+		// Try to load by observation?
+		if(previousItem == null && obs.getPreviousVersion() != null)
 		{
-			ActiveListItem existingItem = null;
-			if(Allergy.class.isAssignableFrom(clazz)) 
-				existingItem = this.m_dataUtil.findExistingAllergy(act.getId(), encounterInfo.getPatient());
-			else if(Problem.class.isAssignableFrom(clazz))
-				existingItem = this.m_dataUtil.findExistingProblem(act.getId(), encounterInfo.getPatient());
-			
-			// An replacement from the auto-replace
-			if(existingItem != null && this.m_configuration.getUpdateExisting())
-				previousItem = existingItem; 
-			else if(existingItem != null)
-				throw new DocumentImportException(String.format("Duplicate list item %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(act.getId())));
+			List<? extends ActiveListItem> candidates = Context.getService(CdaImportService.class).getActiveListItemByObs(obs.getPreviousVersion(), clazz);
+			if(candidates.size() > 0)
+				previousItem = candidates.get(0);
 		}
-		
+
 		// Update the previous item
 		T res = (T)previousItem;
 
@@ -135,20 +129,6 @@ public class ConcernEntryProcessor extends ActEntryProcessor {
 		
 		// New?
 		ActStatus currentStatus = ConcernEntryProcessor.calculateCurrentStatus(res);
-
-		// What state are we entering? Valid transitions are
-		// 	New -> *
-		// Active -> Aborted
-		// Active -> Completed
-		// Active -> Suspended
-		// Completed -> Active
-		// Suspended -> *
-		if(currentStatus == act.getStatusCode().getCode()) // no state transition
-			;
-		else if(currentStatus == ActStatus.Completed && act.getStatusCode().getCode() == ActStatus.Active)
-			throw new IllegalStateException("Cannot re-activate a completed or aborted problem. Please create a new one"); 
-		else if(currentStatus == ActStatus.Aborted)
-			throw new IllegalStateException("Cannot update an aborted problem entry. Please create a new one");
 
 		// Effective time?
 		if(act.getEffectiveTime() != null)

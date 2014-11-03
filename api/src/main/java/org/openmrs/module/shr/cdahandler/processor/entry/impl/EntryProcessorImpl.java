@@ -31,9 +31,12 @@ import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.shr.cdahandler.CdaImporter;
+import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
@@ -285,7 +288,6 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	 * @throws DocumentImportException 
 	 */
 	protected Obs voidOrThrowIfPreviousObsExists(ArrayList<Reference> statementReferences, Patient patient, SET<II> statementIds) throws DocumentImportException {
-
 		Obs previousObs = null;
 		// References to previous observation?
 		for(Reference reference : statementReferences)
@@ -296,7 +298,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				previousObs = this.m_dataUtil.findExistingObs(reference.getExternalActChoiceIfExternalAct().getId(), patient);
 
 		if(previousObs != null)
-			previousObs = Context.getObsService().voidObs(previousObs, "Replaced");
+			Context.getObsService().voidObs(previousObs, "Replaced");
 		
 		// Validate no duplicates on AN
 		if(statementIds != null)
@@ -304,20 +306,20 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 			Obs existingObs = this.m_dataUtil.findExistingObs(statementIds, patient) ;
 			
 			//    An replacement from the auto-replace
-			if(existingObs != null && this.m_configuration.getUpdateExisting())
+			 if(existingObs != null && this.m_configuration.getUpdateExisting())
 			{
 				log.debug(String.format("Voiding existing obs %s", existingObs));
 				existingObs.setDateVoided(new Date());
 				existingObs.setVoided(true);
 				existingObs.setVoidedBy(Context.getAuthenticatedUser());
 				existingObs.setVoidReason("Auto-Replaced");
-				existingObs = Context.getObsService().voidObs(existingObs, "Auto-Replaced");
-				previousObs = existingObs;
+				Context.getObsService().voidObs(existingObs, "Auto-Replaced");
+				previousObs = Context.getObsService().getObs(existingObs.getId()); 
 			}
 			else if(existingObs != null)
 				throw new DocumentImportException(String.format("Duplicate entry %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(statementIds)));
 		}
-		
+
 		return previousObs;
 	}
 

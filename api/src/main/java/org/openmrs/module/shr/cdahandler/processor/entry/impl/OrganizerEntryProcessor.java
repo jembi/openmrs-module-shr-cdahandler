@@ -165,7 +165,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 		Organizer organizer = (Organizer)entry;
 		Obs organizerObs = this.parseOrganizer(organizer);
 		organizerObs = Context.getObsService().saveObs(organizerObs, null);
-		
+
 		// Cascade properties and process
 		ProcessorContext organizerContext = new ProcessorContext(organizer, organizerObs, this);
 		EntryProcessorFactory factory = EntryProcessorFactory.getInstance();

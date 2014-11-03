@@ -55,6 +55,7 @@ import org.openmrs.customdatatype.InvalidCustomValueException;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.obs.ComplexData;
 import org.openmrs.validator.ObsValidator;
 import org.springframework.validation.Errors;
@@ -240,7 +241,7 @@ public final class OpenmrsDataUtil {
 	/**
 	 * Find an existing obs 
 	 */
-	public Obs findExistingObs(SET<II> ids, Patient patient)
+	public ExtendedObs findExistingObs(SET<II> ids, Patient patient)
 	{
 		//return this.findExistingItem(ids, this.m_configuration.getObsRoot(), Context.getObsService().getObservationsByPerson(patient));
 		try
@@ -248,12 +249,12 @@ public final class OpenmrsDataUtil {
 			for(II id : ids)
 			{
 				if(this.m_configuration.getObsRoot().equals(id.getRoot())) // Then try to get the ID
-					return Context.getObsService().getObs(Integer.parseInt(id.getExtension()));
+					return Context.getService(CdaImportService.class).getExtendedObs(Integer.parseInt(id.getExtension()));
 				else {
 					List<Obs> candidate = Context.getService(CdaImportService.class).getObsByAccessionNumber(this.m_datatypeUtil.formatIdentifier(id));
 					log.debug(String.format("Foun d %s existing obs", candidate.size()));
 					if(candidate.size() > 0)
-						return candidate.get(0);
+						return Context.getService(CdaImportService.class).getExtendedObs(candidate.get(0).getId());
 				}
 			}
 			return null;

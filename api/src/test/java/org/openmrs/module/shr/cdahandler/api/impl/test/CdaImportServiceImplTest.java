@@ -20,13 +20,17 @@ import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.GlobalProperty;
 import org.openmrs.Obs;
+import org.openmrs.Patient;
 import org.openmrs.Visit;
+import org.openmrs.activelist.ActiveListType;
+import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
+import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumHistoryAndPhysicalDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalSummaryDocumentProcessor;
@@ -130,13 +134,29 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 		String id = this.doParseCda("/validCdaLevel3Sample.xml");
 		id = this.doParseCda("/validCdaLevel3Sample.xml");
 		int nvc = 0;
-		for(Obs ob : Context.getObsService().getObservationsByPersonAndConcept(Context.getPatientService().getPatients("FirstName").get(0), Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_IMMUNIZATION_HISTORY)))
+		
+		Patient patient = Context.getPatientService().getPatients("FirstName").get(0);
+		// Assert : Immunizations SHALL be replaced (there are 4 in each CDA therefore there should be 4 and not 8)
+		for(Obs ob : Context.getObsService().getObservationsByPersonAndConcept(patient, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_IMMUNIZATION_HISTORY)))
 		{
-			Obs realObs = Context.getObsService().getObs(ob.getId());
-			if(!ob.getVoided())
-				nvc++;
+			assertTrue(ob.getPreviousVersion() != null);
+			nvc++;
 		}
-		assertEquals(8, nvc);
+		assertEquals(4, nvc);
+
+		nvc = 0;
+		// Assert : Medications SHALL be replaced (there are 4 in each CDA therefore there should be 4 and not 8)
+		for(Obs ob : Context.getObsService().getObservationsByPersonAndConcept(patient, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_HISTORY)))
+		{
+			assertTrue(ob.getPreviousVersion() != null);
+			nvc++;
+		}
+		assertEquals(5, nvc);
+
+
+		// Should have 5 problems not 10
+		assertEquals(5, Context.getActiveListService().getActiveListItems(patient, Problem.ACTIVE_LIST_TYPE).size());
+		
 	
 	}
 	

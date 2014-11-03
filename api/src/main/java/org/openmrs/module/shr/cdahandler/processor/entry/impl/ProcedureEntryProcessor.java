@@ -348,6 +348,7 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 		// Save
 		res = (ExtendedObs)Context.getObsService().saveObs(res, null);
 		
+		
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(procedure, res, this);
 		super.processEntryRelationships(procedure, childContext);

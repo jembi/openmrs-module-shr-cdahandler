@@ -387,7 +387,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Get entry value
 		res = (ExtendedObs)this.m_dataUtil.setObsValue(res, value);
 		Context.getObsService().saveObs(res, null);
-				
+		
 		// Is this really an indicator that is enabled?
 		if(BL.FALSE.equals(observation.getValue()) || BL.TRUE.equals(observation.getNegationInd()))
 		{

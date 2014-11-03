@@ -67,6 +67,7 @@ public final class CdaHandlerConstants {
 	public static final String CODE_SYSTEM_RXNORM = "2.16.840.1.113883.6.88";
 	public static final String CODE_SYSTEM_IHE_ACT_CODE = "1.3.6.1.4.1.19376.1.5.3.2";
 	public static final String CODE_SYSTEM_CPT4 = "2.16.840.1.113883.6.12";
+	public static final String CODE_SYSTEM_ICD_10 = "2.16.840.1.113883.6.3";
 	
 	// Document Template Medical Documents
 	public static final String DOC_TEMPLATE_MEDICAL_DOCUMENTS = "1.3.6.1.4.1.19376.1.5.3.1.1.1";
@@ -268,6 +269,7 @@ public final class CdaHandlerConstants {
 	public static final String SCT_TEMPLATE_BIRTH_PLAN = "1.3.6.1.4.1.19376.1.5.3.1.1.21.2.1";
 	public static final String SCT_TEMPLATE_FUNCTIONAL_STATUS = "1.3.6.1.4.1.19376.1.5.3.1.3.17";
 	public static final String SCT_TEMPLATE_HISTORY_OF_BLOOD_TRANSFUSIONS = "1.3.6.1.4.1.19376.1.5.3.1.1.9.12";
+
 
 	
 

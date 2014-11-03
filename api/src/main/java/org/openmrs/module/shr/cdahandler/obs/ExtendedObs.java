@@ -31,7 +31,6 @@ public class ExtendedObs extends Obs {
 	private Concept obsStatus;
     
     
-    
     /**
      * @return the obsStatus
      */
@@ -138,6 +137,7 @@ public class ExtendedObs extends Obs {
     public void setObsInterpretation(Concept obsInterpretation) {
     	this.obsInterpretation = obsInterpretation;
     }
+
 	
 	
 }
