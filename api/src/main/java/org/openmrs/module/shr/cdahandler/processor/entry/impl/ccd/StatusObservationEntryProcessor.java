@@ -3,11 +3,8 @@ package org.openmrs.module.shr.cdahandler.processor.entry.impl.ccd;
 import java.util.List;
 
 import org.marc.everest.datatypes.generic.CE;
-import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
-import org.openmrs.Concept;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;

@@ -24,8 +24,6 @@ import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.Visit;
 import org.openmrs.activelist.ActiveListItem;
-import org.openmrs.activelist.Allergy;
-import org.openmrs.activelist.Problem;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;

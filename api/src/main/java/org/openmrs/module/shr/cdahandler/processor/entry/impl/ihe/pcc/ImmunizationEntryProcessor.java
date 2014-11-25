@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.marc.everest.datatypes.TS;
-import org.marc.everest.datatypes.generic.IVL;
 import org.marc.everest.datatypes.generic.SXCM;
 import org.marc.everest.datatypes.interfaces.ISetComponent;
 import org.marc.everest.interfaces.IGraphable;

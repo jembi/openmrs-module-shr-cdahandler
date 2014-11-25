@@ -1,7 +1,6 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +18,8 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.SubstanceAdministration;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.openmrs.BaseOpenmrsData;
-import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
@@ -31,12 +28,10 @@ import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaImporter;
-import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
-import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.entry.EntryProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.EntryProcessorFactory;
@@ -58,7 +53,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	protected ProcessorContext m_context;
 
 	// The Configuration and datatype utility
-	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	protected final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	protected final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	protected final OpenmrsDataUtil m_dataUtil = OpenmrsDataUtil.getInstance();
@@ -216,7 +211,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 		// Parse the authors of this document
 		for(Author aut : statement.getAuthor())
 		{
-			AssignedAuthor headerAuthor = this.findAuthorFromHeader(aut.getAssignedAuthor().getId());
+			//AssignedAuthor headerAuthor = this.findAuthorFromHeader(aut.getAssignedAuthor().getId());
 			// This element represents the time that the author started participating in the creation of the clinical document .. Is it important?
 			Provider provider = this.m_assignedEntityUtil.processProvider(aut.getAssignedAuthor());
 			EncounterRole role = this.m_metadataUtil.getOrCreateEncounterRole(aut.getTypeCode());
@@ -352,7 +347,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 			if(existingOrder != null && this.m_configuration.getUpdateExisting())
 			{
 				Context.getOrderService().voidOrder(existingOrder, "Auto-Replaced");
-				previousOrder = existingOrder;
+				previousOrder = Context.getOrderService().getOrder(existingOrder.getId()); 
 			}
 			else if(existingOrder != null)
 				throw new DocumentImportException(String.format("Duplicate entry %s. If you intend to replace it please use the replacement mechanism for CDA", FormatterUtil.toWireFormat(statementIds)));

@@ -12,7 +12,6 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
-import org.openmrs.Obs;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.AllergySeverity;

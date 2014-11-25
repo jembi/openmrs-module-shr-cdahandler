@@ -23,43 +23,33 @@ import org.marc.everest.datatypes.TEL;
 import org.marc.everest.datatypes.TS;
 import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
-import org.marc.everest.datatypes.generic.CV;
 import org.marc.everest.datatypes.generic.RTO;
 import org.marc.everest.datatypes.generic.SET;
-import org.marc.everest.formatters.xml.datatypes.r1.util.PQFormatter;
 import org.marc.everest.interfaces.IEnumeratedVocabulary;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Author;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActPriority;
-import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.Drug;
 import org.openmrs.DrugOrder;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterRole;
 import org.openmrs.Obs;
 import org.openmrs.Order;
+import org.openmrs.Order.Urgency;
 import org.openmrs.Patient;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.Visit;
 import org.openmrs.VisitAttribute;
 import org.openmrs.VisitAttributeType;
-import org.openmrs.Order.Urgency;
-import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.activelist.Allergy;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.InvalidCustomValueException;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.obs.ComplexData;
-import org.openmrs.validator.ObsValidator;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 
 /**
  * Data utilities for OpenMRS
@@ -88,7 +78,7 @@ public final class OpenmrsDataUtil {
 
 	private static Object s_lockObject = new Object();
 	// Util classes
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	
 	

@@ -1,42 +1,30 @@
 package org.openmrs.module.shr.cdahandler.processor.entry.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.ST;
 import org.marc.everest.datatypes.doc.StructDocNode;
 import org.marc.everest.datatypes.generic.CD;
-import org.marc.everest.datatypes.generic.CE;
 import org.marc.everest.datatypes.generic.CS;
 import org.marc.everest.datatypes.generic.CV;
-import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.interfaces.IGraphable;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.EntryRelationship;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Observation;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Performer2;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Procedure;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Reference;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Section;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ActStatus;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.ObservationInterpretation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.ParticipationAuthorOriginator;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActMoodDocumentObservation;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipEntryRelationship;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActRelationshipExternalReference;
 import org.marc.everest.rmim.uv.cdar2.vocabulary.x_DocumentProcedureMood;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Concept;
-import org.openmrs.ConceptDatatype;
 import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.Order;
-import org.openmrs.Provider;
-import org.openmrs.TestOrder;
 import org.openmrs.Order.Action;
+import org.openmrs.Provider;
 import org.openmrs.api.OrderContext;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
@@ -45,7 +33,6 @@ import org.openmrs.module.shr.cdahandler.exception.DocumentPersistenceException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
-import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
 import org.openmrs.module.shr.cdahandler.processor.util.AssignedEntityProcessorUtil;
@@ -99,8 +86,7 @@ public abstract class ProcedureEntryProcessor extends EntryProcessorImpl {
 	 */
 	protected BaseOpenmrsData processIntent(Procedure procedure) throws DocumentImportException {
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
-		Obs parentObs = (Obs)this.getContext().getParsedObject();
-
+		
 		// Get current order and void if existing for an update
 		Order previousOrder = super.voidOrThrowIfPreviousOrderExists(procedure.getReference(), encounterInfo.getPatient(), procedure.getId());
 

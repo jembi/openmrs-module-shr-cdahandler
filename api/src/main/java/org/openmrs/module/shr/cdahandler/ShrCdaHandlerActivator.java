@@ -63,7 +63,7 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 		ContentHandlerService contentHandler = Context.getService(ContentHandlerService.class);
 		for(Map.Entry<String, String> formatTypeCode : this.m_formatTypeCodes.entrySet())
 		{
-			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "IHE Format Codes");
+			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "1.3.6.1.4.1.19376.1.2.3");
 			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), "LOINC");
 			try {
 				if(contentHandler.getContentHandler(typeCode, formatCode) == null)

@@ -30,6 +30,7 @@ import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -50,7 +51,7 @@ public final class DatatypeProcessorUtil {
 				if(s_instance == null) // Another thread might have created while we were waiting for a lock
 				{
 					s_instance = new DatatypeProcessorUtil();
-					s_instance.m_configuration = CdaHandlerConfiguration.getInstance();
+					s_instance.m_configuration = CdaHandlerConfigurationFactory.getInstance();
 					
 				}
 			}

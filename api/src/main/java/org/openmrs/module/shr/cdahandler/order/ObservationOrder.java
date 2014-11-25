@@ -2,7 +2,6 @@ package org.openmrs.module.shr.cdahandler.order;
 
 import org.openmrs.Concept;
 import org.openmrs.Order;
-import org.openmrs.TestOrder;
 import org.openmrs.module.shr.cdahandler.processor.util.OpenmrsMetadataUtil;
 
 /**

@@ -2,14 +2,8 @@ package org.openmrs.module.shr.cdahandler.contenthandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.stream.XMLStreamReader;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.logging.Log;
@@ -28,8 +22,6 @@ import org.openmrs.PatientIdentifier;
 import org.openmrs.Provider;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
-import org.openmrs.module.shr.cdahandler.CdaImporter;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.everest.EverestUtil;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
@@ -39,7 +31,6 @@ import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil
 import org.openmrs.module.shr.contenthandler.api.Content;
 import org.openmrs.module.shr.contenthandler.api.ContentHandler;
 import org.springframework.transaction.annotation.Transactional;
-import org.xml.sax.XMLReader;
 
 /**
  * Represents a content handler for CDA documents

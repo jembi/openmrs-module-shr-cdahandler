@@ -1,7 +1,5 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jfree.util.Log;
-import org.marc.everest.annotations.Structure;
 import org.marc.everest.datatypes.ANY;
 import org.marc.everest.datatypes.BL;
 import org.marc.everest.datatypes.CO;
@@ -41,7 +38,6 @@ import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptName;
 import org.openmrs.ConceptNumeric;
 import org.openmrs.ConceptReferenceTerm;
-import org.openmrs.ConceptSet;
 import org.openmrs.ConceptSource;
 import org.openmrs.Drug;
 import org.openmrs.api.ConceptService;
@@ -49,6 +45,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.util.OpenmrsConstants;
 
@@ -96,7 +93,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	private ConceptMapType m_sameAs = null;
 	
 	// Configuration and util instances
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 		
 	// pq Unit maps
 	private final Map<String, String> m_openMrsUcumUnitMaps = new HashMap<String,String>();
@@ -129,33 +126,36 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public void addAnswerToConcept(Concept questionConcept, Concept answerConcept) throws DocumentImportException {
 		
-		// Is the concept in the list of answers?
-		ConceptAnswer answer = null;
-		questionConcept = Context.getConceptService().getConcept(questionConcept.getConceptId());
-		for(ConceptAnswer ans : questionConcept.getAnswers())
+		if(this.m_configuration.getValidateConceptStructure())
 		{
-			log.debug(String.format("Existing Answer: %s for %s", ans.getId(), questionConcept));
-			if(ans.getConcept().getId().equals(answerConcept.getId()))
+			// Is the concept in the list of answers?
+			ConceptAnswer answer = null;
+			questionConcept = Context.getConceptService().getConcept(questionConcept.getConceptId());
+			for(ConceptAnswer ans : questionConcept.getAnswers())
 			{
-				answer = ans;
-				break;
+				log.debug(String.format("Existing Answer: %s for %s", ans.getId(), questionConcept));
+				if(ans.getConcept().getId().equals(answerConcept.getId()))
+				{
+					answer = ans;
+					break;
+				}
 			}
+			if(answer == null && this.m_configuration.getAutoCreateConcepts())
+			{
+				answer = new ConceptAnswer();
+				answer.setAnswerConcept(answerConcept);
+				answer.setConcept(questionConcept);
+				questionConcept.addAnswer(answer);
+				synchronized (s_lockObject) {
+					log.debug(String.format("Added answer %s to set %s", answerConcept, questionConcept));
+	
+					questionConcept = this.m_importService.saveConcept(questionConcept);
+	            }
+			}
+			else if(answer == null)
+				throw new DocumentImportException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", answerConcept, questionConcept));
+			// Set the value
 		}
-		if(answer == null && this.m_configuration.getAutoCreateConcepts())
-		{
-			answer = new ConceptAnswer();
-			answer.setAnswerConcept(answerConcept);
-			answer.setConcept(questionConcept);
-			questionConcept.addAnswer(answer);
-			synchronized (s_lockObject) {
-				log.debug(String.format("Added answer %s to set %s", answerConcept, questionConcept));
-
-				questionConcept = this.m_importService.saveConcept(questionConcept);
-            }
-		}
-		else if(answer == null)
-			throw new DocumentImportException(String.format("Cannot assign code %s to observation concept %s as it is not a valid value", answerConcept, questionConcept));
-		// Set the value    
 	}
 
 	/**
@@ -163,42 +163,44 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public void addConceptToSet(Concept setConcept, Concept concept) {
 
-		Boolean needsSave = false, 
-				hasMember = false; 
-		
-		// First is the setConcept already a set?
-		if(!setConcept.isSet() && this.m_configuration.getAutoCreateConcepts())
+		if(this.m_configuration.getValidateConceptStructure())
 		{
-			setConcept.setSet(true);
-			setConcept.setConceptClass(this.m_conceptService.getConceptClassByUuid(ConceptClass.CONVSET_UUID));
-			needsSave = true;
-		}
-		else if(!setConcept.isSet())
-			log.warn("Cannot convert Concept to a set!");
-		
-		// Now does the concept already exist in the set members?
-		for(Concept setMember : setConcept.getSetMembers())
-			if(setMember != null && setMember.getId().equals(concept.getId()))
+			Boolean needsSave = false, 
+					hasMember = false; 
+			
+			// First is the setConcept already a set?
+			if(!setConcept.isSet() && this.m_configuration.getAutoCreateConcepts())
 			{
-				hasMember = true;
-				break;
+				setConcept.setSet(true);
+				setConcept.setConceptClass(this.m_conceptService.getConceptClassByUuid(ConceptClass.CONVSET_UUID));
+				needsSave = true;
 			}
-		
-		if(!hasMember && this.m_configuration.getAutoCreateConcepts()) // Add to the set
-		{
-			setConcept.addSetMember(concept);
-			needsSave = true;
+			else if(!setConcept.isSet())
+				log.warn("Cannot convert Concept to a set!");
+			
+			// Now does the concept already exist in the set members?
+			for(Concept setMember : setConcept.getSetMembers())
+				if(setMember != null && setMember.getId().equals(concept.getId()))
+				{
+					hasMember = true;
+					break;
+				}
+			
+			if(!hasMember && this.m_configuration.getAutoCreateConcepts()) // Add to the set
+			{
+				setConcept.addSetMember(concept);
+				needsSave = true;
+			}
+			else if(!this.m_configuration.getAutoCreateConcepts())
+				log.warn("Cannot add concept to the specified concept set according to configuration rules");
+	
+			if(needsSave)
+				synchronized (s_lockObject) {
+					log.debug(String.format("Adding concept %s to set %s", concept, setConcept));
+	
+					setConcept = this.m_importService.saveConcept(setConcept);
+	            }
 		}
-		else if(!this.m_configuration.getAutoCreateConcepts())
-			log.warn("Cannot add concept to the specified concept set according to configuration rules");
-
-		if(needsSave)
-			synchronized (s_lockObject) {
-				log.debug(String.format("Adding concept %s to set %s", concept, setConcept));
-
-				setConcept = this.m_importService.saveConcept(setConcept);
-            }
-		
     }
 
 	/**
@@ -222,7 +224,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			throw new IllegalStateException("Cannot create concepts according to configuration policy");
 
 		log.debug("Enter: createConcept");
-		
+
 		ConceptReferenceTerm referenceTerm = this.getOrCreateReferenceTerm(code);
 		if(referenceTerm == null)
 			return null;
@@ -232,7 +234,6 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		String fullName = code.getDisplayName();
 		if(fullName == null)
 			fullName = code.getCode().toString();
-
 		
 		// Create the concept and set properties
 		Concept concept = new Concept();
@@ -264,7 +265,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		log.debug("Set core attributes of concept");
 		Locale locale = Context.getLocale();// new Locale("en");
 		concept.setFullySpecifiedName(new ConceptName(fullName, locale));
-		concept.addName(concept.getFullySpecifiedName(locale));
+		//if(code.getDisplayName() != null)
+		//	concept.addName(new ConceptName(code.getDisplayName(), locale));
 		concept.setPreferredName(concept.getFullySpecifiedName(locale));
 		concept.setShortName(new ConceptName(code.getCode().toString(), Context.getLocale()));
 		concept.setVersion(code.getCodeSystemVersion());
@@ -273,9 +275,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		
 		// Assign the datatype
 		concept.setDatatype(dataType);
-
 		// Does a concept exist with the exact same name?
-		Concept existingConcept = this.m_conceptService.getConceptByName(fullName);
+		Concept existingConcept = this.m_conceptService.getConcept(fullName);
 		if(existingConcept != null)
 		{
 			log.debug("Duplicate concept name found, renaming");
@@ -288,6 +289,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		ConceptMap conceptMap = new ConceptMap(referenceTerm, mapType);
 		conceptMap.setConcept(concept);
 		concept.addConceptMapping(conceptMap);
+
 
 		// Save concept
 		synchronized (s_lockObject) {
@@ -304,6 +306,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	 */
 	public List<Concept> createEnumeratedVocabularyConcepts(Class<? extends IEnumeratedVocabulary> enumeratedVocabularySource, String codeSystemOid, ANY valueToCarry) {
 
+		/*
 		if(!this.m_configuration.getAutoCreateConcepts())
 			throw new IllegalStateException("Cannot create concepts according to configuration");
 		
@@ -326,8 +329,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
                     }
 				}
 		}
-		
-		return retVal;
+*/		
+		return new ArrayList<Concept>();
     }
 	
 	/**

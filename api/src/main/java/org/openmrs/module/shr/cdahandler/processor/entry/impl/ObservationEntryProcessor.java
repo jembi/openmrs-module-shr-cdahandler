@@ -275,7 +275,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		res.setLocation(encounterInfo.getLocation());
 		res.setDateCreated(encounterInfo.getDateCreated());
 		res.setEncounter(encounterInfo);
-		
+		//encounterInfo.addObs(res);
 		
 		if(observation.getId() != null && !observation.getId().isNull())
 			res.setAccessionNumber(this.m_datatypeUtil.formatIdentifier(observation.getId().get(0)));
@@ -391,9 +391,9 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Is this really an indicator that is enabled?
 		if(BL.FALSE.equals(observation.getValue()) || BL.TRUE.equals(observation.getNegationInd()))
 		{
-			Obs sub = this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(1729), Context.getConceptService().getConcept(Integer.valueOf(Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_FALSE_CONCEPT))));
+			Obs sub = this.m_dataUtil.addSubObservationValue(res, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_SIGN_SYMPTOM_PRESENT), Context.getConceptService().getConcept(Integer.valueOf(Context.getAdministrationService().getGlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_FALSE_CONCEPT))));
 			sub.setObsGroup(res);
-			Context.getObsService().saveObs(sub, null);
+			//Context.getObsService().saveObs(sub, null);
 		}
 		
 		// Method
@@ -402,7 +402,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			{
 				Obs sub = this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_METHOD, methodCode), methodCode);
 				sub.setObsGroup(res);
-				Context.getObsService().saveObs(sub, null);
+				//Context.getObsService().saveObs(sub, null);
 			}
 
 		// References
@@ -416,9 +416,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 					this.m_dataUtil.addSubObservationValue(res, this.m_conceptUtil.getOrCreateRMIMConcept(CdaHandlerConstants.RMIM_CONCEPT_UUID_REFERENCE, new ST()), this.m_datatypeUtil.formatIdentifier(ref.getExternalActChoiceIfExternalDocument().getId().get(0)));
 			}
 		}
+		
 		// Process any components
 		ProcessorContext childContext = new ProcessorContext(observation, res, this);
 		super.processEntryRelationships(observation, childContext);
+		
 		
 		return res;
 	}

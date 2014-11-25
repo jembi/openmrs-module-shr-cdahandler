@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.formatters.FormatterUtil;
 import org.marc.everest.rmim.uv.cdar2.rim.InfrastructureRoot;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.processor.Processor;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.GenericDocumentProcessor;
@@ -39,7 +40,7 @@ public final class DocumentProcessorFactory implements ProcessorFactory {
 	// Log
 	private final Log log = LogFactory.getLog(this.getClass());
 	
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	
 	/**
 	 * Constructs a document parser factory

@@ -1,8 +1,5 @@
 package org.openmrs.module.shr.cdahandler;
 
-import java.util.UUID;
-
-import org.marc.everest.datatypes.II;
 
 
 /**

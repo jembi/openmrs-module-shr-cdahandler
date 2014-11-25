@@ -17,6 +17,7 @@ import org.openmrs.Relationship;
 import org.openmrs.RelationshipType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -45,7 +46,7 @@ public final class PersonProcessorUtil {
 	
 	private static Object s_lockObject = new Object();
 	// Auto create providers
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	
 	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();

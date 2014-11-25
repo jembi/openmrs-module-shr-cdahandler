@@ -15,6 +15,7 @@ import org.openmrs.LocationAttribute;
 import org.openmrs.PersonAddress;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -41,7 +42,7 @@ public final class LocationOrganizationProcessorUtil {
 
 	private static Object s_lockObject = new Object();
 	// Utility classes
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
 
 
@@ -139,6 +140,10 @@ public final class LocationOrganizationProcessorUtil {
 	 */
 	private void parseAddressParts(AD addr, Location target) throws DocumentImportException {
 
+		// Empty
+		if(addr.getPart().size() == 0)
+			return;
+		
 		// Create a person address and then copy
 		PersonAddress personAddress = this.m_datatypeUtil.parseAD(addr);
 		target.setAddress1(personAddress.getAddress1());

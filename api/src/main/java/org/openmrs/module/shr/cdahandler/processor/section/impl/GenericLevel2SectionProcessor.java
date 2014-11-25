@@ -11,6 +11,7 @@ import org.openmrs.Encounter;
 import org.openmrs.Obs;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -29,7 +30,7 @@ public class GenericLevel2SectionProcessor extends SectionProcessorImpl {
 	// Get the processor utils
 	protected final DatatypeProcessorUtil m_datatypeProcessorUtil = DatatypeProcessorUtil.getInstance();
 	protected final OpenmrsConceptUtil m_openmrsConceptUtil = OpenmrsConceptUtil.getInstance();
-	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 	
 	/**
 	 * Gets a list of Expected code (anything for generic)

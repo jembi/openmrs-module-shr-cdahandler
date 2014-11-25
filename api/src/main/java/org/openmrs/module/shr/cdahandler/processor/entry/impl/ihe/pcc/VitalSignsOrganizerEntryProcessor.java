@@ -4,13 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.marc.everest.datatypes.generic.CE;
-import org.marc.everest.interfaces.IGraphable;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalStatement;
-import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.Organizer;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActClassDocumentEntryAct;
-import org.marc.everest.rmim.uv.cdar2.vocabulary.x_ActClassDocumentEntryOrganizer;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
-import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.annotation.ProcessTemplates;
 import org.openmrs.module.shr.cdahandler.processor.entry.impl.OrganizerEntryProcessor;
 

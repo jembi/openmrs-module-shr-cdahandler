@@ -31,10 +31,10 @@
 			<addr use="HP">
 				<!--HITSP/C83 recommends that a patient have at least one address element 
 					with a use attribute of HP, i.e. home primary -->
-				None of the following address elements are specifically required by
+				<!-- None of the following address elements are specifically required by
 				HITSP C32, so the address could be be just plain text at this
 				location? Use of one or more of the following labeled address lines,
-				with meaningful content, is recommended.
+				with meaningful content, is recommended.-->
 				<streetAddressLine>First Address Line</streetAddressLine>
 				<streetAddressLine>Next Address line - if needed, etc.
 				</streetAddressLine>

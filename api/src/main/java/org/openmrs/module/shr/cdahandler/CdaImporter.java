@@ -1,23 +1,12 @@
 package org.openmrs.module.shr.cdahandler;
 
-import java.io.InputStream;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.marc.everest.formatters.interfaces.IFormatterParseResult;
-import org.marc.everest.formatters.xml.datatypes.r1.DatatypeFormatter;
-import org.marc.everest.formatters.xml.datatypes.r1.R1FormatterCompatibilityMode;
-import org.marc.everest.formatters.xml.its1.XmlIts1Formatter;
-import org.marc.everest.interfaces.IResultDetail;
-import org.marc.everest.interfaces.ResultDetailType;
-import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.everest.EverestUtil;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
-import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
-import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.ClasspathScannerUtil;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.DocumentProcessorFactory;
@@ -53,7 +42,7 @@ public final class CdaImporter {
 	private static Object s_lockObject = new Object();
 	
 	// Configuration
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
 
 	/**
 	 * CDA processor constructor
