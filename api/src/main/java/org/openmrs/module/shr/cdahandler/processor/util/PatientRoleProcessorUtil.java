@@ -228,6 +228,9 @@ public final class PatientRoleProcessorUtil {
 						if(!hasName)
 							res.addName(name);
 					}
+				
+			if(res.getNames().size() == 0)
+				res.getNames().add(new PersonName("*", null, "*"));
 			
 			// Set gender if a current gender is unknown
 			if(res.getGender() == null)

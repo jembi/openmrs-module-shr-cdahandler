@@ -44,6 +44,7 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 				put("urn:ihe:pcc:ape:2008", "34895-3");
 				put("urn:ihe:pcc:lds:2009", "57057-2");
 				put("urn:ihe:pcc:mds:2009", "57058-0");
+				put("urn:ihe:pcc:ic:2009", "11369-6");
 			}};
 	
 
