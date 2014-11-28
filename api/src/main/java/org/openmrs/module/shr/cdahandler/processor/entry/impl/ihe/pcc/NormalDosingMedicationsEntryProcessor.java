@@ -25,6 +25,10 @@ public class NormalDosingMedicationsEntryProcessor extends MedicationsEntryProce
 	    
 	    SubstanceAdministration administration = (SubstanceAdministration)object;
 	    
+	    // Uknown
+	    if(administration.getCode() != null && "182904002".equals(administration.getCode().getCode()))
+	    	return issues;
+	    
 	    // Must only have one frequency and dose with no subordinate substanceAdministration acts
 	    if(administration.getEffectiveTime().size() != 2)
 	    	issues.error("Normal dosing must only carry two repetitions of effectiveTime for date/time of administration and frequency");

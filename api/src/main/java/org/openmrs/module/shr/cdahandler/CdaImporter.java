@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Visit;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.document.DocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.factory.impl.ClasspathScannerUtil;
@@ -42,7 +41,7 @@ public final class CdaImporter {
 	private static Object s_lockObject = new Object();
 	
 	// Configuration
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 
 	/**
 	 * CDA processor constructor

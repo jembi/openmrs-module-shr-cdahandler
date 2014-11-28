@@ -47,7 +47,7 @@ public final class ClasspathScannerUtil {
 		@Override
         public boolean match(II arg0) {
 			for(II id : this.m_sourceTemplateIdList)
-				if(id.semanticEquals(arg0).toBoolean())
+				if(id.getRoot().equals(arg0.getRoot()))
 					return true; 
 			return false;
         }
@@ -116,7 +116,6 @@ public final class ClasspathScannerUtil {
 		for(Entry<Class<Processor>, LIST<II>> entry : this.m_processors.entrySet())
 		{
 			int noTemplatesHandled = entry.getValue().findAll(matcher).size();
-			
 			if(noTemplatesHandled > 0 && (bestMatch == null || bestMatch.isAssignableFrom(entry.getKey()))) 
 			{
 				// Is the current proposed processor better (a subclass) of the current?
@@ -148,33 +147,44 @@ public final class ClasspathScannerUtil {
 		classPathScanner.addIncludeFilter(new AnnotationTypeFilter(ProcessTemplates.class));
 	
 		this.m_processors = new HashMap<Class<Processor>, LIST<II>>();
-		
+		log.info("Scanning for processors");
 		// scan in org.openmrs.module.RegenstriefHl7Adapter.preprocessorHandler package
 		Set<BeanDefinition> components = classPathScanner.findCandidateComponents("org.openmrs.module.shr.cdahandler.processor");
 		for (BeanDefinition component : components) {
 			try {
 				Class<?> cls = Class.forName(component.getBeanClassName());
-				// Appears not to be a processor
-				if(!Processor.class.isAssignableFrom(cls))
-					continue;
+				this.registerProcessor(cls);
 				
-				// Get the annotation for the process templates
-				ProcessTemplates processAnnotation = cls.getAnnotation(ProcessTemplates.class);
-				if(processAnnotation == null) // skip if no templates registered
-					continue;
-				
-				// Get the templates and add them to the  
-				LIST<II> templateIds = new LIST<II>();
-				for(String id : processAnnotation.templateIds())
-					templateIds.add(new II(id));
-				
-				// Add to the processor list
-				this.m_processors.put((Class<Processor>)cls, templateIds);
 			}
 			catch (ClassNotFoundException e) {
 				log.error(e.getMessage(), e);
 			}
 		}
+	}
+
+	/**
+	 * Manually register a processor
+	 */
+	public void registerProcessor(Class<?> cls) {
+		// Appears not to be a processor
+		if(!Processor.class.isAssignableFrom(cls))
+			return;
+		
+		// Get the annotation for the process templates
+		ProcessTemplates processAnnotation = cls.getAnnotation(ProcessTemplates.class);
+		if(processAnnotation == null) // skip if no templates registered
+			return;
+		
+		// Get the templates and add them to the  
+		LIST<II> templateIds = new LIST<II>();
+		for(String id : processAnnotation.templateIds())
+		{
+			templateIds.add(new II(id));
+			log.info("Routing " + id + " to " + cls.getName());
+		}
+		// Add to the processor list
+		if(!this.m_processors.containsKey(cls))
+			this.m_processors.put((Class<Processor>)cls, templateIds);
 	}
 	
 }

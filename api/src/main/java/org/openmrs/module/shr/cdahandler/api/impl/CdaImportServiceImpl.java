@@ -14,6 +14,7 @@
 package org.openmrs.module.shr.cdahandler.api.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -266,6 +267,26 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	@Override
     public ConceptSource getConceptSourceByHl7(String hl7) {
 		return this.dao.getConceptSourceByHl7(hl7);
+    }
+
+	/**
+	 * Get concept by mapping
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getConceptsByMapping(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+    public List<Concept> getConceptsByMapping(ConceptReferenceTerm term, String strength) {
+		List<Concept> terms = Context.getConceptService().getConceptsByMapping(term.getCode(), term.getConceptSource().getName()),
+				retVal = new ArrayList<Concept>();
+		
+		for(Concept concept : terms)
+		{
+			for(ConceptMap map : concept.getConceptMappings())
+				if(map.getConceptReferenceTerm().getId().equals(term.getId()) &&
+						map.getConceptMapType().getName().toLowerCase().equals(strength.toLowerCase()))
+					retVal.add(concept);
+		}
+		
+		return retVal;
     }
 
 

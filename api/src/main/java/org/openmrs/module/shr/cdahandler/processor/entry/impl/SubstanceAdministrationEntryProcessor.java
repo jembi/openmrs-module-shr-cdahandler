@@ -108,6 +108,10 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 	 */
 	protected ExtendedObs createSubstanceAdministrationObs(SubstanceAdministration administration, Concept obsConcept, Concept drugObsConcept) throws DocumentImportException {
 
+		// Unknown 
+		if(administration.getCode() != null && "182904002".equals(administration.getCode().getCode()))
+			return null;
+		
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
 		Obs parentObs = (Obs)this.getContext().getParsedObject();
 		
@@ -169,9 +173,16 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 		// Text and comments
 		if(administration.getText() != null && administration.getText().getReference() != null)
 		{
+		
 			StructDocNode textNode = parentSection.getText().findNodeById(administration.getText().getReference().getValue());
 			if(textNode != null)
-				this.m_dataUtil.addSubObservationValue(medicationHistoryObs, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_TEXT), textNode.toPlainString());
+			{
+				
+				String textStr = textNode.toPlainString();
+				if(textStr.length() > 254)
+					textStr = textStr.substring(0, 254);
+				medicationHistoryObs.setComment(textStr);
+			}
 		}
 		
 		// Instructions as a sub-observation

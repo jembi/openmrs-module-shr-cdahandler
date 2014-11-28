@@ -46,10 +46,10 @@ import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.InvalidCustomValueException;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.obs.ComplexData;
+import org.openmrs.validator.ObsValidator;
 
 /**
  * Data utilities for OpenMRS
@@ -78,7 +78,7 @@ public final class OpenmrsDataUtil {
 
 	private static Object s_lockObject = new Object();
 	// Util classes
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	private final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	
 	
@@ -147,9 +147,11 @@ public final class OpenmrsDataUtil {
 	 */
 	public Obs setObsValue(Obs observation, ANY value) throws DocumentImportException
 	{
+		
 		// TODO: PQ should technically be a numeric with unit ... hmm...
 		if(value instanceof PQ)
 		{
+			
 			PQ pqValue = (PQ)value;
 			ConceptNumeric conceptNumeric = Context.getConceptService().getConceptNumeric(observation.getConcept().getId());
 			String conceptUnits = this.m_conceptUtil.getUcumUnitCode(conceptNumeric);
@@ -355,9 +357,11 @@ public final class OpenmrsDataUtil {
 	public Obs addSubObservationValue(Obs parentObs, Concept obsConcept, Object value) throws DocumentImportException {
 		
 		Obs res = this.createSubObservationValue(parentObs, obsConcept, value);
+		//Context.getObsService().saveObs(res, null);
 		parentObs.addGroupMember(res);
 		//res.setObsGroup(parentObs);
 		//res = Context.getObsService().saveObs(res, null);
+		
 		return res;
     }
 

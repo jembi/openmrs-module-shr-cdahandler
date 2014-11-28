@@ -17,7 +17,8 @@ import org.openmrs.module.shr.cdahandler.processor.document.impl.DocumentProcess
  */
 @ProcessTemplates
 ( templateIds = {
-		CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS
+		CdaHandlerConstants.DOC_TEMPLATE_MEDICAL_DOCUMENTS,
+		CdaHandlerConstants.DOC_TEMPLATE_CCD_PLUS
 })
 public class MedicalDocumentsDocumentProcessor extends DocumentProcessorImpl {
 

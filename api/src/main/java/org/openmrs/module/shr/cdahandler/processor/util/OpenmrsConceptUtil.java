@@ -45,7 +45,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.util.OpenmrsConstants;
 
@@ -93,7 +92,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	private ConceptMapType m_sameAs = null;
 	
 	// Configuration and util instances
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 		
 	// pq Unit maps
 	private final Map<String, String> m_openMrsUcumUnitMaps = new HashMap<String,String>();
@@ -133,8 +132,8 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			questionConcept = Context.getConceptService().getConcept(questionConcept.getConceptId());
 			for(ConceptAnswer ans : questionConcept.getAnswers())
 			{
-				log.debug(String.format("Existing Answer: %s for %s", ans.getId(), questionConcept));
-				if(ans.getConcept().getId().equals(answerConcept.getId()))
+				log.debug(String.format("Existing Answer: %s for %s", ans.getAnswerConcept().getId(), questionConcept));
+				if(ans.getAnswerConcept().getId().equals(answerConcept.getId()))
 				{
 					answer = ans;
 					break;
@@ -427,16 +426,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	{
 		log.debug("Enter: getConcepts");
 
-		List<Concept> concept = new ArrayList<Concept>();
-		// First, attempt to get the ConceptSource from the CodeSystem
-		if(code.getCodeSystem() != null)
-		{
-			ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
-			
-			if(code.getCode() != null)
-				concept = this.m_conceptService.getConceptsByMapping(code.getCode().toString(), conceptSource.getName());
-		}
-		
+		List<Concept> concept = this.m_importService.getConceptsByMapping(this.getOrCreateReferenceTerm(code), "SAME-AS");
+		if(concept == null || concept.size() == 0)
+			concept = this.m_importService.getConceptsByMapping(this.getOrCreateReferenceTerm(code), "NARROWER-THAN");
 		log.debug("Exit : getConcepts");
 		
 		return concept;
@@ -608,7 +600,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		Concept drugConcept = null;
 		drugConcept = this.getOrCreateDrugConcept(drugCode);
 		
-		if(drugConcept == null) // Find by a name? Maybe?
+		if(drugConcept == null && name != null) // Find by a name? Maybe?
 			drugConcept = this.m_conceptService.getConcept(name.toString());
 		
 		// HACK: Fallback
@@ -617,7 +609,10 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			// Create the concept and set properties
 			drugConcept = new Concept();
 			Locale locale = Context.getLocale();// new Locale("en");
-			drugConcept.setFullySpecifiedName(new ConceptName(name.toString(), locale));
+			if(name != null)
+				drugConcept.setFullySpecifiedName(new ConceptName(name.toString(), locale));
+			else
+				drugConcept.setFullySpecifiedName(new ConceptName(drugCode.getDisplayName(), locale));
 			drugConcept.addName(drugConcept.getFullySpecifiedName(locale));
 			drugConcept.setPreferredName(drugConcept.getFullySpecifiedName(locale));
 			drugConcept.setConceptClass(this.m_conceptService.getConceptClassByUuid(ConceptClass.DRUG_UUID));

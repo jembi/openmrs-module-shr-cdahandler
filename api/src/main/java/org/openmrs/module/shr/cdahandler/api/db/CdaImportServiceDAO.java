@@ -3,6 +3,7 @@ package org.openmrs.module.shr.cdahandler.api.db;
 import java.util.List;
 
 import org.openmrs.Concept;
+import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
@@ -54,4 +55,6 @@ public interface CdaImportServiceDAO {
 	 * Get concept source by HL7
 	 */
 	ConceptSource getConceptSourceByHl7(String hl7);
+
+	
 }

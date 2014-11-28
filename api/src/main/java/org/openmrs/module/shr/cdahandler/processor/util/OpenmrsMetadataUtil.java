@@ -25,7 +25,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.attribute.BaseAttributeType;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.order.ObservationOrder;
 import org.openmrs.module.shr.cdahandler.order.ProcedureOrder;
@@ -61,7 +60,7 @@ public class OpenmrsMetadataUtil {
 	private static Object s_lockObject = new Object();
 	
 	// Auto create encounter roles
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	
 	/**
 	 * Private ctor

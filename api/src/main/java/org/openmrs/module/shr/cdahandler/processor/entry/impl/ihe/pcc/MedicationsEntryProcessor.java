@@ -298,6 +298,13 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 	@Override
 	protected BaseOpenmrsData processAdministrationAsObservation(SubstanceAdministration administration) throws DocumentImportException
 	{
+		
+		// Canot process this
+		if(administration != null &&
+				administration.getCode() != null && 
+				"182904002".equals(administration.getCode().getCode()))
+			return null;
+		
 		ExtendedObs medicationHistoryObs = super.createSubstanceAdministrationObs(administration, Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_HISTORY), Context.getConceptService().getConcept(CdaHandlerConstants.CONCEPT_ID_MEDICATION_DRUG));
 		
 		// Effective time(s)
@@ -392,11 +399,13 @@ public class MedicationsEntryProcessor extends SubstanceAdministrationEntryProce
 		// Is the context inside another substance administration? If yes then we relax the rules a little
 		if(this.getContext().getParent().getRawObject() instanceof SubstanceAdministration)
 		{
-
 			// TODO: Validation of this condition... 
 		}
 		else
 		{
+			// No validation on unknown
+			if(sbadm.getCode() != null && "182904002".equals(sbadm.getCode().getCode()))
+				return validationIssues;
 			if(sbadm.getEffectiveTime().size() < 2)
 				validationIssues.error("Medications section shall have at minimum two effectiveTime elements representing the date and frequency of administration");
 			if(sbadm.getDoseQuantity() == null || sbadm.getDoseQuantity().isNull())

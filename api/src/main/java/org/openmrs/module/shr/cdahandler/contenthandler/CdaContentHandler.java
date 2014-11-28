@@ -90,12 +90,9 @@ public class CdaContentHandler implements ContentHandler {
 			// HACK: Handle the BOM or Java String Problems
 			int offset = 0;
 			byte[] data = content.getRawData();
-			if(data[0] == 0x3F) 
-				offset = 1;
-			else if(data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) // UTF-8 BOM
-				offset = 3;
-			else if((data[0] == 0xFF && data[1] == 0xFE) || (data[0] == 0xFE || data[1] == 0xFF))
-				offset = 2;
+			while(data[offset] != '<')
+				offset++;
+
 			log.info(new String(data, offset, data.length - offset));
 
 			// Process the content

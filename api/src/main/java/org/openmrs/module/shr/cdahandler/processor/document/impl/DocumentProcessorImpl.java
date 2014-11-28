@@ -43,7 +43,6 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
@@ -83,7 +82,7 @@ public abstract class DocumentProcessorImpl implements DocumentProcessor {
 	protected final PatientRoleProcessorUtil m_patientRoleProcessorUtil = PatientRoleProcessorUtil.getInstance();
 	protected final PersonProcessorUtil m_personProcessorUtil = PersonProcessorUtil.getInstance();
 	protected final LocationOrganizationProcessorUtil m_locationOrganizationProcessorUtil = LocationOrganizationProcessorUtil.getInstance();
-	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	protected final OpenmrsDataUtil m_openmrsDataUtil = OpenmrsDataUtil.getInstance();
 
 

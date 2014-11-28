@@ -42,7 +42,7 @@ public class AdvanceDirectiveObservationEntryProcessor extends SimpleObservation
 	    	Observation obs = (Observation)object;
 	    	if(obs.getCode() == null || 
 	    			!CdaHandlerConstants.CODE_SYSTEM_SNOMED.equals(obs.getCode().getCodeSystem()) &&
-	    			!obs.getCode().getCode().equals("xx-bld-transf-ok"))
+	    			!obs.getCode().getCode().equals("(xx-bld-transf-ok)"))
 	    		issues.error("Advance directive observation 'code' element must be drawn from SNOMED-CT or must be xx-bld-transf-ok");
 	    		
 	    	if("71388002".equals(obs.getCode().getCode()))

@@ -385,6 +385,10 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 			res.setObsRepeatNumber(observation.getRepeatNumber().getValue().toInteger());
 
 		// Get entry value
+		// HACK! This will be removed once I have OpenMRS' validation code nuetered 
+		if(value.isNull())
+			return null;
+		
 		res = (ExtendedObs)this.m_dataUtil.setObsValue(res, value);
 		Context.getObsService().saveObs(res, null);
 		

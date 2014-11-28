@@ -23,7 +23,6 @@ import org.openmrs.PersonAttributeType;
 import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -54,7 +53,7 @@ public final class PatientRoleProcessorUtil {
 	
 	private static Object s_lockObject = new Object();
 	// Configuration and util instances
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	private final OpenmrsMetadataUtil m_metadataUtil = OpenmrsMetadataUtil.getInstance();
 	private final LocationOrganizationProcessorUtil m_locationUtil = LocationOrganizationProcessorUtil.getInstance();

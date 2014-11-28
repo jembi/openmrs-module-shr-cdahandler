@@ -86,7 +86,7 @@ public class AllergiesAndIntolerancesEntryProcessor extends SimpleObservationEnt
 		
 		Observation observation = (Observation)object;
 		if(observation.getNegationInd() != null && !observation.getNegationInd().equals(BL.FALSE))
-			validationIssues.error("Negation on Allergy is not supported");
+			validationIssues.warn("Negation on Allergy is not supported");
 		if(observation.getCode() == null || observation.getCode().isNull() ||
 				!observation.getCode().getCodeSystem().equals(CdaHandlerConstants.CODE_SYSTEM_ACT_CODE) ||
 				!s_allowedTypes.contains(observation.getCode().getCode()))

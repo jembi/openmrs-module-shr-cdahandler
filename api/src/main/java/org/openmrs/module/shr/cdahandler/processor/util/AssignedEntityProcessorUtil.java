@@ -11,11 +11,11 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.AssignedEntity;
 import org.openmrs.Location;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
+import org.openmrs.PersonName;
 import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -43,7 +43,7 @@ public final class AssignedEntityProcessorUtil {
 	private static AssignedEntityProcessorUtil s_instance;
 	
 	private static Object s_lockObject = new Object();
-	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	private final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	private final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	private final OpenmrsMetadataUtil m_metaDataUtil = OpenmrsMetadataUtil.getInstance();
 	
@@ -70,15 +70,23 @@ public final class AssignedEntityProcessorUtil {
 			throw new IllegalStateException("Cannot auto-create providers according to current global properties");
 
 		// Create provider
-		return this.createProvider(new AssignedEntity(
-			aa.getId(),
-			aa.getCode(),
-			aa.getAddr(),
-			aa.getTelecom(),
-			aa.getAssignedAuthorChoiceIfAssignedPerson(),
-			aa.getRepresentedOrganization()
-			), id);
-		
+		if(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice() != null)
+		{
+			Provider p = new Provider();
+			p.setIdentifier(id);
+			p.setName(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice().getSoftwareName().getValue());
+			return Context.getProviderService().saveProvider(p);
+		}
+		else
+			return this.createProvider(new AssignedEntity(
+				aa.getId(),
+				aa.getCode(),
+				aa.getAddr(),
+				aa.getTelecom(),
+				aa.getAssignedAuthorChoiceIfAssignedPerson(),
+				aa.getRepresentedOrganization()
+				), id);
+
 	}
 	
 	/**
@@ -97,6 +105,8 @@ public final class AssignedEntityProcessorUtil {
 		Provider res = new Provider();
 		
 		res.setIdentifier(id);
+
+		
 		if(assignedEntity.getAssignedPerson() != null )
 			res.setPerson(this.m_personUtil.createPerson(assignedEntity.getAssignedPerson()));
 
@@ -175,7 +185,14 @@ public final class AssignedEntityProcessorUtil {
 		// Anyways, for now represent in the standard ITI guidance for II data type
 		String id = this.m_datatypeUtil.emptyIdString();
 		if(this.m_configuration.getEpidRoot() == "" || this.m_configuration.getEpidRoot().isEmpty())
-			id = this.m_datatypeUtil.formatIdentifier(aut.getId().get(0));
+		{
+			for(II autId : aut.getId())
+				if(autId.getRoot() != null)
+				{
+					id = this.m_datatypeUtil.formatIdentifier(autId);
+					break;
+				}
+		}
 		else 
 		{
 			for(II autId : aut.getId())
@@ -183,7 +200,7 @@ public final class AssignedEntityProcessorUtil {
 					id = this.m_datatypeUtil.formatIdentifier(autId);
 		}
 		Provider res = null;
-		
+		 
 		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
 			throw new DocumentImportException("No data specified for author id");
 		else 				

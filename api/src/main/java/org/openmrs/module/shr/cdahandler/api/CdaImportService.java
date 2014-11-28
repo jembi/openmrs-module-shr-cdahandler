@@ -100,5 +100,10 @@ public interface CdaImportService extends OpenmrsService {
 	 */
 	ConceptSource getConceptSourceByHl7(String hl7);
 
+	/**
+	 * Get concepts by mapping with specified relation
+	 */
+	List<Concept> getConceptsByMapping(ConceptReferenceTerm term, String strength);
+
 
 }

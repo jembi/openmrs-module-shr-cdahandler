@@ -30,7 +30,6 @@ import org.openmrs.PersonName;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 
 /**
@@ -51,7 +50,7 @@ public final class DatatypeProcessorUtil {
 				if(s_instance == null) // Another thread might have created while we were waiting for a lock
 				{
 					s_instance = new DatatypeProcessorUtil();
-					s_instance.m_configuration = CdaHandlerConfigurationFactory.getInstance();
+					s_instance.m_configuration = CdaHandlerConfiguration.getInstance();
 					
 				}
 			}
@@ -119,16 +118,22 @@ public final class DatatypeProcessorUtil {
 							traversalsToCopy.contains(sourceContext.getPropertyAnnotation().name()) &&
 							sourceContext.getPropertyAnnotation().name().equals(destinationContext.getPropertyAnnotation().name()));
 				
-				// If properties found the cascade 
+				// If properties found then cascade 
 				if(shouldCopy)
-		                destinationContext.getSetterMethod().invoke(destination, m.invoke(source, null));
+				{
+					Object destObj = m.invoke(source, null);
+					if(destinationContext.getSetterMethod().getParameterTypes()[0].isAssignableFrom(destObj.getClass()))
+						destinationContext.getSetterMethod().invoke(destination, destObj);
+				}
+			
+		                
             }
 			catch(NoSuchMethodException e)
 			{
 				
 			}
             catch (Exception e) {
-                throw new DocumentImportException("Could not cascade property values", e);
+                //throw new DocumentImportException("Could not cascade property values", e);
             }
 		}
 			

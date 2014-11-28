@@ -6,8 +6,12 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.jfree.util.Log;
 import org.openmrs.Concept;
+import org.openmrs.ConceptMap;
+import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
@@ -121,4 +125,5 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 				.add(Restrictions.eq("hl7Code", hl7));
 		return (ConceptSource)crit.uniqueResult();
 	}
+
 }

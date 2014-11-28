@@ -29,7 +29,6 @@ import org.openmrs.Provider;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationFactory;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.context.ProcessorContext;
@@ -53,7 +52,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 	protected ProcessorContext m_context;
 
 	// The Configuration and datatype utility
-	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfigurationFactory.getInstance();
+	protected final CdaHandlerConfiguration m_configuration = CdaHandlerConfiguration.getInstance();
 	protected final DatatypeProcessorUtil m_datatypeUtil = DatatypeProcessorUtil.getInstance();
 	protected final OpenmrsConceptUtil m_conceptUtil = OpenmrsConceptUtil.getInstance();
 	protected final OpenmrsDataUtil m_dataUtil = OpenmrsDataUtil.getInstance();
@@ -176,7 +175,7 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 
 		// Created by different?
 		Encounter encounterInfo = (Encounter)this.getEncounterContext().getParsedObject();
-		if(statement.getAuthor().size() == 1)
+		if(statement.getAuthor().size() == 1 && statement.getAuthor().get(0).getAssignedAuthor() != null)
 		{
 			AssignedAuthor headerAuthor = this.findAuthorFromHeader(statement.getAuthor().get(0).getAssignedAuthor().getId());
 			// Get the provider

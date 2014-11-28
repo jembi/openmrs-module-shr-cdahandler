@@ -23,7 +23,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.api.impl.test.util.CdaDocumentCreatorUtil;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfigurationImpl;
+import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumSummaryDocumentProcessor;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
@@ -41,7 +41,7 @@ public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSen
 	public void beforeEachTest() throws Exception {
 
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
-		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfigurationImpl.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
+		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
 		executeDataSet(CIEL_LIST_INITIAL_XML);
