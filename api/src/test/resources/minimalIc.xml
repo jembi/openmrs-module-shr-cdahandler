@@ -1,0 +1,138 @@
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" classCode="DOCCLIN" moodCode="EVN" xmlns="urn:hl7-org:v3">
+  <realmCode code="UV" />
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.18.1.2" />
+  <id root="B823FAEC-F626-44C6-944D-B8755DA73665" />
+  <code code="11369-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="HISTORY OF IMMUNIZATIONS" />
+  <title language="en-US">Immunization History</title>
+  <effectiveTime value="20141126194551.678-0500" />
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" displayName="normal" />
+  <languageCode code="en-US" />
+  <recordTarget typeCode="RCT" contextControlCode="OP">
+    <patientRole classCode="PAT">
+      <id root="1.3.6.1.4.1.33349.3.1.3.201203.2.0.0" extension="117" />
+      <addr nullFlavor="NI" />
+      <patient classCode="PSN" determinerCode="INSTANCE">
+        <name nullFlavor="NI" />
+        <administrativeGenderCode code="M" />
+        <birthTime value="20140810" />
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author typeCode="AUT" contextControlCode="AP">
+    <time value="20141126194551.697-0500" />
+    <assignedAuthor classCode="ASSIGNED">
+      <id root="1.3.6.1.4.1.21367.2009.1.2.203" extension="+12894568705" />
+      <addr nullFlavor="NI" />
+      <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+        <name>Justin</name>
+      </assignedPerson>
+      <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+        <id root="6CAEA84D-A711-4BA1-8B02-A332AE130DF8" />
+        <name>SMSGATEWAY</name>
+      </representedOrganization>
+    </assignedAuthor>
+  </author>
+  <custodian typeCode="CST">
+    <assignedCustodian classCode="ASSIGNED">
+      <representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+        <id root="1.2.3.4.5.6.76.5.3.3.3443" extension="EHRVIEWER" />
+        <name>EHR VIEWER</name>
+        <telecom value="http://localhost:49707/SimpleSmsTwilio/IncomingMessage?from=+12894568705&amp;to=403-201-2044&amp;body=1" />
+        <addr use="PHYS">
+          <streetAddressLine>123 Main Street West</streetAddressLine>
+          <streetAddressLine>Ste 122</streetAddressLine>
+          <city>Hamilton</city>
+          <state>ON</state>
+          <country>CA</country>
+          <postalCode>L8K5N1</postalCode>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <component typeCode="COMP" contextConductionInd="true">
+    <structuredBody classCode="DOCBODY" moodCode="EVN">
+      <component typeCode="COMP" contextConductionInd="true">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <templateId root="2.16.840.1.113883.10.20.1.6" />
+          <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.23" />
+          <id root="A2B39996-A1C7-4E1B-8A95-D1EC0DCA28B0" />
+          <code code="11369-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="HISTORY OF IMMUNIZATIONS" />
+          <title language="en-US">Immunizations</title>
+          <text language="en-US"><list><item ID="idb69d8">2014-Nov-26 - Oral Polio Vaccine via Swallow, Oral</item><item ID="id0827e">2014-Nov-26 - Bacillus Calmette-Guerin via injection, subcutaneous</item></list></text>
+          <entry typeCode="COMP" contextConductionInd="true">
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.12" />
+              <templateId root="2.16.840.1.113883.10.20.1.24" />
+              <id root="68687B13-C59D-458D-A373-BFC037DA1F56" />
+              <code code="IMMUNIZ" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode" displayName="Immunization" />
+              <text mediaType="text/plain">
+                <reference value="#idb69d8" />
+              </text>
+              <statusCode code="completed" />
+              <effectiveTime xsi:type="IVL_TS" value="20141126194551.351-0500" />
+              <routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" codeSystemName="Route Of Administration" displayName="Swallow, Oral" />
+              <doseQuantity value="1" />
+              <consumable typeCode="CSM">
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                    <code code="02" codeSystem="2.16.840.1.113883.6.59" codeSystemName="HL7CVX" displayName="Oral Polio Vaccine" />
+                    <name>Oral Polio Vaccine</name>
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+              <entryRelationship typeCode="SUBJ" contextConductionInd="true">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.46" />
+                  <code code="30973-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Dose 
+
+number" />
+                  <statusCode code="completed" />
+                  <value xsi:type="INT" value="1" />
+                </observation>
+              </entryRelationship>              
+            </substanceAdministration>
+          </entry>
+<entry typeCode="COMP" contextConductionInd="true">
+            <substanceAdministration classCode="SBADM" moodCode="EVN">
+              <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.12" />
+              <templateId root="2.16.840.1.113883.10.20.1.24" />
+              <id root="1492D74E-287D-4C75-86EB-27827F38DFC4" />
+              <code code="IMMUNIZ" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode" 
+
+displayName="Immunization" />
+              <text mediaType="text/plain">
+                <reference value="#id513e8" />
+              </text>
+              <statusCode code="completed" />
+              <effectiveTime xsi:type="IVL_TS" value="20141126183432.072-0500" />
+              <routeCode code="SQ" codeSystem="2.16.840.1.113883.5.112" codeSystemName="Route Of Administration" 
+
+displayName="injection, subcutaneous" />
+              <doseQuantity value="1" />
+              <consumable typeCode="CSM">
+                <manufacturedProduct classCode="MANU">
+                  <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                    <code code="19" codeSystem="2.16.840.1.113883.6.59" codeSystemName="HL7CVX" 
+displayName="Bacillus Calmette Guerin"/>
+                    <name>Test</name>
+                  </manufacturedMaterial>
+                </manufacturedProduct>
+              </consumable>
+              <entryRelationship typeCode="SUBJ" contextConductionInd="true">
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId root="2.16.840.1.113883.10.20.1.46" />
+                  <code code="30973-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Dose 
+
+number" />
+                  <statusCode code="completed" />
+                  <value xsi:type="INT" value="1" />
+                </observation>
+              </entryRelationship>
+            </substanceAdministration>
+          </entry>          
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>

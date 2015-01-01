@@ -1,0 +1,938 @@
+<ClinicalDocument xmlns="urn:hl7-org:v3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" classCode="DOCCLIN"
+	moodCode="EVN">
+	<realmCode code="UV" />
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+	<templateId root="2.16.840.1.113883.10.20.1" />
+	<templateId root="2.16.840.1.113883.10.20.3" />
+	<templateId root="9.9.9.9.9.9.8" />
+	<id root="1.2.3.4.5.6.405945.100.1" extension="27.20141127121053" />
+	<code code="34133-9" codeSystem="2.16.840.1.113883.6.1"
+		codeSystemName="LOINC" displayName="Summarization of Episode Note" />
+	<title language="en-US">Summarization of Episode Note</title>
+	<effectiveTime value="20141127121053.085-0600" />
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"
+		codeSystemName="x_BasicConfidentialityKind" />
+	<languageCode code="en-GB" />
+	<recordTarget typeCode="RCT" contextControlCode="OP">
+		<patientRole classCode="PAT">
+			<id root="1.2.103.430.203.102.403.0" extension="144" />
+			<addr nullFlavor="NI" />
+			<telecom nullFlavor="NI" />
+			<patient classCode="PSN" determinerCode="INSTANCE">
+				<administrativeGenderCode code="F"
+					codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender" />
+				<birthTime value="20141126" />
+			</patient>
+		</patientRole>
+	</recordTarget>
+	<author typeCode="AUT">
+		<time value="20141127121053.101-0600" />
+		<assignedAuthor classCode="ASSIGNED">
+			<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+			<addr nullFlavor="NI" />
+			<telecom nullFlavor="NI" />
+			<assignedAuthoringDevice classCode="DEV"
+				determinerCode="INSTANCE">
+				<manufacturerModelName language="en-US">1.10.0 Build
+					d8b5d0</manufacturerModelName>
+				<softwareName language="en-US">OpenSHR</softwareName>
+			</assignedAuthoringDevice>
+		</assignedAuthor>
+	</author>
+	<author typeCode="AUT" contextControlCode="OP">
+		<time nullFlavor="NI" />
+<assignedAuthor classCode="ASSIGNED">
+	<id />
+	<id root="1.2.3.4.5.6.405945.7" extension="2" />
+	<id root="1.2.3.4.5.6.405945.10" extension="3" />
+	<addr nullFlavor="NI" />
+	<telecom nullFlavor="NI" />
+	<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+		<name>
+			<family>?</family>
+			<given>Justin</given>
+		</name>
+	</assignedPerson>
+<representedOrganization classCode="ORG"
+	determinerCode="INSTANCE">
+	<id />
+	<id root="1.2.3.4.5.6.405945.8" extension="2" />
+	<name>SMSGATEWAY</name>
+	<telecom nullFlavor="NI" />
+	<addr nullFlavor="NI" />
+</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian typeCode="CST">
+		<assignedCustodian classCode="ASSIGNED">
+			<representedCustodianOrganization
+				classCode="ORG" determinerCode="INSTANCE">
+				<id root="1.2.3.4.5.6.405945.8" extension="1" />
+				<name>Unknown Location</name>
+				<telecom nullFlavor="NI" />
+				<addr nullFlavor="NI" />
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<documentationOf typeCode="DOC">
+		<serviceEvent classCode="PCPR" moodCode="EVN">
+			<effectiveTime>
+				<low value="20141126224516.000-0600" />
+				<high value="20141126224517.000-0600" />
+			</effectiveTime>
+		</serviceEvent>
+	</documentationOf>
+	<component typeCode="COMP" contextConductionInd="true">
+		<structuredBody classCode="DOCBODY" moodCode="EVN">
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.13" />
+					<id root="c2ff82d4-1b7d-4d9a-ad35-ed36cf320282" />
+					<code code="48764-5" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Summary Purpose" />
+					<title language="en-US">Summary purpose of use</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<paragraph>This document provides an extract of all information
+							from OpenSHR related to the patient</paragraph>
+					</text>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.1" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.34" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.35" />
+					<id root="5ab46858-1f2a-4e33-ba34-507c69e314ea" />
+					<code code="42348-3" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="ADVANCE DIRECTIVES" />
+					<title language="en-US">Advance Directives</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<table>
+							<thead>
+								<tr>
+									<th>Observation</th>
+									<th>Date/Time</th>
+									<th>Observed Value</th>
+									<th>Author</th>
+									<th>Interpretation</th>
+									<th>Status</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="obsa72ffa55">
+									<td>Blood Tranfusion</td>
+									<td> Until Thu Nov 27 12:10:53 CST 2014</td>
+									<td>
+										NI
+										<br />
+										(Negated)
+									</td>
+									<td>
+										Device Authored : OpenSHR
+										<br />
+									</td>
+									<td></td>
+									<td>completed</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td />
+									<td colspan="6">
+										<list>
+											<item>
+												<caption>Additional Information</caption>
+												<table>
+													<thead>
+														<tr>
+															<th>Observation</th>
+															<th>Date/Time</th>
+															<th>Observed Value</th>
+															<th>Author</th>
+															<th>Interpretation</th>
+															<th>Status</th>
+															<th>Notes</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td colspan="7">
+																<content styleCode="Bold">Has Component:</content>
+															</td>
+														</tr>
+														<tr ID="obs4fa4e7b8">
+															<td>Status</td>
+															<td>Unknown</td>
+															<td>null [null]</td>
+															<td />
+															<td></td>
+															<td>completed</td>
+															<td></td>
+														</tr>
+													</tbody>
+												</table>
+											</item>
+										</list>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<observation classCode="OBS" moodCode="EVN"
+							negationInd="true">
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.7" />
+							<templateId root="2.16.840.1.113883.10.20.1.17" />
+							<code code="(xx-bld-transf-ok)" codeSystem="2.16.840.1.113883.6.1"
+								codeSystemName="LOINC" displayName="Blood Tranfusion" />
+							<text representation="TXT" language="en-US">
+								<reference value="#obsa72ffa55" />
+							</text>
+							<statusCode code="completed" />
+							<effectiveTime>
+								<high value="20141127121053.233-0600" />
+							</effectiveTime>
+							<value xsi:type="BL" nullFlavor="NI" />
+							<author typeCode="AUT">
+								<time value="20141127121053.233-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedAuthoringDevice classCode="DEV"
+										determinerCode="INSTANCE">
+										<manufacturerModelName language="en-US">1.10.0
+											Build d8b5d0</manufacturerModelName>
+										<softwareName language="en-US">OpenSHR</softwareName>
+									</assignedAuthoringDevice>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="REFR"
+								contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.37" />
+									<templateId root="2.16.840.1.113883.10.20.1.57" />
+									<code code="33999-4" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="Status" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obs4fa4e7b8" />
+									</text>
+									<statusCode code="completed" />
+									<value xsi:type="CD" nullFlavor="NI" />
+								</observation>
+							</entryRelationship>
+						</observation>
+					</entry>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.25" />
+					<templateId root="2.16.840.1.113883.10.20.1.16" />
+					<id root="deb48225-6278-4394-832d-7f92a4fe1953" />
+					<code code="8716-3" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="VITAL SIGNS" />
+					<title language="en-US">Vital Signs</title>
+					<text mediaType="text/x-hl7-text+xml">No content recorded</text>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.11" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.6" />
+					<id root="c19bef5f-30a3-404a-93b0-be032e8edff9" />
+					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="PROBLEM LIST" />
+					<title language="en-US">Problem list</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<table>
+							<thead>
+								<tr>
+									<th>Observation</th>
+									<th>Date/Time</th>
+									<th>Observed Value</th>
+									<th>Author</th>
+									<th>Interpretation</th>
+									<th>Status</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="obseadb5b79">
+									<td>Problem</td>
+									<td> Until Thu Nov 27 12:10:53 CST 2014</td>
+									<td>Past Medical History Unknown</td>
+									<td>
+										Device Authored : OpenSHR
+										<br />
+									</td>
+									<td></td>
+									<td>completed</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1" />
+							<templateId root="2.16.840.1.113883.10.20.1.27" />
+							<id root="9227c0a6-0942-42fa-aa55-d3e0fdc71062" />
+							<code nullFlavor="NA" />
+							<statusCode code="completed" />
+							<effectiveTime>
+								<low nullFlavor="UNK" />
+								<high value="20141127121053.452-0600" />
+							</effectiveTime>
+							<author typeCode="AUT">
+								<time value="20141127121053.452-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedAuthoringDevice classCode="DEV"
+										determinerCode="INSTANCE">
+										<manufacturerModelName language="en-US">1.10.0
+											Build d8b5d0</manufacturerModelName>
+										<softwareName language="en-US">OpenSHR</softwareName>
+									</assignedAuthoringDevice>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="SUBJ"
+								inversionInd="false" contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" />
+									<id root="e90579ce-b026-47f2-898f-7e4fd9fe320c" />
+									<code code="55607006" codeSystem="2.16.840.1.113883.6.96"
+										displayName="Problem" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obseadb5b79" />
+									</text>
+									<statusCode code="completed" />
+									<effectiveTime>
+										<low nullFlavor="UNK" />
+										<high value="20141127121053.465-0600" />
+									</effectiveTime>
+									<value xsi:type="CD" code="396782006" codeSystem="2.16.840.1.113883.6.96"
+										displayName="Past Medical History Unknown" />
+									<author typeCode="AUT">
+										<time value="20141127121053.465-0600" />
+										<assignedAuthor classCode="ASSIGNED">
+											<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+											<addr nullFlavor="NI" />
+											<telecom nullFlavor="NI" />
+											<assignedAuthoringDevice classCode="DEV"
+												determinerCode="INSTANCE">
+												<manufacturerModelName language="en-US">1.10.0
+													Build d8b5d0</manufacturerModelName>
+												<softwareName language="en-US">OpenSHR</softwareName>
+											</assignedAuthoringDevice>
+										</assignedAuthor>
+									</author>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.2" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.13" />
+					<id root="570133bb-ee89-4d5b-847e-72625255b699" />
+					<code code="48765-2" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Allergies, adverse reactions, alerts" />
+					<title language="en-US">Allergies and Intolerances</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<table>
+							<thead>
+								<tr>
+									<th>Observation</th>
+									<th>Date/Time</th>
+									<th>Observed Value</th>
+									<th>Author</th>
+									<th>Interpretation</th>
+									<th>Status</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="obs549ac710">
+									<td>Other Allergy</td>
+									<td> Until Thu Nov 27 12:10:53 CST 2014</td>
+									<td>No known allergies</td>
+									<td>
+										Device Authored : OpenSHR
+										<br />
+									</td>
+									<td></td>
+									<td>completed</td>
+									<td></td>
+								</tr>
+								<tr ID="obs503997bb">
+									<td>Other Allergy</td>
+									<td />
+									<td ID="txt3646da52">
+										Allergy to Latex
+										<br />
+										(Negated)
+									</td>
+									<td>
+										Device Authored : OpenSHR
+										<br />
+									</td>
+									<td></td>
+									<td>completed</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1" />
+							<templateId root="2.16.840.1.113883.10.20.1.27" />
+							<id root="b47211f0-991b-43a4-b365-627b5d9711c8" />
+							<code nullFlavor="NA" />
+							<statusCode code="completed" />
+							<effectiveTime>
+								<low nullFlavor="UNK" />
+								<high value="20141127121053.534-0600" />
+							</effectiveTime>
+							<author typeCode="AUT">
+								<time value="20141127121053.534-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedAuthoringDevice classCode="DEV"
+										determinerCode="INSTANCE">
+										<manufacturerModelName language="en-US">1.10.0
+											Build d8b5d0</manufacturerModelName>
+										<softwareName language="en-US">OpenSHR</softwareName>
+									</assignedAuthoringDevice>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="SUBJ"
+								inversionInd="false" contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" />
+									<templateId root="2.16.840.1.113883.10.20.1.18" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6" />
+									<id root="c6ab7119-3822-4f3b-ac1f-1034367a5108" />
+									<code code="ALG" codeSystem="2.16.840.1.113883.5.4"
+										displayName="Other Allergy" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obs549ac710" />
+									</text>
+									<statusCode code="completed" />
+									<effectiveTime>
+										<low nullFlavor="UNK" />
+										<high value="20141127121053.550-0600" />
+									</effectiveTime>
+									<value xsi:type="CD" code="160244002" codeSystem="2.16.840.1.113883.6.96"
+										displayName="No known allergies" />
+									<author typeCode="AUT">
+										<time value="20141127121053.550-0600" />
+										<assignedAuthor classCode="ASSIGNED">
+											<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+											<addr nullFlavor="NI" />
+											<telecom nullFlavor="NI" />
+											<assignedAuthoringDevice classCode="DEV"
+												determinerCode="INSTANCE">
+												<manufacturerModelName language="en-US">1.10.0
+													Build d8b5d0</manufacturerModelName>
+												<softwareName language="en-US">OpenSHR</softwareName>
+											</assignedAuthoringDevice>
+										</assignedAuthor>
+									</author>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1" />
+							<templateId root="2.16.840.1.113883.10.20.1.27" />
+							<id root="226d3e0a-7870-47ff-a8d2-5b9981c3cf10" />
+							<code nullFlavor="NA" />
+							<statusCode code="completed" />
+							<effectiveTime>
+								<low nullFlavor="UNK" />
+								<high value="20141127121053.550-0600" />
+							</effectiveTime>
+							<author typeCode="AUT">
+								<time value="20141127121053.550-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedAuthoringDevice classCode="DEV"
+										determinerCode="INSTANCE">
+										<manufacturerModelName language="en-US">1.10.0
+											Build d8b5d0</manufacturerModelName>
+										<softwareName language="en-US">OpenSHR</softwareName>
+									</assignedAuthoringDevice>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="SUBJ"
+								inversionInd="false" contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN"
+									negationInd="true">
+									<templateId root="2.16.840.1.113883.10.20.1.28" />
+									<templateId root="2.16.840.1.113883.10.20.1.18" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5" />
+									<id root="2b8af985-4d20-4801-814a-0d269c1e4b4d" />
+									<code code="ALG" codeSystem="2.16.840.1.113883.5.4"
+										codeSystemName="ObservationIntoleranceType" displayName="Other Allergy" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obs503997bb" />
+									</text>
+									<statusCode code="completed" />
+									<effectiveTime>
+										<low nullFlavor="UNK" />
+										<high nullFlavor="UNK" />
+									</effectiveTime>
+									<value xsi:type="CD" code="300916003" codeSystem="2.16.840.1.113883.6.96"
+										codeSystemName="SNOMED CT">
+										<originalText representation="TXT" language="en-US">
+											<reference value="#txt3646da52" />
+										</originalText>
+									</value>
+									<author typeCode="AUT">
+										<time value="20141127121053.583-0600" />
+										<assignedAuthor classCode="ASSIGNED">
+											<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+											<addr nullFlavor="NI" />
+											<telecom nullFlavor="NI" />
+											<assignedAuthoringDevice classCode="DEV"
+												determinerCode="INSTANCE">
+												<manufacturerModelName language="en-US">1.10.0
+													Build d8b5d0</manufacturerModelName>
+												<softwareName language="en-US">OpenSHR</softwareName>
+											</assignedAuthoringDevice>
+										</assignedAuthor>
+									</author>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.4" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.14" />
+					<id root="b5d05043-336b-4ab3-aa44-77d3833929e1" />
+					<code code="10157-6" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="History of family member diseases" />
+					<title language="en-US">Family history</title>
+					<text mediaType="text/x-hl7-text+xml">No data present</text>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.8" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.19" />
+					<id root="aeea2acf-cca0-49e8-9317-ec14920bd0e8" />
+					<code code="10160-0" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="HISTORY OF MEDICATION USE" />
+					<title language="en-US">History of Medication Use</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Administration Procedure</th>
+									<th>Date/Time</th>
+									<th>Frequency</th>
+									<th>Drug</th>
+									<th>Dose</th>
+									<th>Form</th>
+									<th>Status</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="obs6f29e55b">
+									<td colspan="2">Drug Treatment Unknown</td>
+									<td> Until Thu Nov 27 12:10:53 CST 2014</td>
+									<td>One time</td>
+									<td ID="txt82a4eb7e">Not Applicable</td>
+									<td>?</td>
+									<td />
+									<td>completed</td>
+									<td />
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<substanceAdministration classCode="SBADM"
+							moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.24" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.1" />
+							<id root="76bdcbe5-8ffe-4896-a1d0-db916f93769b" />
+							<code code="182904002" codeSystem="2.16.840.1.113883.6.96"
+								displayName="Drug Treatment Unknown" />
+							<text>
+								<reference value="#obs6f29e55b" />
+							</text>
+							<statusCode code="completed" />
+							<effectiveTime xsi:type="IVL_TS">
+								<low nullFlavor="UNK" />
+								<high value="20141127121053.730-0600" />
+							</effectiveTime>
+							<doseQuantity nullFlavor="NA" />
+							<administrationUnitCode nullFlavor="NA" />
+							<consumable typeCode="CSM">
+								<manufacturedProduct>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2" />
+									<templateId root="2.16.840.1.113883.10.20.1.53" />
+									<manufacturedMaterial classCode="MMAT">
+										<code nullFlavor="NA">
+											<originalText representation="TXT" language="en-US">
+												<reference value="#txt82a4eb7e" />
+											</originalText>
+										</code>
+									</manufacturedMaterial>
+								</manufacturedProduct>
+							</consumable>
+							<author typeCode="AUT">
+								<time value="20141127121053.730-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id root="1.2.3.4.5.6.405945" extension="OMRS_DEMO_SHR" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedAuthoringDevice classCode="DEV"
+										determinerCode="INSTANCE">
+										<manufacturerModelName language="en-US">1.10.0
+											Build d8b5d0</manufacturerModelName>
+										<softwareName language="en-US">OpenSHR</softwareName>
+									</assignedAuthoringDevice>
+								</assignedAuthor>
+							</author>
+						</substanceAdministration>
+					</entry>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.6" />
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.23" />
+					<id root="749c604e-ce61-4d88-9881-fff19f66bc5c" />
+					<code code="11369-6" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="HISTORY OF IMMUNIZATIONS" />
+					<title language="en-US">History of Immunizations</title>
+					<text mediaType="text/x-hl7-text+xml">
+						<table>
+							<thead>
+								<tr>
+									<th colspan="2">Administration Procedure</th>
+									<th>Date/Time</th>
+									<th>Frequency</th>
+									<th>Drug</th>
+									<th>Dose</th>
+									<th>Form</th>
+									<th>Status</th>
+									<th>Notes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="obs56f83e00">
+									<td ID="txt209b25de" colspan="2">Immunization</td>
+									<td> On Wed Nov 26 22:45:15 CST 2014</td>
+									<td>One time</td>
+									<td ID="txtd3623c72">poliovirus vaccine inactivated, type 1 (mahoney) /
+										poliovirus vaccine inactivated, type 2 (mef-1) / poliovirus
+										vaccine inactivated, type 3 (saukett)</td>
+									<td>1.0 null</td>
+									<td />
+									<td>completed</td>
+									<td>2014-Nov-26 - Oral Polio Vaccine via Swallow, Oral</td>
+								</tr>
+								<tr>
+									<td />
+									<td>Related Doses</td>
+									<td colspan="6">
+										<list>
+											<item>
+												<table>
+													<thead>
+														<tr>
+															<th>Observation</th>
+															<th>Date/Time</th>
+															<th>Observed Value</th>
+															<th>Author</th>
+															<th>Interpretation</th>
+															<th>Status</th>
+															<th>Notes</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ID="obs09d2f517">
+															<td>Dose Number</td>
+															<td>Unknown</td>
+															<td>1</td>
+															<td />
+															<td></td>
+															<td>completed</td>
+															<td></td>
+														</tr>
+													</tbody>
+												</table>
+											</item>
+										</list>
+									</td>
+								</tr>
+								<tr ID="obs00a38bb8">
+									<td ID="txte4ffbcde" colspan="2">Immunization</td>
+									<td> On Wed Nov 26 22:45:15 CST 2014</td>
+									<td>One time</td>
+									<td ID="txt0c110bd1">BCG VACCINE</td>
+									<td>1.0 null</td>
+									<td />
+									<td>completed</td>
+									<td>2014-Nov-26 - BCG via injection, subcutaneous</td>
+								</tr>
+							</tbody>
+							<tr>
+								<td />
+								<td>Related Doses</td>
+								<td colspan="6">
+									<list>
+										<item>
+											<table>
+												<thead>
+													<tr>
+														<th>Observation</th>
+														<th>Date/Time</th>
+														<th>Observed Value</th>
+														<th>Author</th>
+														<th>Interpretation</th>
+														<th>Status</th>
+														<th>Notes</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ID="obs81f26c3d">
+														<td>Dose Number</td>
+														<td>Unknown</td>
+														<td>1</td>
+														<td />
+														<td></td>
+														<td>completed</td>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+										</item>
+									</list>
+								</td>
+							</tr>
+						</table>
+					</text>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<substanceAdministration classCode="SBADM"
+							moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.24" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.12" />
+							<id root="1.2.3.4.5.6.405945.3" extension="302" />
+							<code code="IMMUNIZ" codeSystem="2.16.840.1.113883.5.4"
+								codeSystemName="ActCode" displayName="Immunization">
+								<originalText representation="TXT" language="en-US">
+									<reference value="#txt209b25de" />
+								</originalText>
+							</code>
+							<text>
+								<reference value="#obs56f83e00" />
+							</text>
+							<statusCode code="completed" />
+							<effectiveTime xsi:type="SXCM_TS" value="20141126224515.000-0600" />
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112"
+								codeSystemName="Route of administration (HL7v3)" displayName="swallow, oral">
+								<originalText representation="TXT">Oral administration
+								</originalText>
+							</routeCode>
+							<doseQuantity value="1.0" />
+							<consumable typeCode="CSM">
+								<manufacturedProduct classCode="MANU">
+									<templateId root="2.16.840.1.113883.10.20.1.53" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2" />
+									<manufacturedMaterial classCode="MMAT">
+										<code code="763102" codeSystem="2.16.840.1.113883.6.88"
+											codeSystemName="RxNORM">
+											<originalText representation="TXT" language="en-US">
+												<reference value="#txtd3623c72" />
+											</originalText>
+										</code>
+										<name>Oral Polio Vaccine</name>
+									</manufacturedMaterial>
+								</manufacturedProduct>
+							</consumable>
+							<author typeCode="AUT" contextControlCode="OP">
+								<time value="20141126224516.000-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id />
+									<id root="1.2.3.4.5.6.405945.7" extension="2" />
+									<id root="1.2.3.4.5.6.405945.10" extension="3" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+										<name>
+											<family>?</family>
+											<given>Justin</given>
+										</name>
+									</assignedPerson>
+									<representedOrganization classCode="ORG"
+										determinerCode="INSTANCE">
+										<id />
+										<id root="1.2.3.4.5.6.405945.8" extension="2" />
+										<name>SMSGATEWAY</name>
+										<telecom nullFlavor="NI" />
+										<addr nullFlavor="NI" />
+									</representedOrganization>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="SUBJ"
+								contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="30973-2" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="Dose Number" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obs09d2f517" />
+									</text>
+									<statusCode code="completed" />
+									<value xsi:type="INT" value="1" />
+								</observation>
+							</entryRelationship>
+							<reference typeCode="REFR">
+								<externalDocument classCode="DOC" moodCode="EVN">
+									<id />
+								</externalDocument>
+							</reference>
+						</substanceAdministration>
+					</entry>
+					<entry typeCode="DRIV" contextConductionInd="true">
+						<substanceAdministration classCode="SBADM"
+							moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.24" />
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.12" />
+							<id root="1.2.3.4.5.6.405945.3" extension="310" />
+							<code code="IMMUNIZ" codeSystem="2.16.840.1.113883.5.4"
+								codeSystemName="ActCode" displayName="Immunization">
+								<originalText representation="TXT" language="en-US">
+									<reference value="#txte4ffbcde" />
+								</originalText>
+							</code>
+							<text>
+								<reference value="#obs00a38bb8" />
+							</text>
+							<statusCode code="completed" />
+							<effectiveTime xsi:type="SXCM_TS" value="20141126224515.000-0600" />
+							<routeCode code="SQ" codeSystem="2.16.840.1.113883.5.112"
+								codeSystemName="Route of administration (HL7v3)" displayName="injection, subcutaneous">
+								<originalText representation="TXT">Subcutaneous
+									administration</originalText>
+							</routeCode>
+							<doseQuantity value="1.0" />
+							<consumable typeCode="CSM">
+								<manufacturedProduct classCode="MANU">
+									<templateId root="2.16.840.1.113883.10.20.1.53" />
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2" />
+									<manufacturedMaterial classCode="MMAT">
+										<code code="1344" codeSystem="2.16.840.1.113883.6.88"
+											codeSystemName="RxNORM">
+											<originalText representation="TXT" language="en-US">
+												<reference value="#txt0c110bd1" />
+											</originalText>
+										</code>
+										<name>Test</name>
+									</manufacturedMaterial>
+								</manufacturedProduct>
+							</consumable>
+							<author typeCode="AUT" contextControlCode="OP">
+								<time value="20141126224516.000-0600" />
+								<assignedAuthor classCode="ASSIGNED">
+									<id />
+									<id root="1.2.3.4.5.6.405945.7" extension="2" />
+									<id root="1.2.3.4.5.6.405945.10" extension="3" />
+									<addr nullFlavor="NI" />
+									<telecom nullFlavor="NI" />
+									<assignedPerson classCode="PSN" determinerCode="INSTANCE">
+										<name>
+											<family>?</family>
+											<given>Justin</given>
+										</name>
+									</assignedPerson>
+									<representedOrganization classCode="ORG"
+										determinerCode="INSTANCE">
+										<id />
+										<id root="1.2.3.4.5.6.405945.8" extension="2" />
+										<name>SMSGATEWAY</name>
+										<telecom nullFlavor="NI" />
+										<addr nullFlavor="NI" />
+									</representedOrganization>
+								</assignedAuthor>
+							</author>
+							<entryRelationship typeCode="SUBJ"
+								contextConductionInd="true">
+								<observation classCode="OBS" moodCode="EVN">
+									<code code="30973-2" codeSystem="2.16.840.1.113883.6.1"
+										codeSystemName="LOINC" displayName="Dose Number" />
+									<text representation="TXT" language="en-US">
+										<reference value="#obs81f26c3d" />
+									</text>
+									<statusCode code="completed" />
+									<value xsi:type="INT" value="1" />
+								</observation>
+							</entryRelationship>
+							<reference typeCode="REFR">
+								<externalDocument classCode="DOC" moodCode="EVN">
+									<id />
+								</externalDocument>
+							</reference>
+						</substanceAdministration>
+					</entry>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="2.16.840.1.113883.10.20.1.12" />
+					<id root="4b2f2d99-e47f-403b-94a0-b7c0dd0c4e4a" />
+					<code code="47519-4" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="HISTORY OF PROCEDURES" />
+					<title language="en-US">Procedures</title>
+					<text mediaType="text/x-hl7-text+xml">No procedures reported</text>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.11.2.2.2" />
+					<id root="b8270295-6c6b-4c17-9319-fc0775ca8df7" />
+					<code code="57059-8" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="Pregnancy Visit Summary" />
+					<title language="en-US">Antepartum Visit Flowsheet</title>
+					<text mediaType="text/x-hl7-text+xml">No data present</text>
+				</section>
+			</component>
+			<component typeCode="COMP" contextConductionInd="true">
+				<section classCode="DOCSECT" moodCode="EVN">
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.21.2.5" />
+					<id root="7d87a166-11e4-4e63-b783-a36b90d000a8" />
+					<code code="57078-8" codeSystem="2.16.840.1.113883.6.1"
+						codeSystemName="LOINC" displayName="ANTENATAL TESTING AND SURVEILLANCE" />
+					<title language="en-US">Antenatal Testing and Surveillance</title>
+					<text mediaType="text/x-hl7-text+xml">No data recorded</text>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
