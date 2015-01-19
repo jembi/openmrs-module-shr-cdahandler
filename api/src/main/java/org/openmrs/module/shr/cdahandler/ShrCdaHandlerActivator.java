@@ -65,7 +65,8 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 		for(Map.Entry<String, String> formatTypeCode : this.m_formatTypeCodes.entrySet())
 		{
 			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "1.3.6.1.4.1.19376.1.2.3");
-			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), "LOINC");
+			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), CdaHandlerConstants.CODE_SYSTEM_LOINC);
+
 			try {
 				if(contentHandler.getContentHandler(typeCode, formatCode) == null)
 					contentHandler.registerContentHandler(typeCode, formatCode, CdaContentHandler.getInstance());
