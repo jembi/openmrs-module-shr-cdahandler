@@ -14,14 +14,7 @@
 package org.openmrs.module.shr.cdahandler.api.impl;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,14 +25,7 @@ import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
-import org.openmrs.Concept;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptMapType;
-import org.openmrs.ConceptReferenceTerm;
-import org.openmrs.ConceptSource;
-import org.openmrs.Obs;
-import org.openmrs.Order;
-import org.openmrs.Visit;
+import org.openmrs.*;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
@@ -180,7 +166,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 
 	/**
 	 * Get an active order by accession number
-	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getOrderByAccessionNumber(java.lang.String)
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getOrdersByAccessionNumber(java.lang.String)
 	 */
 	@Override
 	@Transactional(readOnly = true)
@@ -190,7 +176,7 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 
 	/**
 	 * Save a concept quickly (without reindexing);
-	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#saveConceptQuick(org.openmrs.Concept)
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#saveConcept(org.openmrs.Concept)
 	 */
 	@Override
     public Concept saveConcept(Concept concept) throws APIException {
@@ -269,14 +255,33 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		return this.dao.getConceptSourceByHl7(hl7);
     }
 
+    private static final Map<String, List<Concept>> conceptCache = Collections.synchronizedMap(new HashMap<String, List<Concept>>());
+    private static final String GP_CACHE_MAPPED_CONCEPTS = "shr-cdahandler.cacheMappedConcepts";
+
 	/**
 	 * Get concept by mapping
-	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getConceptsByMapping(java.lang.String, java.lang.String, java.lang.String)
+	 * @see org.openmrs.module.shr.cdahandler.api.CdaImportService#getConceptsByMapping(ConceptReferenceTerm, java.lang.String)
 	 */
 	@Override
     public List<Concept> getConceptsByMapping(ConceptReferenceTerm term, String strength) {
-		List<Concept> terms = Context.getConceptService().getConceptsByMapping(term.getCode(), term.getConceptSource().getName()),
-				retVal = new ArrayList<Concept>();
+        boolean cacheMappedConcepts = false;
+        List<Concept> terms = null;
+        String key = null;
+
+        if (Context.getAdministrationService().getGlobalProperty(GP_CACHE_MAPPED_CONCEPTS, "true").equalsIgnoreCase("true")) {
+            cacheMappedConcepts = true;
+            key = term.getCode() + ':' + term.getConceptSource().getName() + ':' + strength;
+            terms = conceptCache.get(key);
+        }
+
+        if (terms == null) {
+            terms = Context.getConceptService().getConceptsByMapping(term.getCode(), term.getConceptSource().getName(), false);
+            if (cacheMappedConcepts) {
+                conceptCache.put(key, terms);
+            }
+        }
+
+		List<Concept> retVal = new ArrayList<Concept>();
 		
 		for(Concept concept : terms)
 		{
@@ -285,10 +290,8 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 						map.getConceptMapType().getName().toLowerCase().equals(strength.toLowerCase()))
 					retVal.add(concept);
 		}
-		
+
 		return retVal;
     }
-
-
 	
 }
