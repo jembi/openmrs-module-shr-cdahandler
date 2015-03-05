@@ -150,5 +150,11 @@
 		</defaultValue>
 		<description>When true, instructs the SHR to update any existing data carrying the same ID as the inbound CDA document. The default is false, meaning the SHR will return an error when duplicate statements are included in the document (see PCC TF-2 for the proper way to replace data)</description>
 	</globalProperty>
+    <globalProperty>
+        <property>${project.parent.artifactId}.cacheMappedConcepts</property>
+        <defaultValue>true
+        </defaultValue>
+        <description>When true, mapped concepts are cached. When false, they are not. This helps greatly with performance, however, if concept mappings are updated or changed the server will need to be re-stared to clear the cache.</description>
+    </globalProperty>
 </module>
 

@@ -184,7 +184,8 @@ public final class AssignedEntityProcessorUtil {
 		// ie. root becomes an attribute and the extension becomes the value
 		// Anyways, for now represent in the standard ITI guidance for II data type
 		String id = this.m_datatypeUtil.emptyIdString();
-		if(this.m_configuration.getEpidRoot() == "" || this.m_configuration.getEpidRoot().isEmpty())
+        String epidRoot = this.m_configuration.getEpidRoot();
+		if(epidRoot.equals("") || epidRoot.isEmpty())
 		{
 			for(II autId : aut.getId())
 				if(autId.getRoot() != null)
@@ -200,9 +201,9 @@ public final class AssignedEntityProcessorUtil {
 					id = this.m_datatypeUtil.formatIdentifier(autId);
 		}
 		Provider res = null;
-		 
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for author id");
+        if (id.equals(this.m_datatypeUtil.emptyIdString()))
+
+            			throw new DocumentImportException("No data specified for author id");
 		else 				
 			res = Context.getProviderService().getProviderByIdentifier(id);
 			
