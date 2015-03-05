@@ -28,6 +28,7 @@ import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.*;
 import org.openmrs.activelist.ActiveListItem;
 import org.openmrs.api.APIException;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.shr.cdahandler.CdaImporter;
@@ -255,8 +256,9 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 		return this.dao.getConceptSourceByHl7(hl7);
     }
 
-    private static final Map<String, List<Concept>> conceptCache = Collections.synchronizedMap(new HashMap<String, List<Concept>>());
+    private static final Map<String, List<Integer>> conceptCache = Collections.synchronizedMap(new HashMap<String, List<Integer>>());
     private static final String GP_CACHE_MAPPED_CONCEPTS = "shr-cdahandler.cacheMappedConcepts";
+    private static Boolean cacheMappedConcepts = null;
 
 	/**
 	 * Get concept by mapping
@@ -264,20 +266,39 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 */
 	@Override
     public List<Concept> getConceptsByMapping(ConceptReferenceTerm term, String strength) {
-        boolean cacheMappedConcepts = false;
+        synchronized (this) {
+            if (cacheMappedConcepts == null) {
+                if (Context.getAdministrationService().getGlobalProperty(GP_CACHE_MAPPED_CONCEPTS).equalsIgnoreCase("true")) {
+                    cacheMappedConcepts = true;
+                } else {
+                    cacheMappedConcepts = false;
+                }
+            }
+        }
+
+        ConceptService cs = Context.getConceptService();
         List<Concept> terms = null;
         String key = null;
 
-        if (Context.getAdministrationService().getGlobalProperty(GP_CACHE_MAPPED_CONCEPTS, "true").equalsIgnoreCase("true")) {
-            cacheMappedConcepts = true;
+        if (cacheMappedConcepts) {
             key = term.getCode() + ':' + term.getConceptSource().getName() + ':' + strength;
-            terms = conceptCache.get(key);
+            List<Integer> conceptIds = conceptCache.get(key);
+            if (conceptIds != null) {
+                terms = new ArrayList<Concept>();
+                for (Integer conceptId : conceptIds) {
+                    terms.add(cs.getConcept(conceptId));
+                }
+            }
         }
 
         if (terms == null) {
-            terms = Context.getConceptService().getConceptsByMapping(term.getCode(), term.getConceptSource().getName(), false);
+            terms = cs.getConceptsByMapping(term.getCode(), term.getConceptSource().getName(), false);
             if (cacheMappedConcepts) {
-                conceptCache.put(key, terms);
+                List<Integer> conceptIds = new ArrayList<Integer>();
+                for (Concept c : terms) {
+                    conceptIds.add(c.getConceptId());
+                }
+                conceptCache.put(key, conceptIds);
             }
         }
 
