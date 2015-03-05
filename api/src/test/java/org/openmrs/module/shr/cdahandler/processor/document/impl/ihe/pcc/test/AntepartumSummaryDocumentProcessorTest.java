@@ -42,6 +42,7 @@ public class AntepartumSummaryDocumentProcessorTest extends BaseModuleContextSen
 
 		GlobalProperty saveDir = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_COMPLEX_OBS_DIR, "C:\\data\\");
 		Context.getAdministrationService().setGlobalProperty(CdaHandlerConfiguration.PROP_VALIDATE_CONCEPT_STRUCTURE, "false");
+        Context.getAdministrationService().setGlobalProperty("shr-cdahandler.cacheMappedConcepts", "false");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
 		executeDataSet(CIEL_LIST_INITIAL_XML);
