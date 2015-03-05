@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+				   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+				   
+				   
+ <changeSet dbms="mysql" id="shr-cdahandler-orders-procedure-create" author="justin">
+   	<preConditions>
+	   	<not>
+   			<tableExists tableName="procedure_order"/>
+   		</not>
+   	</preConditions>
+   	<comment>Create procedure orders table</comment>
+   	<createTable tableName="procedure_order">
+   		<column name="order_id" type="int">
+   			<constraints primaryKey="true" nullable="false"/>
+   		</column>
+   		<column name="order_status" type="int"/>
+   		<column name="approach_site" type="int"/>
+   		<column name="target_site" type="int"/>
+   	</createTable>
+   	<addForeignKeyConstraint constraintName="procedure_order_id_fk" referencedTableName="orders" baseColumnNames="order_id" baseTableName="procedure_order" referencedColumnNames="order_id"/>
+   	<addForeignKeyConstraint constraintName="procedure_order_status_fk" referencedTableName="concept" baseColumnNames="order_status" baseTableName="procedure_order" referencedColumnNames="concept_id"/>
+   	<addForeignKeyConstraint constraintName="procedure_order_approach_site_fk" referencedTableName="concept" baseColumnNames="approach_site" baseTableName="procedure_order" referencedColumnNames="concept_id"/>
+   	<addForeignKeyConstraint constraintName="procedure_order_target_site_fk" referencedTableName="concept" baseColumnNames="target_site" baseTableName="procedure_order" referencedColumnNames="concept_id"/>
+   	<insert tableName="order_type">
+   		<column name="uuid" value="9506c6fe-d517-4707-a0c8-e72da23ff16d"/>
+   		<column name="name" value="Procedure Order"/>
+   		<column name="creator" value="2"/>
+   		<column name="date_created" valueComputed="now()"/>
+   		<column name="retired" valueNumeric="0"/>
+   		<column name="description" value="Indicates a request to perform a procedure"/>
+		<column name="java_class_name" value="org.openmrs.module.shr.cdahandler.order.ProcedureOrder"/>
+   	</insert>
+   </changeSet>
+
+   <changeSet dbms="mysql" id="shr-cdahandler-orders-observation-create" author="justin">
+   	<preConditions>
+	   	<not>
+   			<tableExists tableName="obs_order"/>
+   		</not>
+   	</preConditions>
+   	<comment>Create observation orders table</comment>
+   	<createTable tableName="obs_order">
+   		<column name="order_id" type="int">
+   			<constraints primaryKey="true"/>
+   		</column>
+   		<column name="goal_numeric" type="int"/>
+   		<column name="goal_text" type="varchar(1024)"/>
+   		<column name="goal_coded" type="int"/>
+   		<column name="method" type="int"/>
+   		<column name="target_site" type="int"/>
+   	</createTable>
+   	<addForeignKeyConstraint constraintName="obs_order_id_fk" referencedTableName="orders" baseColumnNames="order_id" baseTableName="obs_order" referencedColumnNames="order_id"/>
+   	<addForeignKeyConstraint constraintName="obs_order_goal_coded_fk" referencedTableName="concept" baseColumnNames="goal_coded" baseTableName="obs_order" referencedColumnNames="concept_id"/>
+   	<addForeignKeyConstraint constraintName="obs_order_approach_site_fk" referencedTableName="concept" baseColumnNames="method" baseTableName="obs_order" referencedColumnNames="concept_id"/>
+   	<addForeignKeyConstraint constraintName="obs_order_target_site_kf" referencedTableName="concept" baseColumnNames="target_site" baseTableName="obs_order" referencedColumnNames="concept_id"/>
+	<insert tableName="order_type">
+   		<column name="uuid" value="7f14cf98-8452-42c0-acac-2ba96c8e66ce"/>
+   		<column name="name" value="Observation Order"/>
+   		<column name="creator" value="2"/>
+   		<column name="retired" valueNumeric="0"/>
+   		<column name="date_created" valueComputed="now()"/>
+   		<column name="description" value="Indicates a request to perform an observation"/>
+   		<column name="java_class_name" value="org.openmrs.module.shr.cdahandler.order.ObservationOrder"/>
+   	</insert>
+   </changeSet>
+   
+   <changeSet dbms="mysql" id="shr-cdahandler-obs-extended-create" author="justin">
+	   	<preConditions>
+		   	<not>
+	   			<tableExists tableName="shr_obs"/>
+	   		</not>
+	 	</preConditions>
+	 	<createTable tableName="shr_obs">
+	 		<column name="obs_id" type="int">
+	 			<constraints primaryKey="true"/>
+	 		</column>
+	 		<column name="obs_datetime_precision" type="int"/>
+	 		<column name="obs_start_datetime" type="datetime"/>
+	 		<column name="obs_end_datetime" type="datetime"/>
+	 		<column name="obs_repeat_number" type="int"/>
+	 		<column name="interpretation" type="int"/>
+	 		<column name="mood" type="int"/>
+	 		<column name="status" type="int"/>
+	 	</createTable>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_obs_id_fk" referencedTableName="obs" baseColumnNames="obs_id" baseTableName="shr_obs" referencedColumnNames="obs_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_interpretation_fk" referencedTableName="concept" baseColumnNames="interpretation" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_mood_fk" referencedTableName="concept" baseColumnNames="mood" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+ 	   	<addForeignKeyConstraint constraintName="shr_obs_status_fk" referencedTableName="concept" baseColumnNames="status" baseTableName="shr_obs" referencedColumnNames="concept_id"/>
+   </changeSet>
+</databaseChangeLog>

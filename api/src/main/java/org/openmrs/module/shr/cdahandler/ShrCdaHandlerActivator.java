@@ -14,10 +14,18 @@
 package org.openmrs.module.shr.cdahandler;
 
 
-import org.apache.commons.logging.Log; 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openhealthtools.mdht.uml.cda.ihe.IHEPackage;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleActivator;
+import org.openmrs.module.shr.cdahandler.contenthandler.CdaContentHandler;
+import org.openmrs.module.shr.contenthandler.api.AlreadyRegisteredException;
+import org.openmrs.module.shr.contenthandler.api.CodedValue;
+import org.openmrs.module.shr.contenthandler.api.ContentHandlerService;
+import org.openmrs.module.shr.contenthandler.api.InvalidCodedValueException;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -26,19 +34,74 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
 	
+	// Format codes this handler supports
+	protected final Map<String, String> m_formatTypeCodes = new HashMap<String, String>()
+			{{
+				put("urn:ihe:pcc:xds-ms:2007", "*");
+				put("urn:ihe:pcc:hp:2008", "34117-2");
+				put("urn:ihe:pcc:aphp:2008", "34117-2");
+				put("urn:ihe:pcc:aps:2007", "57055-6");
+				put("urn:ihe:pcc:ape:2008", "34895-3");
+				put("urn:ihe:pcc:lds:2009", "57057-2");
+				put("urn:ihe:pcc:mds:2009", "57058-0");
+				put("urn:ihe:pcc:ic:2009", "11369-6");
+			}};
+	
+
+	/**
+	 * @see ModuleActivator#contextRefreshed()
+	 */
+	public void contextRefreshed() {
+		this.registerContentHandler();
+		log.info("SHR CDA Handler Module refreshed");
+	}
+	
+	/**
+	 * Register the content handler
+	 */
+	private void registerContentHandler() {
+		// Register the format codes
+		ContentHandlerService contentHandler = Context.getService(ContentHandlerService.class);
+		for(Map.Entry<String, String> formatTypeCode : this.m_formatTypeCodes.entrySet())
+		{
+			CodedValue formatCode = new CodedValue(formatTypeCode.getKey(), "1.3.6.1.4.1.19376.1.2.3");
+			CodedValue typeCode = new CodedValue(formatTypeCode.getValue(), CdaHandlerConstants.CODE_SYSTEM_LOINC);
+
+			try {
+				if(contentHandler.getContentHandler(typeCode, formatCode) == null)
+					contentHandler.registerContentHandler(typeCode, formatCode, CdaContentHandler.getInstance());
+	            
+            }
+            catch (AlreadyRegisteredException e) {
+	            log.error("Error generated", e);
+            }
+            catch (InvalidCodedValueException e) {
+	            log.error("Error generated", e);
+            }
+		}
+    }
+
+	/**
+	 * @see ModuleActivator#started()
+	 */
+	public void started() {
+		this.registerContentHandler();
+		log.info("SHR CDA Handler Module started");
 		
+	}
+	
+	/**
+	 * @see ModuleActivator#stopped()
+	 */
+	public void stopped() {
+		log.info("SHR CDA Handler Module stopped");
+	}
+	
 	/**
 	 * @see ModuleActivator#willRefreshContext()
 	 */
 	public void willRefreshContext() {
 		log.info("Refreshing SHR CDA Handler Module");
-	}
-	
-	/**
-	 * @see ModuleActivator#contextRefreshed()
-	 */
-	public void contextRefreshed() {
-		log.info("SHR CDA Handler Module refreshed");
 	}
 	
 	/**
@@ -49,25 +112,10 @@ public class ShrCdaHandlerActivator implements ModuleActivator {
 	}
 	
 	/**
-	 * @see ModuleActivator#started()
-	 */
-	public void started() {
-		IHEPackage.eINSTANCE.eClass();
-		log.info("SHR CDA Handler Module started");
-	}
-	
-	/**
 	 * @see ModuleActivator#willStop()
 	 */
 	public void willStop() {
 		log.info("Stopping SHR CDA Handler Module");
-	}
-	
-	/**
-	 * @see ModuleActivator#stopped()
-	 */
-	public void stopped() {
-		log.info("SHR CDA Handler Module stopped");
 	}
 		
 }

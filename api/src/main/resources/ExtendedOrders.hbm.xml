@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.openmrs.module.shr.cdahandler.order">
+
+ 	<joined-subclass name="ProcedureOrder" extends="org.openmrs.Order" table="procedure_order" >
+		<key column="order_id" />
+ 		<many-to-one name="status" class="org.openmrs.Concept" column="order_status"/>
+		<many-to-one  name="approachSite" class="org.openmrs.Concept" column="approach_site"/>
+		<many-to-one name="targetSite" class="org.openmrs.Concept" column="target_site"/>
+	</joined-subclass>
+
+	<joined-subclass name="ObservationOrder" extends="org.openmrs.Order" table="obs_order">
+		<key column="order_id"/>
+		<property name="goalNumeric" type="double" column="goal_numeric"/>
+		<property name="goalText" type="string" column="goal_text"/>
+		<many-to-one name="goalCoded" class="org.openmrs.Concept" column="goal_coded"/>
+		<many-to-one name="method" class="org.openmrs.Concept" column="method"/>
+		<many-to-one name="targetSite" class="org.openmrs.Concept" column="target_site"/>
+	</joined-subclass> 
+	
+	<joined-subclass name="org.openmrs.module.shr.cdahandler.obs.ExtendedObs" extends="org.openmrs.Obs" table="shr_obs">
+		<key column="obs_id"/>
+		<property name="obsDatePrecision" type="int" column="obs_datetime_precision"/>
+		<property name="obsStartDate" type="java.util.Date" column="obs_start_datetime"/>
+		<property name="obsEndDate" type="java.util.Date" column="obs_end_datetime"/>
+		<property name="obsRepeatNumber" type="int" column="obs_repeat_number"/>
+		<many-to-one name="obsInterpretation" class="org.openmrs.Concept" column="interpretation"/>
+		<many-to-one name="obsMood" class="org.openmrs.Concept" column="mood"/>
+		<many-to-one name="obsStatus" class="org.openmrs.Concept" column="status"/>
+	</joined-subclass>
+<!--
+	<class name="cdaAntepartum"
+		table="${project.parent.artifactId}_cdaAntepartum">
+		<id name="id" type="int" column="id" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<discriminator column="id" insert="false" />
+		<property name="uuid" type="java.lang.String" column="uuid"
+			length="38" unique="true" />
+	</class>
+-->
+
+</hibernate-mapping>

@@ -4,10 +4,10 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>shr-cdahandler</artifactId>
-	<version>0.0.0</version>
+	<version>0.5.0</version>
 	<packaging>pom</packaging>
 	<name>SHR CDA Handler Module</name>
-	<description>Provides content handling for CDA Antepartum History and Physical documents</description>
+	<description>Provides content handling for CDA documents</description>
 	<url>https://wiki.openmrs.org/display/docs/CDA+Antepartum+History+and+Physical+Processor+Module+Module</url>
 	
 	<developers>
@@ -33,7 +33,7 @@
 	</modules>
 	
 	<properties>
-		<openMRSVersion>1.9.0</openMRSVersion>
+		<openMRSVersion>1.10.0</openMRSVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 

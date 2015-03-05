@@ -1,0 +1,497 @@
+<ClinicalDocument classCode="DOCCLIN" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <realmCode code="US"/>
+  <typeId displayable="false" extension="POCD_HD000040" root="2.16.840.1.113883.1.3"/>
+  <templateId displayable="false" root="2.16.840.1.113883.10.20.3"/>
+  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.1.1"/>
+  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.1.16.1.1"/>
+  <id displayable="false" extension="apHandP" root="2.16.840.1.113883.19.4"/>
+  <code code="34117-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Cancer event report"/>
+  <title mediaType="text/plain" representation="TXT">Regenstrief Institute Clinic Continuity of Care Document</title>
+  <effectiveTime value="20140321081150.976-0500"/>
+  <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality" displayName="normal"/>
+  <languageCode code="en-US"/>
+  <recordTarget contextControlCode="OP" typeCode="RCT">
+    <patientRole classCode="PAT">
+      <id assigningAuthorityName="Wishard Memorial Hospital Medical Record Numbers" extension="91" root="1.3.6.1.4.1.12009.1.1.1"/>
+      <addr use="HP">
+        <streetAddressLine>3156 NEW ENGLAND ST</streetAddressLine>
+        <city>INDIANAPOLIS</city>
+        <state>IN</state>
+        <postalCode>46254</postalCode>
+        <useablePeriod xsi:type="IVL_TS">
+          <low nullFlavor="UNK"/>
+          <high nullFlavor="UNK"/>
+        </useablePeriod>
+      </addr>
+      <telecom use="HP" value="tel:+1-317-285-9073"/>
+      <patient>
+        <name>
+          <given>PATIENT</given>
+          <family>TEST</family>
+        </name>
+        <administrativeGenderCode code="U" codeSystem="1.3.6.1.4.1.12009.8.1" codeSystemName="SEX" displayName="unknown"/>
+        <birthTime value="19320924"/>
+        <maritalStatusCode code="M" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatus" displayName="Married">
+          <translation code="M" codeSystem="1.3.6.1.4.1.12009.1.1.8" codeSystemName="Wishard Memorial Hospital Person MARITAL STATUS codes" displayName="M"/>
+        </maritalStatusCode>
+        <raceCode nullFlavor="OTH">
+          <translation code="20545" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="refused">
+            <originalText>Declined to Specify</originalText>
+          </translation>
+        </raceCode>
+        <sdtc:raceCode nullFlavor="OTH" xmlns:sdtc="urn:hl7-org:sdtc">
+          <translation code="20545" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="refused">
+            <originalText>Declined to Specify</originalText>
+          </translation>
+        </sdtc:raceCode>
+        <ethnicGroupCode nullFlavor="OTH">
+          <translation nullFlavor="UNK"/>
+        </ethnicGroupCode>
+        <birthplace>
+          <place nullFlavor="UNK"/>
+        </birthplace>
+      </patient>
+      <providerOrganization>
+        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+        <name xsi:type="ON">WISHARD MEMORIAL HOSPITAL</name>
+        <telecom nullFlavor="UNK"/>
+        <addr>
+          <streetAddressLine>1001 W Tenth Street</streetAddressLine>
+          <city>Indianapolis</city>
+          <state>IN</state>
+          <postalCode>46202</postalCode>
+        </addr>
+      </providerOrganization>
+    </patientRole>
+  </recordTarget>
+  <author contextControlCode="OP" typeCode="AUT">
+    <time value="20000407130000+0500"/>
+    <assignedAuthor classCode="ASSIGNED">
+      <id assigningAuthorityName="CDA Class Name" extension="org.regenstrief.hl7_v3.cda.KyCda.3" root="1.3.6.1.4.1.12009.9.5" xsi:type="II"/>
+      <id assigningAuthorityName="Abstract Form Name" extension="KY CDA" root="1.3.6.1.4.1.12009.9.6" xsi:type="II"/>
+      <id assigningAuthorityName="SPIN Users" extension="AMARTIN3" root="1.3.6.1.4.1.12009.1.99.7" xsi:type="II"/>
+      <id assigningAuthorityName="Project Name" extension="file:/C:/Users/amartin/workspace/hl7/bin/" root="1.3.6.1.4.1.12009.9.7" xsi:type="II"/>
+      <id assigningAuthorityName="Med Hub Class Name" extension="org.regenstrief.hl7.database.LocalMedHub" root="1.3.6.1.4.1.12009.9.8" xsi:type="II"/>
+      <id assigningAuthorityName="National Provider Identifier" extension="156840731" root="2.16.840.1.113883.4.6" xsi:type="II"/>
+      <assignedPerson>
+        <name>
+          <prefix>Dr.</prefix>
+          <given>Robert</given>
+          <family>Dolin</family>
+        </name>
+      </assignedPerson>
+      <addr>
+        <streetAddressLine>1050 Wishard Blvd.</streetAddressLine>
+        <city>Indianapolis</city>
+        <state>IN</state>
+        <postalCode>46202</postalCode>
+      </addr>
+      <telecom value="tel:+1-317-630-6083"/>
+      <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+        <id displayable="false" root="1.3.6.1.4.1.12009" xsi:type="II"/>
+        <name xsi:type="ON">REGENSTRIEF INSTITUTE, INC.</name>
+        <telecom value="tel:+1-317-630-6083"/>
+        <addr>
+          <streetAddressLine>1050 Wishard Blvd.</streetAddressLine>
+          <city>Indianapolis</city>
+          <state>IN</state>
+          <postalCode>46202</postalCode>
+        </addr>
+      </representedOrganization>
+    </assignedAuthor>
+  </author>
+  <custodian typeCode="CST">
+    <assignedCustodian classCode="ASSIGNED">
+      <representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
+        <id displayable="false" root="1.3.6.1.4.1.12009" xsi:type="II"/>
+        <name xsi:type="ON">REGENSTRIEF INSTITUTE, INC.</name>
+        <telecom value="tel:+1-317-630-6083"/>
+        <addr>
+          <streetAddressLine>1050 Wishard Blvd.</streetAddressLine>
+          <city>Indianapolis</city>
+          <state>IN</state>
+          <postalCode>46202</postalCode>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <participant contextControlCode="OP" typeCode="RESP">
+    <time value="20140321081150.976-0500"/>
+    <associatedEntity classCode="PROV">
+      <id assigningAuthorityName="SPIN Users" extension="AMARTIN3" root="1.3.6.1.4.1.12009.1.99.7"/>
+      <!-- Had to fix this -->
+   	  <code code="FTH" displayName="Father" codeSystem="2.16.840.1.113883.5.111" codeSystemName="HL7 RoleCode (Personal Relationship subset)"/>
+      <addr nullFlavor="UNK"/>
+      <telecom nullFlavor="UNK"/>
+      <associatedPerson classCode="PSN" determinerCode="INSTANCE">
+        <name xsi:type="PN">
+          <given>ANDREW</given>
+          <family>MARTIN</family>
+        </name>
+      </associatedPerson>
+    </associatedEntity>
+  </participant>
+  <documentationOf typeCode="DOC">
+    <serviceEvent classCode="PCPR" moodCode="EVN">
+      <effectiveTime xsi:type="IVL_TS">
+        <low value="19710101000000.000-0500"/>
+        <high value="20140318164026.000-0500"/>
+      </effectiveTime>
+    </serviceEvent>
+  </documentationOf>
+  <component contextConductionInd="true" typeCode="COMP">
+    <structuredBody classCode="DOCBODY" moodCode="EVN">
+      <component contextConductionInd="true" typeCode="COMP">
+        <section classCode="DOCSECT" moodCode="EVN">
+          <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.3.28"/>
+          <id displayable="false" root="b36433c7-57b8-4e58-9aa6-4f94170b0215"/>
+          <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Relevant Dx tests/lab data"/>
+          <title mediaType="text/plain" representation="TXT">Results</title>
+          <text mediaType="text/x-hl7-text+xml">
+            <paragraph ID="Results-organizer">Lab results</paragraph>
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Type Code</th>
+                  <th>Value</th>
+                  <th>Value Code</th>
+                  <th>Date/Time</th>
+                  <th>Status</th>
+                  <th>Abnormal Flag</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Hgb Elp ALK pH</th>
+                  <td>3083 (Local Concept)</td>
+                  <td ID="Results-value-2635222674-001-0">Methylone Ur Qn</td>
+                  <td>43051 (Local Concept)</td>
+                  <td>2012-03-28 13:20:00.0</td>
+                  <td>history</td>
+                  <td>N</td>
+                  <td>Unknown</td>
+                </tr>
+                <tr>
+                  <th>Hgb S Bld Ql Soly</th>
+                  <td>6864-3 (LN), 789 (Local Concept)</td>
+                  <td ID="Results-value-2635222675-001-0">neg</td>
+                  <td>1325 (Local Concept)</td>
+                  <td>2012-03-28 13:20:00.0</td>
+                  <td>history</td>
+                  <td>N</td>
+                  <td>Unknown</td>
+                </tr>
+                <tr>
+                  <th>Inhaled O2 concentration</th>
+                  <td>3150-0 (LN), 207 (Local Concept)</td>
+                  <td ID="Results-value-78960013-000-0" colspan="2">80</td>
+                  <td>1996-04-19 14:45:00.0</td>
+                  <td>history</td>
+                  <td>N</td>
+                  <td>Unknown</td>
+                </tr>
+                <tr>
+                  <th>Inhaled O2 flow rate</th>
+                  <td>3151-8 (LN), 6458 (Local Concept)</td>
+                  <td ID="Results-value-78964285-000-0" colspan="2">15</td>
+                  <td>1996-04-19 14:45:00.0</td>
+                  <td>history</td>
+                  <td>N</td>
+                  <td>Unknown</td>
+                </tr>
+              </tbody>
+            </table>
+          </text>
+          <entry contextConductionInd="true" typeCode="COMP">
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.1.32"/>
+              <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+              <id nullFlavor="NA"/>
+              <code code="8996" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="ANEMIA STUDIES"/>
+              <statusCode code="completed"/>
+              <effectiveTime value="20120328132000.000-0500"/>
+              <component>
+                <procedure classCode="PROC" moodCode="EVN">
+                  <templateId assigningAuthorityName="HITSP/C83-[DE-17-CDA-1]" root="2.16.840.1.113883.3.88.11.83.17"/>
+                  <templateId assigningAuthorityName="HITSP/C83-[DE-17-CDA-2]" root="1.3.6.1.4.1.19376.1.5.3.1.4.19"/>
+                  <templateId assigningAuthorityName="HL7 CCD CONF-427" root="2.16.840.1.113883.10.20.1.29"/>
+                  <id nullFlavor="NA"/>
+                  <code>
+                    <originalText>
+                      <reference value="#Results-organizer"/>
+                    </originalText>
+                  </code>
+                  <text>
+                    <reference value="#Results-organizer"/>
+                  </text>
+                  <statusCode code="completed"/>
+                </procedure>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.1.31"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.3.88.11.83.15.1"/>
+                  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <id displayable="false" extension="2635222674-001-0" root="1.3.6.1.4.1.12009.1.1.12" xsi:type="II"/>
+                  <code code="3083" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="Hgb Elp ALK pH"/>
+                  <text mediaType="text/plain">
+                    <reference value="#Results-value-2635222674-001-0"/>
+                  </text>
+                  <statusCode code="completed"/>
+                  <effectiveTime value="20120328132000.000-0500"/>
+                  <value code="43051" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="Methylone Ur Qn" xsi:type="CD"/>
+                  <interpretationCode nullFlavor="NI" xsi:type="CE"/>
+                  <participant typeCode="LOC">
+                    <templateId root="2.16.840.1.113883.10.20.1.45"/>
+                    <participantRole classCode="SDLOC">
+                      <id assigningAuthorityName="Wishard Memorial Hospital Service Locations" extension="FM MED" root="1.3.6.1.4.1.12009.1.1.3"/>
+                      <addr>
+                        <streetAddressLine>1001 W Tenth Street</streetAddressLine>
+                        <city>Indianapolis</city>
+                        <state>IN</state>
+                        <postalCode>46202</postalCode>
+                      </addr>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity classCode="PLC">
+                        <name>Forest Manor Health Center</name>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <participant typeCode="AUT">
+                    <participantRole>
+                      <addr nullFlavor="UNK"/>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity>
+                        <code code="G3PP" codeSystem="1.3.6.1.4.1.12009.9.2"/>
+                        <desc>G3 Post Processor</desc>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text nullFlavor="NA" xsi:type="ST"/>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.1.31"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.3.88.11.83.15.1"/>
+                  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <id displayable="false" extension="2635222675-001-0" root="1.3.6.1.4.1.12009.1.1.12" xsi:type="II"/>
+                  <code code="6864-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Hgb S Bld Ql Soly">
+                    <translation code="789" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="Hgb S Screen (Solubility)"/>
+                  </code>
+                  <text mediaType="text/plain">
+                    <reference value="#Results-value-2635222675-001-0"/>
+                  </text>
+                  <statusCode code="completed"/>
+                  <effectiveTime value="20120328132000.000-0500"/>
+                  <value code="1325" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="neg" xsi:type="CD"/>
+                  <interpretationCode nullFlavor="NI" xsi:type="CE"/>
+                  <participant typeCode="LOC">
+                    <templateId root="2.16.840.1.113883.10.20.1.45"/>
+                    <participantRole classCode="SDLOC">
+                      <id assigningAuthorityName="Wishard Memorial Hospital Service Locations" extension="FM MED" root="1.3.6.1.4.1.12009.1.1.3"/>
+                      <addr>
+                        <streetAddressLine>1001 W Tenth Street</streetAddressLine>
+                        <city>Indianapolis</city>
+                        <state>IN</state>
+                        <postalCode>46202</postalCode>
+                      </addr>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity classCode="PLC">
+                        <name>Forest Manor Health Center</name>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <participant typeCode="AUT">
+                    <participantRole>
+                      <addr nullFlavor="UNK"/>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity>
+                        <code code="G3PP" codeSystem="1.3.6.1.4.1.12009.9.2"/>
+                        <desc>G3 Post Processor</desc>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text nullFlavor="NA" xsi:type="ST"/>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+          <entry contextConductionInd="true" typeCode="COMP">
+            <organizer classCode="BATTERY" moodCode="EVN">
+              <templateId root="2.16.840.1.113883.10.20.1.32"/>
+              <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+              <id nullFlavor="NA"/>
+              <code code="24338-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Gas Pnl Bld">
+                <translation code="5635" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="BLD GAS PANEL 1"/>
+              </code>
+              <statusCode code="completed"/>
+              <effectiveTime value="19960419144500.000-0500"/>
+              <component>
+                <procedure classCode="PROC" moodCode="EVN">
+                  <templateId assigningAuthorityName="HITSP/C83-[DE-17-CDA-1]" root="2.16.840.1.113883.3.88.11.83.17"/>
+                  <templateId assigningAuthorityName="HITSP/C83-[DE-17-CDA-2]" root="1.3.6.1.4.1.19376.1.5.3.1.4.19"/>
+                  <templateId assigningAuthorityName="HL7 CCD CONF-427" root="2.16.840.1.113883.10.20.1.29"/>
+                  <id nullFlavor="NA"/>
+                  <code>
+                    <originalText>
+                      <reference value="#Results-organizer"/>
+                    </originalText>
+                  </code>
+                  <text>
+                    <reference value="#Results-organizer"/>
+                  </text>
+                  <statusCode code="completed"/>
+                </procedure>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.1.31"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.3.88.11.83.15.1"/>
+                  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <id displayable="false" extension="78960013-000-0" root="1.3.6.1.4.1.12009.1.1.12" xsi:type="II"/>
+                  <code code="3150-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Inhaled O2 concentration">
+                    <translation code="207" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="Inspired O2"/>
+                  </code>
+                  <text mediaType="text/plain">
+                    <reference value="#Results-value-78960013-000-0"/>
+                  </text>
+                  <statusCode code="completed"/>
+                  <effectiveTime value="19960419144500.000-0500"/>
+                  <value unit="%" value="80.0" xsi:type="PQ"/>
+                  <interpretationCode nullFlavor="NI" xsi:type="CE"/>
+                  <participant typeCode="LOC">
+                    <templateId root="2.16.840.1.113883.10.20.1.45"/>
+                    <participantRole classCode="SDLOC">
+                      <id assigningAuthorityName="Wishard Memorial Hospital Service Locations" extension="WMH" root="1.3.6.1.4.1.12009.1.1.3"/>
+                      <addr>
+                        <streetAddressLine>1001 W Tenth Street</streetAddressLine>
+                        <city>Indianapolis</city>
+                        <state>IN</state>
+                        <postalCode>46202</postalCode>
+                      </addr>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity classCode="PLC">
+                        <name>Wishard Memorial Hospital</name>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <participant typeCode="AUT">
+                    <participantRole>
+                      <addr nullFlavor="UNK"/>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity>
+                        <code code="PULWMH" codeSystem="1.3.6.1.4.1.12009.9.2"/>
+                        <desc>Wishard Pulmonary Lab</desc>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text nullFlavor="NA" xsi:type="ST"/>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </component>
+              <component>
+                <observation classCode="OBS" moodCode="EVN">
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.1.31"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.3.88.11.83.15.1"/>
+                  <templateId displayable="false" root="1.3.6.1.4.1.19376.1.5.3.1.4.13"/>
+                  <templateId displayable="false" root="2.16.840.1.113883.10.20.22.4.2"/>
+                  <id displayable="false" extension="78964285-000-0" root="1.3.6.1.4.1.12009.1.1.12" xsi:type="II"/>
+                  <code code="3151-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LN" displayName="Inhaled O2 flow rate">
+                    <translation code="6458" codeSystem="1.3.6.1.4.1.12009.2" codeSystemName="Local Concept" displayName="Oxygen Flow Rate"/>
+                  </code>
+                  <text mediaType="text/plain">
+                    <reference value="#Results-value-78964285-000-0"/>
+                  </text>
+                  <statusCode code="completed"/>
+                  <effectiveTime value="19960419144500.000-0500"/>
+                  <value unit="L/min" value="15.0" xsi:type="PQ"/>
+                  <interpretationCode nullFlavor="NI" xsi:type="CE"/>
+                  <participant typeCode="LOC">
+                    <templateId root="2.16.840.1.113883.10.20.1.45"/>
+                    <participantRole classCode="SDLOC">
+                      <id assigningAuthorityName="Wishard Memorial Hospital Service Locations" extension="WMH" root="1.3.6.1.4.1.12009.1.1.3"/>
+                      <addr>
+                        <streetAddressLine>1001 W Tenth Street</streetAddressLine>
+                        <city>Indianapolis</city>
+                        <state>IN</state>
+                        <postalCode>46202</postalCode>
+                      </addr>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity classCode="PLC">
+                        <name>Wishard Memorial Hospital</name>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <participant typeCode="AUT">
+                    <participantRole>
+                      <addr nullFlavor="UNK"/>
+                      <telecom nullFlavor="UNK"/>
+                      <playingEntity>
+                        <code code="PULWMH" codeSystem="1.3.6.1.4.1.12009.9.2"/>
+                        <desc>Wishard Pulmonary Lab</desc>
+                      </playingEntity>
+                      <scopingEntity>
+                        <id displayable="false" root="1.3.6.1.4.1.12009.1.1" xsi:type="II"/>
+                        <desc>WISHARD MEMORIAL HOSPITAL</desc>
+                      </scopingEntity>
+                    </participantRole>
+                  </participant>
+                  <referenceRange typeCode="REFV">
+                    <observationRange classCode="OBS" moodCode="EVN.CRT">
+                      <text nullFlavor="NA" xsi:type="ST"/>
+                    </observationRange>
+                  </referenceRange>
+                </observation>
+              </component>
+            </organizer>
+          </entry>
+        </section>
+      </component>
+    </structuredBody>
+  </component>
+</ClinicalDocument>
