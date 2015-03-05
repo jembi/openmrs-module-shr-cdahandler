@@ -89,7 +89,7 @@ public class CdaContentHandler implements ContentHandler {
 
 			// HACK: Handle the BOM or Java String Problems
 			int offset = 0;
-			byte[] data = content.getRawData();
+			byte[] data = content.getPayload();
 			while(data[offset] != '<')
 				offset++;
 
@@ -139,10 +139,6 @@ public class CdaContentHandler implements ContentHandler {
 	        }
 	        
         	return lastEncounter;
-        }
-        catch (IOException e) {
-	        log.error("Error generated", e);
-	        return null;
         }
         catch (DocumentImportException e) {
         	throw new RuntimeException(e);
