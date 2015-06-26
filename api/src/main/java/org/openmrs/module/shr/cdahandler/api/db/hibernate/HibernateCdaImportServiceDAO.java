@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.jfree.util.Log;
 import org.openmrs.Concept;
-import org.openmrs.ConceptMap;
-import org.openmrs.ConceptMapType;
 import org.openmrs.ConceptReferenceTerm;
 import org.openmrs.ConceptSource;
 import org.openmrs.Obs;
 import org.openmrs.Order;
 import org.openmrs.activelist.ActiveListItem;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.api.db.hibernate.HibernateConceptDAO;
 import org.openmrs.module.shr.cdahandler.api.db.CdaImportServiceDAO;
 import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
@@ -27,12 +23,12 @@ import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 	
 	// Hibernate session factory
-	private SessionFactory m_sessionFactory;
+	private DbSessionFactory m_sessionFactory;
 	
     /**
      * @param sessionFactory the sessionFactory to set
      */
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public void setSessionFactory(DbSessionFactory sessionFactory) {
     	this.m_sessionFactory = sessionFactory;
     }
 
@@ -43,7 +39,7 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 	@Override
 	public Concept saveConceptQuick(Concept concept) {
 		HibernateConceptDAO wrappedDao = new HibernateConceptDAO();
-		wrappedDao.setSessionFactory(this.m_sessionFactory);
+		wrappedDao.setSessionFactory(this.m_sessionFactory.getHibernateSessionFactory());
 		return wrappedDao.saveConcept(concept);
 	}
 	
@@ -68,7 +64,7 @@ public class HibernateCdaImportServiceDAO implements CdaImportServiceDAO {
 	@Override
     public ConceptReferenceTerm saveReferenceTermQuick(ConceptReferenceTerm referenceTerm) {
 		HibernateConceptDAO wrappedDao = new HibernateConceptDAO();
-		wrappedDao.setSessionFactory(this.m_sessionFactory);
+		wrappedDao.setSessionFactory(this.m_sessionFactory.getHibernateSessionFactory());
 		return wrappedDao.saveConceptReferenceTerm(referenceTerm);
     }
 

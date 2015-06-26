@@ -1,5 +1,7 @@
 package org.openmrs.module.shr.cdahandler.processor.util;
 
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import org.marc.everest.datatypes.AD;
@@ -73,8 +75,14 @@ public final class AssignedEntityProcessorUtil {
 		if(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice() != null)
 		{
 			Provider p = new Provider();
+			Person person = new Person();
+			Set names = new TreeSet<PersonName>();
+
 			p.setIdentifier(id);
-			p.setName(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice().getSoftwareName().getValue());
+			names.add(new PersonName(aa.getAssignedAuthorChoiceIfAssignedAuthoringDevice().getSoftwareName().getValue(), null, null));
+			person.setNames(names);
+
+			p.setPerson(person);
 			return Context.getProviderService().saveProvider(p);
 		}
 		else
