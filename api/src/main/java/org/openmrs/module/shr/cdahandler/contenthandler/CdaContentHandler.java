@@ -13,6 +13,7 @@ import org.marc.everest.formatters.interfaces.IXmlStructureFormatter;
 import org.marc.everest.interfaces.IResultDetail;
 import org.marc.everest.interfaces.ResultDetailType;
 import org.marc.everest.resultdetails.DatatypeValidationResultDetail;
+import org.marc.everest.resultdetails.ValidationResultDetail;
 import org.marc.everest.rmim.uv.cdar2.pocd_mt000040uv.ClinicalDocument;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterRole;
@@ -30,6 +31,7 @@ import org.openmrs.module.shr.cdahandler.exception.ValidationIssueCollection;
 import org.openmrs.module.shr.cdahandler.processor.util.PatientRoleProcessorUtil;
 import org.openmrs.module.shr.contenthandler.api.Content;
 import org.openmrs.module.shr.contenthandler.api.ContentHandler;
+import org.openmrs.module.shr.contenthandler.api.ContentHandlerException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -75,13 +77,33 @@ public class CdaContentHandler implements ContentHandler {
 	public Content fetchContent(String arg0) {
 		throw new NotImplementedException();
 	}
-	
+
+	/**
+	 * Convert a DocumentValidationException into a ContentHandlerException
+	 */
+	private ContentHandlerException convertToContentHandlerException(DocumentValidationException ex) {
+		ContentHandlerException che = new ContentHandlerException(ex);
+
+		for (ValidationResultDetail detail : ex.getValidationIssues()) {
+			ContentHandlerException.DetailType type;
+			switch (detail.getType()) {
+				case INFORMATION: type = ContentHandlerException.DetailType.INFO; break;
+				case WARNING: type = ContentHandlerException.DetailType.WARNING; break;
+				default: type = ContentHandlerException.DetailType.ERROR; break;
+			}
+
+			che.addDetail(new ContentHandlerException.Detail(type, detail.getMessage()));
+		}
+
+		return che;
+	}
+
 	/**
 	 * Save content
 	 */
 	@Override
-	@Transactional
-	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providerRole, EncounterType encounterType, Content content) {
+	@Transactional(rollbackFor = ContentHandlerException.class)
+	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providerRole, EncounterType encounterType, Content content) throws ContentHandlerException {
 		
 		// TODO: Validate / add provider data to the header
 		CdaImportService importService = Context.getService(CdaImportService.class);
@@ -123,8 +145,9 @@ public class CdaContentHandler implements ContentHandler {
 					parseIssues.error(String.format("Patient identifier '%s^^^&%s&ISO' in recordTarget must match patientIdentifier provided in XDS meta-data", pid.getIdentifier(), pid.getIdentifierType().getName()));
 			}
 			
-			if(parseIssues.hasErrors() || document == null)
-				throw new DocumentValidationException(parseResult.getStructure(), parseIssues);
+			if(parseIssues.hasErrors() || document == null) {
+				throw convertToContentHandlerException(new DocumentValidationException(parseResult.getStructure(), parseIssues));
+			}
 			
 			// Parse the visit
 	        Visit processedVisit = importService.importDocument((ClinicalDocument)parseResult.getStructure());
@@ -141,7 +164,7 @@ public class CdaContentHandler implements ContentHandler {
         	return lastEncounter;
         }
         catch (DocumentImportException e) {
-        	throw new RuntimeException(e);
+			throw new ContentHandlerException(e);
         }
 	}
 	
