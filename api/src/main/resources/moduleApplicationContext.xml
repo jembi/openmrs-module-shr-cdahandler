@@ -36,7 +36,7 @@
 							<property name="dao">
 								<bean class="${project.parent.groupId}.shr.cdahandler.api.db.hibernate.HibernateCdaImportServiceDAO">
 									<property name="sessionFactory">
-										<ref bean="sessionFactory" />
+										<ref bean="dbSessionFactory" />
 									</property>
 								</bean>
 							</property>
