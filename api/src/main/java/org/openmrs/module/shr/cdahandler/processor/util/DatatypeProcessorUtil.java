@@ -208,7 +208,10 @@ public final class DatatypeProcessorUtil {
 			candidateFrequency = new OrderFrequency();
 			candidateFrequency.setConcept(frequencyConcept);
 			candidateFrequency.setFrequencyPerDay(1/repeatsPerDay.getValue().doubleValue());
-			candidateFrequency.setName(frequencyConcept.getPreferredName(Context.getLocale()).getName());
+			if(frequencyConcept.getPreferredName(Context.getLocale()) == null)
+				candidateFrequency.setName(frequency.toString());
+			else
+				candidateFrequency.setName(frequencyConcept.getPreferredName(Context.getLocale()).getName());
 			candidateFrequency = Context.getOrderService().saveOrderFrequency(candidateFrequency);
 			return candidateFrequency;
 		}

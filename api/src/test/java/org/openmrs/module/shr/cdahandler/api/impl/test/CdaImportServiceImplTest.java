@@ -64,8 +64,8 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
         Context.getAdministrationService().setGlobalProperty("shr-cdahandler.cacheMappedConcepts", "false");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		initializeInMemoryDatabase();
-		GlobalProperty disableValidation = new GlobalProperty(OpenmrsConstants.GP_DISABLE_VALIDATION, "true");
-		Context.getAdministrationService().saveGlobalProperty(disableValidation);
+		//GlobalProperty disableValidation = new GlobalProperty(OpenmrsConstants.GP_DISABLE_VALIDATION, "true");
+		//Context.getAdministrationService().saveGlobalProperty(disableValidation);
 		Context.checkCoreDataset();
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
 		executeDataSet(CIEL_LIST_INITIAL_XML);

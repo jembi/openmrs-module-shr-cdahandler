@@ -55,10 +55,12 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 			throw new DocumentImportException("Expected entry to be SubstanceAdministration");
 		
 		SubstanceAdministration sbadm = (SubstanceAdministration)entry;
-		if(sbadm.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Intent)) // Prescribe
-			return this.processAdministrationAsOrder(sbadm);
-		else
-			return this.processAdministrationAsObservation(sbadm);
+		// TODO: There is currently a problem where OpenMRS attempts to validate the frequency of dispense as a FrequencyType if the med is created as an order
+		// TODO: Fix this if we're to hook into the order system
+		// if(sbadm.getMoodCode().getCode().equals(x_DocumentSubstanceMood.Intent)) // Prescribe
+		//	return this.processAdministrationAsOrder(sbadm);
+		// else
+		return this.processAdministrationAsObservation(sbadm);
     }
 
 	/**

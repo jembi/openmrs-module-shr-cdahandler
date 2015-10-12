@@ -1074,13 +1074,17 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 			ConceptClass conceptClass = this.m_conceptService.getConceptClassByUuid(ConceptClass.DRUG_UUID);
 			if(conceptClass == null)
 			{
-				conceptClass = new ConceptClass();
-				conceptClass.setName("Drug");
-				conceptClass.setUuid(ConceptClass.DRUG_UUID);
-				conceptClass.setDescription("Automatically created");
-				synchronized (s_lockObject) {
-					conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
-                }
+				conceptClass = this.m_conceptService.getConceptClassByName("Drug");
+				if(conceptClass == null)
+				{
+					conceptClass = new ConceptClass();
+					conceptClass.setName("Drug");
+					conceptClass.setUuid(ConceptClass.DRUG_UUID);
+					conceptClass.setDescription("Automatically created");
+					synchronized (s_lockObject) {
+						conceptClass = this.m_conceptService.saveConceptClass(conceptClass);
+	                }
+				}
 			}
 			// Make this a drug
 			if(concept != null && !concept.getConceptClass().equals(conceptClass))
