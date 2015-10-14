@@ -103,6 +103,8 @@ public final class PatientRoleProcessorUtil {
 		{
 			candidateId = id;
 			pit = Context.getPatientService().getPatientIdentifierTypeByName(candidateId.getRoot());
+			if(pit == null)
+				pit = Context.getPatientService().getPatientIdentifierTypeByUuid(id.getRoot());
 			if(pit != null && pit.getName().equals(this.m_configuration.getEcidRoot())) 
 				break; // don't look any further we have the ECID
 		}
@@ -113,6 +115,7 @@ public final class PatientRoleProcessorUtil {
 			//create new id type
 			pit = new PatientIdentifierType();
 			pit.setName(candidateId.getRoot());
+			pit.setUuid(candidateId.getRoot());
 			pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", candidateId.getAssigningAuthorityName() != null ? candidateId.getAssigningAuthorityName() : candidateId.getRoot())); 
 			Context.getPatientService().savePatientIdentifierType(pit);
 		}
@@ -172,10 +175,13 @@ public final class PatientRoleProcessorUtil {
 		for(II id : importPatient.getId())
 		{
 			PatientIdentifierType pit = Context.getPatientService().getPatientIdentifierTypeByName(id.getRoot());
+			if(pit == null)
+				pit = Context.getPatientService().getPatientIdentifierTypeByUuid(id.getRoot());
 			if(pit == null && this.m_configuration.getAutoCreatePatientIdType())
 			{
 				pit = new PatientIdentifierType();
 				pit.setName(id.getRoot());
+				pit.setUuid(id.getRoot());
 				pit.setDescription(String.format("OpenHIE SHR generated patient identifier type for '%s' authority", id.getAssigningAuthorityName() != null ? id.getAssigningAuthorityName() : id.getRoot()));
 				
 				pit = Context.getPatientService().savePatientIdentifierType(pit);
