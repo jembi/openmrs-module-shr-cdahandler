@@ -55,6 +55,9 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 	@Override
     protected ActiveListItem parseActContents(Act act, ClinicalStatement statement) throws DocumentImportException {
 		EntryProcessor processor = EntryProcessorFactory.getInstance().createProcessor(statement);
+		if (processor==null) {
+			return null;
+		}
 		processor.setContext(this.getContext());
 
 		
