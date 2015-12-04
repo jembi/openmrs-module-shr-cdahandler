@@ -83,6 +83,7 @@ public final class AssignedEntityProcessorUtil {
 			person.setNames(names);
 
 			p.setPerson(person);
+			Context.getPersonService().savePerson(person);
 			return Context.getProviderService().saveProvider(p);
 		}
 		else
