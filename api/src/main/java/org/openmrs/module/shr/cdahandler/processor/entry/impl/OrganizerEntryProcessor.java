@@ -100,7 +100,7 @@ public abstract class OrganizerEntryProcessor extends EntryProcessorImpl {
 			organizerObs.setObsStatus(this.m_conceptUtil.getOrCreateConcept(new CV<ActStatus>(organizer.getStatusCode().getCode())));
 
 		// Effective time is value
-		if(organizer.getEffectiveTime() != null)
+		if(organizer.getEffectiveTime() != null && !organizer.getEffectiveTime().isNull())
 		{
 			// Date precisions least descriptive
 			if(organizer.getEffectiveTime().getValue() != null )

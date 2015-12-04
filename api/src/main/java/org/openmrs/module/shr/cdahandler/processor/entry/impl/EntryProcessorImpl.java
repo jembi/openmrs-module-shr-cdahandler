@@ -180,8 +180,10 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 			AssignedAuthor headerAuthor = this.findAuthorFromHeader(statement.getAuthor().get(0).getAssignedAuthor().getId());
 			// Get the provider
 			Provider createdByProvider = this.m_assignedEntityUtil.processProvider(headerAuthor);
-			User createdBy = this.m_dataUtil.getUser(createdByProvider);
-			data.setCreator(createdBy);
+			if (createdByProvider!=null) {
+				User createdBy = this.m_dataUtil.getUser(createdByProvider);
+				data.setCreator(createdBy);
+			}
 			if(statement.getAuthor().get(0).getTime() != null &&
 					!statement.getAuthor().get(0).getTime().isNull())
 				data.setDateCreated(statement.getAuthor().get(0).getTime().getDateValue().getTime());
@@ -238,9 +240,10 @@ public abstract class EntryProcessorImpl implements EntryProcessor {
 				}
 			if(headerAuthor != null) break;
 		}
-		
-		if(headerAuthor == null)
-			throw new DocumentImportException("Author in entry must appear in the header as well");
+
+		// disabling for connectathon - several samples are guilty of this - needs discussion
+		//if(headerAuthor == null)
+			//throw new DocumentImportException("Author in entry must appear in the header as well");
 		return headerAuthor;
     }
 

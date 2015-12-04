@@ -62,6 +62,10 @@ public class ProblemConcernEntryProcessor extends ConcernEntryProcessor {
 
 		
 		BaseOpenmrsData processed = processor.process(statement);
+		// connectathon hack
+		if (processed==null) {
+			return null;
+		}
 		
 		// Not a problem observation so don't create a problem
 		
