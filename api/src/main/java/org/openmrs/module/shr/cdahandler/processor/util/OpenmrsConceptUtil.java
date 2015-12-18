@@ -687,7 +687,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		log.debug("Enter: getOrCreateReferenceTerm");
 
 		// First, attempt to get the ConceptSource from the CodeSystem
-		if(code.getCode() == null) 
+		if(code == null || code.getCode() == null)
 			return null;
 		
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
