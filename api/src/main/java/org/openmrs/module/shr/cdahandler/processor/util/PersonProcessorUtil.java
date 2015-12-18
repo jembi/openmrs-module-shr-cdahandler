@@ -114,6 +114,8 @@ public final class PersonProcessorUtil {
 			for(PN pn : person.getName())
 				if(!pn.isNull())
 					res.addName(this.m_datatypeUtil.parseEN(pn));
+		else
+			res.addName(new PersonName("Unspecified", null, "Unspecified"));
 		
 		// Gender not provided.. Assign
 		res.setGender("U");

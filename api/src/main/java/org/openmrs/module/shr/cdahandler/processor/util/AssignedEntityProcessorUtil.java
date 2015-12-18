@@ -83,6 +83,7 @@ public final class AssignedEntityProcessorUtil {
 			person.setNames(names);
 
 			p.setPerson(person);
+			Context.getPersonService().savePerson(person);
 			return Context.getProviderService().saveProvider(p);
 		}
 		else
@@ -115,7 +116,7 @@ public final class AssignedEntityProcessorUtil {
 		res.setIdentifier(id);
 
 		
-		if(assignedEntity.getAssignedPerson() != null )
+		if(assignedEntity.getAssignedPerson() != null && assignedEntity.getAssignedPerson().getNullFlavor()==null)
 			res.setPerson(this.m_personUtil.createPerson(assignedEntity.getAssignedPerson()));
 
 		// Address
@@ -155,7 +156,7 @@ public final class AssignedEntityProcessorUtil {
 			organizationAttribute.setValue(location.getId().toString());
 			res.getPerson().addAttribute(organizationAttribute);
 		}
-		
+
 		res = Context.getProviderService().saveProvider(res);
 		
 		// Create a user as this will be assigned to the users
@@ -184,7 +185,9 @@ public final class AssignedEntityProcessorUtil {
 	public Provider processProvider(AssignedAuthor aut) throws DocumentImportException {
 
 		if (aut == null || aut.getNullFlavor() != null)
-			throw new DocumentImportException("AssignedAuthor role is null");
+			//throw new DocumentImportException("AssignedAuthor role is null");
+			// connectathon hack
+			return null;
 		else if(aut.getId() == null || aut.getId().isNull() || aut.getId().isEmpty())
 			throw new DocumentImportException("No identifiers found for author");
 		
@@ -241,10 +244,13 @@ public final class AssignedEntityProcessorUtil {
 		String id = this.m_datatypeUtil.formatIdentifier(assignedEntity.getId().get(0));
 		
 		Provider res = null;
-		
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for author id");
-		else 				
+
+		if (id.equals(this.m_datatypeUtil.emptyIdString()))
+			// ignore and just create the provider
+			// hack for connectathon testing - this shouldn't happen in an OpenHIE scenario
+			// as providers will first need to be resolved in the healthcare worker registry
+			;
+		else
 			res = Context.getProviderService().getProviderByIdentifier(id);
 			
 		if (res==null)

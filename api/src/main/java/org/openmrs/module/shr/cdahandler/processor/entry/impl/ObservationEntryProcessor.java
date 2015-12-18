@@ -286,7 +286,7 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 		// Value may be changed
 		ANY value = observation.getValue();
 		
-		// Code 
+		// Code
 		Concept concept = this.m_conceptUtil.getTypeSpecificConcept(observation.getCode(), observation.getValue());
 		if(concept == null && observation.getValue() != null && this.m_configuration.getAutoCreateConcepts())
 		{
@@ -359,7 +359,11 @@ public abstract class ObservationEntryProcessor extends EntryProcessorImpl {
 					sectionContext = sectionContext.getParent();
 				
 				// Now find the text
-				StructDocNode referencedNode = ((Section)sectionContext.getRawObject()).getText().findNodeById(observation.getText().getReference().getValue());
+				StructDocNode referencedNode = null;
+				String reference = observation.getText().getReference().getValue();
+				if (reference!=null) {
+					referencedNode = ((Section) sectionContext.getRawObject()).getText().findNodeById(reference);
+				}
 				if(referencedNode != null)
 				{
 					res.setComment(referencedNode.toPlainString());

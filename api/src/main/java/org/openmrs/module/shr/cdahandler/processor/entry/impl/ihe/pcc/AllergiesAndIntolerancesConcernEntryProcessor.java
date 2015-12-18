@@ -111,12 +111,18 @@ public class AllergiesAndIntolerancesConcernEntryProcessor extends ConcernEntryP
 			// Get the severity code
 			Observation severityObservation = severityRelationship.get(0).getClinicalStatementIfObservation();
 			CS<String> severityObservationValue = (CS<String>)severityObservation.getValue();
-			if(severityObservationValue.getCode().equals("L"))
-				res.setSeverity(AllergySeverity.MILD);
-			if(severityObservationValue.getCode().equals("M"))
-				res.setSeverity(AllergySeverity.MODERATE);			
-			if(severityObservationValue.getCode().equals("H"))
+			if (severityObservationValue!=null && severityObservationValue.getCode()!=null) {
+				if (severityObservationValue.getCode().equals("L"))
+					res.setSeverity(AllergySeverity.MILD);
+				else if (severityObservationValue.getCode().equals("M"))
+					res.setSeverity(AllergySeverity.MODERATE);
+				else if (severityObservationValue.getCode().equals("H"))
 					res.setSeverity(AllergySeverity.SEVERE);
+				else
+					throw new DocumentImportException("Unknown severity observation code value " + severityObservationValue.getCode());
+			} else {
+				res.setSeverity(AllergySeverity.UNKNOWN);
+			}
 		}
 		else if(observation.getCode().getCode().endsWith("INT"))
 			res.setSeverity(AllergySeverity.INTOLERANCE);

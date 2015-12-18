@@ -177,7 +177,7 @@ public class OpenmrsMetadataUtil {
 		for(EncounterRole role : Context.getEncounterService().getAllEncounterRoles(false))
 			if(role.getDescription().equals(codeKey))
 				encounterRole = role;
-				
+
 		if(encounterRole == null && this.m_configuration.getAutoCreateMetaData()) {
 			encounterRole = new EncounterRole();
 			encounterRole.setName(cs.getCode().getCode());

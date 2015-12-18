@@ -218,9 +218,13 @@ public abstract class SubstanceAdministrationEntryProcessor extends EntryProcess
 				
 				if(drugMaterial.getCode() != null)
 				{
-					
-					administeredDrug = this.m_conceptUtil.getOrCreateDrugFromConcept(drugMaterial.getCode(), drugMaterial.getName(), administration.getAdministrationUnitCode());
-					this.m_dataUtil.addSubObservationValue(medicationHistoryObs, drugObsConcept, administeredDrug);
+
+					if (!drugMaterial.getCode().isNull()) {
+						administeredDrug = this.m_conceptUtil.getOrCreateDrugFromConcept(drugMaterial.getCode(), drugMaterial.getName(), administration.getAdministrationUnitCode());
+						this.m_dataUtil.addSubObservationValue(medicationHistoryObs, drugObsConcept, administeredDrug);
+					} else {
+						// can't process a null material
+					}
 
 				}
 				else

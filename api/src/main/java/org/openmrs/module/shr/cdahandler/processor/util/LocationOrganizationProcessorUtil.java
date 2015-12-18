@@ -183,8 +183,10 @@ public final class LocationOrganizationProcessorUtil {
 		Location res = null;
 
 		// Was there an id?
-		if (id.equals(this.m_datatypeUtil.emptyIdString())) 
-			throw new DocumentImportException("No data specified for location id");
+		if (id.equals(this.m_datatypeUtil.emptyIdString()))
+			// connectathon hack - ignore and just create new org
+			//throw new DocumentImportException("No data specified for location id");
+			;
 		else
 			res = this.getOrganizationByExternalId(id);
 		

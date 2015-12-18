@@ -266,7 +266,11 @@ public class CdaImportServiceImpl extends BaseOpenmrsService implements CdaImpor
 	 */
 	@Override
     public List<Concept> getConceptsByMapping(ConceptReferenceTerm term, String strength) {
-        synchronized (this) {
+		if (term==null || term.getCode()==null || term.getCode().trim().isEmpty() || term.getConceptSource()==null) {
+			return Collections.emptyList();
+		}
+
+		synchronized (this) {
             if (cacheMappedConcepts == null) {
                 if (Context.getAdministrationService().getGlobalProperty(GP_CACHE_MAPPED_CONCEPTS).equalsIgnoreCase("true")) {
                     cacheMappedConcepts = true;

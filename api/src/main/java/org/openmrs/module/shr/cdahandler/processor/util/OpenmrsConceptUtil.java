@@ -537,6 +537,9 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 	
 		log.debug("Enter: getOrCreateConceptSource");
 		name = this.mapOidToConceptSourceName(hl7);
+		if (name==null || name.trim().isEmpty()) {
+			name = "Unknown";
+		}
 		
 		
 		ConceptSource conceptSource = this.m_conceptService.getConceptSourceByName(name);
@@ -684,7 +687,7 @@ public final class OpenmrsConceptUtil extends OpenmrsMetadataUtil {
 		log.debug("Enter: getOrCreateReferenceTerm");
 
 		// First, attempt to get the ConceptSource from the CodeSystem
-		if(code.getCode() == null) 
+		if(code == null || code.getCode() == null)
 			return null;
 		
 		ConceptSource conceptSource = this.getOrCreateConceptSource(code.getCodeSystemName(), code.getCodeSystem(), code.getCodeSystemName(), code.getCode().getClass());
