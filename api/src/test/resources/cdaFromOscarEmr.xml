@@ -63,7 +63,7 @@
     <hl7:assignedCustodian classCode="ASSIGNED">
       <hl7:representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
         <hl7:id root="1.3.6.1.4.1.33349.3.1.3.201203.2.0.0" extension="444"/>
-        <hl7:name use="L">McMaster University</hl7:name>
+        <hl7:name use="L">McMaster University Downtown Campus</hl7:name>
         <hl7:addr use="WP">
           <hl7:streetAddressLine>123 Fake St.</hl7:streetAddressLine>
           <hl7:city>Hamilton</hl7:city>

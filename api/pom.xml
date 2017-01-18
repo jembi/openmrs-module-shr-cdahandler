@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>shr-cdahandler</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>shr-cdahandler-api</artifactId>
@@ -59,14 +59,14 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>shr-contenthandler-api</artifactId>
-			<version>3.0.0</version>
+			<version>${contenthandlerVersion}</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sourceforge.lpg</groupId>
+			<groupId>org.eclipse.birt.runtime</groupId>
 			<artifactId>net.sourceforge.lpg.lpgjavaruntime</artifactId>
-			<version>1.1.0.v200803061910</version>
+			<version>1.1.0.v201004271650</version>
 		</dependency>
 
 		<!-- Everest Dependencies -->

@@ -21,7 +21,7 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 
 
 public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
-	
+
 	// Log
 	protected final Log log = LogFactory.getLog(this.getClass());
 
@@ -32,12 +32,12 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	private CE<String> m_loincWeightTerm = new CE<String>("3141-9", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "BODY WEIGHT (MEASURED)", null);
 	private CE<String> m_loincHeightTerm = new CE<String>("8302-2", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "BODY HEIGHT (MEASURED)", null);
 	private CE<String> m_vitalSignsTerm = new CE<String>("8716-3", CdaHandlerConstants.CODE_SYSTEM_LOINC, "LOINC", null, "VITAL SIGNS", null);
-	
+
 	@Before
 	public void setupConcepts()
 	{
 		// Create our sample set
-		
+
 		// Create concept Source
 		this.m_loincSource = Context.getConceptService().getConceptSourceByName("LOINC");
 
@@ -48,29 +48,32 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 			this.m_loincSource.setHl7Code("LN");
 			Context.getConceptService().saveConceptSource(this.m_loincSource);
 		}
-		
+
 		// Create reference term
 		this.m_weightTerm = new ConceptReferenceTerm();
 		this.m_weightTerm.setCode("3141-9");
 		this.m_weightTerm.setDescription("BODY WEIGHT (MEASURED)");
 		this.m_weightTerm.setConceptSource(this.m_loincSource);
 		Context.getConceptService().saveConceptReferenceTerm(this.m_weightTerm);
-		
-		// A concept for Weight in KG that has a map to 
+
+		// A concept for Weight in KG that has a map to
 		this.m_weightConcept = new ConceptNumeric();
 		this.m_weightConcept.setConceptClass(Context.getConceptService().getConceptClassByName("Misc"));
-		this.m_weightConcept.addName(new ConceptName("A Weight Concept in Kg", Context.getLocale()));
+		this.m_weightConcept.setDatatype(Context.getConceptService().getConceptDatatypeByName("Numeric"));
+        this.m_weightConcept.addName(new ConceptName("A Weight Concept in Kg", Context.getLocale()));
 		this.m_weightConcept.setPreferredName(this.m_weightConcept.getName());
 		((ConceptNumeric)this.m_weightConcept).setUnits("kg");
-		// Map 
+		// Map
 		ConceptMap map = new ConceptMap();
 		map.setConcept(this.m_weightConcept);
 		map.setConceptReferenceTerm(this.m_weightTerm);
 		map.setConceptMapType(Context.getConceptService().getConceptMapTypeByName("same-as"));
 		this.m_weightConcept.addConceptMapping(map);
 		Context.getConceptService().saveConcept(this.m_weightConcept);
-		
+
 		this.m_conceptUtil = OpenmrsConceptUtil.getInstance();
+        Context.getAdministrationService().saveGlobalProperty(
+                new GlobalProperty("shr-cdahandler.cacheMappedConcepts", "false"));
 	}
 
 	/**
@@ -89,7 +92,7 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	        log.error("Error generated", e);
 	        fail();
         }
-		
+
 	}
 
 	/**
@@ -125,8 +128,8 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	 * Create a concept
 	 */
 	@Test
-	public void testCreateConceptCVOfQ() {
-		
+	public void testCreateConceptCVOfQ() throws Exception {
+		executeDataSet("include/CdaImportTest.xml");
 		try {
 	        Concept createdConcept = this.m_conceptUtil.createConcept(m_vitalSignsTerm);
 	        assertEquals(1, createdConcept.getConceptMappings().size());
@@ -145,7 +148,8 @@ public class OpenmrsConceptUtilTest extends BaseModuleContextSensitiveTest {
 	 *
 	 */
 	@Test
-	public void testCreateConceptCVOfQANY() {
+	public void testCreateConceptCVOfQANY() throws Exception {
+        executeDataSet("include/CdaImportTest.xml");
 		try {
 	        Concept createdConcept = this.m_conceptUtil.createConcept(m_loincHeightTerm, new PQ(BigDecimal.ONE, "cm"));
 	        assertEquals(1, createdConcept.getConceptMappings().size());
