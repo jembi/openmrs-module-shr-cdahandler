@@ -22,16 +22,13 @@ import org.openmrs.GlobalProperty;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
-import org.openmrs.activelist.ActiveListType;
 import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.cdahandler.CdaHandlerConstants;
 import org.openmrs.module.shr.cdahandler.api.CdaImportService;
 import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
-import org.openmrs.module.shr.cdahandler.configuration.CdaHandlerConfiguration;
 import org.openmrs.module.shr.cdahandler.exception.DocumentImportException;
 import org.openmrs.module.shr.cdahandler.exception.DocumentValidationException;
-import org.openmrs.module.shr.cdahandler.obs.ExtendedObs;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.AntepartumHistoryAndPhysicalDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.ImmunizationContentDocumentProcessor;
 import org.openmrs.module.shr.cdahandler.processor.document.impl.ihe.pcc.MedicalDocumentsDocumentProcessor;
@@ -64,8 +61,6 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
         Context.getAdministrationService().setGlobalProperty("shr-cdahandler.cacheMappedConcepts", "false");
 		Context.getAdministrationService().saveGlobalProperty(saveDir);
 		initializeInMemoryDatabase();
-		GlobalProperty disableValidation = new GlobalProperty(OpenmrsConstants.GP_DISABLE_VALIDATION, "true");
-		Context.getAdministrationService().saveGlobalProperty(disableValidation);
 		Context.checkCoreDataset();
 		executeDataSet(ACTIVE_LIST_INITIAL_XML);
 		executeDataSet(CIEL_LIST_INITIAL_XML);
@@ -115,7 +110,7 @@ public class CdaImportServiceImplTest extends BaseModuleContextSensitiveTest  {
 	}
 	@Test
 	public void shouldParseValidMiminalIC() {
-		String id = this.doParseCda("/minimalIc.xml");
+        String id = this.doParseCda("/minimalIc.xml");
 		assertTrue(id != null);
 		assertEquals(new ImmunizationContentDocumentProcessor().getTemplateName(), Context.getVisitService().getVisitByUuid(id).getVisitType().getName());
 	}

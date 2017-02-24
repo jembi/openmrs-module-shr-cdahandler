@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>shr-cdahandler</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>shr-cdahandler-omod</artifactId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>shr-contenthandler-api</artifactId>
-			<version>3.0.0</version>
+			<version>${contenthandlerVersion}</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
@@ -182,26 +182,6 @@
 						<goals>
 							<goal>package-module</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>Expand moduleApplicationContext and messages</id>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<phase>generate-resources</phase>
-						<configuration>
-							<includeGroupIds>${project.parent.groupId}</includeGroupIds>
-							<includeArtifactIds>${project.parent.artifactId}-api</includeArtifactIds>
-							<excludeTransitive>true</excludeTransitive>
-							<includes>**/*</includes>
-							<outputDirectory>${project.build.directory}/classes</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

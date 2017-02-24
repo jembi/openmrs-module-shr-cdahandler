@@ -44,10 +44,9 @@
 				<country>USA</country>
 			</addr>
 			<telecom />
-			<patient>
+			<patient classCode="PSN" determinerCode="INSTANCE">
 				<name>
 					<given>FirstName</given>
-					<given>Middle Name or Initial - if known</given>
 					<family>FamilyName</family>
 				</name>
 				<!--HITSP/C83 requires patient administrative gender, e.g. M, F, I (indeterminate) -->
@@ -77,7 +76,10 @@
 			<addr />
 			<telecom />
 			<assignedPerson>
-				<name>Staff</name>
+                <name>
+                    <given>Super</given>
+                    <family>User</family>
+                </name>
 			</assignedPerson>
 			<representedOrganization>
 				<name>NIST Healthcare Testing Laboratory</name>
@@ -113,7 +115,10 @@
 			<addr />
 			<telecom />
 			<associatedPerson>
-				<name>NextOfKin(NOK) Name</name>
+				<name>
+                    <given>Mary</given>
+                    <family>Jane</family>
+                </name>
 			</associatedPerson>
 		</associatedEntity>
 	</participant>

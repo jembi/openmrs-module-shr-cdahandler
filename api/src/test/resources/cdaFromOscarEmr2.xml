@@ -90,7 +90,6 @@
 				<hl7:name>
 					<hl7:given>NITYAN</hl7:given>
 					<hl7:family>KHANNA</hl7:family>
-					DR
 				</hl7:name>
 			</hl7:assignedPerson>
 		</hl7:assignedEntity>
@@ -497,7 +496,7 @@
 								<hl7:low inclusive="false" value="20140303000000.000-0500" />
 								<hl7:high inclusive="false" value="20140303000000.000-0500" />
 							</hl7:effectiveTime>
-							<hl7:effectiveTime xsi:type="TS" value="20140303000000.000-0500" />
+							<hl7:effectiveTime nullFlavor="UNK" />
 							<hl7:routeCode nullFlavor="OTH" codeSystem="RouteOfAdministration"
 								codeSystemName="RouteOfAdministration" />
 							<hl7:doseQuantity value="1"/>

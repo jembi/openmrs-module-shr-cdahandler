@@ -20,6 +20,10 @@
 			<addr nullFlavor="NI" />
 			<telecom nullFlavor="NI" />
 			<patient classCode="PSN" determinerCode="INSTANCE">
+                <name>
+                    <given>Horation</given>
+                    <family>Hornblower</family>
+                </name>
 				<administrativeGenderCode code="F"
 					codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender" />
 				<birthTime value="20141126" />
@@ -50,7 +54,7 @@
 	<telecom nullFlavor="NI" />
 	<assignedPerson classCode="PSN" determinerCode="INSTANCE">
 		<name>
-			<family>?</family>
+			<family>Tack</family>
 			<given>Justin</given>
 		</name>
 	</assignedPerson>
@@ -69,7 +73,7 @@
 			<representedCustodianOrganization
 				classCode="ORG" determinerCode="INSTANCE">
 				<id root="1.2.3.4.5.6.405945.8" extension="1" />
-				<name>Unknown Location</name>
+				<name>Unknown Location 1</name>
 				<telecom nullFlavor="NI" />
 				<addr nullFlavor="NI" />
 			</representedCustodianOrganization>

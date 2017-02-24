@@ -222,7 +222,7 @@
         <xsl:if test="rd:codeSystem/text()">
           <xsl:call-template name="createMap">
             <xsl:with-param name="conceptId" select="rd:uuid"/>
-            <xsl:with-param name="mapType" select="$mapType"/>
+            <xsl:with-param name="mapTypeName" select="$mapType"/>
             <xsl:with-param name="referenceTerm" select="."/>
           </xsl:call-template>
         </xsl:if>
@@ -419,7 +419,7 @@
 
     <xsl:call-template name="createMap">
       <xsl:with-param name="conceptId" select="$cielUuid"/>
-      <xsl:with-param name="mapType" select="rd:concept/rd:mapType"/>
+      <xsl:with-param name="mapTypeName" select="rd:concept/rd:mapType"/>
       <xsl:with-param name="referenceTerm" select="$referenceTerm"/>
     </xsl:call-template>
   </xsl:template>
@@ -427,11 +427,25 @@
   <!-- Create concept mapping -->
   <xsl:template name="createMap">
     <xsl:param name="conceptId"/>
-    <xsl:param name="mapType"/>
+    <xsl:param name="mapTypeName"/>
     <xsl:param name="referenceTerm"/>
+      <xsl:variable name="mapType">
+          <xsl:choose>
+              <xsl:when test="$mapTypeName = ''">SAME-AS</xsl:when>
+              <xsl:otherwise><xsl:value-of select="$mapTypeName"/></xsl:otherwise>
+          </xsl:choose>
+      </xsl:variable>
 
     <changeSet  dbms="mysql" author="justin" id="shr-cdahandler-{$referenceTerm/rd:id * 100 + 99}" runInTransaction="true">
-      <preConditions onError="HALT" onFail="MARK_RAN">
+        <xsl:if test="$referenceTerm/rd:code = '409137002' and $referenceTerm/rd:codeSystem = '2.16.840.1.113883.6.96'">
+        <validCheckSum>3:576de99f340e94cd7d0fd2d9704525f4</validCheckSum><!-- Old checksum -->
+        <validCheckSum>3:2d5982aba155d25a0ff417ea610f46f9</validCheckSum><!-- New checksum -->
+        </xsl:if>
+        <xsl:if test="$referenceTerm/rd:code = '160244002' and $referenceTerm/rd:codeSystem = '2.16.840.1.113883.6.96'">
+        <validCheckSum>3:53a23401f7afdda4b7aecf39a79a9935</validCheckSum><!-- Old checksum -->
+        <validCheckSum>3:1efc81540be6af9f1da0bbfb063b9e8f</validCheckSum><!-- New checksum -->
+        </xsl:if>
+        <preConditions onError="HALT" onFail="MARK_RAN">
         <and>
           <tableExists tableName="concept_name"/>
           <tableExists tableName="concept"/>
